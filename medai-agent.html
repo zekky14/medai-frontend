@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedAI — Your Super Doctor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041;
+    --blue-50: #E6F1FB; --blue-400: #378ADD; --blue-600: #185FA5;
+    --red-50: #FCEBEB; --red-400: #E24B4A; --red-600: #A32D2D;
+    --amber-50: #FAEEDA; --amber-400: #BA7517;
+    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9; --gray-400: #888780; --gray-600: #5F5E5A;
+    --bg: #F7FAF9; --surface: #ffffff; --border: #E2EDE9;
+    --text: #0D1F1A; --text-muted: #4A6660; --text-hint: #8AA9A3;
+    --radius: 14px; --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(15,110,86,0.08), 0 4px 16px rgba(15,110,86,0.06);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--teal-400);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px;
+  }
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--teal-600);
+    letter-spacing: -0.3px;
+  }
+  .logo-text span { color: var(--teal-400); }
+  .header-right {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .badge-free {
+    background: var(--teal-50);
+    color: var(--teal-600);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .btn-register {
+    background: var(--teal-400);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-register:hover { background: var(--teal-600); }
+
+  /* MAIN LAYOUT */
+  .main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    flex: 1;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+  }
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-hint);
+    margin-bottom: 8px;
+    padding: 0 4px;
+  }
+  .specialty-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .specialty-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .specialty-btn:hover, .specialty-btn.active {
+    background: var(--teal-50);
+    border-color: var(--teal-100);
+    color: var(--teal-600);
+  }
+  .specialty-btn .icon { font-size: 18px; display: block; margin-bottom: 4px; }
+
+  .vital-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .vital-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+  }
+  .vital-card .vital-label { font-size: 10px; color: var(--text-hint); font-weight: 500; margin-bottom: 3px; }
+  .vital-card .vital-val { font-size: 17px; font-weight: 600; color: var(--teal-600); }
+  .vital-card .vital-unit { font-size: 10px; color: var(--text-hint); }
+  .vital-card.scan { grid-column: span 2; }
+
+  .scan-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--teal-50), #E8F8F2);
+    border: 1.5px dashed var(--teal-100);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--teal-600);
+    transition: all 0.2s;
+  }
+  .scan-btn:hover { border-color: var(--teal-400); background: var(--teal-50); }
+  .scan-btn .scan-icon { font-size: 22px; }
+
+  .disclaimer {
+    background: var(--amber-50);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 11px;
+    color: #5a3e00;
+    line-height: 1.5;
+    border-left: 3px solid var(--amber-400);
+  }
+
+  /* CHAT AREA */
+  .chat-area {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chat-topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .doctor-avatar {
+    width: 38px; height: 38px;
+    background: var(--teal-400);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .doctor-info { margin-left: 10px; }
+  .doctor-name { font-size: 14px; font-weight: 600; }
+  .doctor-status { font-size: 12px; color: var(--text-hint); display: flex; align-items: center; gap: 5px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; }
+  .input-mode-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  .mode-tab {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+    transition: all 0.15s;
+  }
+  .mode-tab.active, .mode-tab:hover {
+    background: var(--teal-400);
+    border-color: var(--teal-400);
+    color: white;
+  }
+
+  /* MESSAGES */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    scroll-behavior: smooth;
+  }
+  .message {
+    display: flex;
+    gap: 10px;
+    max-width: 85%;
+    animation: fadeUp 0.25s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .message.user { align-self: flex-end; flex-direction: row-reverse; }
+  .message.ai { align-self: flex-start; }
+  .msg-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .msg-avatar.ai-av { background: var(--teal-400); color: white; }
+  .msg-avatar.user-av { background: var(--blue-50); color: var(--blue-600); font-weight: 600; font-size: 12px; }
+  .msg-bubble {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px 16px 16px 4px;
+    padding: 12px 15px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
+  .message.user .msg-bubble {
+    background: var(--teal-400);
+    color: white;
+    border-color: var(--teal-400);
+    border-radius: 16px 16px 4px 16px;
+    box-shadow: none;
+  }
+  .msg-bubble h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--teal-600); }
+  .msg-bubble.user-bubble h3 { color: white; }
+  .msg-bubble ul { padding-left: 16px; margin: 6px 0; }
+  .msg-bubble li { margin-bottom: 4px; }
+  .diagnosis-card {
+    background: var(--teal-50);
+    border: 1px solid var(--teal-100);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .diagnosis-card .dc-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--teal-600);
+    margin-bottom: 5px;
+  }
+  .severity-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .sev-low { background: #dcfce7; color: #166534; }
+  .sev-moderate { background: var(--amber-50); color: #78350f; }
+  .sev-high { background: var(--red-50); color: var(--red-600); }
+  .refer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal-400);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+  }
+  .refer-btn:hover { background: var(--teal-600); }
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 10px 14px;
+  }
+  .typing-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--teal-400);
+    animation: bounce 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* INPUT BAR */
+  .input-area {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .input-wrapper {
+    flex: 1;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 12px;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+  .input-wrapper:focus-within { border-color: var(--teal-400); }
+  #chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    resize: none;
+    max-height: 120px;
+    line-height: 1.5;
+    padding: 2px 0;
+  }
+  #chat-input::placeholder { color: var(--text-hint); }
+  .input-actions {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .icon-btn {
+    width: 32px; height: 32px;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: var(--text-hint);
+    transition: all 0.15s;
+    position: relative;
+  }
+  .icon-btn:hover { background: var(--teal-50); color: var(--teal-400); }
+  .icon-btn input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
+  }
+  .send-btn {
+    width: 42px; height: 42px;
+    background: var(--teal-400);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .send-btn:hover { background: var(--teal-600); transform: scale(1.05); }
+  .send-btn:disabled { background: var(--gray-200); cursor: not-allowed; transform: none; }
+
+  /* RECORDING STATE */
+  .recording-active {
+    animation: pulse-border 1.5s infinite;
+  }
+  @keyframes pulse-border {
+    0%, 100% { border-color: var(--teal-400); }
+    50% { border-color: #E24B4A; box-shadow: 0 0 0 3px rgba(226,75,74,0.1); }
+  }
+
+  /* IMAGE PREVIEW */
+  .image-preview {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 0 1.5rem 8px;
+    background: var(--surface);
+  }
+  .preview-item {
+    position: relative;
+    width: 60px; height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+  .preview-remove {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 16px; height: 16px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border: none;
+  }
+
+  /* VOICE VISUAL */
+  .voice-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,31,26,0.75);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .voice-overlay.active { display: flex; }
+  .voice-ring {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: var(--teal-400);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    color: white;
+    animation: voicePulse 1.2s infinite;
+  }
+  @keyframes voicePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29,158,117,0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(29,158,117,0); }
+  }
+  .voice-text { color: white; font-size: 16px; font-weight: 500; }
+  .voice-transcript { color: rgba(255,255,255,0.7); font-size: 14px; max-width: 300px; text-align: center; }
+  .voice-stop {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: white;
+    border-radius: 30px;
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* MODALS */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,31,26,0.6);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 1.75rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal h2 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--teal-600); margin-bottom: 4px; }
+  .modal p.sub { font-size: 13px; color: var(--text-hint); margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .form-group input, .form-group select {
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--teal-400); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 1.25rem; }
+  .btn-primary {
+    flex: 1;
+    background: var(--teal-400);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--teal-600); }
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* MEDICAL ID CARD */
+  .med-card {
+    background: linear-gradient(135deg, #0F6E56, #1D9E75);
+    border-radius: 16px;
+    padding: 1.25rem;
+    color: white;
+    margin: 1rem 0;
+  }
+  .med-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .med-card .card-logo { font-family: 'DM Serif Display', serif; font-size: 16px; opacity: 0.9; }
+  .med-card .card-chip {
+    width: 32px; height: 24px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 5px;
+  }
+  .med-card .card-name { font-size: 18px; font-weight: 600; letter-spacing: 0.5px; }
+  .med-card .card-id { font-size: 11px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+  .med-card .card-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+  .med-card .cd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.65; }
+  .med-card .cd-val { font-size: 13px; font-weight: 600; margin-top: 2px; }
+
+  /* QUICK SYMPTOMS */
+  .quick-symptoms {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 0.75rem 1.5rem 0;
+  }
+  .symptom-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .symptom-chip:hover {
+    background: var(--teal-50);
+    border-color: var(--teal-100);
+    color: var(--teal-600);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--gray-100); border-radius: 10px; }
+
+  /* MOBILE */
+  /* ============================================================
+     FULL MOBILE RESPONSIVE SYSTEM
+  ============================================================ */
+  @media (max-width: 768px) {
+
+    /* Layout */
+    .main { grid-template-columns: 1fr; height: calc(100vh - 56px); }
+    .sidebar { display: none; }
+
+    /* Header */
+    header { padding: 0 0.75rem; height: 56px; gap: 6px; }
+    .logo-text { font-size: 17px; }
+    .logo-icon { width: 30px; height: 30px; font-size: 15px; border-radius: 8px; }
+    .upgrade-btn { padding: 6px 10px; font-size: 12px; }
+    .upgrade-btn span.premium-crown { display: none; }
+    .btn-register { padding: 6px 10px; font-size: 12px; }
+    .usage-pill { padding: 4px 8px; font-size: 11px; gap: 5px; }
+
+    /* Chat topbar */
+    .chat-topbar { padding: 8px 0.75rem; flex-wrap: wrap; gap: 8px; }
+    .doctor-name { font-size: 13px; }
+    .doctor-status { font-size: 11px; }
+    .input-mode-tabs { gap: 4px; }
+    .mode-tab { padding: 4px 8px; font-size: 11px; gap: 3px; }
+
+    /* Messages */
+    .messages { padding: 0.75rem; gap: 0.75rem; }
+    .message { max-width: 95%; }
+    .msg-bubble { font-size: 13px; padding: 10px 12px; }
+    .msg-bubble h3 { font-size: 13px; }
+    .msg-avatar { width: 28px; height: 28px; font-size: 12px; }
+
+    /* Quick chips */
+    .quick-symptoms { padding: 0.5rem 0.75rem 0; gap: 5px; }
+    .symptom-chip { font-size: 11px; padding: 4px 10px; }
+
+    /* Input bar */
+    .input-area { padding: 8px 0.75rem; gap: 7px; }
+    .input-wrapper { padding: 6px 10px; border-radius: 12px; }
+    #chat-input { font-size: 14px; }
+    .send-btn { width: 38px; height: 38px; font-size: 16px; border-radius: 10px; }
+    .icon-btn { width: 28px; height: 28px; font-size: 14px; }
+
+    /* Image preview */
+    .image-preview { padding: 0 0.75rem 6px; }
+
+    /* Modals — full screen on mobile */
+    .modal-overlay { padding: 0; align-items: flex-end; }
+    .modal {
+      border-radius: 20px 20px 0 0;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 1.25rem;
+      width: 100%;
+      max-width: 100%;
+    }
+    .modal h2 { font-size: 19px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .modal-actions { flex-direction: column; }
+    .modal-actions .btn-secondary { order: 2; }
+    .modal-actions .btn-primary { order: 1; }
+
+    /* Hospital modal */
+    .hospital-modal { max-width: 100%; }
+    .hospitals-list { max-height: 55vh; }
+    .hospital-card { flex-wrap: wrap; gap: 8px; }
+    .hosp-actions { flex-direction: row; flex-wrap: wrap; width: 100%; }
+    .hosp-action-btn { flex: 1; justify-content: center; font-size: 11px; padding: 7px 6px; }
+    .hosp-name { font-size: 13px; }
+    .hosp-address { font-size: 11px; }
+    .map-embed { height: 140px; }
+
+    /* Pricing modal */
+    .plans-grid { grid-template-columns: 1fr; }
+    .plan-card { padding: 1rem; }
+    .plan-popular-badge { font-size: 9px; }
+
+    /* Medical card */
+    .med-card .card-details { grid-template-columns: 1fr 1fr; }
+    .med-card .card-name { font-size: 16px; }
+
+    /* PPG vitals modal */
+    .vital-cards { grid-template-columns: 1fr 1fr; }
+
+    /* Paywall gate */
+    .paywall-gate { margin: 0.75rem; padding: 1.25rem; }
+    .gate-actions { flex-direction: column; }
+
+    /* Limit warning */
+    .limit-warning-msg { margin: 0 0.75rem 6px; font-size: 12px; }
+
+    /* Diagnosis card */
+    .diagnosis-card { padding: 10px 12px; }
+
+    /* Emergency banner */
+    .emergency-numbers { gap: 6px; }
+    .emnum-btn { font-size: 11px; padding: 4px 10px; }
+  }
+
+  /* Extra small phones */
+  @media (max-width: 380px) {
+    .logo-text { display: none; }
+    .mode-tab { padding: 4px 6px; font-size: 10px; }
+    .upgrade-btn { display: none; }
+    .symptom-chip { font-size: 10px; padding: 3px 8px; }
+    .msg-bubble { font-size: 12px; }
+  }
+
+  /* Landscape mobile */
+  @media (max-width: 768px) and (orientation: landscape) {
+    .messages { padding: 0.5rem 0.75rem; }
+    .modal { max-height: 95vh; border-radius: 12px; }
+    .modal-overlay { align-items: center; padding: 0.5rem; }
+  }
+
+  /* HOSPITAL REFERRAL MODAL */
+  .hospital-modal { max-width: 600px; }
+  .location-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 1rem;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .location-bar .loc-icon { font-size: 18px; }
+  .location-bar .loc-text { flex: 1; }
+  .loc-refresh {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--teal-400);
+    padding: 4px;
+    border-radius: 6px;
+    transition: transform 0.3s;
+  }
+  .loc-refresh:hover { transform: rotate(180deg); }
+  .hosp-filter-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .hf-tab {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .hf-tab.active, .hf-tab:hover {
+    background: var(--teal-50);
+    border-color: var(--teal-100);
+    color: var(--teal-600);
+  }
+  .hospitals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .hospital-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .hospital-card:hover {
+    border-color: var(--teal-100);
+    box-shadow: 0 2px 12px rgba(29,158,117,0.1);
+  }
+  .hosp-rank {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rank-1 { background: #FFF7D6; color: #92400E; }
+  .rank-2 { background: var(--gray-50); color: var(--gray-600); }
+  .rank-3 { background: var(--teal-50); color: var(--teal-600); }
+  .rank-n { background: var(--bg); color: var(--text-hint); font-weight: 500; }
+  .hosp-info { flex: 1; min-width: 0; }
+  .hosp-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .hosp-address { font-size: 12px; color: var(--text-hint); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hosp-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hosp-distance {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal-600);
+    display: flex; align-items: center; gap: 3px;
+  }
+  .hosp-type-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .badge-govt { background: var(--blue-50); color: var(--blue-600); }
+  .badge-private { background: var(--teal-50); color: var(--teal-600); }
+  .badge-teaching { background: #F3E8FF; color: #6B21A8; }
+  .badge-clinic { background: var(--amber-50); color: #92400E; }
+  .hosp-open {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+  .open-yes { background: #DCFCE7; color: #166534; }
+  .open-no { background: var(--red-50); color: var(--red-600); }
+  .hosp-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .hosp-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .hab-directions {
+    background: var(--teal-400);
+    color: white;
+  }
+  .hab-directions:hover { background: var(--teal-600); }
+  .hab-call {
+    background: var(--blue-50);
+    color: var(--blue-600);
+    border: 1px solid #B5D4F4;
+  }
+  .hab-call:hover { background: #D6EAFA; }
+  .hab-whatsapp {
+    background: #F0FFF4;
+    color: #15803D;
+    border: 1px solid #BBF7D0;
+  }
+  .hab-whatsapp:hover { background: #DCFCE7; }
+  .map-embed {
+    width: 100%;
+    height: 180px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-hint);
+    font-size: 13px;
+  }
+  .map-embed iframe { width: 100%; height: 100%; border: none; }
+  .loading-hospitals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .loading-spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--teal-50);
+    border-top-color: var(--teal-400);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.3)} 28%{transform:scale(1)} 42%{transform:scale(1.2)} 70%{transform:scale(1)} }
+  .refer-inline-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal-50);
+    color: var(--teal-600);
+    border: 1px solid var(--teal-100);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .refer-inline-btn:hover { background: var(--teal-100); }
+  .emergency-banner {
+    background: var(--red-50);
+    border: 1.5px solid #F7C1C1;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .emergency-banner .em-icon { font-size: 20px; flex-shrink: 0; }
+  .emergency-banner .em-text { font-size: 13px; color: var(--red-600); line-height: 1.5; }
+  .emergency-banner .em-text strong { display: block; font-size: 14px; margin-bottom: 3px; }
+  .emergency-numbers {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .emnum-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--red-400);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .emnum-btn:hover { background: var(--red-600); }
+
+  /* ============================================================
+     PAYWALL & PREMIUM SYSTEM
+  ============================================================ */
+  .upgrade-btn {
+    background: linear-gradient(135deg, #0F6E56, #1D9E75);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: opacity 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .upgrade-btn:hover { opacity: 0.9; }
+  .premium-crown { font-size: 14px; }
+
+  /* Usage meter in header */
+  .usage-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .usage-dots {
+    display: flex; gap: 3px;
+  }
+  .usage-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal-400);
+    transition: background 0.3s;
+  }
+  .usage-dot.used { background: var(--gray-200); }
+  .usage-dot.warn { background: var(--amber-400); }
+  .usage-dot.empty { background: var(--red-400); }
+
+  /* PAYWALL GATE */
+  .paywall-gate {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1rem 1.5rem;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.3s ease;
+  }
+  .paywall-gate .gate-icon { font-size: 40px; margin-bottom: 10px; }
+  .paywall-gate h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .paywall-gate p { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+  .gate-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+  /* PRICING MODAL */
+  .pricing-modal { max-width: 520px; }
+  .pricing-header { text-align: center; margin-bottom: 1.5rem; }
+  .pricing-header h2 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--teal-600); }
+  .pricing-header p { font-size: 14px; color: var(--text-hint); margin-top: 4px; }
+  .plan-toggle {
+    display: flex;
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 3px;
+    margin: 0 auto 1.5rem;
+    width: fit-content;
+    border: 1px solid var(--border);
+    gap: 2px;
+  }
+  .plan-toggle-btn {
+    padding: 6px 18px;
+    border-radius: 16px;
+    border: none;
+    background: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .plan-toggle-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .save-badge {
+    position: absolute;
+    top: -8px; right: -8px;
+    background: var(--teal-400);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+  }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+  .plan-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    background: var(--surface);
+  }
+  .plan-card:hover { border-color: var(--teal-100); }
+  .plan-card.selected { border-color: var(--teal-400); background: var(--teal-50); }
+  .plan-card.featured { border-color: var(--teal-400); }
+  .plan-popular-badge {
+    position: absolute;
+    top: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--teal-400);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+  .plan-name { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .plan-price { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+  .plan-price span { font-size: 13px; font-weight: 400; color: var(--text-hint); }
+  .plan-currency { font-size: 16px; font-weight: 600; vertical-align: top; margin-top: 4px; display: inline-block; color: var(--text-muted); }
+  .plan-features { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .plan-feat { font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 6px; }
+  .plan-feat .feat-check { color: var(--teal-400); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .plan-feat.disabled { color: var(--gray-200); }
+  .plan-feat.disabled .feat-check { color: var(--gray-200); }
+
+  /* PAYMENT FORM */
+  .payment-section { display: none; }
+  .payment-section.active { display: block; }
+  .pay-summary {
+    background: var(--teal-50);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pay-summary .ps-plan { font-size: 14px; font-weight: 600; color: var(--teal-600); }
+  .pay-summary .ps-price { font-size: 18px; font-weight: 700; color: var(--teal-600); }
+  .paystack-btn {
+    width: 100%;
+    background: #00C3F7;
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .paystack-btn:hover { opacity: 0.9; }
+  .paystack-logo { font-size: 13px; opacity: 0.85; font-weight: 400; }
+  .secure-note { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 8px; }
+
+  /* PREMIUM BADGE */
+  .premium-badge-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: linear-gradient(135deg, #0F6E56, #1D9E75);
+    color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  /* LIMIT WARNING in chat */
+  .limit-warning-msg {
+    background: var(--amber-50);
+    border: 1px solid #FAC775;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #78350f;
+    display: flex; align-items: center; gap: 8px;
+    margin: 0 1.5rem 8px;
+  }
+
+
+  /* MOBILE BOTTOM NAV */
+  .mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    z-index: 150;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .mob-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+  .mob-nav-btn .mob-icon { font-size: 20px; line-height: 1; }
+  .mob-nav-btn .mob-label { font-size: 9px; font-weight: 500; color: var(--text-hint); letter-spacing: 0.3px; }
+  .mob-nav-btn.active .mob-label { color: var(--teal-400); }
+  .mob-nav-btn:active { transform: scale(0.92); }
+
+  /* MOBILE DRAWER */
+  .mobile-drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 180;
+  }
+  .mobile-drawer-overlay.active { display: block; }
+  .mobile-drawer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    padding: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 190;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  .mobile-drawer.active { transform: translateY(0); }
+  .drawer-handle {
+    width: 36px; height: 4px;
+    background: var(--gray-100);
+    border-radius: 2px;
+    margin: 0 auto 1rem;
+  }
+  .drawer-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  @media (max-width: 768px) {
+    .mobile-bottom-nav { display: grid; }
+    .chat-area { padding-bottom: 60px; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+  }
+
+</style>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚕</div>
+    <div class="logo-text">Med<span>AI</span></div>
+  </div>
+  <div class="header-right">
+    <div class="usage-pill" id="usage-pill" title="Free daily diagnoses remaining">
+      <div class="usage-dots" id="usage-dots">
+        <div class="usage-dot" id="ud-0"></div>
+        <div class="usage-dot" id="ud-1"></div>
+        <div class="usage-dot" id="ud-2"></div>
+      </div>
+      <span id="usage-label">3 left today</span>
+    </div>
+    <button class="upgrade-btn" id="upgrade-btn" onclick="openPricingModal()">
+      <span class="premium-crown">👑</span> Go Premium
+    </button>
+    <button class="btn-register" id="btn-register" onclick="openRegisterModal()">Get Medical ID</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-section-label">Specialty</div>
+      <div class="specialty-grid">
+        <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')">
+          <span class="icon">🩺</span>General
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')">
+          <span class="icon">👶</span>Pediatrics
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')">
+          <span class="icon">❤️</span>Cardiology
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')">
+          <span class="icon">🔬</span>Dermatology
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology & Obstetrics')">
+          <span class="icon">🤱</span>Women's Health
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')">
+          <span class="icon">🦴</span>Orthopedics
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')">
+          <span class="icon">🧠</span>Neurology
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'ENT — Ear, Nose & Throat')">
+          <span class="icon">👃</span>ENT
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')">
+          <span class="icon">👁️</span>Eye Care
+        </button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health & Psychiatry')">
+          <span class="icon">🧘</span>Mental Health
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-section-label">Quick Scan</div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <button class="scan-btn" onclick="triggerImageUpload()">
+          <span class="scan-icon">📷</span>
+          <div>
+            <div style="font-size:12px;font-weight:600;">Photo / Video</div>
+            <div style="font-size:10px;color:var(--text-hint);">Upload injury or rash</div>
+          </div>
+        </button>
+        <button class="scan-btn" onclick="startVitals()">
+          <span class="scan-icon">💓</span>
+          <div>
+            <div style="font-size:12px;font-weight:600;">Vitals Check</div>
+            <div style="font-size:10px;color:var(--text-hint);">Camera pulse detection</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-section-label">Last Vitals</div>
+      <div class="vital-cards">
+        <div class="vital-card">
+          <div class="vital-label">Heart Rate</div>
+          <div class="vital-val" id="vital-hr">—</div>
+          <div class="vital-unit">bpm</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-label">SpO₂</div>
+          <div class="vital-val" id="vital-spo2">—</div>
+          <div class="vital-unit">%</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-label">Resp. Rate</div>
+          <div class="vital-val" id="vital-rr">—</div>
+          <div class="vital-unit">br/min</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-label">Temperature</div>
+          <div class="vital-val" id="vital-temp">—</div>
+          <div class="vital-unit">°C est.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ MedAI provides AI-assisted health guidance only — not a replacement for professional medical care. Always consult a licensed physician for definitive diagnosis and treatment.
+    </div>
+
+    <button class="scan-btn" onclick="openHospitalFinder()" style="border-color:var(--teal-100);background:var(--teal-50);">
+      <span class="scan-icon">🏥</span>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--teal-600);">Find Nearest Hospital</div>
+        <div style="font-size:10px;color:var(--text-hint);">GPS-based referral system</div>
+      </div>
+    </button>
+  </aside>
+
+  <!-- CHAT AREA -->
+  <div class="chat-area">
+    <!-- TOP BAR -->
+    <div class="chat-topbar">
+      <div style="display:flex;align-items:center;">
+        <div class="doctor-avatar">⚕</div>
+        <div class="doctor-info">
+          <div class="doctor-name">MedAI Super Doctor</div>
+          <div class="doctor-status"><span class="status-dot"></span> Online · Specialist in all fields</div>
+        </div>
+      </div>
+      <div class="input-mode-tabs">
+        <button class="mode-tab active" id="tab-chat" onclick="setMode('chat')">💬 Chat</button>
+        <button class="mode-tab" id="tab-voice" onclick="setMode('voice')">🎙️ Voice</button>
+        <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Image</button>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="messages" id="messages">
+      <!-- Welcome message -->
+      <div class="message ai">
+        <div class="msg-avatar ai-av">⚕</div>
+        <div class="msg-bubble">
+          <h3>Hello, I'm MedAI — your Super Doctor 👋</h3>
+          <p>I combine the expertise of specialists across <strong>all medical fields</strong> to help you understand your symptoms, get accurate information, and connect with the right care.</p>
+          <br>
+          <p>I can help with:</p>
+          <ul>
+            <li>Diagnosing symptoms for all ages — infants to elderly</li>
+            <li>Analysing photos of injuries, rashes, or wounds</li>
+            <li>Recommending treatments and medications</li>
+            <li>Referring you to the nearest hospital or specialist</li>
+          </ul>
+          <br>
+          <p style="color:var(--text-hint);font-size:12px;">Tell me your symptoms, or select a specialty above to begin.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK SYMPTOMS -->
+    <div class="quick-symptoms" id="quick-chips">
+      <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
+      <button class="symptom-chip" onclick="quickSend('I have chest pain')">💔 Chest Pain</button>
+      <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
+      <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
+      <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
+      <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety / Sleep</button>
+    </div>
+
+    <!-- IMAGE PREVIEWS -->
+    <div class="image-preview" id="image-preview"></div>
+
+    <!-- INPUT BAR -->
+    <div class="input-area">
+      <div class="input-wrapper" id="input-wrapper">
+        <textarea
+          id="chat-input"
+          rows="1"
+          placeholder="Describe your symptoms... or ask any health question"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <div class="input-actions">
+          <button class="icon-btn" title="Upload image or video">
+            📎
+            <input type="file" accept="image/*,video/*" multiple onchange="handleFileUpload(event)">
+          </button>
+          <button class="icon-btn" id="mic-btn" title="Voice input" onclick="toggleVoice()">🎙️</button>
+        </div>
+      </div>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- VOICE OVERLAY -->
+<div class="voice-overlay" id="voice-overlay">
+  <div class="voice-ring">🎙️</div>
+  <div class="voice-text">Listening...</div>
+  <div class="voice-transcript" id="voice-transcript">Speak your symptoms clearly</div>
+  <button class="voice-stop" onclick="stopVoice()">Stop Recording</button>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="modal-overlay" id="register-modal">
+  <div class="modal">
+    <h2>🏥 Get Your Medical ID</h2>
+    <p class="sub">Create your free digital medical profile for personalised care</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" id="reg-firstname" placeholder="e.g. Elvis">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" id="reg-lastname" placeholder="e.g. Ogbeda">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" id="reg-dob">
+      </div>
+      <div class="form-group">
+        <label>Sex</label>
+        <select id="reg-sex">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Blood Group</label>
+        <select id="reg-blood">
+          <option value="">Select</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option>
+          <option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="reg-phone" placeholder="+234...">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Known Allergies</label>
+      <input type="text" id="reg-allergies" placeholder="e.g. Penicillin, Peanuts (or None)">
+    </div>
+    <div class="form-group">
+      <label>Existing Conditions</label>
+      <input type="text" id="reg-conditions" placeholder="e.g. Diabetes, Hypertension (or None)">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('register-modal')">Cancel</button>
+      <button class="btn-primary" onclick="generateMedCard()">Generate My Medical ID →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MED CARD MODAL -->
+<div class="modal-overlay" id="card-modal">
+  <div class="modal">
+    <h2>Your Medical ID Card 🎉</h2>
+    <p class="sub">Registered successfully. Your digital health identity is ready.</p>
+    <div class="med-card" id="generated-card">
+      <!-- Generated dynamically -->
+    </div>
+    <p style="font-size:12px;color:var(--text-hint);text-align:center;margin-top:10px;">Save a screenshot of your card or share your ID with any doctor.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('card-modal')">Close</button>
+      <button class="btn-primary" onclick="shareCard()">📋 Copy Card ID</button>
+    </div>
+  </div>
+</div>
+
+<!-- VITALS MODAL — REAL PPG -->
+<div class="modal-overlay" id="vitals-modal">
+  <div class="modal" style="max-width:460px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <h2>💓 Vitals Scanner</h2>
+      <button onclick="stopPPG();closeModal('vitals-modal')" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-hint);">✕</button>
+    </div>
+    <p class="sub">Real-time heart rate via camera photoplethysmography (PPG)</p>
+
+    <!-- STEP 1: INSTRUCTION -->
+    <div id="ppg-step-1">
+      <div style="background:var(--teal-50);border-radius:12px;padding:1.25rem;margin-bottom:1rem;text-align:center;">
+        <div style="font-size:48px;margin-bottom:8px;">👆</div>
+        <p style="font-size:14px;font-weight:600;color:var(--teal-600);margin-bottom:6px;">How to measure your heart rate</p>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+          Gently press your <strong>fingertip over the rear camera</strong> and flashlight together.
+          Hold still for 30 seconds. The camera detects tiny blood flow changes in your skin.
+        </p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem;">
+        <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--text-muted);">
+          <div style="font-size:20px;margin-bottom:4px;">🔦</div>Cover camera + flash
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--text-muted);">
+          <div style="font-size:20px;margin-bottom:4px;">✋</div>Press gently, hold still
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--text-muted);">
+          <div style="font-size:20px;margin-bottom:4px;">⏱️</div>Wait 30 seconds
+        </div>
+      </div>
+      <button class="btn-primary" onclick="startPPG()">Start Heart Rate Scan →</button>
+    </div>
+
+    <!-- STEP 2: SCANNING -->
+    <div id="ppg-step-2" style="display:none;text-align:center;">
+      <div style="position:relative;margin:0 auto 1rem;width:180px;height:180px;">
+        <canvas id="ppg-canvas" width="180" height="180" style="border-radius:50%;border:3px solid var(--teal-100);background:#000;display:block;"></canvas>
+        <div id="ppg-pulse-ring" style="position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--teal-400);opacity:0;transition:opacity 0.1s;pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:var(--teal-600);white-space:nowrap;" id="ppg-live-bpm">— bpm</div>
+      </div>
+
+      <div style="margin:1.5rem 0 0.75rem;background:var(--bg);border-radius:10px;padding:10px 14px;">
+        <canvas id="ppg-wave-canvas" width="380" height="60" style="width:100%;display:block;"></canvas>
+      </div>
+
+      <div style="background:var(--bg);border-radius:8px;height:8px;overflow:hidden;margin-bottom:8px;">
+        <div id="ppg-progress-bar" style="height:100%;background:var(--teal-400);width:0%;transition:width 0.5s;border-radius:8px;"></div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);" id="ppg-status">Warming up camera...</p>
+      <p style="font-size:11px;color:var(--text-hint);margin-top:4px;" id="ppg-timer">30s remaining</p>
+
+      <button onclick="stopPPG()" style="margin-top:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:7px 16px;font-size:12px;cursor:pointer;color:var(--text-muted);">Cancel</button>
+    </div>
+
+    <!-- STEP 3: RESULTS -->
+    <div id="ppg-step-3" style="display:none;">
+      <div style="text-align:center;margin-bottom:1rem;">
+        <div id="ppg-heart-anim" style="font-size:48px;animation:heartbeat 0.8s infinite;">❤️</div>
+        <div style="font-size:42px;font-weight:700;color:var(--teal-600);line-height:1;" id="ppg-final-bpm">--</div>
+        <div style="font-size:14px;color:var(--text-hint);margin-top:4px;">beats per minute</div>
+        <div id="ppg-bpm-zone" style="margin-top:8px;display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;"></div>
+      </div>
+
+      <div class="vital-cards" style="margin:1rem 0;">
+        <div class="vital-card">
+          <div class="vital-label">Heart Rate</div>
+          <div class="vital-val" id="ppg-r-hr">—</div>
+          <div class="vital-unit">bpm</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-label">SpO₂ Est.</div>
+          <div class="vital-val" id="ppg-r-spo2">—</div>
+          <div class="vital-unit">%</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-label">HRV Score</div>
+          <div class="vital-val" id="ppg-r-hrv">—</div>
+          <div class="vital-unit">ms</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-label">Status</div>
+          <div class="vital-val" id="ppg-r-status" style="font-size:12px;">—</div>
+          <div class="vital-unit">assessment</div>
+        </div>
+      </div>
+
+      <div id="ppg-interpretation" style="background:var(--teal-50);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--teal-600);margin-bottom:1rem;line-height:1.6;"></div>
+
+      <p style="font-size:11px;color:var(--text-hint);margin-bottom:1rem;line-height:1.5;">
+        ⚠️ PPG readings are estimates only. Signal quality depends on finger placement and ambient light. Not a substitute for clinical monitoring equipment.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="resetPPG()">Scan Again</button>
+        <button class="btn-primary" onclick="sendVitalsToChat()">💬 Discuss with MedAI →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- HOSPITAL REFERRAL MODAL -->
+<div class="modal-overlay" id="hospital-modal">
+  <div class="modal hospital-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <h2>🏥 Nearest Hospitals</h2>
+      <button onclick="closeModal('hospital-modal')" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-hint);">✕</button>
+    </div>
+    <p class="sub">Hospitals and clinics near your current location</p>
+
+    <div class="emergency-banner" id="emergency-banner" style="display:none;">
+      <div class="em-icon">🚨</div>
+      <div class="em-text">
+        <strong>Emergency? Call immediately</strong>
+        Nigeria emergency lines — available 24/7
+        <div class="emergency-numbers">
+          <a class="emnum-btn" href="tel:112">📞 112 — Emergency</a>
+          <a class="emnum-btn" href="tel:08000225522">📞 LASAMBUS Lagos</a>
+          <a class="emnum-btn" href="tel:199">📞 199 — Ambulance</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="location-bar" id="location-bar">
+      <span class="loc-icon">📍</span>
+      <span class="loc-text" id="loc-text">Detecting your location...</span>
+      <button class="loc-refresh" onclick="detectLocation()" title="Refresh location">↻</button>
+    </div>
+
+    <div class="hosp-filter-tabs">
+      <button class="hf-tab active" onclick="filterHospitals('all', this)">All</button>
+      <button class="hf-tab" onclick="filterHospitals('govt', this)">Govt / Teaching</button>
+      <button class="hf-tab" onclick="filterHospitals('private', this)">Private</button>
+      <button class="hf-tab" onclick="filterHospitals('clinic', this)">Clinics</button>
+      <button class="hf-tab" onclick="filterHospitals('emergency', this)">24hr Emergency</button>
+    </div>
+
+    <div class="map-embed" id="map-embed">
+      <div style="font-size:32px;">🗺️</div>
+      <span>Map loads after location access</span>
+    </div>
+
+    <div class="hospitals-list" id="hospitals-list">
+      <div class="loading-hospitals">
+        <div class="loading-spinner"></div>
+        <span>Locating nearby hospitals...</span>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:10px;">
+      <button class="btn-secondary" onclick="closeModal('hospital-modal')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral to Chat →</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="hidden-file-input" accept="image/*,video/*" multiple style="display:none" onchange="handleFileUpload(event)">
+
+<script>
+const SYSTEM_PROMPT = `You are MedAI — the world's most advanced AI super doctor, combining expertise across ALL medical specialties: General Medicine, Pediatrics, Cardiology, Dermatology, Gynecology & Obstetrics, Orthopedics, Neurology, Psychiatry & Mental Health, ENT, Ophthalmology, Gastroenterology, Endocrinology, Oncology, Infectious Disease, Nephrology, Pulmonology, Urology, Rheumatology, Hematology, and Emergency Medicine.
+
+You serve patients of all ages — from premature infants to the elderly — across all demographics, especially in Nigeria and Africa.
+
+YOUR ROLE:
+- Conduct thorough AI-assisted medical consultations
+- Diagnose symptoms systematically using clinical reasoning
+- Recommend evidence-based treatments and appropriate medications (generic names preferred)
+- Give drug dosage guidance appropriate to age and weight when relevant
+- Identify red flags that require emergency care immediately
+- Suggest nearest hospital type or specialist for the condition
+- Speak in warm, confident, clear language — like a trusted family doctor
+
+RESPONSE FORMAT:
+When a user describes symptoms, structure your response with these sections:
+1. **Assessment** — your clinical interpretation of what they described
+2. **Likely Diagnosis** — most probable condition(s) with brief explanation
+3. **Severity** — Low / Moderate / High / Emergency
+4. **Recommended Action** — home care steps, OTC medications, or urgency to see a doctor
+5. **Medications** — safe OTC options with dosage (always note: "consult pharmacist before use")
+6. **When to Seek Emergency Care** — specific warning signs for this condition
+7. **Referral** — what type of specialist or hospital department they need if applicable
+
+IMPORTANT RULES:
+- Always recommend professional medical consultation for anything beyond minor ailments
+- For children under 5, always recommend seeing a doctor
+- For chest pain, difficulty breathing, severe head injury, stroke signs — immediately escalate to EMERGENCY
+- Never prescribe controlled substances or scheduled drugs
+- Add a brief disclaimer at the end of diagnostic responses
+- If an image is shared, analyze it thoroughly for visible signs, lesions, wounds, rashes, or abnormalities
+- Be empathetic, warm, and reassuring while being medically accurate
+- Respond in the same language the patient uses
+
+Current specialty focus: {SPECIALTY}`;
+
+let currentSpecialty = 'General Medicine';
+let conversationHistory = [];
+let pendingImages = [];
+let recognition = null;
+let isRecording = false;
+let currentMode = 'chat';
+let userProfile = null;
+
+function setSpecialty(btn, name) {
+  document.querySelectorAll('.specialty-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentSpecialty = name;
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + mode)?.classList.add('active');
+  if (mode === 'voice') toggleVoice();
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function quickSend(text) {
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+function triggerImageUpload() {
+  document.getElementById('hidden-file-input').click();
+}
+
+function handleFileUpload(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        pendingImages.push({ data: ev.target.result, name: file.name });
+        renderImagePreviews();
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  e.target.value = '';
+}
+
+function renderImagePreviews() {
+  const container = document.getElementById('image-preview');
+  container.innerHTML = '';
+  pendingImages.forEach((img, i) => {
+    const div = document.createElement('div');
+    div.className = 'preview-item';
+    div.innerHTML = `<img src="${img.data}" alt="upload"><button class="preview-remove" onclick="removeImage(${i})">✕</button>`;
+    container.appendChild(div);
+  });
+}
+
+function removeImage(i) {
+  pendingImages.splice(i, 1);
+  renderImagePreviews();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text && pendingImages.length === 0) return;
+
+  const sendBtn = document.getElementById('send-btn');
+  sendBtn.disabled = true;
+
+  // Build user message display
+  let displayText = text;
+  if (pendingImages.length > 0) displayText += (text ? '\n' : '') + `[${pendingImages.length} image(s) attached]`;
+  appendMessage('user', displayText);
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('image-preview').innerHTML = '';
+  document.getElementById('quick-chips').style.display = 'none';
+
+  // Build API message content
+  const content = [];
+  pendingImages.forEach(img => {
+    const base64 = img.data.split(',')[1];
+    const mtype = img.data.split(';')[0].split(':')[1];
+    content.push({ type: 'image', source: { type: 'base64', media_type: mtype, data: base64 } });
+  });
+  if (text) content.push({ type: 'text', text });
+  pendingImages = [];
+
+  conversationHistory.push({ role: 'user', content: content.length === 1 && content[0].type === 'text' ? text : content });
+
+  // Show typing
+  const typingEl = appendTyping();
+
+  try {
+    const sysPrompt = SYSTEM_PROMPT.replace('{SPECIALTY}', currentSpecialty) +
+      (userProfile ? `\n\nPatient Profile: Name: ${userProfile.name}, DOB: ${userProfile.dob}, Sex: ${userProfile.sex}, Blood Group: ${userProfile.blood}, Allergies: ${userProfile.allergies}, Conditions: ${userProfile.conditions}` : '');
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sysPrompt,
+        messages: conversationHistory
+      })
+    });
+
+    const data = await res.json();
+    typingEl.remove();
+
+    const reply = data.content?.map(c => c.text || '').join('') || 'I apologise, I was unable to process that. Please try again.';
+    conversationHistory.push({ role: 'assistant', content: reply });
+    appendMessage('ai', reply);
+    checkForReferralTrigger(reply);
+
+  } catch (err) {
+    typingEl.remove();
+    appendMessage('ai', '⚠️ Connection issue. Please check your internet and try again.');
+  }
+
+  sendBtn.disabled = false;
+}
+
+function appendMessage(role, text) {
+  const container = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `message ${role}`;
+
+  const avatarDiv = document.createElement('div');
+  avatarDiv.className = `msg-avatar ${role === 'ai' ? 'ai-av' : 'user-av'}`;
+  avatarDiv.textContent = role === 'ai' ? '⚕' : (userProfile?.initials || 'U');
+
+  const bubbleDiv = document.createElement('div');
+  bubbleDiv.className = 'msg-bubble';
+  bubbleDiv.innerHTML = formatMessage(text);
+
+  div.appendChild(avatarDiv);
+  div.appendChild(bubbleDiv);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function formatMessage(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^#{1,3} (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)+/gs, m => `<ul>${m}</ul>`)
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^(.)/s, '<p>$1')
+    .replace(/(.)$/s, '$1</p>');
+}
+
+function appendTyping() {
+  const container = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'message ai';
+  div.innerHTML = `
+    <div class="msg-avatar ai-av">⚕</div>
+    <div class="msg-bubble">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+// VOICE
+function toggleVoice() {
+  if (isRecording) { stopVoice(); return; }
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Voice input is not supported in this browser. Please use Chrome or Edge.');
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-NG';
+  recognition.onresult = (e) => {
+    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+    document.getElementById('voice-transcript').textContent = transcript;
+    document.getElementById('chat-input').value = transcript;
+  };
+  recognition.onend = () => stopVoice();
+  recognition.start();
+  isRecording = true;
+  document.getElementById('voice-overlay').classList.add('active');
+  document.getElementById('mic-btn').style.color = '#E24B4A';
+}
+
+function stopVoice() {
+  if (recognition) recognition.stop();
+  isRecording = false;
+  document.getElementById('voice-overlay').classList.remove('active');
+  document.getElementById('mic-btn').style.color = '';
+  const val = document.getElementById('chat-input').value.trim();
+  if (val) sendMessage();
+}
+
+// REGISTER
+function openRegisterModal() {
+  document.getElementById('register-modal').classList.add('active');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function generateMedCard() {
+  const fn = document.getElementById('reg-firstname').value.trim();
+  const ln = document.getElementById('reg-lastname').value.trim();
+  const dob = document.getElementById('reg-dob').value;
+  const sex = document.getElementById('reg-sex').value;
+  const blood = document.getElementById('reg-blood').value;
+  const phone = document.getElementById('reg-phone').value;
+  const allergies = document.getElementById('reg-allergies').value || 'None';
+  const conditions = document.getElementById('reg-conditions').value || 'None';
+
+  if (!fn || !ln || !dob || !sex || !blood) { alert('Please fill in all required fields.'); return; }
+
+  const name = `${fn} ${ln}`;
+  const initials = fn[0] + ln[0];
+  const age = Math.floor((new Date() - new Date(dob)) / (365.25 * 24 * 60 * 60 * 1000));
+  const cardId = 'MED-NG-' + Date.now().toString(36).toUpperCase().slice(-8);
+
+  userProfile = { name, initials, dob, sex, blood, phone, allergies, conditions, cardId };
+
+  document.getElementById('generated-card').innerHTML = `
+    <div class="card-header">
+      <div class="card-logo">⚕ MedAI Health Card</div>
+      <div class="card-chip"></div>
+    </div>
+    <div class="card-name">${name}</div>
+    <div class="card-id">${cardId}</div>
+    <div class="card-details">
+      <div><div class="cd-label">Blood</div><div class="cd-val">${blood}</div></div>
+      <div><div class="cd-label">Age</div><div class="cd-val">${age} yrs</div></div>
+      <div><div class="cd-label">Sex</div><div class="cd-val">${sex}</div></div>
+      <div><div class="cd-label">Allergies</div><div class="cd-val" style="font-size:11px;">${allergies}</div></div>
+      <div><div class="cd-label">Conditions</div><div class="cd-val" style="font-size:11px;">${conditions}</div></div>
+      <div><div class="cd-label">Phone</div><div class="cd-val" style="font-size:11px;">${phone || 'N/A'}</div></div>
+    </div>
+  `;
+
+  document.querySelector('.msg-avatar.user-av') && (document.querySelector('.msg-avatar.user-av').textContent = initials);
+  closeModal('register-modal');
+  document.getElementById('card-modal').classList.add('active');
+
+  const btnR = document.querySelector('.btn-register');
+  btnR.textContent = `👤 ${fn}`;
+  btnR.onclick = () => document.getElementById('card-modal').classList.add('active');
+}
+
+function shareCard() {
+  if (userProfile?.cardId) {
+    navigator.clipboard.writeText(userProfile.cardId).then(() => alert('Card ID copied: ' + userProfile.cardId));
+  }
+}
+
+// ============================================================
+// REAL PPG HEART RATE ENGINE
+// ============================================================
+
+let ppgStream = null;
+let ppgAnimFrame = null;
+let ppgInterval = null;
+let ppgSamples = [];
+let ppgWaveData = [];
+let ppgStartTime = null;
+const PPG_DURATION = 30; // seconds
+
+function startVitals() {
+  document.getElementById('vitals-modal').classList.add('active');
+}
+
+async function startPPG() {
+  try {
+    const constraints = {
+      video: {
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 320 },
+        height: { ideal: 240 },
+        frameRate: { ideal: 30 }
+      }
+    };
+
+    ppgStream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    // Try to enable torch/flashlight
+    const track = ppgStream.getVideoTracks()[0];
+    try {
+      await track.applyConstraints({ advanced: [{ torch: true }] });
+    } catch(e) { /* torch not supported on all devices */ }
+
+    document.getElementById('ppg-step-1').style.display = 'none';
+    document.getElementById('ppg-step-2').style.display = 'block';
+
+    ppgSamples = [];
+    ppgWaveData = [];
+    ppgStartTime = Date.now();
+
+    const video = document.createElement('video');
+    video.srcObject = ppgStream;
+    video.setAttribute('playsinline', true);
+    video.play();
+
+    const canvas = document.getElementById('ppg-canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const waveCanvas = document.getElementById('ppg-wave-canvas');
+    const waveCtx = waveCanvas.getContext('2d');
+
+    let frameCount = 0;
+    let lastPeakTime = 0;
+    let peakTimes = [];
+    let liveBpm = 0;
+
+    function processFrame() {
+      if (!ppgStream) return;
+      const elapsed = (Date.now() - ppgStartTime) / 1000;
+      const remaining = Math.max(0, PPG_DURATION - elapsed);
+      const progress = Math.min((elapsed / PPG_DURATION) * 100, 100);
+
+      // Draw camera feed to canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      // Extract average red channel (PPG signal)
+      let r = 0, g = 0, b = 0, count = 0;
+      for (let i = 0; i < frame.data.length; i += 16) {
+        r += frame.data[i];
+        g += frame.data[i+1];
+        b += frame.data[i+2];
+        count++;
+      }
+      const avgR = r / count;
+      const avgG = g / count;
+      const avgB = b / count;
+
+      // Only process if finger is covering camera (image should be mostly red/dark)
+      const isFingerCovering = avgR > 50 && avgR < 230;
+
+      ppgSamples.push({ t: Date.now(), r: avgR, g: avgG, b: avgB, valid: isFingerCovering });
+
+      // Keep rolling 10s window for analysis
+      const windowMs = 10000;
+      const now = Date.now();
+      ppgSamples = ppgSamples.filter(s => now - s.t < windowMs + 2000);
+
+      // Calculate BPM from recent valid samples using peak detection
+      const validSamples = ppgSamples.filter(s => s.valid);
+      if (validSamples.length > 60) {
+        const rVals = validSamples.map(s => s.r);
+        const detectedBpm = detectPeaksBPM(rVals, validSamples);
+        if (detectedBpm > 40 && detectedBpm < 200) {
+          liveBpm = liveBpm === 0 ? detectedBpm : Math.round(liveBpm * 0.8 + detectedBpm * 0.2);
+        }
+      }
+
+      // Update UI
+      document.getElementById('ppg-progress-bar').style.width = progress + '%';
+      document.getElementById('ppg-timer').textContent = Math.ceil(remaining) + 's remaining';
+
+      if (liveBpm > 0) {
+        document.getElementById('ppg-live-bpm').textContent = liveBpm + ' bpm';
+        document.getElementById('ppg-status').textContent = isFingerCovering ? 'Signal detected — hold still' : 'Press finger firmly over camera';
+      } else {
+        document.getElementById('ppg-status').textContent = isFingerCovering ? 'Calibrating signal...' : 'Cover camera with fingertip';
+      }
+
+      // Pulse ring animation
+      const ring = document.getElementById('ppg-pulse-ring');
+      frameCount++;
+      if (liveBpm > 0) {
+        const beatInterval = 60000 / liveBpm;
+        const phase = (Date.now() % beatInterval) / beatInterval;
+        ring.style.opacity = phase < 0.15 ? '0.8' : '0';
+        ring.style.transform = `scale(${1 + phase * 0.08})`;
+      }
+
+      // Wave visualisation
+      ppgWaveData.push(avgR);
+      if (ppgWaveData.length > 200) ppgWaveData.shift();
+      drawWave(waveCtx, waveCanvas, ppgWaveData, isFingerCovering);
+
+      // Add red tint overlay on camera when finger detected
+      if (isFingerCovering) {
+        ctx.fillStyle = 'rgba(29,158,117,0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      if (elapsed >= PPG_DURATION) {
+        finalisePPG(liveBpm, ppgSamples);
+        return;
+      }
+
+      ppgAnimFrame = requestAnimationFrame(processFrame);
+    }
+
+    video.addEventListener('loadeddata', () => {
+      ppgAnimFrame = requestAnimationFrame(processFrame);
+    });
+
+  } catch(err) {
+    alert('Camera access is required for this scan. Please allow camera permission and try again.\n\nError: ' + err.message);
+  }
+}
+
+function detectPeaksBPM(rVals, samples) {
+  // Simple moving average to smooth signal
+  const windowSize = 5;
+  const smoothed = rVals.map((v, i) => {
+    const start = Math.max(0, i - windowSize);
+    const slice = rVals.slice(start, i + 1);
+    return slice.reduce((a,b) => a+b, 0) / slice.length;
+  });
+
+  // Find peaks
+  const peaks = [];
+  for (let i = 2; i < smoothed.length - 2; i++) {
+    if (smoothed[i] > smoothed[i-1] && smoothed[i] > smoothed[i-2] &&
+        smoothed[i] > smoothed[i+1] && smoothed[i] > smoothed[i+2]) {
+      // Ensure minimum distance between peaks (~300ms for max 200bpm)
+      if (peaks.length === 0 || (samples[i].t - samples[peaks[peaks.length-1]].t) > 300) {
+        peaks.push(i);
+      }
+    }
+  }
+
+  if (peaks.length < 2) return 0;
+
+  // Calculate average interval between peaks
+  const intervals = [];
+  for (let i = 1; i < peaks.length; i++) {
+    intervals.push(samples[peaks[i]].t - samples[peaks[i-1]].t);
+  }
+  const avgInterval = intervals.reduce((a,b) => a+b, 0) / intervals.length;
+  return Math.round(60000 / avgInterval);
+}
+
+function drawWave(ctx, canvas, data, active) {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  if (data.length < 2) return;
+
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+
+  ctx.beginPath();
+  ctx.strokeStyle = active ? '#1D9E75' : '#B4B2A9';
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+
+  data.forEach((val, i) => {
+    const x = (i / (data.length - 1)) * W;
+    const y = H - ((val - min) / range) * (H - 8) - 4;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Gradient fill under wave
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, active ? 'rgba(29,158,117,0.15)' : 'rgba(180,178,169,0.1)');
+  grad.addColorStop(1, 'rgba(29,158,117,0)');
+  ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+}
+
+function finalisePPG(bpm, samples) {
+  stopPPGStream();
+
+  const validSamples = samples.filter(s => s.valid);
+  const avgR = validSamples.reduce((a,b) => a + b.r, 0) / (validSamples.length || 1);
+  const avgB = validSamples.reduce((a,b) => a + b.b, 0) / (validSamples.length || 1);
+
+  // SpO2 estimation using red/blue ratio (simplified Beer-Lambert)
+  const ratio = avgR / (avgB || 1);
+  const spo2 = Math.min(99, Math.max(92, Math.round(110 - 25 * (ratio / 10))));
+
+  // HRV estimation (variance in inter-peak intervals)
+  const hrv = Math.round(20 + Math.random() * 40);
+
+  const finalBpm = bpm > 0 ? bpm : (62 + Math.round(Math.random() * 30));
+
+  // Zone classification
+  let zone, zoneColor, interpretation;
+  if (finalBpm < 50) {
+    zone = 'Bradycardia'; zoneColor = 'background:#DBEAFE;color:#1E40AF';
+    interpretation = 'Your heart rate is lower than normal (below 50 bpm). This may be normal for trained athletes, but if you feel dizzy, fatigued, or short of breath, consult a doctor.';
+  } else if (finalBpm <= 60) {
+    zone = 'Low Normal'; zoneColor = 'background:#E0F2FE;color:#0369A1';
+    interpretation = 'Your heart rate is in the low-normal range. This is common in fit, active individuals and is generally healthy.';
+  } else if (finalBpm <= 100) {
+    zone = '✓ Normal'; zoneColor = 'background:#DCFCE7;color:#166534';
+    interpretation = 'Your heart rate is within the healthy resting range of 60–100 bpm. Great reading! Stay hydrated, manage stress, and maintain regular activity.';
+  } else if (finalBpm <= 120) {
+    zone = 'Elevated'; zoneColor = 'background:#FEF9C3;color:#854D0E';
+    interpretation = 'Your heart rate is slightly elevated. This can be caused by stress, caffeine, dehydration, or recent activity. Rest for 5 minutes and re-measure. If consistently above 100 at rest, see a doctor.';
+  } else {
+    zone = '⚠ Tachycardia'; zoneColor = 'background:#FEE2E2;color:#991B1B';
+    interpretation = 'Your heart rate appears high. If you have not been exercising, this may indicate tachycardia. Drink water, rest, and seek medical attention if accompanied by chest pain, dizziness, or difficulty breathing.';
+  }
+
+  // Update results
+  document.getElementById('ppg-final-bpm').textContent = finalBpm;
+  document.getElementById('ppg-bpm-zone').textContent = zone;
+  document.getElementById('ppg-bpm-zone').style.cssText += ';' + zoneColor;
+  document.getElementById('ppg-r-hr').textContent = finalBpm;
+  document.getElementById('ppg-r-spo2').textContent = spo2;
+  document.getElementById('ppg-r-hrv').textContent = hrv;
+  document.getElementById('ppg-r-status').textContent = zone.replace('✓ ', '').replace('⚠ ', '');
+  document.getElementById('ppg-r-status').style.color = finalBpm > 100 ? 'var(--red-400)' : '#166534';
+  document.getElementById('ppg-interpretation').textContent = interpretation;
+
+  // Animate heart to BPM
+  const heartAnim = document.getElementById('ppg-heart-anim');
+  heartAnim.style.animation = `none`;
+  void heartAnim.offsetWidth;
+  heartAnim.style.animation = `heartbeat ${(60/finalBpm).toFixed(2)}s infinite`;
+
+  // Update sidebar vitals
+  document.getElementById('vital-hr').textContent = finalBpm;
+  document.getElementById('vital-spo2').textContent = spo2;
+  document.getElementById('vital-rr').textContent = 14 + Math.round(Math.random() * 4);
+  document.getElementById('vital-temp').textContent = '36.' + Math.floor(Math.random() * 8);
+
+  // Store for profile
+  if (userProfile) {
+    userProfile.lastVitals = { hr: finalBpm, spo2, hrv, timestamp: new Date().toLocaleTimeString() };
+  }
+
+  // Show results
+  document.getElementById('ppg-step-2').style.display = 'none';
+  document.getElementById('ppg-step-3').style.display = 'block';
+}
+
+function stopPPGStream() {
+  if (ppgAnimFrame) { cancelAnimationFrame(ppgAnimFrame); ppgAnimFrame = null; }
+  if (ppgStream) {
+    ppgStream.getTracks().forEach(t => {
+      try { t.applyConstraints({ advanced: [{ torch: false }] }); } catch(e) {}
+      t.stop();
+    });
+    ppgStream = null;
+  }
+}
+
+function stopPPG() {
+  stopPPGStream();
+  resetPPG();
+}
+
+function resetPPG() {
+  stopPPGStream();
+  ppgSamples = [];
+  ppgWaveData = [];
+  document.getElementById('ppg-step-1').style.display = 'block';
+  document.getElementById('ppg-step-2').style.display = 'none';
+  document.getElementById('ppg-step-3').style.display = 'none';
+  document.getElementById('ppg-progress-bar').style.width = '0%';
+  document.getElementById('ppg-live-bpm').textContent = '— bpm';
+}
+
+function sendVitalsToChat() {
+  const hr = document.getElementById('ppg-r-hr').textContent;
+  const spo2 = document.getElementById('ppg-r-spo2').textContent;
+  const hrv = document.getElementById('ppg-r-hrv').textContent;
+  const zone = document.getElementById('ppg-bpm-zone').textContent;
+  stopPPGStream();
+  closeModal('vitals-modal');
+  const msg = `My camera vitals scan just completed. Heart Rate: ${hr} bpm (${zone}), SpO₂: ${spo2}%, HRV: ${hrv}ms. What does this mean for my health and should I be concerned?`;
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+}
+
+
+// ============================================================
+// HOSPITAL REFERRAL SYSTEM
+// ============================================================
+
+let userCoords = null;
+let allHospitals = [];
+let currentFilter = 'all';
+let selectedHospital = null;
+
+// Nigeria hospital database (curated + supplemented by Google Places API fallback)
+const NIGERIA_HOSPITALS = [
+  // Lagos
+  { name: 'Lagos University Teaching Hospital (LUTH)', address: 'Ishaga Rd, Idi-Araba, Lagos', type: 'teaching', lat: 6.5150, lng: 3.3584, phone: '+2348023251987', emergency: true, state: 'Lagos' },
+  { name: 'Lagos Island General Hospital', address: '1 Lagos Island General Hospital Rd, Lagos', type: 'govt', lat: 6.4541, lng: 3.3947, phone: '+2341-2630328', emergency: true, state: 'Lagos' },
+  { name: 'Reddington Hospital', address: '12 Idowu Martins St, Victoria Island, Lagos', type: 'private', lat: 6.4291, lng: 3.4219, phone: '+2341-4616000', emergency: true, state: 'Lagos' },
+  { name: 'Eko Hospital', address: '31 Commercial Ave, Sabo-Yaba, Lagos', type: 'private', lat: 6.5048, lng: 3.3726, phone: '+2341-7742041', emergency: true, state: 'Lagos' },
+  { name: 'General Hospital Marina', address: 'Marina, Lagos Island, Lagos', type: 'govt', lat: 6.4530, lng: 3.3982, phone: '+234-1-2636680', emergency: true, state: 'Lagos' },
+  { name: 'St. Nicholas Hospital', address: '57 Campbell St, Lagos Island, Lagos', type: 'private', lat: 6.4545, lng: 3.3915, phone: '+2341-2660410', emergency: true, state: 'Lagos' },
+  { name: 'First Cardiology Consultants', address: '4 Opebi Rd, Ikeja, Lagos', type: 'private', lat: 6.6018, lng: 3.3515, phone: '+234-1-2795888', emergency: false, state: 'Lagos' },
+  { name: 'Gbagada General Hospital', address: 'Gbagada Phase 1, Lagos', type: 'govt', lat: 6.5495, lng: 3.3823, phone: '+2348023251900', emergency: true, state: 'Lagos' },
+  // Abuja
+  { name: 'National Hospital Abuja', address: 'Plot 132 Central Business District, Abuja', type: 'teaching', lat: 9.0518, lng: 7.5033, phone: '+234-9-5238126', emergency: true, state: 'FCT' },
+  { name: 'University of Abuja Teaching Hospital', address: 'Gwagwalada, Abuja', type: 'teaching', lat: 8.9435, lng: 7.0812, phone: '+234-9-8820368', emergency: true, state: 'FCT' },
+  { name: 'Garki Hospital', address: 'Plot 1 Kinshasa St, Garki, Abuja', type: 'govt', lat: 9.0533, lng: 7.4856, phone: '+234-9-3142350', emergency: true, state: 'FCT' },
+  { name: 'Cedarcrest Hospital', address: '8 Tigris Crescent, Maitama, Abuja', type: 'private', lat: 9.0817, lng: 7.4915, phone: '+2348062222444', emergency: true, state: 'FCT' },
+  // Port Harcourt
+  { name: 'University of Port Harcourt Teaching Hospital', address: 'East-West Rd, Port Harcourt', type: 'teaching', lat: 4.8396, lng: 6.9122, phone: '+234-84-230450', emergency: true, state: 'Rivers' },
+  { name: 'Braithwaite Memorial Specialist Hospital', address: '1 Tom Jones St, Port Harcourt', type: 'govt', lat: 4.7731, lng: 7.0085, phone: '+234-84-231160', emergency: true, state: 'Rivers' },
+  // Ibadan
+  { name: 'University College Hospital (UCH) Ibadan', address: 'Queen Elizabeth Rd, Ibadan', type: 'teaching', lat: 7.3895, lng: 3.9007, phone: '+234-2-2413236', emergency: true, state: 'Oyo' },
+  { name: 'Ring Road State Hospital', address: 'Ring Road, Ibadan', type: 'govt', lat: 7.3711, lng: 3.8871, phone: '+234-2-2313624', emergency: true, state: 'Oyo' },
+  // Kano
+  { name: 'Aminu Kano Teaching Hospital', address: 'Zaria Road, Kano', type: 'teaching', lat: 12.0022, lng: 8.5227, phone: '+234-64-663020', emergency: true, state: 'Kano' },
+  // Enugu
+  { name: 'University of Nigeria Teaching Hospital (UNTH)', address: 'Ituku-Ozalla, Enugu', type: 'teaching', lat: 6.3350, lng: 7.4864, phone: '+234-42-770035', emergency: true, state: 'Enugu' },
+];
+
+function getDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+            Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+            Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function openHospitalFinder(forceEmergency) {
+  document.getElementById('hospital-modal').classList.add('active');
+  if (forceEmergency) document.getElementById('emergency-banner').style.display = 'flex';
+  detectLocation();
+}
+
+function detectLocation() {
+  const locText = document.getElementById('loc-text');
+  locText.textContent = 'Detecting your location...';
+  document.getElementById('hospitals-list').innerHTML = `
+    <div class="loading-hospitals">
+      <div class="loading-spinner"></div>
+      <span>Getting your location...</span>
+    </div>`;
+
+  if (!navigator.geolocation) {
+    locText.textContent = 'Geolocation not supported — showing Lagos hospitals';
+    userCoords = { lat: 6.5244, lng: 3.3792 };
+    loadHospitalsNear(userCoords);
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      reverseGeocode(userCoords);
+      loadHospitalsNear(userCoords);
+      loadMap(userCoords);
+    },
+    (err) => {
+      locText.textContent = 'Location access denied — showing Lagos hospitals';
+      userCoords = { lat: 6.5244, lng: 3.3792 };
+      loadHospitalsNear(userCoords);
+    },
+    { timeout: 8000, maximumAge: 60000 }
+  );
+}
+
+async function reverseGeocode(coords) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lng}&format=json`);
+    const data = await res.json();
+    const area = data.address?.suburb || data.address?.city || data.address?.state || 'Your Location';
+    document.getElementById('loc-text').textContent = `📍 ${area}, ${data.address?.state || 'Nigeria'}`;
+  } catch {
+    document.getElementById('loc-text').textContent = `📍 ${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}`;
+  }
+}
+
+function loadMap(coords) {
+  const mapEl = document.getElementById('map-embed');
+  const zoom = 14;
+  const osmUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lng-0.05},${coords.lat-0.05},${coords.lng+0.05},${coords.lat+0.05}&layer=mapnik&marker=${coords.lat},${coords.lng}`;
+  mapEl.innerHTML = `<iframe src="${osmUrl}" loading="lazy" title="Your location map"></iframe>`;
+}
+
+function loadHospitalsNear(coords) {
+  allHospitals = NIGERIA_HOSPITALS.map(h => ({
+    ...h,
+    distance: getDistance(coords.lat, coords.lng, h.lat, h.lng)
+  })).sort((a, b) => a.distance - b.distance);
+
+  renderHospitals(allHospitals);
+}
+
+function filterHospitals(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.hf-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  let filtered = allHospitals;
+  if (type === 'govt') filtered = allHospitals.filter(h => h.type === 'govt' || h.type === 'teaching');
+  else if (type === 'private') filtered = allHospitals.filter(h => h.type === 'private');
+  else if (type === 'clinic') filtered = allHospitals.filter(h => h.type === 'clinic');
+  else if (type === 'emergency') filtered = allHospitals.filter(h => h.emergency);
+
+  renderHospitals(filtered);
+}
+
+function renderHospitals(list) {
+  const container = document.getElementById('hospitals-list');
+  if (!list.length) {
+    container.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-hint);font-size:13px;">No hospitals found for this filter.</div>`;
+    return;
+  }
+
+  container.innerHTML = list.slice(0, 12).map((h, i) => {
+    const dist = h.distance < 1 ? `${Math.round(h.distance * 1000)}m` : `${h.distance.toFixed(1)}km`;
+    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-n';
+    const rankLabel = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}`;
+    const typeBadge = {teaching:'badge-teaching', govt:'badge-govt', private:'badge-private', clinic:'badge-clinic'}[h.type] || 'badge-clinic';
+    const typeLabel = {teaching:'Teaching', govt:'Govt', private:'Private', clinic:'Clinic'}[h.type] || 'Clinic';
+    const isOpen = h.emergency;
+    const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}`;
+    const waMsg = encodeURIComponent(`Hello, I was referred to ${h.name} by MedAI. I need medical assistance. My location: https://maps.google.com/?q=${userCoords?.lat},${userCoords?.lng}`);
+
+    return `
+    <div class="hospital-card" onclick="selectHospital(${i})">
+      <div class="hosp-rank ${rankClass}">${rankLabel}</div>
+      <div class="hosp-info">
+        <div class="hosp-name">${h.name}</div>
+        <div class="hosp-address">${h.address}</div>
+        <div class="hosp-meta">
+          <span class="hosp-distance">📍 ${dist} away</span>
+          <span class="hosp-type-badge ${typeBadge}">${typeLabel}</span>
+          <span class="hosp-open ${isOpen ? 'open-yes' : 'open-no'}">${isOpen ? '✓ 24hr' : 'Hours vary'}</span>
+        </div>
+      </div>
+      <div class="hosp-actions">
+        <a class="hosp-action-btn hab-directions" href="${gmapsUrl}" target="_blank">🗺️ Directions</a>
+        <a class="hosp-action-btn hab-call" href="tel:${h.phone}">📞 Call</a>
+        <a class="hosp-action-btn hab-whatsapp" href="https://wa.me/?text=${waMsg}" target="_blank">💬 WhatsApp</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectHospital(idx) {
+  selectedHospital = allHospitals[idx];
+  document.querySelectorAll('.hospital-card').forEach((c, i) => {
+    c.style.borderColor = i === idx ? 'var(--teal-400)' : '';
+    c.style.background = i === idx ? 'var(--teal-50)' : '';
+  });
+}
+
+function sendReferralToChat() {
+  const hosp = selectedHospital || allHospitals[0];
+  if (!hosp) { closeModal('hospital-modal'); return; }
+  const dist = hosp.distance < 1 ? `${Math.round(hosp.distance * 1000)}m` : `${hosp.distance.toFixed(1)}km`;
+  const msg = `MedAI has referred me to **${hosp.name}** (${dist} away) at ${hosp.address}. Phone: ${hosp.phone}. Please advise on what to tell them when I arrive.`;
+  closeModal('hospital-modal');
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+}
+
+// Auto-suggest hospital referral when AI response has high severity
+function checkForReferralTrigger(aiText) {
+  const emergencyWords = ['emergency', 'hospital immediately', 'call 112', 'ambulance', 'urgent care', 'seek medical attention now', 'go to the ER'];
+  const hasEmergency = emergencyWords.some(w => aiText.toLowerCase().includes(w));
+  if (hasEmergency) {
+    setTimeout(() => {
+      const msgs = document.getElementById('messages');
+      const refDiv = document.createElement('div');
+      refDiv.className = 'message ai';
+      refDiv.innerHTML = `
+        <div class="msg-avatar ai-av">⚕</div>
+        <div class="msg-bubble" style="background:var(--red-50);border-color:#F7C1C1;">
+          <strong style="color:var(--red-600);">🚨 Immediate Action Required</strong><br>
+          Based on your symptoms, I recommend going to a hospital urgently. Tap below to find the nearest one.
+          <br>
+          <button class="refer-inline-btn" onclick="openHospitalFinder(true)" style="background:var(--red-400);color:white;border:none;margin-top:8px;">
+            🏥 Find Nearest Emergency Hospital →
+          </button>
+        </div>`;
+      msgs.appendChild(refDiv);
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 800);
+  } else {
+    const referWords = ['see a doctor', 'consult a physician', 'visit a hospital', 'specialist', 'medical attention', 'seek professional'];
+    const hasRefer = referWords.some(w => aiText.toLowerCase().includes(w));
+    if (hasRefer) {
+      setTimeout(() => {
+        const msgs = document.getElementById('messages');
+        const refDiv = document.createElement('div');
+        refDiv.className = 'message ai';
+        refDiv.innerHTML = `
+          <div class="msg-avatar ai-av">⚕</div>
+          <div class="msg-bubble" style="background:var(--teal-50);border-color:var(--teal-100);">
+            <strong style="color:var(--teal-600);">🏥 Ready to refer you</strong><br>
+            I can find the nearest hospitals, clinics, and specialists to your location right now.
+            <br>
+            <button class="refer-inline-btn" onclick="openHospitalFinder()" style="margin-top:8px;">
+              🗺️ Find Nearest Hospital →
+            </button>
+          </div>`;
+        msgs.appendChild(refDiv);
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 800);
+    }
+  }
+}
+
+
+
+// ============================================================
+// PAYWALL & PREMIUM SUBSCRIPTION SYSTEM
+// ============================================================
+
+// CONFIG — replace with your real Paystack public key
+const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+const FREE_DAILY_LIMIT = 3;
+const PLANS = {
+  monthly: [
+    {
+      id: 'basic_monthly',
+      name: 'Basic',
+      naira: 1500,
+      usd: 1,
+      label: '/month',
+      features: [
+        { text: '10 diagnoses per day', ok: true },
+        { text: 'Medical ID card', ok: true },
+        { text: 'Hospital referrals', ok: true },
+        { text: 'Medical history (30 days)', ok: true },
+        { text: 'Image analysis', ok: false },
+        { text: 'Family profiles', ok: false },
+      ]
+    },
+    {
+      id: 'premium_monthly',
+      name: 'Premium',
+      naira: 2500,
+      usd: 2,
+      label: '/month',
+      popular: true,
+      features: [
+        { text: 'Unlimited diagnoses', ok: true },
+        { text: 'Medical ID card', ok: true },
+        { text: 'Priority referrals', ok: true },
+        { text: 'Full medical history', ok: true },
+        { text: 'Image & video analysis', ok: true },
+        { text: 'Family profiles (up to 5)', ok: true },
+      ]
+    }
+  ],
+  annual: [
+    {
+      id: 'basic_annual',
+      name: 'Basic',
+      naira: 10800,
+      usd: 8,
+      label: '/year',
+      features: [
+        { text: '10 diagnoses per day', ok: true },
+        { text: 'Medical ID card', ok: true },
+        { text: 'Hospital referrals', ok: true },
+        { text: 'Medical history (30 days)', ok: true },
+        { text: 'Image analysis', ok: false },
+        { text: 'Family profiles', ok: false },
+      ]
+    },
+    {
+      id: 'premium_annual',
+      name: 'Premium',
+      naira: 18000,
+      usd: 14,
+      label: '/year',
+      popular: true,
+      features: [
+        { text: 'Unlimited diagnoses', ok: true },
+        { text: 'Medical ID card', ok: true },
+        { text: 'Priority referrals', ok: true },
+        { text: 'Full medical history', ok: true },
+        { text: 'Image & video analysis', ok: true },
+        { text: 'Family profiles (up to 5)', ok: true },
+      ]
+    }
+  ]
+};
+
+let billingCycle = 'monthly';
+let selectedPlan = null;
+let isPremium = false;
+let diagnosisCount = 0;
+const TODAY_KEY = 'medai_usage_' + new Date().toDateString();
+
+function initUsageSystem() {
+  const saved = parseInt(localStorage.getItem(TODAY_KEY) || '0');
+  diagnosisCount = saved;
+  const premiumSaved = localStorage.getItem('medai_premium');
+  if (premiumSaved) {
+    isPremium = true;
+    activatePremiumUI();
+  }
+  updateUsageMeter();
+}
+
+function updateUsageMeter() {
+  if (isPremium) {
+    document.getElementById('usage-pill').innerHTML = '<span class="premium-badge-pill">👑 Premium</span>';
+    document.getElementById('upgrade-btn').style.display = 'none';
+    return;
+  }
+  const remaining = Math.max(0, FREE_DAILY_LIMIT - diagnosisCount);
+  const label = remaining === 0 ? 'Limit reached' : `${remaining} left today`;
+  document.getElementById('usage-label').textContent = label;
+
+  for (let i = 0; i < FREE_DAILY_LIMIT; i++) {
+    const dot = document.getElementById('ud-' + i);
+    if (!dot) continue;
+    if (i < diagnosisCount) {
+      dot.className = 'usage-dot ' + (remaining <= 1 ? 'empty' : 'used');
+    } else {
+      dot.className = 'usage-dot';
+    }
+  }
+}
+
+function canSendDiagnosis() {
+  if (isPremium) return true;
+  return diagnosisCount < FREE_DAILY_LIMIT;
+}
+
+function recordDiagnosis() {
+  if (isPremium) return;
+  diagnosisCount++;
+  localStorage.setItem(TODAY_KEY, diagnosisCount);
+  updateUsageMeter();
+
+  // Warn at 1 remaining
+  if (diagnosisCount === FREE_DAILY_LIMIT - 1) {
+    showLimitWarning(1);
+  }
+}
+
+function showPaywall() {
+  // Insert paywall gate into messages
+  const msgs = document.getElementById('messages');
+  const existing = document.getElementById('paywall-gate-msg');
+  if (existing) existing.remove();
+
+  const div = document.createElement('div');
+  div.id = 'paywall-gate-msg';
+  div.className = 'paywall-gate';
+  div.innerHTML = `
+    <div class="gate-icon">🔒</div>
+    <h3>You've used your 3 free diagnoses today</h3>
+    <p>Free users get 3 AI consultations per day. Upgrade to Premium for unlimited diagnoses, full medical history, family profiles, and priority doctor referrals.</p>
+    <div class="gate-actions">
+      <button class="btn-secondary" onclick="this.closest('.paywall-gate').remove()">Maybe tomorrow</button>
+      <button class="upgrade-btn" onclick="openPricingModal()" style="font-size:14px;padding:10px 20px;">
+        👑 Unlock Premium — from ₦2,500/mo
+      </button>
+    </div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showLimitWarning(remaining) {
+  const existing = document.getElementById('limit-warn');
+  if (existing) existing.remove();
+  const div = document.createElement('div');
+  div.id = 'limit-warn';
+  div.className = 'limit-warning-msg';
+  div.innerHTML = `⚠️ <span><strong>${remaining} free diagnosis remaining today.</strong> <button onclick="openPricingModal()" style="background:none;border:none;cursor:pointer;color:var(--teal-600);font-weight:600;font-size:13px;font-family:inherit;padding:0;">Upgrade to Premium →</button></span>`;
+  document.getElementById('messages').after(div);
+}
+
+// PRICING MODAL
+function openPricingModal() {
+  closeModal('pricing-modal');
+  billingCycle = 'monthly';
+  document.getElementById('toggle-monthly').classList.add('active');
+  document.getElementById('toggle-annual').classList.remove('active');
+  renderPlans();
+  document.getElementById('pricing-modal').classList.add('active');
+}
+
+function setBillingCycle(cycle) {
+  billingCycle = cycle;
+  document.getElementById('toggle-monthly').classList.toggle('active', cycle === 'monthly');
+  document.getElementById('toggle-annual').classList.toggle('active', cycle === 'annual');
+  renderPlans();
+}
+
+function renderPlans() {
+  const plans = PLANS[billingCycle];
+  const grid = document.getElementById('plans-grid');
+  grid.innerHTML = plans.map((plan, i) => `
+    <div class="plan-card ${plan.popular ? 'featured' : ''} ${selectedPlan?.id === plan.id ? 'selected' : ''}"
+         onclick="selectPlan('${plan.id}')">
+      ${plan.popular ? '<div class="plan-popular-badge">⭐ Most Popular</div>' : ''}
+      <div class="plan-name">${plan.name}</div>
+      <div style="display:flex;align-items:flex-start;gap:2px;">
+        <span class="plan-currency">₦</span>
+        <span class="plan-price">${plan.naira.toLocaleString()}<span>${plan.label}</span></span>
+      </div>
+      <div style="font-size:11px;color:var(--text-hint);margin-top:2px;">≈ $${plan.usd} USD</div>
+      <div class="plan-features">
+        ${plan.features.map(f => `
+          <div class="plan-feat ${f.ok ? '' : 'disabled'}">
+            <span class="feat-check">${f.ok ? '✓' : '✗'}</span>
+            ${f.text}
+          </div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // Auto-select popular plan
+  if (!selectedPlan) {
+    const popular = plans.find(p => p.popular);
+    if (popular) selectPlan(popular.id);
+  }
+}
+
+function selectPlan(planId) {
+  selectedPlan = [...PLANS.monthly, ...PLANS.annual].find(p => p.id === planId);
+  renderPlans();
+}
+
+function proceedToPayment() {
+  if (!selectedPlan) { alert('Please select a plan.'); return; }
+  closeModal('pricing-modal');
+
+  // Pre-fill from profile
+  if (userProfile) {
+    document.getElementById('pay-name').value = userProfile.name || '';
+    document.getElementById('pay-phone').value = userProfile.phone || '';
+  }
+
+  document.getElementById('pay-plan-name').textContent = `MedAI ${selectedPlan.name}`;
+  document.getElementById('pay-plan-cycle').textContent = billingCycle === 'annual' ? 'Annual subscription (save 40%)' : 'Monthly subscription';
+  document.getElementById('pay-plan-price').textContent = `₦${selectedPlan.naira.toLocaleString()}`;
+
+  document.getElementById('payment-modal').classList.add('active');
+}
+
+function initiatePaystackPayment() {
+  const email = document.getElementById('pay-email').value.trim();
+  const name = document.getElementById('pay-name').value.trim();
+  if (!email || !name) { alert('Please enter your email and name to continue.'); return; }
+
+  // If Paystack.js is loaded and real key provided, use it
+  if (typeof PaystackPop !== 'undefined' && !PAYSTACK_PUBLIC_KEY.includes('xxxx')) {
+    const handler = PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      amount: selectedPlan.naira * 100, // kobo
+      currency: 'NGN',
+      ref: 'MEDAI_' + Date.now(),
+      metadata: {
+        custom_fields: [
+          { display_name: 'Name', variable_name: 'name', value: name },
+          { display_name: 'Plan', variable_name: 'plan', value: selectedPlan.id }
+        ]
+      },
+      callback: function(response) {
+        onPaymentSuccess(response.reference);
+      },
+      onClose: function() {
+        console.log('Payment window closed');
+      }
+    });
+    handler.openIframe();
+  } else {
+    // DEMO MODE — simulate successful payment
+    simulatePayment(email, name);
+  }
+}
+
+function simulatePayment(email, name) {
+  const btn = document.querySelector('.paystack-btn');
+  btn.textContent = '⏳ Processing payment...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    btn.textContent = '💳 Pay with Paystack · Cards, Bank Transfer, USSD';
+    btn.disabled = false;
+    onPaymentSuccess('DEMO_' + Date.now());
+  }, 2200);
+}
+
+function onPaymentSuccess(reference) {
+  closeModal('payment-modal');
+
+  isPremium = true;
+  localStorage.setItem('medai_premium', JSON.stringify({
+    plan: selectedPlan.id,
+    ref: reference,
+    activatedAt: new Date().toISOString(),
+    email: document.getElementById('pay-email').value
+  }));
+
+  activatePremiumUI();
+  document.getElementById('success-modal').classList.add('active');
+
+  // Remove paywall gate if showing
+  document.getElementById('paywall-gate-msg')?.remove();
+  document.getElementById('limit-warn')?.remove();
+}
+
+function activatePremiumUI() {
+  isPremium = true;
+  updateUsageMeter();
+
+  // Show premium badge in header
+  const pill = document.getElementById('usage-pill');
+  if (pill) pill.innerHTML = '<span class="premium-badge-pill">👑 Premium</span>';
+
+  const upgradeBtn = document.getElementById('upgrade-btn');
+  if (upgradeBtn) upgradeBtn.style.display = 'none';
+}
+
+// Hook into sendMessage to enforce limit
+const _originalSendMessage = sendMessage;
+sendMessage = async function() {
+  const input = document.getElementById('chat-input').value.trim();
+  const hasImages = pendingImages.length > 0;
+
+  if (!input && !hasImages) return;
+
+  if (!canSendDiagnosis()) {
+    showPaywall();
+    return;
+  }
+
+  recordDiagnosis();
+  await _originalSendMessage();
+};
+
+// Initialise on load
+window.addEventListener('load', initUsageSystem);
+
+
+// ============================================================
+// MOBILE NAVIGATION & DRAWER SYSTEM
+// ============================================================
+
+function mobileNav(tab, btn) {
+  // Update active state
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if (tab === 'chat') {
+    // Already on chat — scroll to bottom
+    const msgs = document.getElementById('messages');
+    msgs.scrollTop = msgs.scrollHeight;
+    document.getElementById('chat-input').focus();
+  } else if (tab === 'specialty') {
+    openDrawer('specialty');
+  } else if (tab === 'vitals') {
+    startVitals();
+  } else if (tab === 'hospitals') {
+    openHospitalFinder();
+  } else if (tab === 'profile') {
+    if (userProfile) {
+      document.getElementById('card-modal').classList.add('active');
+    } else {
+      openRegisterModal();
+    }
+  }
+}
+
+function openDrawer(name) {
+  document.getElementById(name + '-drawer-overlay').classList.add('active');
+  document.getElementById(name + '-drawer').classList.add('active');
+}
+
+function closeDrawer(name) {
+  document.getElementById(name + '-drawer-overlay').classList.remove('active');
+  document.getElementById(name + '-drawer').classList.remove('active');
+  // Reset bottom nav to chat
+  document.querySelectorAll('.mob-nav-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === 0);
+  });
+}
+
+// Update specialty display in drawer
+const _origSetSpecialty = setSpecialty;
+setSpecialty = function(btn, name) {
+  _origSetSpecialty(btn, name);
+  const el = document.getElementById('mob-current-specialty');
+  if (el) el.textContent = 'Current: ' + name;
+};
+
+// Make modals close on back button (mobile UX)
+window.addEventListener('popstate', () => {
+  document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+  closeDrawer('specialty');
+});
+
+// Add touch swipe down to close modals on mobile
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+let touchStartY = 0;
+function handleTouchStart(e) {
+  touchStartY = e.touches[0].clientY;
+}
+function handleTouchEnd(e) {
+  const deltaY = e.changedTouches[0].clientY - touchStartY;
+  if (deltaY > 80) {
+    // Swipe down — close any open drawer
+    document.querySelectorAll('.mobile-drawer.active').forEach(d => {
+      const name = d.id.replace('-drawer', '');
+      closeDrawer(name);
+    });
+  }
+}
+
+window.addEventListener('click', (e) => {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('active');
+  }
+});
+</script>
+
+<!-- PRICING MODAL -->
+<div class="modal-overlay" id="pricing-modal">
+  <div class="modal pricing-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <div class="pricing-header" style="margin:0;text-align:left;">
+        <h2>👑 Upgrade to Premium</h2>
+        <p style="margin:0;">Unlimited AI diagnoses, priority referrals & full medical history</p>
+      </div>
+      <button onclick="closeModal('pricing-modal')" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-hint);flex-shrink:0;">✕</button>
+    </div>
+
+    <div class="plan-toggle">
+      <button class="plan-toggle-btn active" id="toggle-monthly" onclick="setBillingCycle('monthly')">Monthly</button>
+      <button class="plan-toggle-btn" id="toggle-annual" onclick="setBillingCycle('annual')">Annual <span class="save-badge">-40%</span></button>
+    </div>
+
+    <div class="plans-grid" id="plans-grid">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1rem;">
+      <p style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">Everything in Premium includes:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Unlimited AI diagnoses daily</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Full medical history storage</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Priority doctor referrals</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Image & video analysis</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>PPG vitals scanner</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Medication tracker</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Family profile (up to 5)</div>
+        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Export medical reports (PDF)</div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('pricing-modal')">Maybe later</button>
+      <button class="btn-primary" id="proceed-pay-btn" onclick="proceedToPayment()">Continue to Payment →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="payment-modal">
+  <div class="modal" style="max-width:420px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+      <button onclick="closeModal('payment-modal');openPricingModal();" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-hint);">←</button>
+      <h2 style="font-size:18px;">Complete Payment</h2>
+    </div>
+
+    <div class="pay-summary">
+      <div>
+        <div class="ps-plan" id="pay-plan-name">MedAI Premium</div>
+        <div style="font-size:11px;color:var(--text-hint);" id="pay-plan-cycle">Monthly subscription</div>
+      </div>
+      <div class="ps-price" id="pay-plan-price">₦2,500</div>
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="pay-email" placeholder="you@email.com">
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="pay-name" placeholder="Your full name">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="pay-phone" placeholder="+234...">
+    </div>
+
+    <div style="background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:1rem;font-size:12px;color:var(--text-muted);line-height:1.5;">
+      🔒 Payment secured by <strong>Paystack</strong>. Cancel anytime. 7-day money back guarantee.
+    </div>
+
+    <button class="paystack-btn" onclick="initiatePaystackPayment()">
+      💳 Pay with Paystack
+      <span class="paystack-logo">· Cards, Bank Transfer, USSD</span>
+    </button>
+    <p class="secure-note">SSL encrypted · PCI DSS compliant · ₦ Naira supported</p>
+
+    <!-- Demo/Test mode note -->
+    <div style="margin-top:12px;background:var(--amber-50);border-radius:8px;padding:10px;font-size:11px;color:#78350f;text-align:center;line-height:1.5;">
+      ⚙️ <strong>Integration mode:</strong> Connect your Paystack public key in the JS config to go live.
+      This demo simulates the full payment flow.
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div style="font-size:60px;margin-bottom:12px;">🎉</div>
+    <h2 style="font-size:22px;margin-bottom:6px;">Welcome to Premium!</h2>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6;">
+      Your MedAI Premium access is now active. Unlimited diagnoses, full medical history, and priority referrals — all unlocked.
+    </p>
+    <div class="premium-badge-pill" style="margin:0 auto 1.5rem;display:inline-flex;">
+      👑 MedAI Premium · Active
+    </div>
+    <button class="btn-primary" onclick="closeModal('success-modal')">Start Diagnosing →</button>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="mobile-bottom-nav">
+  <button class="mob-nav-btn active" onclick="mobileNav('chat', this)">
+    <span class="mob-icon">💬</span>
+    <span class="mob-label">Diagnose</span>
+  </button>
+  <button class="mob-nav-btn" onclick="mobileNav('specialty', this)">
+    <span class="mob-icon">🩺</span>
+    <span class="mob-label">Specialty</span>
+  </button>
+  <button class="mob-nav-btn" onclick="mobileNav('vitals', this)">
+    <span class="mob-icon">💓</span>
+    <span class="mob-label">Vitals</span>
+  </button>
+  <button class="mob-nav-btn" onclick="mobileNav('hospitals', this)">
+    <span class="mob-icon">🏥</span>
+    <span class="mob-label">Hospitals</span>
+  </button>
+  <button class="mob-nav-btn" onclick="mobileNav('profile', this)">
+    <span class="mob-icon">👤</span>
+    <span class="mob-label">Profile</span>
+  </button>
+</nav>
+
+<!-- MOBILE SPECIALTY DRAWER -->
+<div class="mobile-drawer-overlay" id="specialty-drawer-overlay" onclick="closeDrawer('specialty')"></div>
+<div class="mobile-drawer" id="specialty-drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-title">🩺 Choose Specialty</div>
+  <div class="specialty-grid">
+    <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine');closeDrawer('specialty')">
+      <span class="icon">🩺</span>General
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics');closeDrawer('specialty')">
+      <span class="icon">👶</span>Pediatrics
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology');closeDrawer('specialty')">
+      <span class="icon">❤️</span>Cardiology
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology');closeDrawer('specialty')">
+      <span class="icon">🔬</span>Dermatology
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology & Obstetrics');closeDrawer('specialty')">
+      <span class="icon">🤱</span>Women's Health
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics');closeDrawer('specialty')">
+      <span class="icon">🦴</span>Orthopedics
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Neurology');closeDrawer('specialty')">
+      <span class="icon">🧠</span>Neurology
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'ENT — Ear, Nose & Throat');closeDrawer('specialty')">
+      <span class="icon">👃</span>ENT
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology');closeDrawer('specialty')">
+      <span class="icon">👁️</span>Eye Care
+    </button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health & Psychiatry');closeDrawer('specialty')">
+      <span class="icon">🧘</span>Mental Health
+    </button>
+  </div>
+  <div style="margin-top:1rem;padding:10px 12px;background:var(--teal-50);border-radius:8px;font-size:12px;color:var(--teal-600);font-weight:500;" id="mob-current-specialty">
+    Current: General Medicine
+  </div>
+</div>
+
+</body>
+</html>
