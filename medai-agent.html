@@ -118,9 +118,10 @@ body {
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
-  box-shadow: 0 0 80px rgba(0,0,0,0.5);
+  box-shadow: 0 0 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.08);
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
 /* ── ANIMATED BG ── */
@@ -883,7 +884,7 @@ header {
   color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif;
 }
 .hf-tab.active, .hf-tab:hover { background: rgba(201,168,76,0.1); border-color: var(--gold-400); color: var(--gold-300); }
-.hospitals-list { display: flex; flex-direction: column; gap: 9px; max-height: 390px; overflow-y: auto; padding-right: 4px; }
+.hospitals-list { display: flex; flex-direction: column; gap: 9px; flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; max-height: 320px; }
 .hospital-card {
   background: var(--surface-2); border: 1px solid var(--border);
   border-radius: var(--r-md); padding: 13px 15px;
@@ -920,7 +921,7 @@ header {
 .hab-directions { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); }
 .hab-call { background: rgba(58,123,212,0.15); color: var(--blue-400); border: 1px solid rgba(58,123,212,0.2); }
 .hab-whatsapp { background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.2); }
-.map-embed { width: 100%; height: 175px; border-radius: var(--r-sm); border: 1px solid var(--border); margin-bottom: 1rem; overflow: hidden; background: var(--surface-3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text-3); font-size: 14px; }
+.map-embed { width: 100%; height: 140px; border-radius: var(--r-sm); border: 1px solid var(--border); margin-bottom: 1rem; overflow: hidden; background: var(--surface-3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text-3); font-size: 14px; }
 .map-embed iframe { width: 100%; height: 100%; border: none; }
 .loading-hospitals { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem; color: var(--text-2); font-size: 15px; }
 .loading-spinner { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--gold-400); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -993,6 +994,14 @@ header {
   .main { grid-template-columns: 1fr; }
   .sidebar { display: none; }
   header { padding: 0 1rem; height: 58px; }
+  .hospital-modal { max-height: 88vh !important; }
+  .hospitals-list { max-height: 45vw !important; min-height: 120px; }
+  .map-embed { height: 110px !important; }
+  .hosp-filter-tabs { gap: 4px; }
+  .hf-tab { padding: 5px 9px; font-size: 12px; }
+  .emergency-banner { padding: 8px 10px; }
+  .em-text { font-size: 12px; }
+  .location-bar { padding: 8px 10px; font-size: 13px; }
   .logo-name { font-size: 20px; letter-spacing: 1.5px; }
   .logo-tagline { display: none; }
   .logo-svg-wrap { width: 36px; height: 36px; }
@@ -1013,7 +1022,14 @@ header {
   .quick-symptoms { padding: 0.6rem 1rem 0; gap: 6px; }
   .symptom-chip { font-size: 12px; padding: 6px 11px; }
   .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal { border-radius: 22px 22px 0 0; max-height: 93vh; max-width: 100%; padding: 1.5rem; }
+  .modal { 
+    border-radius: 22px 22px 0 0; 
+    max-height: 88vh; 
+    max-width: 100%; 
+    padding: 1.25rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .modal-header h2 { font-size: 20px; }
   .form-row { grid-template-columns: 1fr; }
   .plans-grid { grid-template-columns: 1fr; }
@@ -1022,7 +1038,11 @@ header {
   .hospital-card { flex-wrap: wrap; }
   .hosp-actions { flex-direction: row; flex-wrap: wrap; width: 100%; }
   .hosp-action-btn { flex: 1; justify-content: center; }
-  .modal-actions { flex-direction: column; }
+  .modal-actions { flex-direction: row; gap: 8px; }
+  .modal-actions .btn-secondary { flex: 1; padding: 12px 10px; font-size: 14px; }
+  .modal-actions .btn-primary { flex: 2; padding: 12px 10px; font-size: 14px; }
+  .ppg-step-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .vital-cards { grid-template-columns: 1fr 1fr; gap: 6px; }
   .chat-area { padding-bottom: 64px; min-height: 0; }
   .mobile-bottom-nav { display: grid; }
   .ticker-bar { height: 30px; }
@@ -1340,9 +1360,9 @@ header {
 
 <!-- REGISTER MODAL -->
 <div class="modal-overlay" id="register-modal">
-  <div class="modal">
-    <div class="modal-header"><h2>🏥 Krixia Health ID</h2><button class="modal-close" onclick="closeModal('register-modal')">✕</button></div>
-    <p class="modal-sub">Create your free digital health profile for personalised AI-powered care</p>
+  <div class="modal" style="max-height:88vh;overflow-y:auto;">
+    <div class="modal-header" style="flex-shrink:0;"><h2>🏥 Krixia Health ID</h2><button class="modal-close" onclick="closeModal('register-modal')">✕</button></div>
+    <p class="modal-sub">Create your free digital health profile</p>
     <div class="form-row">
       <div class="form-group"><label>First Name</label><input type="text" id="reg-firstname" placeholder="Elvis"></div>
       <div class="form-group"><label>Last Name</label><input type="text" id="reg-lastname" placeholder="Ogbeda"></div>
@@ -1379,19 +1399,19 @@ header {
 
 <!-- VITALS MODAL -->
 <div class="modal-overlay" id="vitals-modal">
-  <div class="modal" style="max-width:470px;">
-    <div class="modal-header"><h2>💓 Vitals Scanner</h2><button class="modal-close" onclick="stopPPG();closeModal('vitals-modal')">✕</button></div>
-    <p class="modal-sub">Real-time heart rate via camera photoplethysmography (PPG)</p>
+  <div class="modal" style="max-width:470px;display:flex;flex-direction:column;max-height:88vh;overflow-y:auto;">
+    <div class="modal-header" style="flex-shrink:0;"><h2>💓 Vitals Scanner</h2><button class="modal-close" onclick="stopPPG();closeModal('vitals-modal')">✕</button></div>
+    <p class="modal-sub" style="flex-shrink:0;">Real-time heart rate via camera photoplethysmography (PPG)</p>
     <div id="ppg-step-1">
-      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:var(--r-md);padding:1.35rem;margin-bottom:1rem;text-align:center;">
-        <div style="font-size:52px;margin-bottom:10px;">👆</div>
-        <p style="font-size:15px;font-weight:700;color:var(--gold-300);margin-bottom:7px;">How to measure your pulse</p>
-        <p style="font-size:14px;color:var(--text-2);line-height:1.65;">Press your <strong style="color:var(--gold-300)">fingertip firmly over the rear camera</strong> and flashlight together. Hold perfectly still for 30 seconds.</p>
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:var(--r-md);padding:0.9rem;margin-bottom:0.75rem;text-align:center;">
+        <div style="font-size:36px;margin-bottom:6px;">👆</div>
+        <p style="font-size:14px;font-weight:700;color:var(--gold-300);margin-bottom:5px;">How to measure your pulse</p>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.5;">Press your <strong style="color:var(--gold-300)">fingertip over the rear camera</strong> and flashlight. Hold still 30 seconds.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem;">
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:22px;margin-bottom:5px;">🔦</div>Cover camera + flash</div>
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:22px;margin-bottom:5px;">✋</div>Press gently, hold still</div>
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:22px;margin-bottom:5px;">⏱️</div>Wait 30 seconds</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:0.75rem;">
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:8px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:18px;margin-bottom:3px;">🔦</div>Cover camera</div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:8px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:18px;margin-bottom:3px;">✋</div>Hold still</div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:8px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:18px;margin-bottom:3px;">⏱️</div>30 seconds</div>
       </div>
       <button class="btn-primary" onclick="startPPG()">Start Pulse Scan →</button>
     </div>
@@ -1435,9 +1455,9 @@ header {
 
 <!-- HOSPITAL MODAL -->
 <div class="modal-overlay" id="hospital-modal">
-  <div class="modal hospital-modal">
-    <div class="modal-header"><h2>🏥 Nearest Hospitals</h2><button class="modal-close" onclick="closeModal('hospital-modal')">✕</button></div>
-    <p class="modal-sub">Hospitals and clinics nearest to your current GPS location</p>
+  <div class="modal hospital-modal" style="display:flex;flex-direction:column;max-height:88vh;">
+    <div class="modal-header" style="flex-shrink:0;"><h2>🏥 Nearest Hospitals</h2><button class="modal-close" onclick="closeModal('hospital-modal')">✕</button></div>
+    <p class="modal-sub" style="flex-shrink:0;">Hospitals and clinics nearest to your current GPS location</p>
     <div class="emergency-banner" id="emergency-banner" style="display:none;">
       <div class="em-icon">🚨</div>
       <div class="em-text">
@@ -1462,9 +1482,9 @@ header {
     </div>
     <div class="map-embed" id="map-embed"><div style="font-size:34px;">🗺️</div><span>Map loads after location access</span></div>
     <div class="hospitals-list" id="hospitals-list"><div class="loading-hospitals"><div class="loading-spinner"></div><span>Locating nearby hospitals...</span></div></div>
-    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:10px;">
+    <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0;">
       <button class="btn-secondary" onclick="closeModal('hospital-modal')" style="flex:1;">Close</button>
-      <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral to Chat →</button>
+      <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral →</button>
     </div>
   </div>
 </div>
