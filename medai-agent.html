@@ -1,1275 +1,1291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedAI — Your Super Doctor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Krixia — World Class Medical Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ============================================================
+   KRIXIA — PREMIUM MEDICAL AI
+   Dark Obsidian · Rich Gold · Deep Emerald · Warm Cream
+============================================================ */
+:root {
+  --gold-50: #FFFBF0;
+  --gold-100: #FDF3DC;
+  --gold-200: #F5DFA0;
+  --gold-300: #E8C97A;
+  --gold-400: #C9A84C;
+  --gold-500: #A8832A;
+  --gold-600: #7D5F1A;
+  --em-900: #061812;
+  --em-800: #0A2A1C;
+  --em-700: #0D3D28;
+  --em-600: #115234;
+  --em-500: #166840;
+  --em-400: #1D9E64;
+  --em-300: #4DC48A;
+  --em-100: #C8F0DC;
+  --obsidian: #06100C;
+  --charcoal: #111C17;
+  --slate: #1E2E27;
+  --cream-50: #FFFEF9;
+  --cream-100: #FDF8F0;
+  --cream-200: #F5EDD8;
+  --red-400: #E85D4A;
+  --red-50: #FEF0EE;
+  --amber-400: #D4873A;
+  --blue-400: #3A7BD4;
+  --r-xs: 6px; --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 30px;
+}
 
-  :root {
-    --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041;
-    --blue-50: #E6F1FB; --blue-400: #378ADD; --blue-600: #185FA5;
-    --red-50: #FCEBEB; --red-400: #E24B4A; --red-600: #A32D2D;
-    --amber-50: #FAEEDA; --amber-400: #BA7517;
-    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9; --gray-400: #888780; --gray-600: #5F5E5A;
-    --bg: #F7FAF9; --surface: #ffffff; --border: #E2EDE9;
-    --text: #0D1F1A; --text-muted: #4A6660; --text-hint: #8AA9A3;
-    --radius: 14px; --radius-sm: 8px;
-    --shadow: 0 1px 3px rgba(15,110,86,0.08), 0 4px 16px rgba(15,110,86,0.06);
-  }
+[data-theme="dark"] {
+  --bg: #07110D;
+  --bg-2: #0D1A14;
+  --surface: #0F1A15;
+  --surface-2: #162118;
+  --surface-3: #1C2B22;
+  --border: rgba(201,168,76,0.1);
+  --border-2: rgba(201,168,76,0.25);
+  --border-3: rgba(201,168,76,0.4);
+  --text: #F2EFE8;
+  --text-2: #B4C4BB;
+  --text-3: #5E8070;
+  --card-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
+  --header-bg: rgba(6,16,12,0.97);
+  --input-bg: rgba(255,255,255,0.03);
+  --msg-ai-bg: #111E17;
+  --msg-ai-border: rgba(201,168,76,0.12);
+  --msg-user-bg: linear-gradient(135deg, #0A4228, #1D9E64);
+  --chip-bg: rgba(255,255,255,0.04);
+  --chip-hover: rgba(201,168,76,0.1);
+  --sidebar-bg: #0A1610;
+  --overlay: rgba(0,0,0,0.85);
+  --modal-bg: #0F1A15;
+  --scrollbar: rgba(201,168,76,0.12);
+  --ticker-bg: rgba(6,16,12,0.98);
+}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+[data-theme="light"] {
+  --bg: #F7F3EA;
+  --bg-2: #EDE8DC;
+  --surface: #FFFFFF;
+  --surface-2: #F8F4EC;
+  --surface-3: #EDE8DC;
+  --border: rgba(10,42,28,0.08);
+  --border-2: rgba(168,131,42,0.3);
+  --border-3: rgba(168,131,42,0.5);
+  --text: #081A10;
+  --text-2: #2D4A38;
+  --text-3: #7A9485;
+  --card-shadow: 0 2px 20px rgba(10,42,28,0.07), 0 1px 4px rgba(10,42,28,0.04);
+  --header-bg: rgba(6,42,22,0.98);
+  --input-bg: rgba(10,42,28,0.04);
+  --msg-ai-bg: #F0FBF5;
+  --msg-ai-border: rgba(29,158,100,0.15);
+  --msg-user-bg: linear-gradient(135deg, #0A4228, #1D9E64);
+  --chip-bg: rgba(10,42,28,0.05);
+  --chip-hover: rgba(168,131,42,0.12);
+  --sidebar-bg: #F0EBE0;
+  --overlay: rgba(6,26,15,0.7);
+  --modal-bg: #FFFFFF;
+  --scrollbar: rgba(10,42,28,0.1);
+  --ticker-bg: rgba(6,42,22,0.97);
+}
 
-  /* HEADER */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 1.5rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .logo-icon {
-    width: 36px; height: 36px;
-    background: var(--teal-400);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 18px;
-  }
-  .logo-text {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--teal-600);
-    letter-spacing: -0.3px;
-  }
-  .logo-text span { color: var(--teal-400); }
-  .header-right {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .badge-free {
-    background: var(--teal-50);
-    color: var(--teal-600);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-  }
-  .btn-register {
-    background: var(--teal-400);
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .btn-register:hover { background: var(--teal-600); }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  /* MAIN LAYOUT */
-  .main {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    flex: 1;
-    height: calc(100vh - 64px);
-    overflow: hidden;
-  }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  transition: background 0.4s, color 0.4s;
+  overflow: hidden;
+}
 
-  /* SIDEBAR */
-  .sidebar {
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 1.25rem 1rem;
-    gap: 1.25rem;
-  }
-  .sidebar-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-hint);
-    margin-bottom: 8px;
-    padding: 0 4px;
-  }
-  .specialty-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-  .specialty-btn {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-  .specialty-btn:hover, .specialty-btn.active {
-    background: var(--teal-50);
-    border-color: var(--teal-100);
-    color: var(--teal-600);
-  }
-  .specialty-btn .icon { font-size: 18px; display: block; margin-bottom: 4px; }
+/* ── ANIMATED BG ── */
+#bg-canvas {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  opacity: 0.35;
+}
+[data-theme="light"] #bg-canvas { opacity: 0.08; }
 
-  .vital-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-  .vital-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px;
-  }
-  .vital-card .vital-label { font-size: 10px; color: var(--text-hint); font-weight: 500; margin-bottom: 3px; }
-  .vital-card .vital-val { font-size: 17px; font-weight: 600; color: var(--teal-600); }
-  .vital-card .vital-unit { font-size: 10px; color: var(--text-hint); }
-  .vital-card.scan { grid-column: span 2; }
+/* ── MEDICAL TICKER ── */
+.ticker-bar {
+  position: relative; z-index: 101;
+  background: var(--ticker-bg);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  height: 34px;
+  display: flex; align-items: center;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+.ticker-label {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  color: var(--obsidian);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 14px;
+  height: 100%;
+  display: flex; align-items: center;
+  z-index: 2;
+  gap: 6px;
+}
+.ticker-scroll-wrap {
+  flex: 1; overflow: hidden; position: relative;
+}
+.ticker-scroll-wrap::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 30px;
+  background: linear-gradient(90deg, var(--ticker-bg), transparent);
+  z-index: 1;
+}
+.ticker-scroll-wrap::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0; width: 30px;
+  background: linear-gradient(270deg, var(--ticker-bg), transparent);
+  z-index: 1;
+}
+.ticker-track {
+  display: flex; align-items: center;
+  white-space: nowrap;
+  animation: tickerScroll 60s linear infinite;
+  gap: 0;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 28px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  border-right: 1px solid rgba(201,168,76,0.15);
+}
+.ticker-item .t-icon { font-size: 13px; }
+.ticker-item .t-highlight { color: var(--gold-300); font-weight: 600; }
 
-  .scan-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--teal-50), #E8F8F2);
-    border: 1.5px dashed var(--teal-100);
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--teal-600);
-    transition: all 0.2s;
-  }
-  .scan-btn:hover { border-color: var(--teal-400); background: var(--teal-50); }
-  .scan-btn .scan-icon { font-size: 22px; }
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--header-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  height: 66px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.75rem;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.35);
+}
 
-  .disclaimer {
-    background: var(--amber-50);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    font-size: 11px;
-    color: #5a3e00;
-    line-height: 1.5;
-    border-left: 3px solid var(--amber-400);
-  }
+/* KRIXIA LOGO */
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 
-  /* CHAT AREA */
-  .chat-area {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+.logo-svg-wrap {
+  width: 44px; height: 44px; flex-shrink: 0;
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.35));
+}
 
-  .chat-topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .doctor-avatar {
-    width: 38px; height: 38px;
-    background: var(--teal-400);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    color: white;
-    flex-shrink: 0;
-  }
-  .doctor-info { margin-left: 10px; }
-  .doctor-name { font-size: 14px; font-weight: 600; }
-  .doctor-status { font-size: 12px; color: var(--text-hint); display: flex; align-items: center; gap: 5px; }
-  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; }
-  .input-mode-tabs {
-    display: flex;
-    gap: 6px;
-  }
-  .mode-tab {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    cursor: pointer;
-    display: flex; align-items: center; gap: 5px;
-    transition: all 0.15s;
-  }
-  .mode-tab.active, .mode-tab:hover {
-    background: var(--teal-400);
-    border-color: var(--teal-400);
-    color: white;
-  }
+.logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+.logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #F0D888 0%, #C9A84C 40%, #E8C97A 70%, #A8832A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.logo-tagline {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-top: 3px;
+}
 
-  /* MESSAGES */
-  .messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    scroll-behavior: smooth;
-  }
-  .message {
-    display: flex;
-    gap: 10px;
-    max-width: 85%;
-    animation: fadeUp 0.25s ease;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .message.user { align-self: flex-end; flex-direction: row-reverse; }
-  .message.ai { align-self: flex-start; }
-  .msg-avatar {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .msg-avatar.ai-av { background: var(--teal-400); color: white; }
-  .msg-avatar.user-av { background: var(--blue-50); color: var(--blue-600); font-weight: 600; font-size: 12px; }
-  .msg-bubble {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px 16px 16px 4px;
-    padding: 12px 15px;
-    font-size: 14px;
-    line-height: 1.65;
-    color: var(--text);
-    box-shadow: var(--shadow);
-  }
-  .message.user .msg-bubble {
-    background: var(--teal-400);
-    color: white;
-    border-color: var(--teal-400);
-    border-radius: 16px 16px 4px 16px;
-    box-shadow: none;
-  }
-  .msg-bubble h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--teal-600); }
-  .msg-bubble.user-bubble h3 { color: white; }
-  .msg-bubble ul { padding-left: 16px; margin: 6px 0; }
-  .msg-bubble li { margin-bottom: 4px; }
-  .diagnosis-card {
-    background: var(--teal-50);
-    border: 1px solid var(--teal-100);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-top: 10px;
-    font-size: 13px;
-  }
-  .diagnosis-card .dc-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--teal-600);
-    margin-bottom: 5px;
-  }
-  .severity-badge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    margin-left: 6px;
-  }
-  .sev-low { background: #dcfce7; color: #166534; }
-  .sev-moderate { background: var(--amber-50); color: #78350f; }
-  .sev-high { background: var(--red-50); color: var(--red-600); }
-  .refer-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--teal-400);
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 7px 14px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.2s;
-  }
-  .refer-btn:hover { background: var(--teal-600); }
-  .typing-indicator {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    padding: 10px 14px;
-  }
-  .typing-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--teal-400);
-    animation: bounce 1.2s infinite;
-  }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes bounce {
-    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
-    40% { transform: translateY(-6px); opacity: 1; }
-  }
+.header-center {
+  display: flex; align-items: center; gap: 8px;
+}
+.status-live {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(29,158,100,0.12);
+  border: 1px solid rgba(29,158,100,0.25);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px; font-weight: 500;
+  color: var(--em-300);
+}
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--em-300);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(77,196,138,0.5); }
+  50% { opacity:0.7; box-shadow: 0 0 0 5px rgba(77,196,138,0); }
+}
 
-  /* INPUT BAR */
-  .input-area {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    padding: 12px 1.5rem;
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-  }
-  .input-wrapper {
-    flex: 1;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    display: flex;
-    align-items: flex-end;
-    padding: 8px 12px;
-    gap: 8px;
-    transition: border-color 0.2s;
-  }
-  .input-wrapper:focus-within { border-color: var(--teal-400); }
-  #chat-input {
-    flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    resize: none;
-    max-height: 120px;
-    line-height: 1.5;
-    padding: 2px 0;
-  }
-  #chat-input::placeholder { color: var(--text-hint); }
-  .input-actions {
-    display: flex; align-items: center; gap: 6px;
-  }
-  .icon-btn {
-    width: 32px; height: 32px;
-    border: none;
-    background: none;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    color: var(--text-hint);
-    transition: all 0.15s;
-    position: relative;
-  }
-  .icon-btn:hover { background: var(--teal-50); color: var(--teal-400); }
-  .icon-btn input[type="file"] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
-  }
-  .send-btn {
-    width: 42px; height: 42px;
-    background: var(--teal-400);
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: white;
-    font-size: 18px;
-    flex-shrink: 0;
-    transition: all 0.15s;
-  }
-  .send-btn:hover { background: var(--teal-600); transform: scale(1.05); }
-  .send-btn:disabled { background: var(--gray-200); cursor: not-allowed; transform: none; }
+.header-right { display: flex; align-items: center; gap: 8px; }
 
-  /* RECORDING STATE */
-  .recording-active {
-    animation: pulse-border 1.5s infinite;
-  }
-  @keyframes pulse-border {
-    0%, 100% { border-color: var(--teal-400); }
-    50% { border-color: #E24B4A; box-shadow: 0 0 0 3px rgba(226,75,74,0.1); }
-  }
+.theme-btn {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: white;
+  transition: all 0.2s;
+}
+.theme-btn:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.35); }
 
-  /* IMAGE PREVIEW */
-  .image-preview {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 0 1.5rem 8px;
-    background: var(--surface);
-  }
-  .preview-item {
-    position: relative;
-    width: 60px; height: 60px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-  .preview-item img { width: 100%; height: 100%; object-fit: cover; }
-  .preview-remove {
-    position: absolute;
-    top: 2px; right: 2px;
-    width: 16px; height: 16px;
-    background: rgba(0,0,0,0.6);
-    border-radius: 50%;
-    color: white;
-    font-size: 10px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    border: none;
-  }
+.btn-premium {
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-400), var(--gold-300));
+  color: var(--obsidian);
+  border: none; border-radius: var(--r-sm);
+  padding: 9px 18px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 16px rgba(201,168,76,0.35);
+  transition: all 0.2s; font-family: 'Inter', sans-serif;
+}
+.btn-premium:hover { transform: translateY(-1px); box-shadow: 0 4px 24px rgba(201,168,76,0.5); }
 
-  /* VOICE VISUAL */
-  .voice-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(13,31,26,0.75);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .voice-overlay.active { display: flex; }
-  .voice-ring {
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    background: var(--teal-400);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px;
-    color: white;
-    animation: voicePulse 1.2s infinite;
-  }
-  @keyframes voicePulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29,158,117,0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(29,158,117,0); }
-  }
-  .voice-text { color: white; font-size: 16px; font-weight: 500; }
-  .voice-transcript { color: rgba(255,255,255,0.7); font-size: 14px; max-width: 300px; text-align: center; }
-  .voice-stop {
-    background: rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.4);
-    color: white;
-    border-radius: 30px;
-    padding: 10px 24px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-family: 'Inter', sans-serif;
-  }
+.btn-medid {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: var(--r-sm);
+  padding: 9px 16px;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.btn-medid:hover { background: rgba(255,255,255,0.12); border-color: rgba(201,168,76,0.4); }
 
-  /* MODALS */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(13,31,26,0.6);
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--surface);
-    border-radius: 20px;
-    padding: 1.75rem;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal h2 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--teal-600); margin-bottom: 4px; }
-  .modal p.sub { font-size: 13px; color: var(--text-hint); margin-bottom: 1.5rem; }
-  .form-group { margin-bottom: 1rem; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
-  .form-group input, .form-group select {
-    width: 100%;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-group input:focus, .form-group select:focus { border-color: var(--teal-400); }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 1.25rem; }
-  .btn-primary {
-    flex: 1;
-    background: var(--teal-400);
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    transition: background 0.2s;
-  }
-  .btn-primary:hover { background: var(--teal-600); }
-  .btn-secondary {
-    background: var(--bg);
-    color: var(--text-muted);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 18px;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-  }
+.usage-pill {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 12px; color: rgba(255,255,255,0.55);
+}
+.usage-dots { display: flex; gap: 4px; }
+.usage-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-400); transition: background 0.3s; }
+.usage-dot.used { background: rgba(255,255,255,0.12); }
+.usage-dot.warn { background: var(--amber-400); }
+.usage-dot.empty { background: var(--red-400); }
 
-  /* MEDICAL ID CARD */
-  .med-card {
-    background: linear-gradient(135deg, #0F6E56, #1D9E75);
-    border-radius: 16px;
-    padding: 1.25rem;
-    color: white;
-    margin: 1rem 0;
-  }
-  .med-card .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-  .med-card .card-logo { font-family: 'DM Serif Display', serif; font-size: 16px; opacity: 0.9; }
-  .med-card .card-chip {
-    width: 32px; height: 24px;
-    background: rgba(255,255,255,0.25);
-    border-radius: 5px;
-  }
-  .med-card .card-name { font-size: 18px; font-weight: 600; letter-spacing: 0.5px; }
-  .med-card .card-id { font-size: 11px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
-  .med-card .card-details {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255,255,255,0.2);
-  }
-  .med-card .cd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.65; }
-  .med-card .cd-val { font-size: 13px; font-weight: 600; margin-top: 2px; }
+/* ── MAIN ── */
+.main {
+  display: grid; grid-template-columns: 290px 1fr;
+  flex: 1; overflow: hidden; position: relative; z-index: 1;
+  height: calc(100vh - 100px);
+}
 
-  /* QUICK SYMPTOMS */
-  .quick-symptoms {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 0.75rem 1.5rem 0;
-  }
-  .symptom-chip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .symptom-chip:hover {
-    background: var(--teal-50);
-    border-color: var(--teal-100);
-    color: var(--teal-600);
-  }
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow-y: auto; padding: 1.25rem 1rem; gap: 1.25rem;
+}
+.sidebar-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold-400);
+  padding: 0 4px; margin-bottom: 8px;
+}
+.specialty-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.specialty-btn {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 7px;
+  text-align: center; cursor: pointer; transition: all 0.2s;
+  font-size: 11px; font-weight: 500; color: var(--text-2);
+  line-height: 1.4; font-family: 'Inter', sans-serif;
+}
+.specialty-btn .icon { font-size: 19px; display: block; margin-bottom: 4px; }
+.specialty-btn:hover {
+  background: rgba(201,168,76,0.08); border-color: var(--border-2);
+  color: var(--gold-300); transform: translateY(-1px);
+}
+.specialty-btn.active {
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.06));
+  border-color: var(--gold-400); color: var(--gold-300);
+  box-shadow: 0 0 14px rgba(201,168,76,0.18);
+}
+.scan-btn {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 13px 14px;
+  cursor: pointer; display: flex; align-items: center; gap: 10px;
+  transition: all 0.2s; font-family: 'Inter', sans-serif;
+}
+.scan-btn:hover {
+  border-color: var(--border-2); background: rgba(201,168,76,0.07);
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.1);
+}
+.scan-btn .s-icon { font-size: 24px; }
+.scan-btn .s-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.scan-btn .s-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.hosp-btn {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.04));
+  border: 1px solid var(--border-2); border-radius: var(--r-md);
+  padding: 13px 14px; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Inter', sans-serif; transition: all 0.2s;
+}
+.hosp-btn:hover {
+  background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.15);
+}
+.hosp-btn .s-title { font-size: 13px; font-weight: 600; color: var(--gold-300); }
+.hosp-btn .s-sub { font-size: 11px; color: var(--text-3); }
 
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--gray-100); border-radius: 10px; }
+.vital-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.vital-card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px;
+  transition: border-color 0.3s;
+}
+.vital-card:hover { border-color: var(--border-2); }
+.vl { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+.vv { font-size: 22px; font-weight: 700; color: var(--gold-300); font-family: 'JetBrains Mono', monospace; line-height: 1; }
+.vu { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+.disclaimer-box {
+  background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-left: 3px solid var(--gold-400);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  font-size: 11px; color: var(--text-3); line-height: 1.6;
+}
 
-  /* MOBILE */
-  @media (max-width: 768px) {
-    .main { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-  }
+/* ── CHAT AREA ── */
+.chat-area { display: flex; flex-direction: column; overflow: hidden; position: relative; }
+.chat-topbar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 11px 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(10px);
+}
+.doc-wrap { display: flex; align-items: center; gap: 11px; }
+.doc-avatar {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--em-800), var(--em-600));
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow: 0 0 18px rgba(201,168,76,0.12);
+  flex-shrink: 0;
+}
+.doc-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.doc-status {
+  font-size: 12px; color: var(--text-3);
+  display: flex; align-items: center; gap: 5px; margin-top: 2px;
+}
+.mode-tabs { display: flex; gap: 5px; }
+.mode-tab {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 14px;
+  font-size: 12px; font-weight: 500; color: var(--text-2);
+  cursor: pointer; display: flex; align-items: center; gap: 4px;
+  transition: all 0.15s; font-family: 'Inter', sans-serif;
+}
+.mode-tab.active, .mode-tab:hover {
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  border-color: transparent; color: var(--obsidian);
+  font-weight: 700; box-shadow: 0 2px 10px rgba(201,168,76,0.3);
+}
 
-  /* HOSPITAL REFERRAL MODAL */
-  .hospital-modal { max-width: 600px; }
-  .location-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    margin-bottom: 1rem;
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-  .location-bar .loc-icon { font-size: 18px; }
-  .location-bar .loc-text { flex: 1; }
-  .loc-refresh {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--teal-400);
-    padding: 4px;
-    border-radius: 6px;
-    transition: transform 0.3s;
-  }
-  .loc-refresh:hover { transform: rotate(180deg); }
-  .hosp-filter-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-  .hf-tab {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .hf-tab.active, .hf-tab:hover {
-    background: var(--teal-50);
-    border-color: var(--teal-100);
-    color: var(--teal-600);
-  }
-  .hospitals-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-  .hospital-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-  }
-  .hospital-card:hover {
-    border-color: var(--teal-100);
-    box-shadow: 0 2px 12px rgba(29,158,117,0.1);
-  }
-  .hosp-rank {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .rank-1 { background: #FFF7D6; color: #92400E; }
-  .rank-2 { background: var(--gray-50); color: var(--gray-600); }
-  .rank-3 { background: var(--teal-50); color: var(--teal-600); }
-  .rank-n { background: var(--bg); color: var(--text-hint); font-weight: 500; }
-  .hosp-info { flex: 1; min-width: 0; }
-  .hosp-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
-  .hosp-address { font-size: 12px; color: var(--text-hint); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hosp-meta {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .hosp-distance {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--teal-600);
-    display: flex; align-items: center; gap: 3px;
-  }
-  .hosp-type-badge {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  .badge-govt { background: var(--blue-50); color: var(--blue-600); }
-  .badge-private { background: var(--teal-50); color: var(--teal-600); }
-  .badge-teaching { background: #F3E8FF; color: #6B21A8; }
-  .badge-clinic { background: var(--amber-50); color: #92400E; }
-  .hosp-open {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 20px;
-  }
-  .open-yes { background: #DCFCE7; color: #166534; }
-  .open-no { background: var(--red-50); color: var(--red-600); }
-  .hosp-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-  .hosp-action-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
-    font-size: 11px;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    text-decoration: none;
-  }
-  .hab-directions {
-    background: var(--teal-400);
-    color: white;
-  }
-  .hab-directions:hover { background: var(--teal-600); }
-  .hab-call {
-    background: var(--blue-50);
-    color: var(--blue-600);
-    border: 1px solid #B5D4F4;
-  }
-  .hab-call:hover { background: #D6EAFA; }
-  .hab-whatsapp {
-    background: #F0FFF4;
-    color: #15803D;
-    border: 1px solid #BBF7D0;
-  }
-  .hab-whatsapp:hover { background: #DCFCE7; }
-  .map-embed {
-    width: 100%;
-    height: 180px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    margin-bottom: 1rem;
-    overflow: hidden;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 8px;
-    color: var(--text-hint);
-    font-size: 13px;
-  }
-  .map-embed iframe { width: 100%; height: 100%; border: none; }
-  .loading-hospitals {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 2rem;
-    color: var(--text-muted);
-    font-size: 14px;
-  }
-  .loading-spinner {
-    width: 36px; height: 36px;
-    border: 3px solid var(--teal-50);
-    border-top-color: var(--teal-400);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.3)} 28%{transform:scale(1)} 42%{transform:scale(1.2)} 70%{transform:scale(1)} }
-  .refer-inline-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--teal-50);
-    color: var(--teal-600);
-    border: 1px solid var(--teal-100);
-    border-radius: var(--radius-sm);
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: all 0.15s;
-    font-family: 'Inter', sans-serif;
-  }
-  .refer-inline-btn:hover { background: var(--teal-100); }
-  .emergency-banner {
-    background: var(--red-50);
-    border: 1.5px solid #F7C1C1;
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 1rem;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .emergency-banner .em-icon { font-size: 20px; flex-shrink: 0; }
-  .emergency-banner .em-text { font-size: 13px; color: var(--red-600); line-height: 1.5; }
-  .emergency-banner .em-text strong { display: block; font-size: 14px; margin-bottom: 3px; }
-  .emergency-numbers {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-  }
-  .emnum-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--red-400);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .emnum-btn:hover { background: var(--red-600); }
+/* ── MESSAGES ── */
+.messages {
+  flex: 1; overflow-y: auto; padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 1.25rem;
+  scroll-behavior: smooth;
+}
+.message {
+  display: flex; gap: 11px; max-width: 86%;
+  animation: msgIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes msgIn {
+  from { opacity:0; transform: translateY(14px) scale(0.97); }
+  to { opacity:1; transform: translateY(0) scale(1); }
+}
+.message.user { align-self: flex-end; flex-direction: row-reverse; }
+.message.ai { align-self: flex-start; }
+.msg-avatar {
+  width: 36px; height: 36px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; margin-top: 2px;
+}
+.msg-avatar.ai-av {
+  background: linear-gradient(135deg, var(--em-800), var(--em-600));
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow: 0 0 14px rgba(201,168,76,0.1);
+}
+.msg-avatar.user-av {
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-400));
+  color: var(--obsidian); font-weight: 700; font-size: 13px;
+  box-shadow: 0 2px 10px rgba(201,168,76,0.25);
+}
+.msg-bubble {
+  background: var(--msg-ai-bg); border: 1px solid var(--msg-ai-border);
+  border-radius: 18px 18px 18px 4px;
+  padding: 14px 18px;
+  font-size: 15px; line-height: 1.75; color: var(--text);
+  box-shadow: var(--card-shadow);
+}
+.message.user .msg-bubble {
+  background: var(--msg-user-bg); color: white;
+  border-color: transparent;
+  border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 4px 20px rgba(29,158,100,0.25);
+}
+.msg-bubble strong { color: var(--gold-300); }
+.message.user .msg-bubble strong { color: rgba(255,255,255,0.92); }
+.msg-bubble h3 { font-size: 15px; font-weight: 700; color: var(--gold-300); margin-bottom: 8px; }
+.msg-bubble ul { padding-left: 18px; margin: 8px 0; }
+.msg-bubble li { margin-bottom: 5px; font-size: 15px; }
+.msg-bubble p { margin-bottom: 8px; font-size: 15px; }
+.msg-bubble p:last-child { margin-bottom: 0; }
 
-  /* ============================================================
-     PAYWALL & PREMIUM SYSTEM
-  ============================================================ */
-  .upgrade-btn {
-    background: linear-gradient(135deg, #0F6E56, #1D9E75);
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    transition: opacity 0.2s;
-    font-family: 'Inter', sans-serif;
-  }
-  .upgrade-btn:hover { opacity: 0.9; }
-  .premium-crown { font-size: 14px; }
+/* Typing */
+.typing-wrap { display: flex; align-items: center; gap: 11px; max-width: 86%; align-self: flex-start; }
+.typing-bubble {
+  background: var(--msg-ai-bg); border: 1px solid var(--msg-ai-border);
+  border-radius: 18px 18px 18px 4px; padding: 15px 20px;
+  display: flex; gap: 6px; align-items: center;
+}
+.t-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold-400); animation: bounce 1.2s infinite; }
+.t-dot:nth-child(2) { animation-delay: 0.2s; }
+.t-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%,80%,100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-8px); opacity: 1; }
+}
 
-  /* Usage meter in header */
-  .usage-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-  .usage-dots {
-    display: flex; gap: 3px;
-  }
-  .usage-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--teal-400);
-    transition: background 0.3s;
-  }
-  .usage-dot.used { background: var(--gray-200); }
-  .usage-dot.warn { background: var(--amber-400); }
-  .usage-dot.empty { background: var(--red-400); }
+/* Welcome card */
+.welcome-card {
+  background: linear-gradient(135deg, rgba(201,168,76,0.07), rgba(29,158,100,0.04));
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-lg); padding: 1.6rem;
+  box-shadow: var(--card-shadow);
+}
+.wc-top { display: flex; align-items: center; gap: 14px; margin-bottom: 1rem; }
+.wc-icon {
+  width: 52px; height: 52px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
+  border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+}
+.wc-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 800; letter-spacing: 2px;
+  background: linear-gradient(135deg, #F0D888, #C9A84C, #E8C97A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.wc-sub {
+  font-size: 11px; color: var(--text-3); letter-spacing: 2px;
+  text-transform: uppercase; font-weight: 600; margin-top: 3px;
+}
+.wc-intro { font-size: 15px; color: var(--text-2); line-height: 1.7; margin-bottom: 1rem; }
+.cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cap-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  padding: 9px 11px; font-size: 13px; color: var(--text-2); line-height: 1.4;
+}
+.cap-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
 
-  /* PAYWALL GATE */
-  .paywall-gate {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    text-align: center;
-    margin: 1rem 1.5rem;
-    box-shadow: var(--shadow);
-    animation: fadeUp 0.3s ease;
-  }
-  .paywall-gate .gate-icon { font-size: 40px; margin-bottom: 10px; }
-  .paywall-gate h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  .paywall-gate p { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
-  .gate-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+/* Quick chips */
+.quick-symptoms {
+  display: flex; gap: 7px; flex-wrap: wrap;
+  padding: 0.75rem 1.5rem 0;
+}
+.symptom-chip {
+  background: var(--chip-bg); border: 1px solid var(--border);
+  border-radius: 20px; padding: 7px 14px;
+  font-size: 13px; color: var(--text-2);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.symptom-chip:hover {
+  background: var(--chip-hover); border-color: var(--gold-400);
+  color: var(--gold-300); transform: translateY(-1px);
+  box-shadow: 0 2px 10px rgba(201,168,76,0.12);
+}
 
-  /* PRICING MODAL */
-  .pricing-modal { max-width: 520px; }
-  .pricing-header { text-align: center; margin-bottom: 1.5rem; }
-  .pricing-header h2 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--teal-600); }
-  .pricing-header p { font-size: 14px; color: var(--text-hint); margin-top: 4px; }
-  .plan-toggle {
-    display: flex;
-    background: var(--bg);
-    border-radius: 20px;
-    padding: 3px;
-    margin: 0 auto 1.5rem;
-    width: fit-content;
-    border: 1px solid var(--border);
-    gap: 2px;
-  }
-  .plan-toggle-btn {
-    padding: 6px 18px;
-    border-radius: 16px;
-    border: none;
-    background: none;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    color: var(--text-muted);
-    font-family: 'Inter', sans-serif;
-    transition: all 0.15s;
-    position: relative;
-  }
-  .plan-toggle-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-  .save-badge {
-    position: absolute;
-    top: -8px; right: -8px;
-    background: var(--teal-400);
-    color: white;
-    font-size: 9px;
-    font-weight: 700;
-    padding: 2px 5px;
-    border-radius: 8px;
-    letter-spacing: 0.3px;
-  }
-  .plans-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 1.25rem;
-  }
-  .plan-card {
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    background: var(--surface);
-  }
-  .plan-card:hover { border-color: var(--teal-100); }
-  .plan-card.selected { border-color: var(--teal-400); background: var(--teal-50); }
-  .plan-card.featured { border-color: var(--teal-400); }
-  .plan-popular-badge {
-    position: absolute;
-    top: -10px; left: 50%; transform: translateX(-50%);
-    background: var(--teal-400);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 12px;
-    border-radius: 20px;
-    white-space: nowrap;
-    letter-spacing: 0.3px;
-  }
-  .plan-name { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .plan-price { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
-  .plan-price span { font-size: 13px; font-weight: 400; color: var(--text-hint); }
-  .plan-currency { font-size: 16px; font-weight: 600; vertical-align: top; margin-top: 4px; display: inline-block; color: var(--text-muted); }
-  .plan-features { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
-  .plan-feat { font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 6px; }
-  .plan-feat .feat-check { color: var(--teal-400); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-  .plan-feat.disabled { color: var(--gray-200); }
-  .plan-feat.disabled .feat-check { color: var(--gray-200); }
+/* Image preview */
+.image-preview { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 1.5rem 8px; }
+.preview-item {
+  position: relative; width: 64px; height: 64px;
+  border-radius: 11px; overflow: hidden; border: 1px solid var(--border-2);
+}
+.preview-item img { width: 100%; height: 100%; object-fit: cover; }
+.preview-remove {
+  position: absolute; top: 3px; right: 3px;
+  width: 17px; height: 17px; background: rgba(0,0,0,0.75); border-radius: 50%;
+  color: white; font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none;
+}
 
-  /* PAYMENT FORM */
-  .payment-section { display: none; }
-  .payment-section.active { display: block; }
-  .pay-summary {
-    background: var(--teal-50);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .pay-summary .ps-plan { font-size: 14px; font-weight: 600; color: var(--teal-600); }
-  .pay-summary .ps-price { font-size: 18px; font-weight: 700; color: var(--teal-600); }
-  .paystack-btn {
-    width: 100%;
-    background: #00C3F7;
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    font-family: 'Inter', sans-serif;
-    transition: opacity 0.2s;
-    letter-spacing: 0.3px;
-  }
-  .paystack-btn:hover { opacity: 0.9; }
-  .paystack-logo { font-size: 13px; opacity: 0.85; font-weight: 400; }
-  .secure-note { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 8px; }
+/* ── INPUT BAR ── */
+.input-area {
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 13px 1.5rem; display: flex; align-items: flex-end; gap: 10px;
+}
+.input-wrapper {
+  flex: 1; background: var(--input-bg); border: 1.5px solid var(--border);
+  border-radius: var(--r-md); display: flex; align-items: flex-end;
+  padding: 10px 13px; gap: 8px; transition: all 0.2s;
+}
+.input-wrapper:focus-within {
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+}
+#chat-input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text);
+  resize: none; max-height: 130px; line-height: 1.55; padding: 2px 0;
+}
+#chat-input::placeholder { color: var(--text-3); }
+.input-actions { display: flex; align-items: center; gap: 6px; }
+.icon-btn {
+  width: 34px; height: 34px; border: none; background: none;
+  border-radius: 9px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: var(--text-3); transition: all 0.15s; position: relative;
+}
+.icon-btn:hover { background: rgba(201,168,76,0.1); color: var(--gold-300); }
+.icon-btn input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.send-btn {
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  border: none; border-radius: var(--r-md); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--obsidian); font-size: 19px; flex-shrink: 0;
+  transition: all 0.2s; box-shadow: 0 2px 14px rgba(201,168,76,0.3);
+}
+.send-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 4px 22px rgba(201,168,76,0.48); }
+.send-btn:disabled { background: var(--surface-3); box-shadow: none; transform: none; cursor: not-allowed; }
 
-  /* PREMIUM BADGE */
-  .premium-badge-pill {
+/* ── VOICE ── */
+.voice-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(6,16,12,0.94); backdrop-filter: blur(24px);
+  z-index: 200;
+  align-items: center; justify-content: center; flex-direction: column; gap: 22px;
+}
+.voice-overlay.active { display: flex; }
+.voice-ring {
+  width: 116px; height: 116px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; color: var(--obsidian);
+  animation: voicePulse 1.2s infinite;
+  box-shadow: 0 0 0 0 rgba(201,168,76,0.5);
+}
+@keyframes voicePulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 28px rgba(201,168,76,0); }
+}
+.voice-text { color: white; font-size: 19px; font-weight: 600; }
+.voice-transcript { color: rgba(255,255,255,0.5); font-size: 15px; max-width: 320px; text-align: center; }
+.voice-stop {
+  background: rgba(255,255,255,0.09); border: 1.5px solid rgba(255,255,255,0.25);
+  color: white; border-radius: 30px; padding: 11px 30px;
+  font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.voice-stop:hover { background: rgba(255,255,255,0.16); }
+
+/* ── MODALS ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: var(--overlay); backdrop-filter: blur(10px);
+  z-index: 300; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--modal-bg); border-radius: var(--r-xl);
+  padding: 1.85rem; width: 100%; max-width: 490px;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 0 0 1px var(--border-2);
+  max-height: 90vh; overflow-y: auto;
+  animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalIn {
+  from { opacity:0; transform: scale(0.93) translateY(12px); }
+  to { opacity:1; transform: scale(1) translateY(0); }
+}
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.modal-header h2 {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+  background: linear-gradient(90deg, var(--gold-300), var(--gold-400));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.modal-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--text-3); border-radius: 8px; width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+}
+.modal-close:hover { background: var(--surface-2); color: var(--text); }
+.modal-sub { font-size: 14px; color: var(--text-3); margin-bottom: 1.5rem; }
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: var(--text-3); margin-bottom: 7px;
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+.form-group input, .form-group select {
+  width: 100%; background: var(--input-bg); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  font-size: 15px; font-family: 'Inter', sans-serif; color: var(--text);
+  outline: none; transition: all 0.2s;
+}
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--gold-400); box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+}
+.form-group select option { background: var(--surface); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 1.25rem; }
+.btn-primary {
+  flex: 1;
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-400), var(--gold-300));
+  color: var(--obsidian); border: none; border-radius: var(--r-sm); padding: 13px;
+  font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: all 0.2s; box-shadow: 0 2px 14px rgba(201,168,76,0.3);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 22px rgba(201,168,76,0.45); }
+.btn-secondary {
+  background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 13px 20px;
+  font-size: 15px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--border-2); }
+
+/* Medical ID Card */
+.med-card {
+  background: linear-gradient(135deg, #07150F 0%, #0A2A18 45%, #122018 100%);
+  border: 1px solid rgba(201,168,76,0.3); border-radius: var(--r-lg);
+  padding: 1.35rem; color: white; margin: 1rem 0;
+  position: relative; overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.15);
+}
+.med-card::before {
+  content: 'KRIXIA';
+  position: absolute; right: -20px; bottom: -25px;
+  font-family: 'Playfair Display', serif;
+  font-size: 80px; font-weight: 800; letter-spacing: 4px;
+  opacity: 0.04; pointer-events: none; color: var(--gold-300);
+}
+.med-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.6), transparent);
+}
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+.card-logo {
+  font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--gold-300), var(--gold-400));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.card-chip {
+  width: 34px; height: 26px;
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-300));
+  border-radius: 5px; box-shadow: 0 2px 8px rgba(201,168,76,0.35);
+}
+.card-name { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+.card-id { font-size: 10px; opacity: 0.45; margin-top: 3px; letter-spacing: 2px; font-family: 'JetBrains Mono', monospace; }
+.card-details {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+.cd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.45; font-weight: 700; }
+.cd-val { font-size: 13px; font-weight: 700; margin-top: 3px; }
+
+/* Paywall */
+.paywall-gate {
+  background: var(--surface-2); border: 1px solid var(--border-2);
+  border-radius: var(--r-lg); padding: 1.6rem;
+  text-align: center; margin: 1rem 1.5rem;
+  box-shadow: var(--card-shadow); animation: msgIn 0.3s ease;
+}
+.paywall-gate .gate-icon { font-size: 44px; margin-bottom: 12px; }
+.paywall-gate h3 { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.paywall-gate p { font-size: 14px; color: var(--text-2); margin-bottom: 1rem; line-height: 1.6; }
+.gate-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.upgrade-btn {
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
+  color: var(--obsidian); border: none; border-radius: var(--r-sm);
+  padding: 11px 22px; font-size: 14px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif;
+  box-shadow: 0 2px 14px rgba(201,168,76,0.35); transition: all 0.2s;
+}
+.upgrade-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 22px rgba(201,168,76,0.5); }
+.limit-warning-msg {
+  background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.22);
+  border-radius: var(--r-sm); padding: 11px 15px;
+  font-size: 13px; color: var(--gold-300);
+  display: flex; align-items: center; gap: 8px; margin: 0 1.5rem 8px;
+}
+.premium-badge-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
+  color: var(--obsidian); font-size: 11px; font-weight: 800;
+  padding: 4px 12px; border-radius: 20px; letter-spacing: 0.3px;
+}
+
+/* Pricing */
+.pricing-modal { max-width: 530px; }
+.plan-toggle {
+  display: flex; background: var(--surface-2); border-radius: 20px;
+  padding: 3px; margin: 0 auto 1.5rem; width: fit-content;
+  border: 1px solid var(--border); gap: 2px;
+}
+.plan-toggle-btn {
+  padding: 7px 20px; border-radius: 16px; border: none;
+  background: none; font-size: 14px; font-weight: 500;
+  cursor: pointer; color: var(--text-2); font-family: 'Inter', sans-serif;
+  transition: all 0.15s; position: relative;
+}
+.plan-toggle-btn.active {
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  color: var(--obsidian); font-weight: 700;
+  box-shadow: 0 2px 10px rgba(201,168,76,0.3);
+}
+.save-badge {
+  position: absolute; top: -9px; right: -9px;
+  background: var(--em-400); color: white;
+  font-size: 9px; font-weight: 800; padding: 2px 6px;
+  border-radius: 8px; letter-spacing: 0.3px;
+}
+.plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+.plan-card {
+  border: 1.5px solid var(--border); border-radius: var(--r-md);
+  padding: 1.25rem; cursor: pointer; transition: all 0.2s;
+  position: relative; background: var(--surface-2);
+}
+.plan-card:hover, .plan-card.selected {
+  border-color: var(--gold-400); box-shadow: 0 0 22px rgba(201,168,76,0.18);
+  background: rgba(201,168,76,0.04);
+}
+.plan-popular-badge {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+  color: var(--obsidian); font-size: 10px; font-weight: 800;
+  padding: 3px 14px; border-radius: 20px; white-space: nowrap;
+}
+.plan-name { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+.plan-price { font-size: 30px; font-weight: 700; color: var(--text); line-height: 1; }
+.plan-price span { font-size: 14px; font-weight: 400; color: var(--text-3); }
+.plan-currency { font-size: 17px; font-weight: 600; vertical-align: top; margin-top: 4px; display: inline-block; color: var(--text-3); }
+.plan-features { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+.plan-feat { font-size: 13px; color: var(--text-2); display: flex; align-items: flex-start; gap: 7px; }
+.plan-feat .feat-check { color: var(--gold-300); font-weight: 700; flex-shrink: 0; }
+.plan-feat.disabled { color: var(--text-3); opacity: 0.45; }
+.plan-feat.disabled .feat-check { color: var(--text-3); }
+
+/* Payment */
+.pay-summary {
+  background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.18);
+  border-radius: var(--r-sm); padding: 13px 15px;
+  margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;
+}
+.ps-plan { font-size: 15px; font-weight: 600; color: var(--gold-300); }
+.ps-price { font-size: 22px; font-weight: 700; color: var(--gold-300); }
+.paystack-btn {
+  width: 100%; background: #00C3F7; color: white; border: none;
+  border-radius: var(--r-sm); padding: 15px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: 'Inter', sans-serif; transition: all 0.2s;
+}
+.paystack-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.secure-note { text-align: center; font-size: 12px; color: var(--text-3); margin-top: 9px; }
+
+/* Hospital modal */
+.hospital-modal { max-width: 620px; }
+.location-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface-2); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 15px;
+  margin-bottom: 1rem; font-size: 14px; color: var(--text-2);
+}
+.loc-text { flex: 1; }
+.loc-refresh { background: none; border: none; cursor: pointer; font-size: 17px; color: var(--gold-400); padding: 4px; border-radius: 6px; transition: transform 0.3s; }
+.loc-refresh:hover { transform: rotate(180deg); }
+.hosp-filter-tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+.hf-tab {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 13px; font-size: 13px; font-weight: 500;
+  color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif;
+}
+.hf-tab.active, .hf-tab:hover { background: rgba(201,168,76,0.1); border-color: var(--gold-400); color: var(--gold-300); }
+.hospitals-list { display: flex; flex-direction: column; gap: 9px; max-height: 390px; overflow-y: auto; padding-right: 4px; }
+.hospital-card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 13px 15px;
+  display: flex; gap: 11px; align-items: flex-start;
+  cursor: pointer; transition: all 0.2s;
+}
+.hospital-card:hover, .hospital-card.selected-hosp { border-color: var(--gold-400); background: rgba(201,168,76,0.04); }
+.hosp-rank { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.rank-1 { background: rgba(201,168,76,0.2); color: var(--gold-300); }
+.rank-2 { background: var(--surface-3); color: var(--text-2); }
+.rank-3 { background: rgba(29,158,100,0.15); color: var(--em-300); }
+.rank-n { background: var(--surface-3); color: var(--text-3); font-size: 12px; }
+.hosp-info { flex: 1; min-width: 0; }
+.hosp-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.hosp-address { font-size: 12px; color: var(--text-3); margin-bottom: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hosp-meta { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+.hosp-distance { font-size: 12px; font-weight: 600; color: var(--gold-300); }
+.hosp-type-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+.badge-govt { background: rgba(58,123,212,0.15); color: var(--blue-400); }
+.badge-teaching { background: rgba(139,92,246,0.15); color: #A78BFA; }
+.badge-private { background: rgba(29,158,100,0.15); color: var(--em-300); }
+.badge-clinic { background: rgba(201,168,76,0.12); color: var(--gold-300); }
+.hosp-open { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+.open-yes { background: rgba(29,158,100,0.15); color: var(--em-300); }
+.open-no { background: rgba(255,255,255,0.05); color: var(--text-3); }
+.hosp-actions { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
+.hosp-action-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 11px; border-radius: var(--r-sm);
+  font-size: 11px; font-weight: 600; border: none; cursor: pointer;
+  white-space: nowrap; transition: all 0.15s; text-decoration: none;
+  font-family: 'Inter', sans-serif;
+}
+.hab-directions { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); }
+.hab-call { background: rgba(58,123,212,0.15); color: var(--blue-400); border: 1px solid rgba(58,123,212,0.2); }
+.hab-whatsapp { background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.2); }
+.map-embed { width: 100%; height: 175px; border-radius: var(--r-sm); border: 1px solid var(--border); margin-bottom: 1rem; overflow: hidden; background: var(--surface-3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text-3); font-size: 14px; }
+.map-embed iframe { width: 100%; height: 100%; border: none; }
+.loading-hospitals { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem; color: var(--text-2); font-size: 15px; }
+.loading-spinner { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--gold-400); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.emergency-banner { background: rgba(232,93,74,0.1); border: 1px solid rgba(232,93,74,0.3); border-radius: var(--r-sm); padding: 13px 15px; margin-bottom: 1rem; display: flex; gap: 10px; align-items: flex-start; }
+.em-icon { font-size: 22px; flex-shrink: 0; }
+.em-text { font-size: 14px; color: var(--red-400); line-height: 1.5; }
+.em-text strong { display: block; font-size: 15px; margin-bottom: 3px; }
+.emergency-numbers { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.emnum-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--red-400); color: white; border: none; border-radius: 20px; padding: 6px 13px; font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; }
+.refer-inline-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(201,168,76,0.1); color: var(--gold-300);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: var(--r-sm); padding: 8px 15px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  margin-top: 10px; transition: all 0.15s; font-family: 'Inter', sans-serif;
+}
+.refer-inline-btn:hover { background: rgba(201,168,76,0.18); }
+
+/* PPG */
+@keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.3)} 28%{transform:scale(1)} 42%{transform:scale(1.2)} 70%{transform:scale(1)} }
+
+/* Success */
+.success-crown { font-size: 68px; margin-bottom: 14px; animation: crownBounce 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes crownBounce { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1) rotate(0); } }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 10px; }
+
+/* ── MOBILE BOTTOM NAV ── */
+.mobile-bottom-nav {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 150; grid-template-columns: repeat(5,1fr);
+}
+.mob-nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+  font-family: 'Inter', sans-serif; transition: all 0.15s;
+}
+.mob-nav-btn .mob-icon { font-size: 21px; line-height: 1; }
+.mob-nav-btn .mob-label { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.35); letter-spacing: 0.3px; }
+.mob-nav-btn.active .mob-icon { filter: drop-shadow(0 0 6px rgba(201,168,76,0.6)); }
+.mob-nav-btn.active .mob-label { color: var(--gold-300); font-weight: 700; }
+.mob-nav-btn:active { transform: scale(0.88); }
+
+.mobile-drawer-overlay { display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 180; }
+.mobile-drawer-overlay.active { display: block; }
+.mobile-drawer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--modal-bg); border-radius: 22px 22px 0 0;
+  padding: 1.1rem; max-height: 82vh; overflow-y: auto; z-index: 190;
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.32,0.72,0,1);
+  padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border-2);
+}
+.mobile-drawer.active { transform: translateY(0); }
+.drawer-handle { width: 38px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 0 auto 1rem; }
+.drawer-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; margin-bottom: 1rem; color: var(--gold-300); }
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {
+  .main { grid-template-columns: 1fr; height: calc(100vh - 134px); }
+  .sidebar { display: none; }
+  header { padding: 0 1rem; height: 58px; }
+  .logo-name { font-size: 20px; letter-spacing: 1.5px; }
+  .logo-tagline { display: none; }
+  .logo-svg-wrap { width: 36px; height: 36px; }
+  .header-center { display: none; }
+  .btn-medid { display: none; }
+  .btn-premium { padding: 7px 12px; font-size: 12px; }
+  .chat-topbar { padding: 9px 1rem; }
+  .mode-tab { padding: 5px 10px; font-size: 11px; }
+  .doc-name { font-size: 14px; }
+  .messages { padding: 1rem; gap: 1rem; }
+  .message { max-width: 96%; }
+  .msg-bubble { font-size: 14px; padding: 12px 14px; line-height: 1.65; }
+  .msg-bubble h3 { font-size: 14px; }
+  .msg-bubble li { font-size: 14px; }
+  .msg-bubble p { font-size: 14px; }
+  .input-area { padding: 9px 1rem; }
+  #chat-input { font-size: 14px; }
+  .quick-symptoms { padding: 0.6rem 1rem 0; gap: 6px; }
+  .symptom-chip { font-size: 12px; padding: 6px 11px; }
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal { border-radius: 22px 22px 0 0; max-height: 93vh; max-width: 100%; padding: 1.5rem; }
+  .modal-header h2 { font-size: 20px; }
+  .form-row { grid-template-columns: 1fr; }
+  .plans-grid { grid-template-columns: 1fr; }
+  .hospital-modal { max-width: 100%; }
+  .hospitals-list { max-height: 55vh; }
+  .hospital-card { flex-wrap: wrap; }
+  .hosp-actions { flex-direction: row; flex-wrap: wrap; width: 100%; }
+  .hosp-action-btn { flex: 1; justify-content: center; }
+  .modal-actions { flex-direction: column; }
+  .chat-area { padding-bottom: 64px; }
+  .mobile-bottom-nav { display: grid; }
+  .ticker-bar { height: 30px; }
+  .ticker-item { font-size: 11px; padding: 0 20px; }
+  .ticker-label { font-size: 9px; padding: 0 10px; }
+  .wc-brand { font-size: 22px; }
+  .cap-grid { grid-template-columns: 1fr; }
+  .welcome-card { padding: 1.25rem; }
+}
+@media (max-width: 380px) {
+  .logo-name { font-size: 17px; }
+  .btn-premium { display: none; }
+  .usage-pill { display: none; }
+}
+@media (max-width: 768px) and (orientation: landscape) {
+  .modal { max-height: 96vh; }
+  .modal-overlay { align-items: center; padding: 0.5rem; }
+  .modal { border-radius: 16px; }
+}
+
+  /* ── ADMIN SYSTEM ── */
+  .admin-badge {
     display: inline-flex; align-items: center; gap: 5px;
-    background: linear-gradient(135deg, #0F6E56, #1D9E75);
-    color: white;
-    font-size: 11px; font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
+    background: linear-gradient(135deg, #7C3AED, #A855F7);
+    color: white; font-size: 11px; font-weight: 800;
+    padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px;
   }
+  .admin-panel-btn {
+    background: linear-gradient(135deg, #7C3AED, #A855F7);
+    color: white; border: none; border-radius: var(--r-sm);
+    padding: 9px 16px; font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+    box-shadow: 0 2px 12px rgba(124,58,237,0.35);
+  }
+  .admin-panel-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,0.5); }
 
-  /* LIMIT WARNING in chat */
-  .limit-warning-msg {
-    background: var(--amber-50);
-    border: 1px solid #FAC775;
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #78350f;
-    display: flex; align-items: center; gap: 8px;
-    margin: 0 1.5rem 8px;
+  /* ── MEDICAL BACKGROUND IMAGERY ── */
+  .medical-bg-imagery {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
   }
+  .med-bg-icon {
+    position: absolute;
+    font-size: var(--sz);
+    opacity: var(--op);
+    animation: floatMed var(--dur) ease-in-out infinite;
+    animation-delay: var(--del);
+    filter: blur(0.5px);
+  }
+  @keyframes floatMed {
+    0%, 100% { transform: translateY(0) rotate(var(--rot)); }
+    50% { transform: translateY(-18px) rotate(calc(var(--rot) + 5deg)); }
+  }
+  [data-theme="light"] .med-bg-icon { opacity: calc(var(--op) * 0.4); }
+
+  /* Bigger logo */
+  .logo-name { font-size: 30px !important; letter-spacing: 3px !important; }
+  @media (max-width: 768px) { .logo-name { font-size: 22px !important; } }
 
 </style>
-<script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 <body>
+
+
+<!-- MEDICAL BACKGROUND IMAGERY -->
+<div class="medical-bg-imagery" id="med-bg-imagery">
+  <span class="med-bg-icon" style="--sz:60px;--op:0.06;--dur:8s;--del:0s;--rot:-15deg;top:8%;left:5%;">🩺</span>
+  <span class="med-bg-icon" style="--sz:80px;--op:0.05;--dur:11s;--del:2s;--rot:20deg;top:15%;right:8%;">⚕️</span>
+  <span class="med-bg-icon" style="--sz:55px;--op:0.07;--dur:9s;--del:1s;--rot:-10deg;top:35%;left:2%;">💊</span>
+  <span class="med-bg-icon" style="--sz:70px;--op:0.05;--dur:13s;--del:3s;--rot:12deg;top:45%;right:3%;">🔬</span>
+  <span class="med-bg-icon" style="--sz:65px;--op:0.06;--dur:10s;--del:0.5s;--rot:-8deg;top:62%;left:6%;">🫀</span>
+  <span class="med-bg-icon" style="--sz:75px;--op:0.05;--dur:12s;--del:4s;--rot:18deg;top:70%;right:5%;">🧬</span>
+  <span class="med-bg-icon" style="--sz:50px;--op:0.07;--dur:8.5s;--del:1.5s;--rot:-20deg;top:80%;left:12%;">💉</span>
+  <span class="med-bg-icon" style="--sz:60px;--op:0.05;--dur:14s;--del:5s;--rot:10deg;top:85%;right:10%;">🩻</span>
+  <span class="med-bg-icon" style="--sz:55px;--op:0.06;--dur:9.5s;--del:2.5s;--rot:-5deg;top:25%;left:88%;">🫁</span>
+  <span class="med-bg-icon" style="--sz:65px;--op:0.05;--dur:11.5s;--del:3.5s;--rot:25deg;top:55%;left:91%;">🧪</span>
+  <span class="med-bg-icon" style="--sz:70px;--op:0.04;--dur:15s;--del:0s;--rot:-12deg;top:5%;left:45%;">🏥</span>
+  <span class="med-bg-icon" style="--sz:45px;--op:0.07;--dur:7s;--del:6s;--rot:8deg;top:92%;left:50%;">❤️‍🩹</span>
+  <span class="med-bg-icon" style="--sz:58px;--op:0.05;--dur:10.5s;--del:1s;--rot:-18deg;top:48%;left:48%;">⚗️</span>
+</div>
+
+<!-- ANIMATED BG -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- MEDICAL TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-label">⚕ KRIXIA HEALTH</div>
+  <div class="ticker-scroll-wrap">
+    <div class="ticker-track" id="ticker-track">
+      <span class="ticker-item"><span class="t-icon">💓</span>Normal resting heart rate: <span class="t-highlight">60–100 bpm</span></span>
+      <span class="ticker-item"><span class="t-icon">🩸</span>Know your blood group — it can save your life in an emergency</span>
+      <span class="ticker-item"><span class="t-icon">💧</span>Drink at least <span class="t-highlight">8 glasses of water</span> daily for optimal health</span>
+      <span class="ticker-item"><span class="t-icon">🌡️</span>Normal body temperature: <span class="t-highlight">36.1°C – 37.2°C</span></span>
+      <span class="ticker-item"><span class="t-icon">🫁</span>Normal SpO₂ (blood oxygen): <span class="t-highlight">95% – 100%</span></span>
+      <span class="ticker-item"><span class="t-icon">💊</span>Never self-medicate antibiotics — always complete the prescribed course</span>
+      <span class="ticker-item"><span class="t-icon">🧠</span>Mental health is as important as physical health — talk to someone today</span>
+      <span class="ticker-item"><span class="t-icon">🏃</span>WHO recommends <span class="t-highlight">150 minutes</span> of moderate exercise per week</span>
+      <span class="ticker-item"><span class="t-icon">👁️</span>Signs of a stroke: Face drooping, Arm weakness, Speech difficulty — <span class="t-highlight">Call emergency immediately</span></span>
+      <span class="ticker-item"><span class="t-icon">🍎</span>A diet rich in fruits and vegetables reduces risk of chronic disease by <span class="t-highlight">up to 30%</span></span>
+      <span class="ticker-item"><span class="t-icon">😴</span>Adults need <span class="t-highlight">7–9 hours</span> of sleep per night for optimal health</span>
+      <span class="ticker-item"><span class="t-icon">🩺</span>Regular health checkups can detect diseases <span class="t-highlight">before symptoms appear</span></span>
+      <span class="ticker-item"><span class="t-icon">⚠️</span>Malaria emergency? Visit your nearest hospital immediately — Lagos: <span class="t-highlight">LASAMBUS 08000225522</span></span>
+      <span class="ticker-item"><span class="t-icon">💉</span>Keep your vaccinations up to date — prevention is better than cure</span>
+      <span class="ticker-item"><span class="t-icon">🚨</span>Nigeria Emergency Line: <span class="t-highlight">112</span> · Ambulance: <span class="t-highlight">199</span></span>
+      <!-- Duplicate for seamless loop -->
+      <span class="ticker-item"><span class="t-icon">💓</span>Normal resting heart rate: <span class="t-highlight">60–100 bpm</span></span>
+      <span class="ticker-item"><span class="t-icon">🩸</span>Know your blood group — it can save your life in an emergency</span>
+      <span class="ticker-item"><span class="t-icon">💧</span>Drink at least <span class="t-highlight">8 glasses of water</span> daily for optimal health</span>
+      <span class="ticker-item"><span class="t-icon">🌡️</span>Normal body temperature: <span class="t-highlight">36.1°C – 37.2°C</span></span>
+      <span class="ticker-item"><span class="t-icon">🫁</span>Normal SpO₂ (blood oxygen): <span class="t-highlight">95% – 100%</span></span>
+      <span class="ticker-item"><span class="t-icon">💊</span>Never self-medicate antibiotics — always complete the prescribed course</span>
+      <span class="ticker-item"><span class="t-icon">🧠</span>Mental health is as important as physical health — talk to someone today</span>
+      <span class="ticker-item"><span class="t-icon">🏃</span>WHO recommends <span class="t-highlight">150 minutes</span> of moderate exercise per week</span>
+      <span class="ticker-item"><span class="t-icon">👁️</span>Signs of a stroke: Face drooping, Arm weakness, Speech difficulty — <span class="t-highlight">Call emergency immediately</span></span>
+      <span class="ticker-item"><span class="t-icon">🍎</span>A diet rich in fruits and vegetables reduces risk of chronic disease by <span class="t-highlight">up to 30%</span></span>
+      <span class="ticker-item"><span class="t-icon">😴</span>Adults need <span class="t-highlight">7–9 hours</span> of sleep per night for optimal health</span>
+      <span class="ticker-item"><span class="t-icon">🩺</span>Regular health checkups can detect diseases <span class="t-highlight">before symptoms appear</span></span>
+      <span class="ticker-item"><span class="t-icon">⚠️</span>Malaria emergency? Visit your nearest hospital immediately — Lagos: <span class="t-highlight">LASAMBUS 08000225522</span></span>
+      <span class="ticker-item"><span class="t-icon">💉</span>Keep your vaccinations up to date — prevention is better than cure</span>
+      <span class="ticker-item"><span class="t-icon">🚨</span>Nigeria Emergency Line: <span class="t-highlight">112</span> · Ambulance: <span class="t-highlight">199</span></span>
+    </div>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header>
   <div class="logo">
-    <div class="logo-icon">⚕</div>
-    <div class="logo-text">Med<span>AI</span></div>
+    <!-- KRIXIA SVG LOGO -->
+    <div class="logo-svg-wrap">
+      <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <defs>
+          <linearGradient id="goldG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F0D888"/>
+            <stop offset="45%" stop-color="#C9A84C"/>
+            <stop offset="100%" stop-color="#A8832A"/>
+          </linearGradient>
+          <linearGradient id="greenG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1D9E64"/>
+            <stop offset="100%" stop-color="#0D3D28"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Hexagon base -->
+        <polygon points="22,2 40,11.5 40,32.5 22,42 4,32.5 4,11.5" fill="url(#greenG)" stroke="url(#goldG)" stroke-width="1.2"/>
+        <!-- Cross / medical plus -->
+        <rect x="18.5" y="11" width="7" height="22" rx="2" fill="url(#goldG)" filter="url(#glow)"/>
+        <rect x="11" y="18.5" width="22" height="7" rx="2" fill="url(#goldG)" filter="url(#glow)"/>
+        <!-- Center dot -->
+        <circle cx="22" cy="22" r="3.5" fill="#0A2A1C"/>
+        <!-- Pulse arc top-right -->
+        <path d="M30 14 Q34 18 30 22" stroke="url(#goldG)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+        <!-- Pulse arc bottom-left -->
+        <path d="M14 30 Q10 26 14 22" stroke="url(#goldG)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="logo-wordmark">
+      <div class="logo-name">KRIXIA</div>
+      <div class="logo-tagline">Medical Intelligence</div>
+    </div>
   </div>
+
+  <div class="header-center">
+    <div class="status-live"><span class="status-dot"></span>AI Doctor Online</div>
+  </div>
+
   <div class="header-right">
-    <div class="usage-pill" id="usage-pill" title="Free daily diagnoses remaining">
-      <div class="usage-dots" id="usage-dots">
+    <div class="usage-pill" id="usage-pill">
+      <div class="usage-dots" id="usage-dots-wrap">
         <div class="usage-dot" id="ud-0"></div>
         <div class="usage-dot" id="ud-1"></div>
         <div class="usage-dot" id="ud-2"></div>
+        <div class="usage-dot" id="ud-3"></div>
+        <div class="usage-dot" id="ud-4"></div>
+        <div class="usage-dot" id="ud-5"></div>
+        <div class="usage-dot" id="ud-6"></div>
+        <div class="usage-dot" id="ud-7"></div>
+        <div class="usage-dot" id="ud-8"></div>
+        <div class="usage-dot" id="ud-9"></div>
       </div>
-      <span id="usage-label">3 left today</span>
+      <span id="usage-label">10 left today</span>
     </div>
-    <button class="upgrade-btn" id="upgrade-btn" onclick="openPricingModal()">
-      <span class="premium-crown">👑</span> Go Premium
-    </button>
-    <button class="btn-register" id="btn-register" onclick="openRegisterModal()">Get Medical ID</button>
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+    <button class="btn-premium" id="upgrade-btn" onclick="openPricingModal()">👑 Premium</button>
+    <button class="btn-medid" id="btn-register" onclick="openRegisterModal()">Get Health ID</button>
   </div>
 </header>
 
 <!-- MAIN -->
 <div class="main">
-
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div>
-      <div class="sidebar-section-label">Specialty</div>
+      <div class="sidebar-label">Specialty</div>
       <div class="specialty-grid">
-        <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')">
-          <span class="icon">🩺</span>General
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')">
-          <span class="icon">👶</span>Pediatrics
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')">
-          <span class="icon">❤️</span>Cardiology
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')">
-          <span class="icon">🔬</span>Dermatology
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology & Obstetrics')">
-          <span class="icon">🤱</span>Women's Health
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')">
-          <span class="icon">🦴</span>Orthopedics
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')">
-          <span class="icon">🧠</span>Neurology
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'ENT — Ear, Nose & Throat')">
-          <span class="icon">👃</span>ENT
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')">
-          <span class="icon">👁️</span>Eye Care
-        </button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health & Psychiatry')">
-          <span class="icon">🧘</span>Mental Health
-        </button>
+        <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')"><span class="icon">🩺</span>General</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')"><span class="icon">👶</span>Pediatrics</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')"><span class="icon">❤️</span>Cardiology</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')"><span class="icon">🔬</span>Skin Care</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology &amp; Obstetrics')"><span class="icon">🤱</span>Women's</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')"><span class="icon">🦴</span>Ortho</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')"><span class="icon">🧠</span>Neuro</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'ENT')"><span class="icon">👃</span>ENT</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')"><span class="icon">👁️</span>Eye Care</button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health')"><span class="icon">🧘</span>Mental</button>
       </div>
     </div>
-
     <div>
-      <div class="sidebar-section-label">Quick Scan</div>
-      <div style="display:flex; flex-direction:column; gap:6px;">
+      <div class="sidebar-label">Diagnostic Tools</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
         <button class="scan-btn" onclick="triggerImageUpload()">
-          <span class="scan-icon">📷</span>
-          <div>
-            <div style="font-size:12px;font-weight:600;">Photo / Video</div>
-            <div style="font-size:10px;color:var(--text-hint);">Upload injury or rash</div>
-          </div>
+          <span class="s-icon">📷</span>
+          <div><div class="s-title">Photo / Video Scan</div><div class="s-sub">Upload injury or skin condition</div></div>
         </button>
         <button class="scan-btn" onclick="startVitals()">
-          <span class="scan-icon">💓</span>
-          <div>
-            <div style="font-size:12px;font-weight:600;">Vitals Check</div>
-            <div style="font-size:10px;color:var(--text-hint);">Camera pulse detection</div>
-          </div>
+          <span class="s-icon">💓</span>
+          <div><div class="s-title">Vitals Scanner</div><div class="s-sub">Camera pulse & SpO₂ detection</div></div>
+        </button>
+        <button class="hosp-btn" onclick="openHospitalFinder()">
+          <span class="s-icon">🏥</span>
+          <div><div class="s-title">Find Nearest Hospital</div><div class="s-sub">GPS-based referral system</div></div>
         </button>
       </div>
     </div>
-
     <div>
-      <div class="sidebar-section-label">Last Vitals</div>
+      <div class="sidebar-label">Last Vitals</div>
       <div class="vital-cards">
-        <div class="vital-card">
-          <div class="vital-label">Heart Rate</div>
-          <div class="vital-val" id="vital-hr">—</div>
-          <div class="vital-unit">bpm</div>
-        </div>
-        <div class="vital-card">
-          <div class="vital-label">SpO₂</div>
-          <div class="vital-val" id="vital-spo2">—</div>
-          <div class="vital-unit">%</div>
-        </div>
-        <div class="vital-card">
-          <div class="vital-label">Resp. Rate</div>
-          <div class="vital-val" id="vital-rr">—</div>
-          <div class="vital-unit">br/min</div>
-        </div>
-        <div class="vital-card">
-          <div class="vital-label">Temperature</div>
-          <div class="vital-val" id="vital-temp">—</div>
-          <div class="vital-unit">°C est.</div>
-        </div>
+        <div class="vital-card"><div class="vl">Heart Rate</div><div class="vv" id="vital-hr">—</div><div class="vu">bpm</div></div>
+        <div class="vital-card"><div class="vl">SpO₂</div><div class="vv" id="vital-spo2">—</div><div class="vu">%</div></div>
+        <div class="vital-card"><div class="vl">Resp. Rate</div><div class="vv" id="vital-rr">—</div><div class="vu">br/min</div></div>
+        <div class="vital-card"><div class="vl">Temp Est.</div><div class="vv" id="vital-temp">—</div><div class="vu">°C</div></div>
       </div>
     </div>
-
-    <div class="disclaimer">
-      ⚠️ MedAI provides AI-assisted health guidance only — not a replacement for professional medical care. Always consult a licensed physician for definitive diagnosis and treatment.
-    </div>
-
-    <button class="scan-btn" onclick="openHospitalFinder()" style="border-color:var(--teal-100);background:var(--teal-50);">
-      <span class="scan-icon">🏥</span>
-      <div>
-        <div style="font-size:12px;font-weight:600;color:var(--teal-600);">Find Nearest Hospital</div>
-        <div style="font-size:10px;color:var(--text-hint);">GPS-based referral system</div>
-      </div>
-    </button>
+    <div class="disclaimer-box">⚠️ AI-assisted guidance only. Always consult a licensed physician for definitive diagnosis and treatment.</div>
   </aside>
 
-  <!-- CHAT AREA -->
+  <!-- CHAT -->
   <div class="chat-area">
-    <!-- TOP BAR -->
     <div class="chat-topbar">
-      <div style="display:flex;align-items:center;">
-        <div class="doctor-avatar">⚕</div>
-        <div class="doctor-info">
-          <div class="doctor-name">MedAI Super Doctor</div>
-          <div class="doctor-status"><span class="status-dot"></span> Online · Specialist in all fields</div>
+      <div class="doc-wrap">
+        <div class="doc-avatar">⚕</div>
+        <div>
+          <div class="doc-name">Krixia Super Doctor</div>
+          <div class="doc-status"><span class="status-dot"></span>All specialties · Instant AI response</div>
         </div>
       </div>
-      <div class="input-mode-tabs">
+      <div class="mode-tabs">
         <button class="mode-tab active" id="tab-chat" onclick="setMode('chat')">💬 Chat</button>
         <button class="mode-tab" id="tab-voice" onclick="setMode('voice')">🎙️ Voice</button>
-        <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Image</button>
+        <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Scan</button>
       </div>
     </div>
 
-    <!-- MESSAGES -->
     <div class="messages" id="messages">
-      <!-- Welcome message -->
       <div class="message ai">
         <div class="msg-avatar ai-av">⚕</div>
-        <div class="msg-bubble">
-          <h3>Hello, I'm MedAI — your Super Doctor 👋</h3>
-          <p>I combine the expertise of specialists across <strong>all medical fields</strong> to help you understand your symptoms, get accurate information, and connect with the right care.</p>
-          <br>
-          <p>I can help with:</p>
-          <ul>
-            <li>Diagnosing symptoms for all ages — infants to elderly</li>
-            <li>Analysing photos of injuries, rashes, or wounds</li>
-            <li>Recommending treatments and medications</li>
-            <li>Referring you to the nearest hospital or specialist</li>
-          </ul>
-          <br>
-          <p style="color:var(--text-hint);font-size:12px;">Tell me your symptoms, or select a specialty above to begin.</p>
+        <div class="welcome-card">
+          <div class="wc-top">
+            <div class="wc-icon">⚕</div>
+            <div>
+              <div class="wc-brand">KRIXIA</div>
+              <div class="wc-sub">World Class Medical Intelligence</div>
+            </div>
+          </div>
+          <p class="wc-intro">I combine the expertise of specialists across <strong style="color:var(--gold-300)">every medical field</strong> to give you accurate, empathetic health guidance — from newborns to the elderly, any condition, anytime, anywhere.</p>
+          <div class="cap-grid">
+            <div class="cap-item"><span class="cap-icon">🔍</span>Diagnose symptoms with clinical precision</div>
+            <div class="cap-item"><span class="cap-icon">📸</span>Analyse injury & skin condition photos</div>
+            <div class="cap-item"><span class="cap-icon">💊</span>Recommend treatments & medications</div>
+            <div class="cap-item"><span class="cap-icon">🏥</span>Refer to nearest hospital by GPS</div>
+            <div class="cap-item"><span class="cap-icon">💓</span>Measure vitals via your camera</div>
+            <div class="cap-item"><span class="cap-icon">🌍</span>Serving Nigeria and the world</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- QUICK SYMPTOMS -->
     <div class="quick-symptoms" id="quick-chips">
       <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
-      <button class="symptom-chip" onclick="quickSend('I have chest pain')">💔 Chest Pain</button>
+      <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
       <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
       <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
       <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
-      <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety / Sleep</button>
+      <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety & Sleep</button>
     </div>
 
-    <!-- IMAGE PREVIEWS -->
     <div class="image-preview" id="image-preview"></div>
 
-    <!-- INPUT BAR -->
     <div class="input-area">
-      <div class="input-wrapper" id="input-wrapper">
-        <textarea
-          id="chat-input"
-          rows="1"
-          placeholder="Describe your symptoms... or ask any health question"
-          onkeydown="handleKey(event)"
-          oninput="autoResize(this)"
-        ></textarea>
+      <div class="input-wrapper">
+        <textarea id="chat-input" rows="1"
+          placeholder="Describe your symptoms or ask any health question..."
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
         <div class="input-actions">
-          <button class="icon-btn" title="Upload image or video">
-            📎
-            <input type="file" accept="image/*,video/*" multiple onchange="handleFileUpload(event)">
-          </button>
-          <button class="icon-btn" id="mic-btn" title="Voice input" onclick="toggleVoice()">🎙️</button>
+          <button class="icon-btn" title="Upload image">📎<input type="file" accept="image/*,video/*" multiple onchange="handleFileUpload(event)"></button>
+          <button class="icon-btn" id="mic-btn" onclick="toggleVoice()">🎙️</button>
         </div>
       </div>
-      <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send">➤</button>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
     </div>
   </div>
 </div>
@@ -1285,60 +1301,25 @@
 <!-- REGISTER MODAL -->
 <div class="modal-overlay" id="register-modal">
   <div class="modal">
-    <h2>🏥 Get Your Medical ID</h2>
-    <p class="sub">Create your free digital medical profile for personalised care</p>
+    <div class="modal-header"><h2>🏥 Krixia Health ID</h2><button class="modal-close" onclick="closeModal('register-modal')">✕</button></div>
+    <p class="modal-sub">Create your free digital health profile for personalised AI-powered care</p>
     <div class="form-row">
-      <div class="form-group">
-        <label>First Name</label>
-        <input type="text" id="reg-firstname" placeholder="e.g. Elvis">
-      </div>
-      <div class="form-group">
-        <label>Last Name</label>
-        <input type="text" id="reg-lastname" placeholder="e.g. Ogbeda">
-      </div>
+      <div class="form-group"><label>First Name</label><input type="text" id="reg-firstname" placeholder="Elvis"></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="reg-lastname" placeholder="Ogbeda"></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Date of Birth</label>
-        <input type="date" id="reg-dob">
-      </div>
-      <div class="form-group">
-        <label>Sex</label>
-        <select id="reg-sex">
-          <option value="">Select</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
-      </div>
+      <div class="form-group"><label>Date of Birth</label><input type="date" id="reg-dob"></div>
+      <div class="form-group"><label>Sex</label><select id="reg-sex"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Blood Group</label>
-        <select id="reg-blood">
-          <option value="">Select</option>
-          <option>A+</option><option>A-</option>
-          <option>B+</option><option>B-</option>
-          <option>O+</option><option>O-</option>
-          <option>AB+</option><option>AB-</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="reg-phone" placeholder="+234...">
-      </div>
+      <div class="form-group"><label>Blood Group</label><select id="reg-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" placeholder="+234..."></div>
     </div>
-    <div class="form-group">
-      <label>Known Allergies</label>
-      <input type="text" id="reg-allergies" placeholder="e.g. Penicillin, Peanuts (or None)">
-    </div>
-    <div class="form-group">
-      <label>Existing Conditions</label>
-      <input type="text" id="reg-conditions" placeholder="e.g. Diabetes, Hypertension (or None)">
-    </div>
+    <div class="form-group"><label>Known Allergies</label><input type="text" id="reg-allergies" placeholder="e.g. Penicillin (or None)"></div>
+    <div class="form-group"><label>Existing Conditions</label><input type="text" id="reg-conditions" placeholder="e.g. Diabetes (or None)"></div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('register-modal')">Cancel</button>
-      <button class="btn-primary" onclick="generateMedCard()">Generate My Medical ID →</button>
+      <button class="btn-primary" onclick="generateMedCard()">Generate My Health ID →</button>
     </div>
   </div>
 </div>
@@ -1346,12 +1327,9 @@
 <!-- MED CARD MODAL -->
 <div class="modal-overlay" id="card-modal">
   <div class="modal">
-    <h2>Your Medical ID Card 🎉</h2>
-    <p class="sub">Registered successfully. Your digital health identity is ready.</p>
-    <div class="med-card" id="generated-card">
-      <!-- Generated dynamically -->
-    </div>
-    <p style="font-size:12px;color:var(--text-hint);text-align:center;margin-top:10px;">Save a screenshot of your card or share your ID with any doctor.</p>
+    <div class="modal-header"><h2>Your Krixia Health ID 🎉</h2><button class="modal-close" onclick="closeModal('card-modal')">✕</button></div>
+    <p class="modal-sub">Your digital health identity is active. Share with any doctor or clinic.</p>
+    <div class="med-card" id="generated-card"></div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('card-modal')">Close</button>
       <button class="btn-primary" onclick="shareCard()">📋 Copy Card ID</button>
@@ -1359,155 +1337,91 @@
   </div>
 </div>
 
-<!-- VITALS MODAL — REAL PPG -->
+<!-- VITALS MODAL -->
 <div class="modal-overlay" id="vitals-modal">
-  <div class="modal" style="max-width:460px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-      <h2>💓 Vitals Scanner</h2>
-      <button onclick="stopPPG();closeModal('vitals-modal')" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-hint);">✕</button>
-    </div>
-    <p class="sub">Real-time heart rate via camera photoplethysmography (PPG)</p>
-
-    <!-- STEP 1: INSTRUCTION -->
+  <div class="modal" style="max-width:470px;">
+    <div class="modal-header"><h2>💓 Vitals Scanner</h2><button class="modal-close" onclick="stopPPG();closeModal('vitals-modal')">✕</button></div>
+    <p class="modal-sub">Real-time heart rate via camera photoplethysmography (PPG)</p>
     <div id="ppg-step-1">
-      <div style="background:var(--teal-50);border-radius:12px;padding:1.25rem;margin-bottom:1rem;text-align:center;">
-        <div style="font-size:48px;margin-bottom:8px;">👆</div>
-        <p style="font-size:14px;font-weight:600;color:var(--teal-600);margin-bottom:6px;">How to measure your heart rate</p>
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">
-          Gently press your <strong>fingertip over the rear camera</strong> and flashlight together.
-          Hold still for 30 seconds. The camera detects tiny blood flow changes in your skin.
-        </p>
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:var(--r-md);padding:1.35rem;margin-bottom:1rem;text-align:center;">
+        <div style="font-size:52px;margin-bottom:10px;">👆</div>
+        <p style="font-size:15px;font-weight:700;color:var(--gold-300);margin-bottom:7px;">How to measure your pulse</p>
+        <p style="font-size:14px;color:var(--text-2);line-height:1.65;">Press your <strong style="color:var(--gold-300)">fingertip firmly over the rear camera</strong> and flashlight together. Hold perfectly still for 30 seconds.</p>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem;">
-        <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--text-muted);">
-          <div style="font-size:20px;margin-bottom:4px;">🔦</div>Cover camera + flash
-        </div>
-        <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--text-muted);">
-          <div style="font-size:20px;margin-bottom:4px;">✋</div>Press gently, hold still
-        </div>
-        <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--text-muted);">
-          <div style="font-size:20px;margin-bottom:4px;">⏱️</div>Wait 30 seconds
-        </div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:22px;margin-bottom:5px;">🔦</div>Cover camera + flash</div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:22px;margin-bottom:5px;">✋</div>Press gently, hold still</div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:22px;margin-bottom:5px;">⏱️</div>Wait 30 seconds</div>
       </div>
-      <button class="btn-primary" onclick="startPPG()">Start Heart Rate Scan →</button>
+      <button class="btn-primary" onclick="startPPG()">Start Pulse Scan →</button>
     </div>
-
-    <!-- STEP 2: SCANNING -->
     <div id="ppg-step-2" style="display:none;text-align:center;">
       <div style="position:relative;margin:0 auto 1rem;width:180px;height:180px;">
-        <canvas id="ppg-canvas" width="180" height="180" style="border-radius:50%;border:3px solid var(--teal-100);background:#000;display:block;"></canvas>
-        <div id="ppg-pulse-ring" style="position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--teal-400);opacity:0;transition:opacity 0.1s;pointer-events:none;"></div>
-        <div style="position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:var(--teal-600);white-space:nowrap;" id="ppg-live-bpm">— bpm</div>
+        <canvas id="ppg-canvas" width="180" height="180" style="border-radius:50%;border:2px solid rgba(201,168,76,0.25);background:#000;display:block;"></canvas>
+        <div id="ppg-pulse-ring" style="position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--gold-400);opacity:0;transition:opacity 0.1s;pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border-2);border-radius:20px;padding:4px 13px;font-size:13px;font-weight:700;color:var(--gold-300);white-space:nowrap;font-family:'JetBrains Mono',monospace;" id="ppg-live-bpm">— bpm</div>
       </div>
-
-      <div style="margin:1.5rem 0 0.75rem;background:var(--bg);border-radius:10px;padding:10px 14px;">
+      <div style="margin:1.5rem 0 0.75rem;background:var(--surface-2);border-radius:11px;padding:10px 14px;border:1px solid var(--border);">
         <canvas id="ppg-wave-canvas" width="380" height="60" style="width:100%;display:block;"></canvas>
       </div>
-
-      <div style="background:var(--bg);border-radius:8px;height:8px;overflow:hidden;margin-bottom:8px;">
-        <div id="ppg-progress-bar" style="height:100%;background:var(--teal-400);width:0%;transition:width 0.5s;border-radius:8px;"></div>
+      <div style="background:var(--surface-2);border-radius:8px;height:9px;overflow:hidden;margin-bottom:9px;border:1px solid var(--border);">
+        <div id="ppg-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--gold-600),var(--gold-300));width:0%;transition:width 0.5s;border-radius:8px;"></div>
       </div>
-      <p style="font-size:13px;color:var(--text-muted);" id="ppg-status">Warming up camera...</p>
-      <p style="font-size:11px;color:var(--text-hint);margin-top:4px;" id="ppg-timer">30s remaining</p>
-
-      <button onclick="stopPPG()" style="margin-top:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:7px 16px;font-size:12px;cursor:pointer;color:var(--text-muted);">Cancel</button>
+      <p style="font-size:14px;color:var(--text-2);" id="ppg-status">Warming up camera...</p>
+      <p style="font-size:12px;color:var(--text-3);margin-top:5px;" id="ppg-timer">30s remaining</p>
+      <button onclick="stopPPG()" style="margin-top:13px;background:none;border:1px solid var(--border);border-radius:9px;padding:8px 18px;font-size:13px;cursor:pointer;color:var(--text-2);font-family:'Inter',sans-serif;">Cancel</button>
     </div>
-
-    <!-- STEP 3: RESULTS -->
     <div id="ppg-step-3" style="display:none;">
       <div style="text-align:center;margin-bottom:1rem;">
-        <div id="ppg-heart-anim" style="font-size:48px;animation:heartbeat 0.8s infinite;">❤️</div>
-        <div style="font-size:42px;font-weight:700;color:var(--teal-600);line-height:1;" id="ppg-final-bpm">--</div>
-        <div style="font-size:14px;color:var(--text-hint);margin-top:4px;">beats per minute</div>
-        <div id="ppg-bpm-zone" style="margin-top:8px;display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;"></div>
+        <div id="ppg-heart-anim" style="font-size:52px;animation:heartbeat 0.8s infinite;">❤️</div>
+        <div style="font-size:52px;font-weight:700;color:var(--gold-300);line-height:1;font-family:'JetBrains Mono',monospace;" id="ppg-final-bpm">--</div>
+        <div style="font-size:14px;color:var(--text-3);margin-top:5px;">beats per minute</div>
+        <div id="ppg-bpm-zone" style="margin-top:9px;display:inline-block;padding:5px 16px;border-radius:20px;font-size:13px;font-weight:700;"></div>
       </div>
-
       <div class="vital-cards" style="margin:1rem 0;">
-        <div class="vital-card">
-          <div class="vital-label">Heart Rate</div>
-          <div class="vital-val" id="ppg-r-hr">—</div>
-          <div class="vital-unit">bpm</div>
-        </div>
-        <div class="vital-card">
-          <div class="vital-label">SpO₂ Est.</div>
-          <div class="vital-val" id="ppg-r-spo2">—</div>
-          <div class="vital-unit">%</div>
-        </div>
-        <div class="vital-card">
-          <div class="vital-label">HRV Score</div>
-          <div class="vital-val" id="ppg-r-hrv">—</div>
-          <div class="vital-unit">ms</div>
-        </div>
-        <div class="vital-card">
-          <div class="vital-label">Status</div>
-          <div class="vital-val" id="ppg-r-status" style="font-size:12px;">—</div>
-          <div class="vital-unit">assessment</div>
-        </div>
+        <div class="vital-card"><div class="vl">Heart Rate</div><div class="vv" id="ppg-r-hr">—</div><div class="vu">bpm</div></div>
+        <div class="vital-card"><div class="vl">SpO₂ Est.</div><div class="vv" id="ppg-r-spo2">—</div><div class="vu">%</div></div>
+        <div class="vital-card"><div class="vl">HRV Score</div><div class="vv" id="ppg-r-hrv">—</div><div class="vu">ms</div></div>
+        <div class="vital-card"><div class="vl">Status</div><div class="vv" id="ppg-r-status" style="font-size:13px;">—</div><div class="vu">reading</div></div>
       </div>
-
-      <div id="ppg-interpretation" style="background:var(--teal-50);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--teal-600);margin-bottom:1rem;line-height:1.6;"></div>
-
-      <p style="font-size:11px;color:var(--text-hint);margin-bottom:1rem;line-height:1.5;">
-        ⚠️ PPG readings are estimates only. Signal quality depends on finger placement and ambient light. Not a substitute for clinical monitoring equipment.
-      </p>
-
+      <div id="ppg-interpretation" style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:11px;padding:13px 15px;font-size:14px;color:var(--text-2);margin-bottom:1rem;line-height:1.7;"></div>
       <div class="modal-actions">
         <button class="btn-secondary" onclick="resetPPG()">Scan Again</button>
-        <button class="btn-primary" onclick="sendVitalsToChat()">💬 Discuss with MedAI →</button>
+        <button class="btn-primary" onclick="sendVitalsToChat()">💬 Discuss with Krixia →</button>
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- HOSPITAL REFERRAL MODAL -->
+<!-- HOSPITAL MODAL -->
 <div class="modal-overlay" id="hospital-modal">
   <div class="modal hospital-modal">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-      <h2>🏥 Nearest Hospitals</h2>
-      <button onclick="closeModal('hospital-modal')" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-hint);">✕</button>
-    </div>
-    <p class="sub">Hospitals and clinics near your current location</p>
-
+    <div class="modal-header"><h2>🏥 Nearest Hospitals</h2><button class="modal-close" onclick="closeModal('hospital-modal')">✕</button></div>
+    <p class="modal-sub">Hospitals and clinics nearest to your current GPS location</p>
     <div class="emergency-banner" id="emergency-banner" style="display:none;">
       <div class="em-icon">🚨</div>
       <div class="em-text">
         <strong>Emergency? Call immediately</strong>
         Nigeria emergency lines — available 24/7
         <div class="emergency-numbers">
-          <a class="emnum-btn" href="tel:112">📞 112 — Emergency</a>
-          <a class="emnum-btn" href="tel:08000225522">📞 LASAMBUS Lagos</a>
-          <a class="emnum-btn" href="tel:199">📞 199 — Ambulance</a>
+          <a class="emnum-btn" href="tel:112">📞 112</a>
+          <a class="emnum-btn" href="tel:08000225522">📞 LASAMBUS</a>
+          <a class="emnum-btn" href="tel:199">📞 199</a>
         </div>
       </div>
     </div>
-
     <div class="location-bar" id="location-bar">
-      <span class="loc-icon">📍</span>
-      <span class="loc-text" id="loc-text">Detecting your location...</span>
-      <button class="loc-refresh" onclick="detectLocation()" title="Refresh location">↻</button>
+      <span>📍</span><span class="loc-text" id="loc-text">Detecting your location...</span>
+      <button class="loc-refresh" onclick="detectLocation()">↻</button>
     </div>
-
     <div class="hosp-filter-tabs">
-      <button class="hf-tab active" onclick="filterHospitals('all', this)">All</button>
-      <button class="hf-tab" onclick="filterHospitals('govt', this)">Govt / Teaching</button>
-      <button class="hf-tab" onclick="filterHospitals('private', this)">Private</button>
-      <button class="hf-tab" onclick="filterHospitals('clinic', this)">Clinics</button>
-      <button class="hf-tab" onclick="filterHospitals('emergency', this)">24hr Emergency</button>
+      <button class="hf-tab active" onclick="filterHospitals('all',this)">All</button>
+      <button class="hf-tab" onclick="filterHospitals('govt',this)">Govt/Teaching</button>
+      <button class="hf-tab" onclick="filterHospitals('private',this)">Private</button>
+      <button class="hf-tab" onclick="filterHospitals('emergency',this)">24hr Emergency</button>
     </div>
-
-    <div class="map-embed" id="map-embed">
-      <div style="font-size:32px;">🗺️</div>
-      <span>Map loads after location access</span>
-    </div>
-
-    <div class="hospitals-list" id="hospitals-list">
-      <div class="loading-hospitals">
-        <div class="loading-spinner"></div>
-        <span>Locating nearby hospitals...</span>
-      </div>
-    </div>
-
+    <div class="map-embed" id="map-embed"><div style="font-size:34px;">🗺️</div><span>Map loads after location access</span></div>
+    <div class="hospitals-list" id="hospitals-list"><div class="loading-hospitals"><div class="loading-spinner"></div><span>Locating nearby hospitals...</span></div></div>
     <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:10px;">
       <button class="btn-secondary" onclick="closeModal('hospital-modal')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral to Chat →</button>
@@ -1515,10 +1429,95 @@
   </div>
 </div>
 
+<!-- PRICING MODAL -->
+<div class="modal-overlay" id="pricing-modal">
+  <div class="modal pricing-modal">
+    <div class="modal-header"><h2>👑 Krixia Premium</h2><button class="modal-close" onclick="closeModal('pricing-modal')">✕</button></div>
+    <p class="modal-sub">Unlimited diagnoses · Full medical history · Priority referrals</p>
+    <div class="plan-toggle">
+      <button class="plan-toggle-btn active" id="toggle-monthly" onclick="setBillingCycle('monthly')">Monthly</button>
+      <button class="plan-toggle-btn" id="toggle-annual" onclick="setBillingCycle('annual')">Annual <span class="save-badge">-40%</span></button>
+    </div>
+    <div class="plans-grid" id="plans-grid"></div>
+    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1rem;">
+      <p style="font-size:11px;font-weight:700;color:var(--text-3);margin-bottom:9px;letter-spacing:1px;text-transform:uppercase;">Everything Premium includes</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Unlimited daily diagnoses</div>
+        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Full medical history</div>
+        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Priority hospital referrals</div>
+        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Image &amp; video analysis</div>
+        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>PPG vitals scanner</div>
+        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Family profiles (up to 5)</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('pricing-modal')">Later</button>
+      <button class="btn-primary" id="proceed-pay-btn" onclick="proceedToPayment()">Continue to Payment →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="payment-modal">
+  <div class="modal" style="max-width:430px;">
+    <div class="modal-header"><h2>💳 Complete Payment</h2><button class="modal-close" onclick="closeModal('payment-modal')">✕</button></div>
+    <div class="pay-summary">
+      <div><div class="ps-plan" id="pay-plan-name">Krixia Premium</div><div style="font-size:12px;color:var(--text-3);" id="pay-plan-cycle">Monthly subscription</div></div>
+      <div class="ps-price" id="pay-plan-price">₦2,500</div>
+    </div>
+    <div class="form-group"><label>Email Address</label><input type="email" id="pay-email" placeholder="you@email.com"></div>
+    <div class="form-group"><label>Full Name</label><input type="text" id="pay-name" placeholder="Your full name"></div>
+    <div class="form-group"><label>Phone Number</label><input type="tel" id="pay-phone" placeholder="+234..."></div>
+    <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:9px;padding:11px 13px;margin-bottom:1rem;font-size:13px;color:var(--text-2);line-height:1.5;">🔒 Secured by <strong style="color:var(--gold-300)">Paystack</strong>. Cancel anytime. 7-day money-back guarantee.</div>
+    <button class="paystack-btn" onclick="initiatePaystackPayment()">💳 Pay with Paystack · Cards, Bank Transfer, USSD</button>
+    <p class="secure-note">SSL encrypted · PCI DSS compliant · Nigerian Naira (₦)</p>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal" style="max-width:390px;text-align:center;">
+    <div class="success-crown">👑</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:28px;margin-bottom:9px;background:linear-gradient(90deg,var(--gold-300),var(--gold-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Welcome to Krixia Premium!</h2>
+    <p style="font-size:15px;color:var(--text-2);margin-bottom:1.5rem;line-height:1.65;">Unlimited diagnoses, full health history, priority referrals — all unlocked. You now have world-class medical intelligence at your fingertips.</p>
+    <div class="premium-badge-pill" style="margin:0 auto 1.5rem;display:inline-flex;">👑 Krixia Premium · Active</div>
+    <button class="btn-primary" onclick="closeModal('success-modal')">Start Diagnosing →</button>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav">
+  <button class="mob-nav-btn active" onclick="mobileNav('chat',this)"><span class="mob-icon">💬</span><span class="mob-label">Diagnose</span></button>
+  <button class="mob-nav-btn" onclick="mobileNav('specialty',this)"><span class="mob-icon">🩺</span><span class="mob-label">Specialty</span></button>
+  <button class="mob-nav-btn" onclick="mobileNav('vitals',this)"><span class="mob-icon">💓</span><span class="mob-label">Vitals</span></button>
+  <button class="mob-nav-btn" onclick="mobileNav('hospitals',this)"><span class="mob-icon">🏥</span><span class="mob-label">Hospitals</span></button>
+  <button class="mob-nav-btn" onclick="mobileNav('profile',this)"><span class="mob-icon">👤</span><span class="mob-label">Profile</span></button>
+</nav>
+
+<!-- MOBILE SPECIALTY DRAWER -->
+<div class="mobile-drawer-overlay" id="specialty-drawer-overlay" onclick="closeDrawer('specialty')"></div>
+<div class="mobile-drawer" id="specialty-drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-title">🩺 Choose Specialty</div>
+  <div class="specialty-grid">
+    <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine');closeDrawer('specialty')"><span class="icon">🩺</span>General</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics');closeDrawer('specialty')"><span class="icon">👶</span>Pediatrics</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology');closeDrawer('specialty')"><span class="icon">❤️</span>Cardiology</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology');closeDrawer('specialty')"><span class="icon">🔬</span>Skin Care</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology');closeDrawer('specialty')"><span class="icon">🤱</span>Women's</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics');closeDrawer('specialty')"><span class="icon">🦴</span>Orthopedics</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Neurology');closeDrawer('specialty')"><span class="icon">🧠</span>Neurology</button>
+    <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health');closeDrawer('specialty')"><span class="icon">🧘</span>Mental Health</button>
+  </div>
+  <div style="margin-top:1rem;padding:11px 13px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:9px;font-size:13px;color:var(--gold-300);font-weight:600;" id="mob-current-specialty">Current: General Medicine</div>
+</div>
+
 <input type="file" id="hidden-file-input" accept="image/*,video/*" multiple style="display:none" onchange="handleFileUpload(event)">
 
 <script>
-const SYSTEM_PROMPT = `You are MedAI — the world's most advanced AI super doctor, combining expertise across ALL medical specialties: General Medicine, Pediatrics, Cardiology, Dermatology, Gynecology & Obstetrics, Orthopedics, Neurology, Psychiatry & Mental Health, ENT, Ophthalmology, Gastroenterology, Endocrinology, Oncology, Infectious Disease, Nephrology, Pulmonology, Urology, Rheumatology, Hematology, and Emergency Medicine.
+
+
+const SYSTEM_PROMPT = `You are Krixia — the world's most advanced AI super doctor, combining expertise across ALL medical specialties: General Medicine, Pediatrics, Cardiology, Dermatology, Gynecology & Obstetrics, Orthopedics, Neurology, Psychiatry & Mental Health, ENT, Ophthalmology, Gastroenterology, Endocrinology, Oncology, Infectious Disease, Nephrology, Pulmonology, Urology, Rheumatology, Hematology, and Emergency Medicine.
 
 You serve patients of all ages — from premature infants to the elderly — across all demographics, especially in Nigeria and Africa.
 
@@ -1793,13 +1792,13 @@ function generateMedCard() {
   const name = `${fn} ${ln}`;
   const initials = fn[0] + ln[0];
   const age = Math.floor((new Date() - new Date(dob)) / (365.25 * 24 * 60 * 60 * 1000));
-  const cardId = 'MED-NG-' + Date.now().toString(36).toUpperCase().slice(-8);
+  const cardId = 'KRX-NG-' + Date.now().toString(36).toUpperCase().slice(-8);
 
   userProfile = { name, initials, dob, sex, blood, phone, allergies, conditions, cardId };
 
   document.getElementById('generated-card').innerHTML = `
     <div class="card-header">
-      <div class="card-logo">⚕ MedAI Health Card</div>
+      <div class="card-logo">⚕ Krixia Health Card</div>
       <div class="card-chip"></div>
     </div>
     <div class="card-name">${name}</div>
@@ -2289,7 +2288,7 @@ function renderHospitals(list) {
     const typeLabel = {teaching:'Teaching', govt:'Govt', private:'Private', clinic:'Clinic'}[h.type] || 'Clinic';
     const isOpen = h.emergency;
     const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}`;
-    const waMsg = encodeURIComponent(`Hello, I was referred to ${h.name} by MedAI. I need medical assistance. My location: https://maps.google.com/?q=${userCoords?.lat},${userCoords?.lng}`);
+    const waMsg = encodeURIComponent(`Hello, I was referred to ${h.name} by Krixia. I need medical assistance. My location: https://maps.google.com/?q=${userCoords?.lat},${userCoords?.lng}`);
 
     return `
     <div class="hospital-card" onclick="selectHospital(${i})">
@@ -2324,7 +2323,7 @@ function sendReferralToChat() {
   const hosp = selectedHospital || allHospitals[0];
   if (!hosp) { closeModal('hospital-modal'); return; }
   const dist = hosp.distance < 1 ? `${Math.round(hosp.distance * 1000)}m` : `${hosp.distance.toFixed(1)}km`;
-  const msg = `MedAI has referred me to **${hosp.name}** (${dist} away) at ${hosp.address}. Phone: ${hosp.phone}. Please advise on what to tell them when I arrive.`;
+  const msg = `Krixia has referred me to **${hosp.name}** (${dist} away) at ${hosp.address}. Phone: ${hosp.phone}. Please advise on what to tell them when I arrive.`;
   closeModal('hospital-modal');
   document.getElementById('chat-input').value = msg;
   sendMessage();
@@ -2385,7 +2384,7 @@ function checkForReferralTrigger(aiText) {
 
 // CONFIG — replace with your real Paystack public key
 const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-const FREE_DAILY_LIMIT = 3;
+const FREE_DAILY_LIMIT = 10;
 const PLANS = {
   monthly: [
     {
@@ -2459,12 +2458,12 @@ let billingCycle = 'monthly';
 let selectedPlan = null;
 let isPremium = false;
 let diagnosisCount = 0;
-const TODAY_KEY = 'medai_usage_' + new Date().toDateString();
+const TODAY_KEY = 'krixia_usage_' + new Date().toDateString();
 
 function initUsageSystem() {
   const saved = parseInt(localStorage.getItem(TODAY_KEY) || '0');
   diagnosisCount = saved;
-  const premiumSaved = localStorage.getItem('medai_premium');
+  const premiumSaved = localStorage.getItem('krixia_premium');
   if (premiumSaved) {
     isPremium = true;
     activatePremiumUI();
@@ -2482,11 +2481,11 @@ function updateUsageMeter() {
   const label = remaining === 0 ? 'Limit reached' : `${remaining} left today`;
   document.getElementById('usage-label').textContent = label;
 
-  for (let i = 0; i < FREE_DAILY_LIMIT; i++) {
+  for (let i = 0; i < 10; i++) {
     const dot = document.getElementById('ud-' + i);
     if (!dot) continue;
     if (i < diagnosisCount) {
-      dot.className = 'usage-dot ' + (remaining <= 1 ? 'empty' : 'used');
+      dot.className = 'usage-dot ' + (remaining <= 2 ? 'empty' : remaining <= 4 ? 'warn' : 'used');
     } else {
       dot.className = 'usage-dot';
     }
@@ -2606,7 +2605,7 @@ function proceedToPayment() {
     document.getElementById('pay-phone').value = userProfile.phone || '';
   }
 
-  document.getElementById('pay-plan-name').textContent = `MedAI ${selectedPlan.name}`;
+  document.getElementById('pay-plan-name').textContent = `Krixia ${selectedPlan.name}`;
   document.getElementById('pay-plan-cycle').textContent = billingCycle === 'annual' ? 'Annual subscription (save 40%)' : 'Monthly subscription';
   document.getElementById('pay-plan-price').textContent = `₦${selectedPlan.naira.toLocaleString()}`;
 
@@ -2662,7 +2661,7 @@ function onPaymentSuccess(reference) {
   closeModal('payment-modal');
 
   isPremium = true;
-  localStorage.setItem('medai_premium', JSON.stringify({
+  localStorage.setItem('krixia_premium', JSON.stringify({
     plan: selectedPlan.id,
     ref: reference,
     activatedAt: new Date().toISOString(),
@@ -2709,114 +2708,347 @@ sendMessage = async function() {
 // Initialise on load
 window.addEventListener('load', initUsageSystem);
 
+
+// Mobile nav defined below with theme system
+
+// Touch swipe handled by mobile nav system below
+
 window.addEventListener('click', (e) => {
   if (e.target.classList.contains('modal-overlay')) {
     e.target.classList.remove('active');
   }
 });
+
+
+// ── THEME SYSTEM ──────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('krixia-theme', isDark ? 'light' : 'dark');
+  initBgCanvas();
+}
+
+// Restore saved theme on load
+const savedTheme = localStorage.getItem('krixia-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+});
+
+// ── ANIMATED BACKGROUND CANVAS ────────────────────────────────
+function initBgCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const lineColor = isDark ? 'rgba(201,168,76,' : 'rgba(10,42,28,';
+  const dotColor = isDark ? 'rgba(29,158,100,' : 'rgba(201,168,76,';
+
+  // Medical elements to animate
+  const particles = [];
+  const pulseLines = [];
+
+  // Create floating particles (DNA dots, cells)
+  for (let i = 0; i < 35; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      opacity: Math.random() * 0.4 + 0.1,
+      type: Math.random() > 0.6 ? 'cross' : 'dot'
+    });
+  }
+
+  // Create heartbeat lines
+  for (let i = 0; i < 3; i++) {
+    pulseLines.push({
+      y: (canvas.height / 4) * (i + 1),
+      offset: Math.random() * 200,
+      speed: 0.4 + Math.random() * 0.3,
+      amplitude: 12 + Math.random() * 20
+    });
+  }
+
+  let frame = 0;
+
+  function drawHeartbeat(ctx, y, offset, amplitude, color) {
+    ctx.beginPath();
+    ctx.strokeStyle = color + '0.18)';
+    ctx.lineWidth = 1;
+    const w = canvas.width;
+    const step = 4;
+
+    for (let x = 0; x < w; x += step) {
+      const t = (x + offset) % 120;
+      let dy = 0;
+      if (t < 10) dy = 0;
+      else if (t < 15) dy = -amplitude * 0.3;
+      else if (t < 20) dy = amplitude;
+      else if (t < 25) dy = -amplitude * 0.5;
+      else if (t < 35) dy = amplitude * 0.2;
+      else if (t < 40) dy = 0;
+      else dy = Math.sin((t - 40) * 0.08) * 3;
+
+      if (x === 0) ctx.moveTo(x, y + dy);
+      else ctx.lineTo(x, y + dy);
+    }
+    ctx.stroke();
+  }
+
+  function drawCross(ctx, x, y, size, opacity) {
+    ctx.strokeStyle = lineColor + opacity + ')';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x - size, y); ctx.lineTo(x + size, y);
+    ctx.moveTo(x, y - size); ctx.lineTo(x, y + size);
+    ctx.stroke();
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    frame++;
+
+    // Draw pulse lines
+    pulseLines.forEach(line => {
+      line.offset += line.speed;
+      drawHeartbeat(ctx, line.y, line.offset, line.amplitude, lineColor);
+    });
+
+    // Draw particles
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      const pulse = 0.7 + 0.3 * Math.sin(frame * 0.02 + p.x);
+      const op = p.opacity * pulse;
+
+      if (p.type === 'cross') {
+        drawCross(ctx, p.x, p.y, p.r * 3, op * 0.6);
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor + op + ')';
+        ctx.fill();
+      }
+    });
+
+    // Draw DNA spiral
+    const dnaX = canvas.width * 0.85;
+    ctx.strokeStyle = lineColor + '0.08)';
+    ctx.lineWidth = 1;
+    for (let y = 0; y < canvas.height; y += 3) {
+      const x1 = dnaX + Math.sin((y + frame * 0.5) * 0.025) * 25;
+      const x2 = dnaX - Math.sin((y + frame * 0.5) * 0.025) * 25;
+      if (y % 15 < 3) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y); ctx.lineTo(x2, y);
+        ctx.stroke();
+      }
+    }
+
+    // Spiral on left
+    const dnaX2 = canvas.width * 0.08;
+    for (let y = 0; y < canvas.height; y += 3) {
+      const x1 = dnaX2 + Math.sin((y + frame * 0.4) * 0.03) * 18;
+      const x2 = dnaX2 - Math.sin((y + frame * 0.4) * 0.03) * 18;
+      if (y % 12 < 2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y); ctx.lineTo(x2, y);
+        ctx.strokeStyle = lineColor + '0.06)';
+        ctx.stroke();
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// Start background
+initBgCanvas();
+window.addEventListener('resize', initBgCanvas);
+
+// ── MOBILE NAV ────────────────────────────────────────────────
+function mobileNav(tab, btn) {
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (tab === 'chat') {
+    const msgs = document.getElementById('messages');
+    msgs.scrollTop = msgs.scrollHeight;
+    document.getElementById('chat-input').focus();
+  } else if (tab === 'specialty') {
+    openDrawer('specialty');
+  } else if (tab === 'vitals') {
+    startVitals();
+  } else if (tab === 'hospitals') {
+    openHospitalFinder();
+  } else if (tab === 'profile') {
+    userProfile ? document.getElementById('card-modal').classList.add('active') : openRegisterModal();
+  }
+}
+
+function openDrawer(name) {
+  document.getElementById(name + '-drawer-overlay').classList.add('active');
+  document.getElementById(name + '-drawer').classList.add('active');
+}
+function closeDrawer(name) {
+  document.getElementById(name + '-drawer-overlay').classList.remove('active');
+  document.getElementById(name + '-drawer').classList.remove('active');
+  document.querySelectorAll('.mob-nav-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+}
+
+// Swipe down to close drawers
+let touchStartY = 0;
+document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', e => {
+  if (e.changedTouches[0].clientY - touchStartY > 80) {
+    document.querySelectorAll('.mobile-drawer.active').forEach(d => closeDrawer(d.id.replace('-drawer', '')));
+  }
+}, { passive: true });
+
+window.addEventListener('click', (e) => {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('active');
+  }
+});
+
+
+// ── MOBILE NAV ────────────────────────────────────────────────
+function mobileNav(tab, btn) {
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (tab==='chat') {
+    const msgs=document.getElementById('messages');
+    msgs.scrollTop=msgs.scrollHeight;
+    document.getElementById('chat-input').focus();
+  } else if(tab==='specialty') openDrawer('specialty');
+  else if(tab==='vitals') startVitals();
+  else if(tab==='hospitals') openHospitalFinder();
+  else if(tab==='profile') userProfile ? document.getElementById('card-modal').classList.add('active') : openRegisterModal();
+}
+function openDrawer(n) {
+  document.getElementById(n+'-drawer-overlay').classList.add('active');
+  document.getElementById(n+'-drawer').classList.add('active');
+}
+function closeDrawer(n) {
+  document.getElementById(n+'-drawer-overlay').classList.remove('active');
+  document.getElementById(n+'-drawer').classList.remove('active');
+  document.querySelectorAll('.mob-nav-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+}
+let _ty=0;
+document.addEventListener('touchstart',e=>{_ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(e.changedTouches[0].clientY-_ty>80)
+    document.querySelectorAll('.mobile-drawer.active').forEach(d=>closeDrawer(d.id.replace('-drawer','')));
+},{passive:true});
+window.addEventListener('click',e=>{
+  if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
+});
+
+// ============================================================
+// ADMIN SYSTEM — KRIXIA
+// ============================================================
+const ADMIN_CREDENTIALS = { email: 'admin@krixia.ai', password: 'Krixia@Admin2026!' };
+let isAdmin = false;
+
+function openAdminPanel() {
+  if (localStorage.getItem('krixia_admin') === 'true') { activateAdmin(); return; }
+  document.getElementById('admin-modal').classList.add('active');
+  setTimeout(() => document.getElementById('admin-email').focus(), 300);
+}
+
+function attemptAdminLogin() {
+  const email = document.getElementById('admin-email').value.trim();
+  const password = document.getElementById('admin-password').value;
+  const errEl = document.getElementById('admin-error');
+  if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
+  if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+    localStorage.setItem('krixia_admin', 'true');
+    closeModal('admin-modal');
+    activateAdmin();
+  } else {
+    errEl.textContent = 'Invalid credentials. Please try again.';
+    errEl.style.display = 'block';
+    document.getElementById('admin-password').value = '';
+  }
+}
+
+function activateAdmin() {
+  isAdmin = true; isPremium = true; diagnosisCount = 0;
+  const pill = document.getElementById('usage-pill');
+  if (pill) pill.innerHTML = '<span class="admin-badge">🛡️ Admin · Unlimited</span>';
+  const ub = document.getElementById('upgrade-btn');
+  if (ub) ub.style.display = 'none';
+  const rb = document.getElementById('btn-register');
+  if (rb) {
+    rb.textContent = '🛡️ Admin Mode';
+    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;';
+    rb.onclick = () => { if(confirm('Log out of admin mode?')) { localStorage.removeItem('krixia_admin'); location.reload(); } };
+  }
+  const msgs = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = 'message ai';
+  d.innerHTML = '<div class="msg-avatar ai-av">🛡️</div><div class="msg-bubble" style="background:rgba(124,58,237,0.1);border-color:rgba(168,85,247,0.3);"><strong style="color:#A855F7;">🛡️ Admin Mode Active</strong><br>Welcome, Admin. You have <strong style="color:#A855F7;">unlimited access</strong> to all Krixia features. All diagnosis limits removed.<br><br><span style="font-size:12px;color:var(--text-3);">Triple-click the logo to access admin panel.</span></div>';
+  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+}
+
+window.addEventListener('load', () => {
+  if (localStorage.getItem('krixia_admin') === 'true') setTimeout(activateAdmin, 600);
+});
+
+// Secret: type "krixia" keyboard shortcut
+let _sb = '';
+document.addEventListener('keydown', e => {
+  _sb += e.key.toLowerCase();
+  if (_sb.length > 6) _sb = _sb.slice(-6);
+  if (_sb === 'krixia') { _sb = ''; openAdminPanel(); }
+});
+
+// Triple click logo = admin
+document.addEventListener('DOMContentLoaded', () => {
+  const logo = document.querySelector('.logo');
+  if (!logo) return;
+  let _cc = 0, _ct;
+  logo.addEventListener('click', () => {
+    _cc++; clearTimeout(_ct);
+    _ct = setTimeout(() => { _cc = 0; }, 600);
+    if (_cc >= 3) { _cc = 0; openAdminPanel(); }
+  });
+  // Long press mobile
+  let _pt;
+  logo.addEventListener('touchstart', () => { _pt = setTimeout(openAdminPanel, 1500); }, { passive:true });
+  logo.addEventListener('touchend', () => clearTimeout(_pt), { passive:true });
+});
+
 </script>
 
-<!-- PRICING MODAL -->
-<div class="modal-overlay" id="pricing-modal">
-  <div class="modal pricing-modal">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-      <div class="pricing-header" style="margin:0;text-align:left;">
-        <h2>👑 Upgrade to Premium</h2>
-        <p style="margin:0;">Unlimited AI diagnoses, priority referrals & full medical history</p>
-      </div>
-      <button onclick="closeModal('pricing-modal')" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-hint);flex-shrink:0;">✕</button>
+<!-- ADMIN LOGIN MODAL -->
+<div class="modal-overlay" id="admin-modal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h2 style="background:linear-gradient(90deg,#A855F7,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🛡️ Admin Access</h2>
+      <button class="modal-close" onclick="closeModal('admin-modal')">✕</button>
     </div>
-
-    <div class="plan-toggle">
-      <button class="plan-toggle-btn active" id="toggle-monthly" onclick="setBillingCycle('monthly')">Monthly</button>
-      <button class="plan-toggle-btn" id="toggle-annual" onclick="setBillingCycle('annual')">Annual <span class="save-badge">-40%</span></button>
-    </div>
-
-    <div class="plans-grid" id="plans-grid">
-      <!-- Rendered by JS -->
-    </div>
-
-    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1rem;">
-      <p style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">Everything in Premium includes:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Unlimited AI diagnoses daily</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Full medical history storage</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Priority doctor referrals</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Image & video analysis</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>PPG vitals scanner</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Medication tracker</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Family profile (up to 5)</div>
-        <div style="font-size:12px;color:var(--text-muted);display:flex;gap:6px;"><span style="color:var(--teal-400);font-weight:700;">✓</span>Export medical reports (PDF)</div>
-      </div>
-    </div>
-
+    <p class="modal-sub">Enter your admin credentials to unlock unlimited access</p>
+    <div class="form-group"><label>Admin Email</label><input type="email" id="admin-email" placeholder="admin@krixia.ai"></div>
+    <div class="form-group"><label>Admin Password</label><input type="password" id="admin-password" placeholder="••••••••"></div>
+    <div id="admin-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);margin-bottom:1rem;"></div>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('pricing-modal')">Maybe later</button>
-      <button class="btn-primary" id="proceed-pay-btn" onclick="proceedToPayment()">Continue to Payment →</button>
+      <button class="btn-secondary" onclick="closeModal('admin-modal')">Cancel</button>
+      <button style="flex:1;background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;border-radius:var(--r-sm);padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;" onclick="attemptAdminLogin()">Login as Admin →</button>
     </div>
+    <p style="text-align:center;font-size:11px;color:var(--text-3);margin-top:12px;">Admin access is restricted to authorized personnel only</p>
   </div>
 </div>
 
-<!-- PAYMENT MODAL -->
-<div class="modal-overlay" id="payment-modal">
-  <div class="modal" style="max-width:420px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
-      <button onclick="closeModal('payment-modal');openPricingModal();" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-hint);">←</button>
-      <h2 style="font-size:18px;">Complete Payment</h2>
-    </div>
-
-    <div class="pay-summary">
-      <div>
-        <div class="ps-plan" id="pay-plan-name">MedAI Premium</div>
-        <div style="font-size:11px;color:var(--text-hint);" id="pay-plan-cycle">Monthly subscription</div>
-      </div>
-      <div class="ps-price" id="pay-plan-price">₦2,500</div>
-    </div>
-
-    <div class="form-group">
-      <label>Email Address</label>
-      <input type="email" id="pay-email" placeholder="you@email.com">
-    </div>
-    <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" id="pay-name" placeholder="Your full name">
-    </div>
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input type="tel" id="pay-phone" placeholder="+234...">
-    </div>
-
-    <div style="background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:1rem;font-size:12px;color:var(--text-muted);line-height:1.5;">
-      🔒 Payment secured by <strong>Paystack</strong>. Cancel anytime. 7-day money back guarantee.
-    </div>
-
-    <button class="paystack-btn" onclick="initiatePaystackPayment()">
-      💳 Pay with Paystack
-      <span class="paystack-logo">· Cards, Bank Transfer, USSD</span>
-    </button>
-    <p class="secure-note">SSL encrypted · PCI DSS compliant · ₦ Naira supported</p>
-
-    <!-- Demo/Test mode note -->
-    <div style="margin-top:12px;background:var(--amber-50);border-radius:8px;padding:10px;font-size:11px;color:#78350f;text-align:center;line-height:1.5;">
-      ⚙️ <strong>Integration mode:</strong> Connect your Paystack public key in the JS config to go live.
-      This demo simulates the full payment flow.
-    </div>
-  </div>
-</div>
-
-<!-- SUCCESS MODAL -->
-<div class="modal-overlay" id="success-modal">
-  <div class="modal" style="max-width:380px;text-align:center;">
-    <div style="font-size:60px;margin-bottom:12px;">🎉</div>
-    <h2 style="font-size:22px;margin-bottom:6px;">Welcome to Premium!</h2>
-    <p style="font-size:14px;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6;">
-      Your MedAI Premium access is now active. Unlimited diagnoses, full medical history, and priority referrals — all unlocked.
-    </p>
-    <div class="premium-badge-pill" style="margin:0 auto 1.5rem;display:inline-flex;">
-      👑 MedAI Premium · Active
-    </div>
-    <button class="btn-primary" onclick="closeModal('success-modal')">Start Diagnosing →</button>
-  </div>
-</div>
 </body>
 </html>
