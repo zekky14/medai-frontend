@@ -1100,42 +1100,52 @@ async function sendMessage() {
   document.getElementById('image-preview').innerHTML = '';
   document.getElementById('quick-chips').style.display = 'none';
 
-  // Build API message content
-  const content = [];
-  pendingImages.forEach(img => {
-    const base64 = img.data.split(',')[1];
-    const mtype = img.data.split(';')[0].split(':')[1];
-    content.push({ type: 'image', source: { type: 'base64', media_type: mtype, data: base64 } });
-  });
-  if (text) content.push({ type: 'text', text });
+  // Build images array in the format the backend expects
+  const imagesPayload = pendingImages.map(img => ({
+    mediaType: img.data.split(';')[0].split(':')[1],
+    data: img.data.split(',')[1]
+  }));
   pendingImages = [];
 
-  conversationHistory.push({ role: 'user', content: content.length === 1 && content[0].type === 'text' ? text : content });
+  // Track conversation in simple {role, content} form for the backend
+  conversationHistory.push({ role: 'user', content: text || '[Image attached]' });
 
   // Show typing
   const typingEl = appendTyping();
 
   try {
-    const sysPrompt = SYSTEM_PROMPT.replace('{SPECIALTY}', currentSpecialty) +
-      (userProfile ? `\n\nPatient Profile: Name: ${userProfile.name}, DOB: ${userProfile.dob}, Sex: ${userProfile.sex}, Blood Group: ${userProfile.blood}, Allergies: ${userProfile.allergies}, Conditions: ${userProfile.conditions}` : '');
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://medai-backend-kdt3.onrender.com/api/diagnose', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: sysPrompt,
-        messages: conversationHistory
+        messages: conversationHistory,
+        specialty: currentSpecialty,
+        sessionToken: krixiaSessionToken || undefined,
+        images: imagesPayload
       })
     });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      typingEl.remove();
+      if (res.status === 429) {
+        appendMessage('ai', `⚠️ ${errData.error || "You've reached your daily limit."} Upgrade to Krixia Premium for unlimited diagnoses.`);
+        showPaywallGate();
+      } else {
+        appendMessage('ai', '⚠️ Connection issue. Please check your internet and try again.');
+      }
+      sendBtn.disabled = false;
+      return;
+    }
 
     const data = await res.json();
     typingEl.remove();
 
-    const reply = data.content?.map(c => c.text || '').join('') || 'I apologise, I was unable to process that. Please try again.';
+    const reply = data.reply || 'I apologise, I was unable to process that. Please try again.';
+    if (data.sessionToken) krixiaSessionToken = data.sessionToken;
     conversationHistory.push({ role: 'assistant', content: reply });
     appendMessage('ai', reply);
+    updateUsageFromBackend(data.usage);
     checkForReferralTrigger(reply);
 
   } catch (err) {
@@ -1144,6 +1154,29 @@ async function sendMessage() {
   }
 
   sendBtn.disabled = false;
+}
+
+let krixiaSessionToken = localStorage.getItem('krixia_session_token') || null;
+
+function updateUsageFromBackend(usage) {
+  if (!usage || isAdmin) return;
+  diagnosisCount = usage.used;
+  if (typeof updateUsageMeter === 'function') updateUsageMeter();
+}
+
+function showPaywallGate() {
+  const msgs = document.getElementById('messages');
+  const gate = document.createElement('div');
+  gate.className = 'paywall-gate';
+  gate.innerHTML = `
+    <div class="gate-icon">🔒</div>
+    <h3>Daily Limit Reached</h3>
+    <p>You've used all your free diagnoses for today. Upgrade to Krixia Premium for unlimited access, or come back tomorrow.</p>
+    <div class="gate-actions">
+      <button class="upgrade-btn" onclick="openPanel('pricing-panel')">👑 Upgrade to Premium</button>
+    </div>`;
+  msgs.appendChild(gate);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
 function appendMessage(role, text) {
