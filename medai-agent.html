@@ -5,839 +5,331 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Krixia — World Class Medical Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <style>
 /* ============================================================
-   KRIXIA — PREMIUM MEDICAL AI
-   Dark Obsidian · Rich Gold · Deep Emerald · Warm Cream
+   KRIXIA — PREMIUM MEDICAL AI — REBUILT DESIGN SYSTEM
+   One consistent page/panel system used everywhere.
 ============================================================ */
 :root {
-  --gold-50: #FFFBF0;
-  --gold-100: #FDF3DC;
-  --gold-200: #F5DFA0;
-  --gold-300: #E8C97A;
-  --gold-400: #C9A84C;
-  --gold-500: #A8832A;
-  --gold-600: #7D5F1A;
-  --em-900: #061812;
-  --em-800: #0A2A1C;
-  --em-700: #0D3D28;
-  --em-600: #115234;
-  --em-500: #166840;
-  --em-400: #1D9E64;
-  --em-300: #4DC48A;
-  --em-100: #C8F0DC;
-  --obsidian: #06100C;
-  --charcoal: #111C17;
-  --slate: #1E2E27;
-  --cream-50: #FFFEF9;
-  --cream-100: #FDF8F0;
-  --cream-200: #F5EDD8;
-  --red-400: #E85D4A;
-  --red-50: #FEF0EE;
-  --amber-400: #D4873A;
-  --blue-400: #3A7BD4;
+  --gold-50: #FFFBF0; --gold-100: #FDF3DC; --gold-200: #F5DFA0;
+  --gold-300: #E8C97A; --gold-400: #C9A84C; --gold-500: #A8832A; --gold-600: #7D5F1A;
+  --em-900: #061812; --em-800: #0A2A1C; --em-700: #0D3D28; --em-600: #115234;
+  --em-500: #166840; --em-400: #1D9E64; --em-300: #4DC48A; --em-100: #C8F0DC;
+  --obsidian: #06100C; --charcoal: #111C17; --slate: #1E2E27;
+  --red-400: #E85D4A; --amber-400: #D4873A; --blue-400: #3A7BD4;
   --r-xs: 6px; --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 30px;
 }
 
 [data-theme="dark"] {
-  --bg: #07110D;
-  --bg-2: #0D1A14;
-  --surface: #0F1A15;
-  --surface-2: #162118;
-  --surface-3: #1C2B22;
-  --border: rgba(201,168,76,0.1);
-  --border-2: rgba(201,168,76,0.25);
-  --border-3: rgba(201,168,76,0.4);
-  --text: #F2EFE8;
-  --text-2: #B4C4BB;
-  --text-3: #5E8070;
+  --bg: #07110D; --bg-2: #0D1A14; --surface: #0F1A15; --surface-2: #162118; --surface-3: #1C2B22;
+  --border: rgba(201,168,76,0.1); --border-2: rgba(201,168,76,0.25); --border-3: rgba(201,168,76,0.4);
+  --text: #F2EFE8; --text-2: #B4C4BB; --text-3: #5E8070;
   --card-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
-  --header-bg: rgba(6,16,12,0.97);
-  --input-bg: rgba(255,255,255,0.03);
-  --msg-ai-bg: #111E17;
-  --msg-ai-border: rgba(201,168,76,0.12);
+  --header-bg: rgba(6,16,12,0.97); --input-bg: rgba(255,255,255,0.03);
+  --msg-ai-bg: #111E17; --msg-ai-border: rgba(201,168,76,0.12);
   --msg-user-bg: linear-gradient(135deg, #0A4228, #1D9E64);
-  --chip-bg: rgba(255,255,255,0.04);
-  --chip-hover: rgba(201,168,76,0.1);
-  --sidebar-bg: #0A1610;
-  --overlay: rgba(0,0,0,0.85);
-  --modal-bg: #0F1A15;
-  --scrollbar: rgba(201,168,76,0.12);
-  --ticker-bg: rgba(6,16,12,0.98);
+  --chip-bg: rgba(255,255,255,0.04); --chip-hover: rgba(201,168,76,0.1);
+  --sidebar-bg: #0A1610; --overlay: rgba(0,0,0,0.85); --modal-bg: #0F1A15;
+  --scrollbar: rgba(201,168,76,0.12); --ticker-bg: rgba(6,16,12,0.98);
 }
-
 [data-theme="light"] {
-  --bg: #F7F3EA;
-  --bg-2: #EDE8DC;
-  --surface: #FFFFFF;
-  --surface-2: #F8F4EC;
-  --surface-3: #EDE8DC;
-  --border: rgba(10,42,28,0.08);
-  --border-2: rgba(168,131,42,0.3);
-  --border-3: rgba(168,131,42,0.5);
-  --text: #081A10;
-  --text-2: #2D4A38;
-  --text-3: #7A9485;
+  --bg: #F7F3EA; --bg-2: #EDE8DC; --surface: #FFFFFF; --surface-2: #F8F4EC; --surface-3: #EDE8DC;
+  --border: rgba(10,42,28,0.08); --border-2: rgba(168,131,42,0.3); --border-3: rgba(168,131,42,0.5);
+  --text: #081A10; --text-2: #2D4A38; --text-3: #7A9485;
   --card-shadow: 0 2px 20px rgba(10,42,28,0.07), 0 1px 4px rgba(10,42,28,0.04);
-  --header-bg: rgba(6,42,22,0.98);
-  --input-bg: rgba(10,42,28,0.04);
-  --msg-ai-bg: #F0FBF5;
-  --msg-ai-border: rgba(29,158,100,0.15);
+  --header-bg: rgba(6,42,22,0.98); --input-bg: rgba(10,42,28,0.04);
+  --msg-ai-bg: #F0FBF5; --msg-ai-border: rgba(29,158,100,0.15);
   --msg-user-bg: linear-gradient(135deg, #0A4228, #1D9E64);
-  --chip-bg: rgba(10,42,28,0.05);
-  --chip-hover: rgba(168,131,42,0.12);
-  --sidebar-bg: #F0EBE0;
-  --overlay: rgba(6,26,15,0.7);
-  --modal-bg: #FFFFFF;
-  --scrollbar: rgba(10,42,28,0.1);
-  --ticker-bg: rgba(6,42,22,0.97);
+  --chip-bg: rgba(10,42,28,0.05); --chip-hover: rgba(168,131,42,0.12);
+  --sidebar-bg: #F0EBE0; --overlay: rgba(6,26,15,0.7); --modal-bg: #FFFFFF;
+  --scrollbar: rgba(10,42,28,0.1); --ticker-bg: rgba(6,42,22,0.97);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
-
 body {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  background: var(--bg);
-  color: var(--text);
-  height: 100vh;
+  font-family: 'Inter', sans-serif; font-size: 16px;
+  background: var(--bg); color: var(--text);
+  height: 100vh; height: 100dvh;
   display: flex; flex-direction: column;
-  transition: background 0.4s, color 0.4s;
-  overflow: hidden;
+  transition: background 0.4s, color 0.4s; overflow: hidden;
 }
-
-/* BOX FORMAT WRAPPER */
-.app-wrapper {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
-  box-shadow: 0 0 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.08);
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* ── ANIMATED BG ── */
-#bg-canvas {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 0;
-  opacity: 0.35;
-}
-[data-theme="light"] #bg-canvas { opacity: 0.08; }
-
-/* Outside box area gets dimmer bg */
 [data-theme="dark"] body { background: #030806; }
 [data-theme="light"] body { background: #E8E3D8; }
 
-/* ── MEDICAL TICKER ── */
-.ticker-bar {
-  position: relative; z-index: 101;
-  background: var(--ticker-bg);
-  border-bottom: 1px solid rgba(201,168,76,0.2);
-  height: 34px;
-  display: flex; align-items: center;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+#bg-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.35; }
+[data-theme="light"] #bg-canvas { opacity: 0.08; }
+
+.medical-bg-imagery { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.med-bg-icon { position: absolute; font-size: var(--sz); opacity: var(--op); animation: floatMed var(--dur) ease-in-out infinite; animation-delay: var(--del); filter: blur(0.5px); }
+@keyframes floatMed { 0%,100% { transform: translateY(0) rotate(var(--rot)); } 50% { transform: translateY(-18px) rotate(calc(var(--rot) + 5deg)); } }
+[data-theme="light"] .med-bg-icon { opacity: calc(var(--op) * 0.4); }
+
+/* APP WRAPPER — BOX FORMAT */
+.app-wrapper {
+  display: flex; flex-direction: column; flex: 1; min-height: 0;
+  max-width: 1440px; width: 100%; margin: 0 auto;
+  box-shadow: 0 0 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.08);
+  position: relative; z-index: 1; overflow: hidden;
 }
-.ticker-label {
-  flex-shrink: 0;
-  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
-  color: var(--obsidian);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0 14px;
-  height: 100%;
-  display: flex; align-items: center;
-  z-index: 2;
-  gap: 6px;
-}
-.ticker-scroll-wrap {
-  flex: 1; overflow: hidden; position: relative;
-}
-.ticker-scroll-wrap::before {
-  content: '';
-  position: absolute; left: 0; top: 0; bottom: 0; width: 30px;
-  background: linear-gradient(90deg, var(--ticker-bg), transparent);
-  z-index: 1;
-}
-.ticker-scroll-wrap::after {
-  content: '';
-  position: absolute; right: 0; top: 0; bottom: 0; width: 30px;
-  background: linear-gradient(270deg, var(--ticker-bg), transparent);
-  z-index: 1;
-}
-.ticker-track {
-  display: flex; align-items: center;
-  white-space: nowrap;
-  animation: tickerScroll 60s linear infinite;
-  gap: 0;
-}
+@media (max-width: 768px) { .app-wrapper { max-width: 100%; box-shadow: none; } }
+
+/* TICKER */
+.ticker-bar { position: relative; z-index: 101; background: var(--ticker-bg); border-bottom: 1px solid rgba(201,168,76,0.2); height: 32px; display: flex; align-items: center; overflow: hidden; backdrop-filter: blur(10px); flex-shrink: 0; }
+.ticker-label { flex-shrink: 0; background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 0 14px; height: 100%; display: flex; align-items: center; z-index: 2; gap: 6px; }
+.ticker-scroll-wrap { flex: 1; overflow: hidden; position: relative; }
+.ticker-scroll-wrap::before { content:''; position:absolute; left:0; top:0; bottom:0; width:30px; background:linear-gradient(90deg,var(--ticker-bg),transparent); z-index:1; }
+.ticker-scroll-wrap::after { content:''; position:absolute; right:0; top:0; bottom:0; width:30px; background:linear-gradient(270deg,var(--ticker-bg),transparent); z-index:1; }
+.ticker-track { display: flex; align-items: center; white-space: nowrap; animation: tickerScroll 60s linear infinite; }
 .ticker-track:hover { animation-play-state: paused; }
-@keyframes tickerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.ticker-item {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 0 28px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.7);
-  border-right: 1px solid rgba(201,168,76,0.15);
-}
+@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 26px; font-size: 12px; color: rgba(255,255,255,0.7); border-right: 1px solid rgba(201,168,76,0.15); }
 .ticker-item .t-icon { font-size: 13px; }
 .ticker-item .t-highlight { color: var(--gold-300); font-weight: 600; }
 
-/* ── HEADER ── */
-header {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--header-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(201,168,76,0.18);
-  height: 66px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 1.75rem;
-  box-shadow: 0 4px 40px rgba(0,0,0,0.35);
-}
-
-/* KRIXIA LOGO */
-.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-
-.logo-svg-wrap {
-  width: 44px; height: 44px; flex-shrink: 0;
-  filter: drop-shadow(0 0 12px rgba(201,168,76,0.35));
-}
-
+/* HEADER */
+header { position: relative; z-index: 100; background: var(--header-bg); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(201,168,76,0.18); height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; flex-shrink: 0; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.logo-svg-wrap { width: 38px; height: 38px; flex-shrink: 0; filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
 .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
-.logo-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  background: linear-gradient(135deg, #F0D888 0%, #C9A84C 40%, #E8C97A 70%, #A8832A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-}
-.logo-tagline {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  margin-top: 3px;
-}
-
-.header-center {
-  display: flex; align-items: center; gap: 8px;
-}
-.status-live {
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(29,158,100,0.12);
-  border: 1px solid rgba(29,158,100,0.25);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 12px; font-weight: 500;
-  color: var(--em-300);
-}
-.status-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--em-300);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(77,196,138,0.5); }
-  50% { opacity:0.7; box-shadow: 0 0 0 5px rgba(77,196,138,0); }
-}
-
+.logo-name { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; background: linear-gradient(135deg, #F5E0A0, #D4B45E, #B8943A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+.logo-tagline { font-size: 9px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 3px; }
+.header-center { display: flex; align-items: center; gap: 8px; }
+.status-live { display: flex; align-items: center; gap: 6px; background: rgba(29,158,100,0.12); border: 1px solid rgba(29,158,100,0.25); border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: var(--em-300); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--em-300); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(77,196,138,0.5); } 50% { opacity:0.7; box-shadow:0 0 0 5px rgba(77,196,138,0); } }
 .header-right { display: flex; align-items: center; gap: 8px; }
-
-.theme-btn {
-  width: 38px; height: 38px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--r-sm);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; color: white;
-  transition: all 0.2s;
-}
+.theme-btn { width: 36px; height: 36px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; transition: all 0.2s; }
 .theme-btn:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.35); }
-
-.btn-premium {
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-400), var(--gold-300));
-  color: var(--obsidian);
-  border: none; border-radius: var(--r-sm);
-  padding: 9px 18px;
-  font-size: 13px; font-weight: 700;
-  cursor: pointer;
-  display: flex; align-items: center; gap: 6px;
-  letter-spacing: 0.3px;
-  box-shadow: 0 2px 16px rgba(201,168,76,0.35);
-  transition: all 0.2s; font-family: 'Inter', sans-serif;
-}
+.btn-premium { background: linear-gradient(135deg, var(--gold-600), var(--gold-400), var(--gold-300)); color: var(--obsidian); border: none; border-radius: var(--r-sm); padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 16px rgba(201,168,76,0.35); transition: all 0.2s; font-family: 'Inter', sans-serif; }
 .btn-premium:hover { transform: translateY(-1px); box-shadow: 0 4px 24px rgba(201,168,76,0.5); }
-
-.btn-medid {
-  background: rgba(255,255,255,0.07);
-  color: rgba(255,255,255,0.8);
-  border: 1px solid rgba(255,255,255,0.13);
-  border-radius: var(--r-sm);
-  padding: 9px 16px;
-  font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
-}
+.btn-medid { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.13); border-radius: var(--r-sm); padding: 9px 14px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
 .btn-medid:hover { background: rgba(255,255,255,0.12); border-color: rgba(201,168,76,0.4); }
-
-.usage-pill {
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 20px; padding: 5px 12px;
-  font-size: 12px; color: rgba(255,255,255,0.55);
-}
+.usage-pill { display: flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: rgba(255,255,255,0.55); }
 .usage-dots { display: flex; gap: 4px; }
 .usage-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-400); transition: background 0.3s; }
 .usage-dot.used { background: rgba(255,255,255,0.12); }
 .usage-dot.warn { background: var(--amber-400); }
 .usage-dot.empty { background: var(--red-400); }
+.admin-badge { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
 
-/* ── MAIN ── */
-.main {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-}
+/* MAIN LAYOUT */
+.main { display: grid; grid-template-columns: 280px 1fr; flex: 1; min-height: 0; overflow: hidden; position: relative; z-index: 1; }
+@media (max-width: 768px) { .main { grid-template-columns: 1fr; } }
 
-/* ── SIDEBAR ── */
-.sidebar {
-  background: var(--sidebar-bg);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  overflow-y: auto; padding: 1.25rem 1rem; gap: 1.25rem;
-  min-height: 0;
-}
-.sidebar-label {
-  font-size: 12px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--gold-400);
-  padding: 0 4px; margin-bottom: 8px;
-}
+/* SIDEBAR (desktop only) */
+.sidebar { background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; padding: 1.25rem 1rem; gap: 1.25rem; min-height: 0; }
+@media (max-width: 768px) { .sidebar { display: none; } }
+.sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-400); padding: 0 4px; margin-bottom: 8px; }
+.quick-action-grid { display: flex; flex-direction: column; gap: 8px; }
+.qa-card { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); border: 1px solid var(--border-2); border-radius: var(--r-md); padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; width: 100%; text-align: left; }
+.qa-card:hover { background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.15); }
+.qa-icon { font-size: 24px; flex-shrink: 0; }
+.qa-text { font-size: 13px; font-weight: 700; color: var(--gold-300); }
+.qa-sub { font-size: 11px; color: var(--text-3); font-weight: 400; margin-top: 1px; }
 .specialty-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.specialty-btn {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 11px 7px;
-  text-align: center; cursor: pointer; transition: all 0.2s;
-  font-size: 13px; font-weight: 500; color: var(--text-2);
-  line-height: 1.4; font-family: 'Inter', sans-serif;
-}
+.specialty-btn { position: relative; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 11px 7px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 12px; font-weight: 500; color: var(--text-2); line-height: 1.4; font-family: 'Inter', sans-serif; }
 .specialty-btn .icon { font-size: 19px; display: block; margin-bottom: 4px; }
-.specialty-btn:hover {
-  background: rgba(201,168,76,0.08); border-color: var(--border-2);
-  color: var(--gold-300); transform: translateY(-1px);
-}
-.specialty-btn.active {
-  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.06));
-  border-color: var(--gold-400); color: var(--gold-300);
-  box-shadow: 0 0 14px rgba(201,168,76,0.18);
-}
-.scan-btn {
-  width: 100%; background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--r-md); padding: 13px 14px;
-  cursor: pointer; display: flex; align-items: center; gap: 10px;
-  transition: all 0.2s; font-family: 'Inter', sans-serif;
-}
-.scan-btn:hover {
-  border-color: var(--border-2); background: rgba(201,168,76,0.07);
-  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.1);
-}
-.scan-btn .s-icon { font-size: 24px; }
-.scan-btn .s-title { font-size: 14px; font-weight: 600; color: var(--text); }
-.scan-btn .s-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
-.hosp-btn {
-  width: 100%;
-  background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.04));
-  border: 1px solid var(--border-2); border-radius: var(--r-md);
-  padding: 13px 14px; cursor: pointer;
-  display: flex; align-items: center; gap: 10px;
-  font-family: 'Inter', sans-serif; transition: all 0.2s;
-}
-.hosp-btn:hover {
-  background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
-  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.15);
-}
-.hosp-btn .s-title { font-size: 13px; font-weight: 600; color: var(--gold-300); }
-.hosp-btn .s-sub { font-size: 11px; color: var(--text-3); }
-
+.specialty-btn:hover { background: rgba(201,168,76,0.08); border-color: var(--border-2); color: var(--gold-300); }
+.specialty-btn.active { background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.06)); border-color: var(--gold-400); color: var(--gold-300); }
+.spec-info { position: absolute; top: 4px; right: 6px; font-size: 11px; color: var(--text-3); width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; }
+.spec-info:hover { background: rgba(201,168,76,0.2); color: var(--gold-300); }
 .vital-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.vital-card {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 11px;
-  transition: border-color 0.3s;
-}
-.vital-card:hover { border-color: var(--border-2); }
-.vl { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
-.vv { font-size: 24px; font-weight: 700; color: var(--gold-300); font-family: 'JetBrains Mono', monospace; line-height: 1; }
-.vu { font-size: 12px; color: var(--text-3); margin-top: 2px; }
-.disclaimer-box {
-  background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
-  border: 1px solid rgba(201,168,76,0.18);
-  border-left: 3px solid var(--gold-400);
-  border-radius: var(--r-sm); padding: 11px 13px;
-  font-size: 13px; color: var(--text-3); line-height: 1.6;
-}
+.vital-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px; }
+.vl { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+.vv { font-size: 22px; font-weight: 700; color: var(--gold-300); font-family: 'JetBrains Mono', monospace; line-height: 1; }
+.vu { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+.disclaimer-box { background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent); border: 1px solid rgba(201,168,76,0.18); border-left: 3px solid var(--gold-400); border-radius: var(--r-sm); padding: 11px 13px; font-size: 12px; color: var(--text-3); line-height: 1.6; }
 
-/* ── CHAT AREA ── */
-.chat-area {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  flex: 1;
-  overflow: hidden;
-}
-.chat-topbar {
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 11px 1.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  backdrop-filter: blur(10px);
-  flex-shrink: 0;
-}
+/* CHAT AREA */
+.chat-area { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; }
+.chat-topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 11px 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .doc-wrap { display: flex; align-items: center; gap: 11px; }
-.doc-avatar {
-  width: 42px; height: 42px;
-  background: linear-gradient(135deg, var(--em-800), var(--em-600));
-  border-radius: 13px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  border: 1px solid rgba(201,168,76,0.3);
-  box-shadow: 0 0 18px rgba(201,168,76,0.12);
-  flex-shrink: 0;
-}
-.doc-name { font-size: 16px; font-weight: 600; color: var(--text); }
-.doc-status {
-  font-size: 13px; color: var(--text-3);
-  display: flex; align-items: center; gap: 5px; margin-top: 2px;
-}
+.doc-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--em-800), var(--em-600)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; border: 1px solid rgba(201,168,76,0.3); flex-shrink: 0; }
+.doc-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.doc-status { font-size: 12px; color: var(--text-3); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
 .mode-tabs { display: flex; gap: 5px; }
-.mode-tab {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 20px; padding: 6px 14px;
-  font-size: 12px; font-weight: 500; color: var(--text-2);
-  cursor: pointer; display: flex; align-items: center; gap: 4px;
-  transition: all 0.15s; font-family: 'Inter', sans-serif;
-}
-.mode-tab.active, .mode-tab:hover {
-  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
-  border-color: transparent; color: var(--obsidian);
-  font-weight: 700; box-shadow: 0 2px 10px rgba(201,168,76,0.3);
-}
+.mode-tab { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: var(--text-2); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.15s; font-family: 'Inter', sans-serif; }
+.mode-tab.active, .mode-tab:hover { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); border-color: transparent; color: var(--obsidian); font-weight: 700; }
+@media (max-width: 768px) { .chat-topbar { padding: 10px 1rem; } .doc-name { font-size: 14px; } .mode-tab { padding: 5px 10px; font-size: 11px; } }
 
-/* ── MESSAGES ── */
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  scroll-behavior: smooth;
-  min-height: 0;
-}
-.message {
-  display: flex; gap: 11px; max-width: 86%;
-  animation: msgIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-}
-@keyframes msgIn {
-  from { opacity:0; transform: translateY(14px) scale(0.97); }
-  to { opacity:1; transform: translateY(0) scale(1); }
-}
+/* WELCOME — SPACIOUS STYLE */
+.messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; scroll-behavior: smooth; min-height: 0; }
+@media (max-width: 768px) { .messages { padding: 1.25rem 1rem; } }
+
+.welcome-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2rem 1rem 1.5rem; gap: 1rem; }
+.welcome-doctor { position: relative; }
+.doctor-figure-emoji { font-size: 90px; line-height: 1; display: block; animation: doctorIdle 4s ease-in-out infinite; filter: drop-shadow(0 8px 20px rgba(201,168,76,0.2)); }
+@keyframes doctorIdle { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-5px) rotate(-2deg); } 50% { transform: translateY(0) rotate(0deg); } 75% { transform: translateY(-3px) rotate(2deg); } }
+.doctor-shadow { width: 60px; height: 12px; background: radial-gradient(ellipse, rgba(0,0,0,0.3), transparent); border-radius: 50%; margin: 4px auto 0; animation: shadowPulse 4s ease-in-out infinite; }
+@keyframes shadowPulse { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(0.85); opacity: 0.3; } }
+.welcome-brand { font-size: 22px; font-weight: 800; letter-spacing: 3px; background: linear-gradient(135deg, #F5E0A0, #D4B45E, #B8943A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.welcome-sub { font-size: 11px; color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+.welcome-intro { font-size: 17px; line-height: 1.7; color: var(--text-2); max-width: 440px; min-height: 3.4em; }
+.welcome-intro strong { color: var(--gold-300); font-weight: 700; }
+.typewriter-cursor { display: inline-block; width: 2px; height: 1em; background: var(--gold-300); margin-left: 2px; vertical-align: text-bottom; animation: cursorBlink 0.8s step-end infinite; }
+@keyframes cursorBlink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
+@media (max-width: 768px) { .doctor-figure-emoji { font-size: 70px; } .welcome-brand { font-size: 20px; } .welcome-intro { font-size: 15px; } }
+
+/* QUICK ACTIONS — STACKED FULL-WIDTH ROWS (mobile dashboard + desktop fallback) */
+.welcome-actions { display: flex; flex-direction: column; gap: 10px; padding: 0 0.25rem; max-width: 480px; margin: 0 auto; width: 100%; }
+.qa-row { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); cursor: pointer; transition: all 0.2s; width: 100%; text-align: left; font-family: 'Inter', sans-serif; }
+.qa-row:hover { border-color: var(--border-2); background: rgba(201,168,76,0.06); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.1); }
+.qa-row .qa-ic { font-size: 26px; flex-shrink: 0; }
+.qa-row .qa-label { font-size: 15px; font-weight: 600; color: var(--text); }
+.qa-row .qa-desc { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.qa-row .qa-arrow { margin-left: auto; color: var(--text-3); font-size: 18px; flex-shrink: 0; }
+@media (max-width: 768px) { .qa-row { padding: 14px; } .qa-row .qa-ic { font-size: 22px; } .qa-row .qa-label { font-size: 14px; } }
+
+/* CHAT MESSAGES */
+.message { display: flex; gap: 11px; max-width: 86%; animation: msgIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes msgIn { from { opacity:0; transform: translateY(14px) scale(0.97); } to { opacity:1; transform: translateY(0) scale(1); } }
 .message.user { align-self: flex-end; flex-direction: row-reverse; }
 .message.ai { align-self: flex-start; }
-.msg-avatar {
-  width: 36px; height: 36px; border-radius: 11px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0; margin-top: 2px;
-}
-.msg-avatar.ai-av {
-  background: linear-gradient(135deg, var(--em-800), var(--em-600));
-  border: 1px solid rgba(201,168,76,0.3);
-  box-shadow: 0 0 14px rgba(201,168,76,0.1);
-}
-.msg-avatar.user-av {
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-400));
-  color: var(--obsidian); font-weight: 700; font-size: 13px;
-  box-shadow: 0 2px 10px rgba(201,168,76,0.25);
-}
-.msg-bubble {
-  background: var(--msg-ai-bg); border: 1px solid var(--msg-ai-border);
-  border-radius: 18px 18px 18px 4px;
-  padding: 14px 18px;
-  font-size: 17px; line-height: 1.75; color: var(--text);
-  box-shadow: var(--card-shadow);
-}
-.message.user .msg-bubble {
-  background: var(--msg-user-bg); color: white;
-  border-color: transparent;
-  border-radius: 18px 18px 4px 18px;
-  box-shadow: 0 4px 20px rgba(29,158,100,0.25);
-}
+.msg-avatar { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; margin-top: 2px; }
+.msg-avatar.ai-av { background: linear-gradient(135deg, var(--em-800), var(--em-600)); border: 1px solid rgba(201,168,76,0.3); }
+.msg-avatar.user-av { background: linear-gradient(135deg, var(--gold-600), var(--gold-400)); color: var(--obsidian); font-weight: 700; font-size: 12px; }
+.msg-bubble { background: var(--msg-ai-bg); border: 1px solid var(--msg-ai-border); border-radius: 18px 18px 18px 4px; padding: 14px 18px; font-size: 16px; line-height: 1.75; color: var(--text); box-shadow: var(--card-shadow); }
+.message.user .msg-bubble { background: var(--msg-user-bg); color: white; border-color: transparent; border-radius: 18px 18px 4px 18px; }
 .msg-bubble strong { color: var(--gold-300); }
 .message.user .msg-bubble strong { color: rgba(255,255,255,0.92); }
-.msg-bubble h3 { font-size: 17px; font-weight: 700; color: var(--gold-300); margin-bottom: 8px; }
+.msg-bubble h3 { font-size: 16px; font-weight: 700; color: var(--gold-300); margin-bottom: 8px; }
 .msg-bubble ul { padding-left: 18px; margin: 8px 0; }
-.msg-bubble li { margin-bottom: 5px; font-size: 17px; }
-.msg-bubble p { margin-bottom: 8px; font-size: 17px; }
-.msg-bubble p:last-child { margin-bottom: 0; font-size: 17px; }
+.msg-bubble li { margin-bottom: 5px; font-size: 16px; }
+.msg-bubble p { margin-bottom: 8px; font-size: 16px; }
+.msg-bubble p:last-child { margin-bottom: 0; }
+@media (max-width: 768px) { .message { max-width: 96%; } .msg-bubble { font-size: 14px; padding: 12px 14px; } .msg-bubble li, .msg-bubble p { font-size: 14px; } }
 
-/* Typing */
 .typing-wrap { display: flex; align-items: center; gap: 11px; max-width: 86%; align-self: flex-start; }
-.typing-bubble {
-  background: var(--msg-ai-bg); border: 1px solid var(--msg-ai-border);
-  border-radius: 18px 18px 18px 4px; padding: 15px 20px;
-  display: flex; gap: 6px; align-items: center;
-}
+.typing-bubble { background: var(--msg-ai-bg); border: 1px solid var(--msg-ai-border); border-radius: 18px 18px 18px 4px; padding: 15px 20px; display: flex; gap: 6px; align-items: center; }
 .t-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold-400); animation: bounce 1.2s infinite; }
-.t-dot:nth-child(2) { animation-delay: 0.2s; }
-.t-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes bounce {
-  0%,80%,100% { transform: translateY(0); opacity: 0.4; }
-  40% { transform: translateY(-8px); opacity: 1; }
-}
+.t-dot:nth-child(2) { animation-delay: 0.2s; } .t-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-8px); opacity: 1; } }
 
-/* Welcome card */
-.welcome-card {
-  background: linear-gradient(135deg, rgba(201,168,76,0.07), rgba(29,158,100,0.04));
-  border: 1px solid var(--border-2);
-  border-radius: var(--r-lg); padding: 1.6rem;
-  box-shadow: var(--card-shadow);
-}
-.wc-top { display: flex; align-items: center; gap: 14px; margin-bottom: 1rem; }
-.wc-icon {
-  width: 52px; height: 52px; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
-  border-radius: 15px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
-}
-.wc-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px; font-weight: 800; letter-spacing: 2px;
-  background: linear-gradient(135deg, #F0D888, #C9A84C, #E8C97A);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.wc-sub {
-  font-size: 11px; color: var(--text-3); letter-spacing: 2px;
-  text-transform: uppercase; font-weight: 600; margin-top: 3px;
-}
-.wc-intro { font-size: 16px; color: var(--text-2); line-height: 1.7; margin-bottom: 1rem; }
-.cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.cap-item {
-  display: flex; align-items: flex-start; gap: 8px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border); border-radius: var(--r-sm);
-  padding: 10px 12px; font-size: 14px; color: var(--text-2); line-height: 1.4;
-}
-.cap-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.quick-symptoms { display: flex; gap: 7px; flex-wrap: wrap; padding: 0.75rem 1.5rem 0; flex-shrink: 0; }
+.symptom-chip { background: var(--chip-bg); border: 1px solid var(--border); border-radius: 20px; padding: 8px 15px; font-size: 13px; color: var(--text-2); cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Inter', sans-serif; }
+.symptom-chip:hover { background: var(--chip-hover); border-color: var(--gold-400); color: var(--gold-300); }
+@media (max-width: 768px) { .quick-symptoms { padding: 0.6rem 1rem 0; gap: 6px; } .symptom-chip { font-size: 12px; padding: 7px 12px; } }
 
-/* Quick chips */
-.quick-symptoms {
-  display: flex; gap: 7px; flex-wrap: wrap;
-  padding: 0.75rem 1.5rem 0;
-  flex-shrink: 0;
-}
-.symptom-chip {
-  background: var(--chip-bg); border: 1px solid var(--border);
-  border-radius: 20px; padding: 8px 16px;
-  font-size: 14px; color: var(--text-2);
-  cursor: pointer; transition: all 0.2s; white-space: nowrap;
-  font-family: 'Inter', sans-serif;
-}
-.symptom-chip:hover {
-  background: var(--chip-hover); border-color: var(--gold-400);
-  color: var(--gold-300); transform: translateY(-1px);
-  box-shadow: 0 2px 10px rgba(201,168,76,0.12);
-}
-
-/* Image preview */
 .image-preview { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 1.5rem 8px; flex-shrink: 0; }
-.preview-item {
-  position: relative; width: 64px; height: 64px;
-  border-radius: 11px; overflow: hidden; border: 1px solid var(--border-2);
-}
+.preview-item { position: relative; width: 64px; height: 64px; border-radius: 11px; overflow: hidden; border: 1px solid var(--border-2); }
 .preview-item img { width: 100%; height: 100%; object-fit: cover; }
-.preview-remove {
-  position: absolute; top: 3px; right: 3px;
-  width: 17px; height: 17px; background: rgba(0,0,0,0.75); border-radius: 50%;
-  color: white; font-size: 12px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; border: none;
-}
+.preview-remove { position: absolute; top: 3px; right: 3px; width: 17px; height: 17px; background: rgba(0,0,0,0.75); border-radius: 50%; color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
 
-/* ── INPUT BAR ── */
-.input-area {
-  background: var(--surface); border-top: 1px solid var(--border);
-  padding: 13px 1.5rem; display: flex; align-items: flex-end; gap: 10px;
-  flex-shrink: 0;
-}
-.input-wrapper {
-  flex: 1; background: var(--input-bg); border: 1.5px solid var(--border);
-  border-radius: var(--r-md); display: flex; align-items: flex-end;
-  padding: 10px 13px; gap: 8px; transition: all 0.2s;
-}
-.input-wrapper:focus-within {
-  border-color: var(--gold-400);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-}
-#chat-input {
-  flex: 1; background: none; border: none; outline: none;
-  font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text);
-  resize: none; max-height: 130px; line-height: 1.55; padding: 2px 0;
-}
+/* INPUT BAR */
+.input-area { background: var(--surface); border-top: 1px solid var(--border); padding: 13px 1.5rem; display: flex; align-items: flex-end; gap: 10px; flex-shrink: 0; }
+.input-wrapper { flex: 1; background: var(--input-bg); border: 1.5px solid var(--border); border-radius: var(--r-md); display: flex; align-items: flex-end; padding: 10px 13px; gap: 8px; transition: all 0.2s; }
+.input-wrapper:focus-within { border-color: var(--gold-400); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+#chat-input { flex: 1; background: none; border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text); resize: none; max-height: 130px; line-height: 1.55; padding: 2px 0; }
 #chat-input::placeholder { color: var(--text-3); }
 .input-actions { display: flex; align-items: center; gap: 6px; }
-.icon-btn {
-  width: 34px; height: 34px; border: none; background: none;
-  border-radius: 9px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; color: var(--text-3); transition: all 0.15s; position: relative;
-}
+.icon-btn { width: 34px; height: 34px; border: none; background: none; border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 17px; color: var(--text-3); transition: all 0.15s; position: relative; }
 .icon-btn:hover { background: rgba(201,168,76,0.1); color: var(--gold-300); }
 .icon-btn input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-.send-btn {
-  width: 46px; height: 46px;
-  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
-  border: none; border-radius: var(--r-md); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--obsidian); font-size: 19px; flex-shrink: 0;
-  transition: all 0.2s; box-shadow: 0 2px 14px rgba(201,168,76,0.3);
-}
-.send-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 4px 22px rgba(201,168,76,0.48); }
-.send-btn:disabled { background: var(--surface-3); box-shadow: none; transform: none; cursor: not-allowed; }
+.send-btn { width: 46px; height: 46px; background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); border: none; border-radius: var(--r-md); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--obsidian); font-size: 19px; flex-shrink: 0; transition: all 0.2s; }
+.send-btn:hover { transform: translateY(-2px) scale(1.05); }
+.send-btn:disabled { background: var(--surface-3); transform: none; cursor: not-allowed; }
+@media (max-width: 768px) { .input-area { padding: 10px 1rem; padding-bottom: max(10px, env(safe-area-inset-bottom)); } #chat-input { font-size: 16px; } }
 
-/* ── VOICE ── */
-.voice-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(6,16,12,0.94); backdrop-filter: blur(24px);
-  z-index: 200;
-  align-items: center; justify-content: center; flex-direction: column; gap: 22px;
-}
+/* VOICE OVERLAY */
+.voice-overlay { display: none; position: fixed; inset: 0; background: rgba(6,16,12,0.94); backdrop-filter: blur(24px); z-index: 500; align-items: center; justify-content: center; flex-direction: column; gap: 22px; }
 .voice-overlay.active { display: flex; }
-.voice-ring {
-  width: 116px; height: 116px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 48px; color: var(--obsidian);
-  animation: voicePulse 1.2s infinite;
-  box-shadow: 0 0 0 0 rgba(201,168,76,0.5);
-}
-@keyframes voicePulse {
-  0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
-  50% { transform: scale(1.06); box-shadow: 0 0 0 28px rgba(201,168,76,0); }
-}
-.voice-text { color: white; font-size: 19px; font-weight: 600; }
-.voice-transcript { color: rgba(255,255,255,0.5); font-size: 15px; max-width: 320px; text-align: center; }
-.voice-stop {
-  background: rgba(255,255,255,0.09); border: 1.5px solid rgba(255,255,255,0.25);
-  color: white; border-radius: 30px; padding: 11px 30px;
-  font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif;
-  transition: all 0.2s;
-}
-.voice-stop:hover { background: rgba(255,255,255,0.16); }
+.voice-ring { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-600), var(--gold-300)); display: flex; align-items: center; justify-content: center; font-size: 46px; color: var(--obsidian); animation: voicePulse 1.2s infinite; }
+@keyframes voicePulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,168,76,0.5); } 50% { transform: scale(1.06); box-shadow: 0 0 0 26px rgba(201,168,76,0); } }
+.voice-text { color: white; font-size: 18px; font-weight: 600; }
+.voice-transcript { color: rgba(255,255,255,0.5); font-size: 14px; max-width: 300px; text-align: center; }
+.voice-stop { background: rgba(255,255,255,0.09); border: 1.5px solid rgba(255,255,255,0.25); color: white; border-radius: 30px; padding: 11px 28px; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
 
-/* ── MODALS ── */
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: var(--overlay); backdrop-filter: blur(10px);
-  z-index: 300; align-items: center; justify-content: center; padding: 1rem;
-}
-.modal-overlay.active { display: flex; }
-.modal {
+/* ============================================================
+   UNIFIED PANEL SYSTEM — used for ALL tools/modals
+   Desktop: centered modal overlay.
+   Mobile: genuine full-screen page slide-in.
+   Same internal structure everywhere: header / scroll-body / footer
+============================================================ */
+.panel-overlay { display: none; position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(8px); z-index: 300; align-items: center; justify-content: center; padding: 1rem; }
+.panel-overlay.active { display: flex; }
+.panel {
   background: var(--modal-bg); border-radius: var(--r-xl);
-  padding: 1.85rem; width: 100%; max-width: 490px;
+  width: 100%; max-width: 500px; max-height: 86vh;
   box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 0 0 1px var(--border-2);
-  max-height: 90vh; overflow-y: auto;
-  animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex; flex-direction: column; overflow: hidden;
+  animation: panelIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
 }
-@keyframes modalIn {
-  from { opacity:0; transform: scale(0.93) translateY(12px); }
-  to { opacity:1; transform: scale(1) translateY(0); }
+@keyframes panelIn { from { opacity:0; transform: scale(0.94) translateY(10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+.panel-header { flex-shrink: 0; padding: 1.5rem 1.5rem 0.5rem; display: flex; align-items: center; justify-content: space-between; }
+.panel-header h2 { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; background: linear-gradient(90deg, var(--gold-300), var(--gold-400)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.panel-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-3); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.panel-close:hover { background: var(--surface-2); color: var(--text); }
+.panel-sub { flex-shrink: 0; padding: 0 1.5rem; font-size: 14px; color: var(--text-3); margin-bottom: 1rem; }
+.panel-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 1.5rem; -webkit-overflow-scrolling: touch; }
+.panel-footer { flex-shrink: 0; padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 10px; background: var(--modal-bg); }
+
+@media (max-width: 768px) {
+  .panel-overlay { padding: 0; align-items: stretch; }
+  .panel { max-width: 100%; max-height: 100%; height: 100%; border-radius: 0; animation: panelInMobile 0.3s cubic-bezier(0.32,0.72,0,1); }
+  @keyframes panelInMobile { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  .panel-header { padding: env(safe-area-inset-top, 1rem) 1rem 0.5rem; padding-top: max(1rem, env(safe-area-inset-top)); }
+  .panel-header h2 { font-size: 18px; }
+  .panel-sub { padding: 0 1rem; font-size: 13px; }
+  .panel-body { padding: 0 1rem; }
+  .panel-footer { padding: 0.85rem 1rem; padding-bottom: max(0.85rem, env(safe-area-inset-bottom)); }
 }
-.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-.modal-header h2 {
-  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
-  background: linear-gradient(90deg, var(--gold-300), var(--gold-400));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+
+.panel-close-mobile { display: none; }
+@media (max-width: 768px) {
+  .panel-close-mobile { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: var(--text-2); background: none; border: none; cursor: pointer; padding: 4px; }
+  .panel-close-desktop { display: none; }
 }
-.modal-close {
-  background: none; border: none; font-size: 20px; cursor: pointer;
-  color: var(--text-3); border-radius: 8px; width: 34px; height: 34px;
-  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-}
-.modal-close:hover { background: var(--surface-2); color: var(--text); }
-.modal-sub { font-size: 15px; color: var(--text-3); margin-bottom: 1.5rem; }
+
+/* Form elements (shared) */
 .form-group { margin-bottom: 1rem; }
-.form-group label {
-  display: block; font-size: 11px; font-weight: 700;
-  color: var(--text-3); margin-bottom: 7px;
-  text-transform: uppercase; letter-spacing: 0.6px;
-}
-.form-group input, .form-group select {
-  width: 100%; background: var(--input-bg); border: 1.5px solid var(--border);
-  border-radius: var(--r-sm); padding: 12px 14px;
-  font-size: 16px; font-family: 'Inter', sans-serif; color: var(--text);
-  outline: none; transition: all 0.2s;
-}
-.form-group input:focus, .form-group select:focus {
-  border-color: var(--gold-400); box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-}
+.form-group label { display: block; font-size: 11px; font-weight: 700; color: var(--text-3); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.6px; }
+.form-group input, .form-group select { width: 100%; background: var(--input-bg); border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 12px 14px; font-size: 16px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; transition: all 0.2s; }
+.form-group input:focus, .form-group select:focus { border-color: var(--gold-400); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
 .form-group select option { background: var(--surface); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.modal-actions { display: flex; gap: 10px; margin-top: 1.25rem; }
-.btn-primary {
-  flex: 1;
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-400), var(--gold-300));
-  color: var(--obsidian); border: none; border-radius: var(--r-sm); padding: 14px;
-  font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif;
-  transition: all 0.2s; box-shadow: 0 2px 14px rgba(201,168,76,0.3);
-}
+@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
+
+.btn-primary { flex: 1; background: linear-gradient(135deg, var(--gold-600), var(--gold-400), var(--gold-300)); color: var(--obsidian); border: none; border-radius: var(--r-sm); padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; box-shadow: 0 2px 14px rgba(201,168,76,0.3); }
 .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 22px rgba(201,168,76,0.45); }
-.btn-secondary {
-  background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 13px 20px;
-  font-size: 15px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s;
-}
+.btn-secondary { background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 20px; font-size: 16px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
 .btn-secondary:hover { border-color: var(--border-2); }
+@media (max-width: 768px) { .btn-primary, .btn-secondary { padding: 13px; font-size: 15px; } }
 
 /* Medical ID Card */
-.med-card {
-  background: linear-gradient(135deg, #07150F 0%, #0A2A18 45%, #122018 100%);
-  border: 1px solid rgba(201,168,76,0.3); border-radius: var(--r-lg);
-  padding: 1.35rem; color: white; margin: 1rem 0;
-  position: relative; overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.15);
-}
-.med-card::before {
-  content: 'KRIXIA';
-  position: absolute; right: -20px; bottom: -25px;
-  font-family: 'Playfair Display', serif;
-  font-size: 80px; font-weight: 800; letter-spacing: 4px;
-  opacity: 0.04; pointer-events: none; color: var(--gold-300);
-}
-.med-card::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.6), transparent);
-}
+.med-card { background: linear-gradient(135deg, #07150F 0%, #0A2A18 45%, #122018 100%); border: 1px solid rgba(201,168,76,0.3); border-radius: var(--r-lg); padding: 1.35rem; color: white; margin: 1rem 0; position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.med-card::before { content: 'KRIXIA'; position: absolute; right: -20px; bottom: -25px; font-family: 'Inter', sans-serif; font-size: 70px; font-weight: 800; letter-spacing: 4px; opacity: 0.04; pointer-events: none; color: var(--gold-300); }
 .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-.card-logo {
-  font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 800;
-  letter-spacing: 2px;
-  background: linear-gradient(90deg, var(--gold-300), var(--gold-400));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.card-chip {
-  width: 34px; height: 26px;
-  background: linear-gradient(135deg, var(--gold-400), var(--gold-300));
-  border-radius: 5px; box-shadow: 0 2px 8px rgba(201,168,76,0.35);
-}
-.card-name { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
-.card-id { font-size: 12px; opacity: 0.45; margin-top: 3px; letter-spacing: 2px; font-family: 'JetBrains Mono', monospace; }
-.card-details {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
-  margin-top: 14px; padding-top: 14px;
-  border-top: 1px solid rgba(201,168,76,0.12);
-}
-.cd-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.45; font-weight: 700; }
+.card-logo { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 2px; background: linear-gradient(90deg, var(--gold-300), var(--gold-400)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.card-chip { width: 34px; height: 26px; background: linear-gradient(135deg, var(--gold-400), var(--gold-300)); border-radius: 5px; }
+.card-name { font-size: 20px; font-weight: 700; }
+.card-id { font-size: 10px; opacity: 0.45; margin-top: 3px; letter-spacing: 2px; font-family: 'JetBrains Mono', monospace; }
+.card-details { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(201,168,76,0.12); }
+.cd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.45; font-weight: 700; }
 .cd-val { font-size: 13px; font-weight: 700; margin-top: 3px; }
 
-/* Paywall */
-.paywall-gate {
-  background: var(--surface-2); border: 1px solid var(--border-2);
-  border-radius: var(--r-lg); padding: 1.6rem;
-  text-align: center; margin: 1rem 1.5rem;
-  box-shadow: var(--card-shadow); animation: msgIn 0.3s ease;
-}
+/* Paywall (in-chat) */
+.paywall-gate { background: var(--surface-2); border: 1px solid var(--border-2); border-radius: var(--r-lg); padding: 1.6rem; text-align: center; margin: 1rem 1.5rem; box-shadow: var(--card-shadow); animation: msgIn 0.3s ease; }
 .paywall-gate .gate-icon { font-size: 44px; margin-bottom: 12px; }
-.paywall-gate h3 { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.paywall-gate h3 { font-family: 'Inter', sans-serif; font-size: 19px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
 .paywall-gate p { font-size: 14px; color: var(--text-2); margin-bottom: 1rem; line-height: 1.6; }
 .gate-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-.upgrade-btn {
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
-  color: var(--obsidian); border: none; border-radius: var(--r-sm);
-  padding: 11px 22px; font-size: 14px; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif;
-  box-shadow: 0 2px 14px rgba(201,168,76,0.35); transition: all 0.2s;
-}
-.upgrade-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 22px rgba(201,168,76,0.5); }
-.limit-warning-msg {
-  background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.22);
-  border-radius: var(--r-sm); padding: 11px 15px;
-  font-size: 13px; color: var(--gold-300);
-  display: flex; align-items: center; gap: 8px; margin: 0 1.5rem 8px;
-}
-.premium-badge-pill {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: linear-gradient(135deg, var(--gold-600), var(--gold-300));
-  color: var(--obsidian); font-size: 11px; font-weight: 800;
-  padding: 4px 12px; border-radius: 20px; letter-spacing: 0.3px;
-}
+.upgrade-btn { background: linear-gradient(135deg, var(--gold-600), var(--gold-300)); color: var(--obsidian); border: none; border-radius: var(--r-sm); padding: 11px 22px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; }
+.limit-warning-msg { background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.22); border-radius: var(--r-sm); padding: 11px 15px; font-size: 13px; color: var(--gold-300); display: flex; align-items: center; gap: 8px; margin: 0 1.5rem 8px; }
+.premium-badge-pill { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, var(--gold-600), var(--gold-300)); color: var(--obsidian); font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; }
 
 /* Pricing */
-.pricing-modal { max-width: 530px; }
-.plan-toggle {
-  display: flex; background: var(--surface-2); border-radius: 20px;
-  padding: 3px; margin: 0 auto 1.5rem; width: fit-content;
-  border: 1px solid var(--border); gap: 2px;
-}
-.plan-toggle-btn {
-  padding: 7px 20px; border-radius: 16px; border: none;
-  background: none; font-size: 14px; font-weight: 500;
-  cursor: pointer; color: var(--text-2); font-family: 'Inter', sans-serif;
-  transition: all 0.15s; position: relative;
-}
-.plan-toggle-btn.active {
-  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
-  color: var(--obsidian); font-weight: 700;
-  box-shadow: 0 2px 10px rgba(201,168,76,0.3);
-}
-.save-badge {
-  position: absolute; top: -9px; right: -9px;
-  background: var(--em-400); color: white;
-  font-size: 11px; font-weight: 800; padding: 2px 6px;
-  border-radius: 8px; letter-spacing: 0.3px;
-}
+.plan-toggle { display: flex; background: var(--surface-2); border-radius: 20px; padding: 3px; margin: 0 auto 1.5rem; width: fit-content; border: 1px solid var(--border); gap: 2px; }
+.plan-toggle-btn { padding: 7px 20px; border-radius: 16px; border: none; background: none; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-2); font-family: 'Inter', sans-serif; position: relative; }
+.plan-toggle-btn.active { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); font-weight: 700; }
+.save-badge { position: absolute; top: -9px; right: -9px; background: var(--em-400); color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 8px; }
 .plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
-.plan-card {
-  border: 1.5px solid var(--border); border-radius: var(--r-md);
-  padding: 1.25rem; cursor: pointer; transition: all 0.2s;
-  position: relative; background: var(--surface-2);
-}
-.plan-card:hover, .plan-card.selected {
-  border-color: var(--gold-400); box-shadow: 0 0 22px rgba(201,168,76,0.18);
-  background: rgba(201,168,76,0.04);
-}
-.plan-popular-badge {
-  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
-  color: var(--obsidian); font-size: 12px; font-weight: 800;
-  padding: 3px 14px; border-radius: 20px; white-space: nowrap;
-}
+@media (max-width: 768px) { .plans-grid { grid-template-columns: 1fr; } }
+.plan-card { border: 1.5px solid var(--border); border-radius: var(--r-md); padding: 1.25rem; cursor: pointer; transition: all 0.2s; position: relative; background: var(--surface-2); }
+.plan-card:hover, .plan-card.selected { border-color: var(--gold-400); background: rgba(201,168,76,0.04); }
+.plan-popular-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); font-size: 10px; font-weight: 800; padding: 3px 14px; border-radius: 20px; white-space: nowrap; }
 .plan-name { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
 .plan-price { font-size: 30px; font-weight: 700; color: var(--text); line-height: 1; }
 .plan-price span { font-size: 14px; font-weight: 400; color: var(--text-3); }
@@ -849,48 +341,22 @@ header {
 .plan-feat.disabled .feat-check { color: var(--text-3); }
 
 /* Payment */
-.pay-summary {
-  background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.18);
-  border-radius: var(--r-sm); padding: 13px 15px;
-  margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;
-}
+.pay-summary { background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.18); border-radius: var(--r-sm); padding: 13px 15px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
 .ps-plan { font-size: 15px; font-weight: 600; color: var(--gold-300); }
 .ps-price { font-size: 22px; font-weight: 700; color: var(--gold-300); }
-.paystack-btn {
-  width: 100%; background: #00C3F7; color: white; border: none;
-  border-radius: var(--r-sm); padding: 15px;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: 'Inter', sans-serif; transition: all 0.2s;
-}
-.paystack-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.paystack-btn { width: 100%; background: #00C3F7; color: white; border: none; border-radius: var(--r-sm); padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Inter', sans-serif; }
 .secure-note { text-align: center; font-size: 12px; color: var(--text-3); margin-top: 9px; }
 
-/* Hospital modal */
-.hospital-modal { max-width: 620px; }
-.location-bar {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface-2); border: 1.5px solid var(--border);
-  border-radius: var(--r-sm); padding: 11px 15px;
-  margin-bottom: 1rem; font-size: 14px; color: var(--text-2);
-}
+/* Hospital finder */
+.location-bar { display: flex; align-items: center; gap: 10px; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 11px 15px; margin-bottom: 1rem; font-size: 14px; color: var(--text-2); }
 .loc-text { flex: 1; }
 .loc-refresh { background: none; border: none; cursor: pointer; font-size: 17px; color: var(--gold-400); padding: 4px; border-radius: 6px; transition: transform 0.3s; }
 .loc-refresh:hover { transform: rotate(180deg); }
 .hosp-filter-tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
-.hf-tab {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 20px; padding: 6px 13px; font-size: 13px; font-weight: 500;
-  color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif;
-}
+.hf-tab { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; }
 .hf-tab.active, .hf-tab:hover { background: rgba(201,168,76,0.1); border-color: var(--gold-400); color: var(--gold-300); }
-.hospitals-list { display: flex; flex-direction: column; gap: 9px; flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; max-height: 320px; }
-.hospital-card {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--r-md); padding: 13px 15px;
-  display: flex; gap: 11px; align-items: flex-start;
-  cursor: pointer; transition: all 0.2s;
-}
+.hospitals-list { display: flex; flex-direction: column; gap: 9px; padding-bottom: 1rem; }
+.hospital-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 15px; display: flex; gap: 11px; align-items: flex-start; cursor: pointer; transition: all 0.2s; }
 .hospital-card:hover, .hospital-card.selected-hosp { border-color: var(--gold-400); background: rgba(201,168,76,0.04); }
 .hosp-rank { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
 .rank-1 { background: rgba(201,168,76,0.2); color: var(--gold-300); }
@@ -902,26 +368,20 @@ header {
 .hosp-address { font-size: 13px; color: var(--text-3); margin-bottom: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hosp-meta { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
 .hosp-distance { font-size: 12px; font-weight: 600; color: var(--gold-300); }
-.hosp-type-badge { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+.hosp-type-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
 .badge-govt { background: rgba(58,123,212,0.15); color: var(--blue-400); }
 .badge-teaching { background: rgba(139,92,246,0.15); color: #A78BFA; }
 .badge-private { background: rgba(29,158,100,0.15); color: var(--em-300); }
 .badge-clinic { background: rgba(201,168,76,0.12); color: var(--gold-300); }
-.hosp-open { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+.hosp-open { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
 .open-yes { background: rgba(29,158,100,0.15); color: var(--em-300); }
 .open-no { background: rgba(255,255,255,0.05); color: var(--text-3); }
 .hosp-actions { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
-.hosp-action-btn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 7px 11px; border-radius: var(--r-sm);
-  font-size: 11px; font-weight: 600; border: none; cursor: pointer;
-  white-space: nowrap; transition: all 0.15s; text-decoration: none;
-  font-family: 'Inter', sans-serif;
-}
+.hosp-action-btn { display: flex; align-items: center; gap: 5px; padding: 7px 11px; border-radius: var(--r-sm); font-size: 11px; font-weight: 600; border: none; cursor: pointer; white-space: nowrap; transition: all 0.15s; text-decoration: none; font-family: 'Inter', sans-serif; }
 .hab-directions { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); }
 .hab-call { background: rgba(58,123,212,0.15); color: var(--blue-400); border: 1px solid rgba(58,123,212,0.2); }
 .hab-whatsapp { background: rgba(37,211,102,0.1); color: #25D366; border: 1px solid rgba(37,211,102,0.2); }
-.map-embed { width: 100%; height: 140px; border-radius: var(--r-sm); border: 1px solid var(--border); margin-bottom: 1rem; overflow: hidden; background: var(--surface-3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text-3); font-size: 14px; }
+.map-embed { width: 100%; height: 150px; border-radius: var(--r-sm); border: 1px solid var(--border); margin-bottom: 1rem; overflow: hidden; background: var(--surface-3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text-3); font-size: 14px; flex-shrink: 0; }
 .map-embed iframe { width: 100%; height: 100%; border: none; }
 .loading-hospitals { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 2.5rem; color: var(--text-2); font-size: 15px; }
 .loading-spinner { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--gold-400); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -932,181 +392,49 @@ header {
 .em-text strong { display: block; font-size: 15px; margin-bottom: 3px; }
 .emergency-numbers { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .emnum-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--red-400); color: white; border: none; border-radius: 20px; padding: 6px 13px; font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; }
-.refer-inline-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(201,168,76,0.1); color: var(--gold-300);
-  border: 1px solid rgba(201,168,76,0.3);
-  border-radius: var(--r-sm); padding: 8px 15px;
-  font-size: 13px; font-weight: 500; cursor: pointer;
-  margin-top: 10px; transition: all 0.15s; font-family: 'Inter', sans-serif;
-}
-.refer-inline-btn:hover { background: rgba(201,168,76,0.18); }
+.refer-inline-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(201,168,76,0.1); color: var(--gold-300); border: 1px solid rgba(201,168,76,0.3); border-radius: var(--r-sm); padding: 8px 15px; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 10px; transition: all 0.15s; font-family: 'Inter', sans-serif; }
+@media (max-width: 768px) { .map-embed { height: 120px; } .hosp-filter-tabs { gap: 4px; } .hf-tab { padding: 5px 9px; font-size: 12px; } }
 
-/* PPG */
+/* Specialty detail */
+.specialty-detail-icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--gold-600), var(--gold-300)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 1rem; }
+.specialty-condition-list { display: flex; flex-direction: column; gap: 8px; padding-bottom: 1rem; }
+.specialty-condition-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 11px 14px; font-size: 14px; color: var(--text-2); display: flex; align-items: center; gap: 9px; }
+.specialty-condition-item .cond-icon { font-size: 17px; }
+
+/* PPG vitals */
 @keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.3)} 28%{transform:scale(1)} 42%{transform:scale(1.2)} 70%{transform:scale(1)} }
-
-/* Success */
-.success-crown { font-size: 68px; margin-bottom: 14px; animation: crownBounce 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+.success-crown { font-size: 64px; margin-bottom: 14px; animation: crownBounce 0.6s cubic-bezier(0.34,1.56,0.64,1); }
 @keyframes crownBounce { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1) rotate(0); } }
 
-/* ── SCROLLBAR ── */
+/* Admin */
+.admin-panel-btn { background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; border: none; border-radius: var(--r-sm); padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; }
+
+/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 10px; }
 
-/* ── MOBILE BOTTOM NAV ── */
-.mobile-bottom-nav {
-  display: none; position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
-  z-index: 150; grid-template-columns: repeat(5,1fr);
-}
-.mob-nav-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  background: none; border: none; cursor: pointer; padding: 4px;
-  font-family: 'Inter', sans-serif; transition: all 0.15s;
-}
+/* MOBILE BOTTOM NAV */
+.mobile-bottom-nav { display: none; position: relative; z-index: 150; background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18); backdrop-filter: blur(24px); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); grid-template-columns: repeat(5,1fr); flex-shrink: 0; }
+.mob-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; padding: 4px; font-family: 'Inter', sans-serif; transition: all 0.15s; }
 .mob-nav-btn .mob-icon { font-size: 21px; line-height: 1; }
-.mob-nav-btn .mob-label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.35); letter-spacing: 0.3px; }
+.mob-nav-btn .mob-label { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.35); }
 .mob-nav-btn.active .mob-icon { filter: drop-shadow(0 0 6px rgba(201,168,76,0.6)); }
 .mob-nav-btn.active .mob-label { color: var(--gold-300); font-weight: 700; }
 .mob-nav-btn:active { transform: scale(0.88); }
+@media (max-width: 768px) { .mobile-bottom-nav { display: grid; } }
 
-.mobile-drawer-overlay { display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 180; }
-.mobile-drawer-overlay.active { display: block; }
-.mobile-drawer {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--modal-bg); border-radius: 22px 22px 0 0;
-  padding: 1.1rem; max-height: 82vh; overflow-y: auto; z-index: 190;
-  transform: translateY(100%);
-  transition: transform 0.32s cubic-bezier(0.32,0.72,0,1);
-  padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
-  border-top: 1px solid var(--border-2);
+/* Hide in-chat quick actions on desktop (sidebar already has them) */
+@media (min-width: 769px) {
+  .welcome-actions { display: none; }
 }
-.mobile-drawer.active { transform: translateY(0); }
-.drawer-handle { width: 38px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 0 auto 1rem; }
-.drawer-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; margin-bottom: 1rem; color: var(--gold-300); }
-
-/* ── MOBILE RESPONSIVE ── */
-@media (max-width: 768px) {
-  .app-wrapper { max-width: 100%; box-shadow: none; }
-  .main { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  header { padding: 0 1rem; height: 58px; }
-  .hospital-modal { max-height: 88vh !important; }
-  .hospitals-list { max-height: 45vw !important; min-height: 120px; }
-  .map-embed { height: 110px !important; }
-  .hosp-filter-tabs { gap: 4px; }
-  .hf-tab { padding: 5px 9px; font-size: 12px; }
-  .emergency-banner { padding: 8px 10px; }
-  .em-text { font-size: 12px; }
-  .location-bar { padding: 8px 10px; font-size: 13px; }
-  .logo-name { font-size: 20px; letter-spacing: 1.5px; }
-  .logo-tagline { display: none; }
-  .logo-svg-wrap { width: 36px; height: 36px; }
-  .header-center { display: none; }
-  .btn-medid { display: none; }
-  .btn-premium { padding: 7px 12px; font-size: 12px; }
-  .chat-topbar { padding: 9px 1rem; }
-  .mode-tab { padding: 5px 10px; font-size: 11px; }
-  .doc-name { font-size: 14px; }
-  .messages { padding: 1rem; gap: 1rem; }
-  .message { max-width: 96%; }
-  .msg-bubble { font-size: 14px; padding: 12px 14px; line-height: 1.65; }
-  .msg-bubble h3 { font-size: 14px; }
-  .msg-bubble li { font-size: 14px; }
-  .msg-bubble p { font-size: 14px; }
-  .input-area { padding: 9px 1rem; }
-  #chat-input { font-size: 14px; }
-  .quick-symptoms { padding: 0.6rem 1rem 0; gap: 6px; }
-  .symptom-chip { font-size: 12px; padding: 6px 11px; }
-  .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal { 
-    border-radius: 22px 22px 0 0; 
-    max-height: 88vh; 
-    max-width: 100%; 
-    padding: 1.25rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .modal-header h2 { font-size: 20px; }
-  .form-row { grid-template-columns: 1fr; }
-  .plans-grid { grid-template-columns: 1fr; }
-  .hospital-modal { max-width: 100%; }
-  .hospitals-list { max-height: 55vh; }
-  .hospital-card { flex-wrap: wrap; }
-  .hosp-actions { flex-direction: row; flex-wrap: wrap; width: 100%; }
-  .hosp-action-btn { flex: 1; justify-content: center; }
-  .modal-actions { flex-direction: row; gap: 8px; }
-  .modal-actions .btn-secondary { flex: 1; padding: 12px 10px; font-size: 14px; }
-  .modal-actions .btn-primary { flex: 2; padding: 12px 10px; font-size: 14px; }
-  .ppg-step-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-  .vital-cards { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .chat-area { padding-bottom: 64px; min-height: 0; }
-  .mobile-bottom-nav { display: grid; }
-  .ticker-bar { height: 30px; }
-  .ticker-item { font-size: 11px; padding: 0 20px; }
-  .ticker-label { font-size: 11px; padding: 0 10px; }
-  .wc-brand { font-size: 22px; }
-  .cap-grid { grid-template-columns: 1fr; }
-  .welcome-card { padding: 1.25rem; }
-}
-@media (max-width: 380px) {
-  .logo-name { font-size: 17px; }
-  .btn-premium { display: none; }
-  .usage-pill { display: none; }
-}
-@media (max-width: 768px) and (orientation: landscape) {
-  .modal { max-height: 96vh; }
-  .modal-overlay { align-items: center; padding: 0.5rem; }
-  .modal { border-radius: 16px; }
-}
-
-  /* ── ADMIN SYSTEM ── */
-  .admin-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    background: linear-gradient(135deg, #7C3AED, #A855F7);
-    color: white; font-size: 11px; font-weight: 800;
-    padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px;
-  }
-  .admin-panel-btn {
-    background: linear-gradient(135deg, #7C3AED, #A855F7);
-    color: white; border: none; border-radius: var(--r-sm);
-    padding: 9px 16px; font-size: 13px; font-weight: 700;
-    cursor: pointer; display: flex; align-items: center; gap: 6px;
-    font-family: 'Inter', sans-serif; transition: all 0.2s;
-    box-shadow: 0 2px 12px rgba(124,58,237,0.35);
-  }
-  .admin-panel-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,0.5); }
-
-  /* ── MEDICAL BACKGROUND IMAGERY ── */
-  .medical-bg-imagery {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    overflow: hidden;
-  }
-  .med-bg-icon {
-    position: absolute;
-    font-size: var(--sz);
-    opacity: var(--op);
-    animation: floatMed var(--dur) ease-in-out infinite;
-    animation-delay: var(--del);
-    filter: blur(0.5px);
-  }
-  @keyframes floatMed {
-    0%, 100% { transform: translateY(0) rotate(var(--rot)); }
-    50% { transform: translateY(-18px) rotate(calc(var(--rot) + 5deg)); }
-  }
-  [data-theme="light"] .med-bg-icon { opacity: calc(var(--op) * 0.4); }
-
-  /* Bigger logo */
-  .logo-name { font-size: 30px !important; letter-spacing: 3px !important; }
-  @media (max-width: 768px) { .logo-name { font-size: 22px !important; } }
 
 </style>
 </head>
 <body>
 
+<!-- ANIMATED BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
 
 <!-- MEDICAL BACKGROUND IMAGERY -->
 <div class="medical-bg-imagery" id="med-bg-imagery">
@@ -1125,230 +453,207 @@ header {
   <span class="med-bg-icon" style="--sz:58px;--op:0.05;--dur:10.5s;--del:1s;--rot:-18deg;top:48%;left:48%;">⚗️</span>
 </div>
 
-<!-- ANIMATED BG -->
 <div class="app-wrapper">
-<canvas id="bg-canvas"></canvas>
 
-<!-- MEDICAL TICKER -->
-<div class="ticker-bar">
-  <div class="ticker-label">⚕ KRIXIA HEALTH</div>
-  <div class="ticker-scroll-wrap">
-    <div class="ticker-track" id="ticker-track">
-      <span class="ticker-item"><span class="t-icon">💓</span>Normal resting heart rate: <span class="t-highlight">60–100 bpm</span></span>
-      <span class="ticker-item"><span class="t-icon">🩸</span>Know your blood group — it can save your life in an emergency</span>
-      <span class="ticker-item"><span class="t-icon">💧</span>Drink at least <span class="t-highlight">8 glasses of water</span> daily for optimal health</span>
-      <span class="ticker-item"><span class="t-icon">🌡️</span>Normal body temperature: <span class="t-highlight">36.1°C – 37.2°C</span></span>
-      <span class="ticker-item"><span class="t-icon">🫁</span>Normal SpO₂ (blood oxygen): <span class="t-highlight">95% – 100%</span></span>
-      <span class="ticker-item"><span class="t-icon">💊</span>Never self-medicate antibiotics — always complete the prescribed course</span>
-      <span class="ticker-item"><span class="t-icon">🧠</span>Mental health is as important as physical health — talk to someone today</span>
-      <span class="ticker-item"><span class="t-icon">🏃</span>WHO recommends <span class="t-highlight">150 minutes</span> of moderate exercise per week</span>
-      <span class="ticker-item"><span class="t-icon">👁️</span>Signs of a stroke: Face drooping, Arm weakness, Speech difficulty — <span class="t-highlight">Call emergency immediately</span></span>
-      <span class="ticker-item"><span class="t-icon">🍎</span>A diet rich in fruits and vegetables reduces risk of chronic disease by <span class="t-highlight">up to 30%</span></span>
-      <span class="ticker-item"><span class="t-icon">😴</span>Adults need <span class="t-highlight">7–9 hours</span> of sleep per night for optimal health</span>
-      <span class="ticker-item"><span class="t-icon">🩺</span>Regular health checkups can detect diseases <span class="t-highlight">before symptoms appear</span></span>
-      <span class="ticker-item"><span class="t-icon">⚠️</span>Malaria emergency? Visit your nearest hospital immediately — Lagos: <span class="t-highlight">LASAMBUS 08000225522</span></span>
-      <span class="ticker-item"><span class="t-icon">💉</span>Keep your vaccinations up to date — prevention is better than cure</span>
-      <span class="ticker-item"><span class="t-icon">🚨</span>Nigeria Emergency Line: <span class="t-highlight">112</span> · Ambulance: <span class="t-highlight">199</span></span>
-      <!-- Duplicate for seamless loop -->
-      <span class="ticker-item"><span class="t-icon">💓</span>Normal resting heart rate: <span class="t-highlight">60–100 bpm</span></span>
-      <span class="ticker-item"><span class="t-icon">🩸</span>Know your blood group — it can save your life in an emergency</span>
-      <span class="ticker-item"><span class="t-icon">💧</span>Drink at least <span class="t-highlight">8 glasses of water</span> daily for optimal health</span>
-      <span class="ticker-item"><span class="t-icon">🌡️</span>Normal body temperature: <span class="t-highlight">36.1°C – 37.2°C</span></span>
-      <span class="ticker-item"><span class="t-icon">🫁</span>Normal SpO₂ (blood oxygen): <span class="t-highlight">95% – 100%</span></span>
-      <span class="ticker-item"><span class="t-icon">💊</span>Never self-medicate antibiotics — always complete the prescribed course</span>
-      <span class="ticker-item"><span class="t-icon">🧠</span>Mental health is as important as physical health — talk to someone today</span>
-      <span class="ticker-item"><span class="t-icon">🏃</span>WHO recommends <span class="t-highlight">150 minutes</span> of moderate exercise per week</span>
-      <span class="ticker-item"><span class="t-icon">👁️</span>Signs of a stroke: Face drooping, Arm weakness, Speech difficulty — <span class="t-highlight">Call emergency immediately</span></span>
-      <span class="ticker-item"><span class="t-icon">🍎</span>A diet rich in fruits and vegetables reduces risk of chronic disease by <span class="t-highlight">up to 30%</span></span>
-      <span class="ticker-item"><span class="t-icon">😴</span>Adults need <span class="t-highlight">7–9 hours</span> of sleep per night for optimal health</span>
-      <span class="ticker-item"><span class="t-icon">🩺</span>Regular health checkups can detect diseases <span class="t-highlight">before symptoms appear</span></span>
-      <span class="ticker-item"><span class="t-icon">⚠️</span>Malaria emergency? Visit your nearest hospital immediately — Lagos: <span class="t-highlight">LASAMBUS 08000225522</span></span>
-      <span class="ticker-item"><span class="t-icon">💉</span>Keep your vaccinations up to date — prevention is better than cure</span>
-      <span class="ticker-item"><span class="t-icon">🚨</span>Nigeria Emergency Line: <span class="t-highlight">112</span> · Ambulance: <span class="t-highlight">199</span></span>
-    </div>
-  </div>
-</div>
-
-<!-- HEADER -->
-<header>
-  <div class="logo">
-    <!-- KRIXIA SVG LOGO -->
-    <div class="logo-svg-wrap">
-      <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" fill="none">
-        <defs>
-          <linearGradient id="goldG" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#F0D888"/>
-            <stop offset="45%" stop-color="#C9A84C"/>
-            <stop offset="100%" stop-color="#A8832A"/>
-          </linearGradient>
-          <linearGradient id="greenG" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#1D9E64"/>
-            <stop offset="100%" stop-color="#0D3D28"/>
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="1.5" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <!-- Hexagon base -->
-        <polygon points="22,2 40,11.5 40,32.5 22,42 4,32.5 4,11.5" fill="url(#greenG)" stroke="url(#goldG)" stroke-width="1.2"/>
-        <!-- Cross / medical plus -->
-        <rect x="18.5" y="11" width="7" height="22" rx="2" fill="url(#goldG)" filter="url(#glow)"/>
-        <rect x="11" y="18.5" width="22" height="7" rx="2" fill="url(#goldG)" filter="url(#glow)"/>
-        <!-- Center dot -->
-        <circle cx="22" cy="22" r="3.5" fill="#0A2A1C"/>
-        <!-- Pulse arc top-right -->
-        <path d="M30 14 Q34 18 30 22" stroke="url(#goldG)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
-        <!-- Pulse arc bottom-left -->
-        <path d="M14 30 Q10 26 14 22" stroke="url(#goldG)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
-      </svg>
-    </div>
-    <div class="logo-wordmark">
-      <div class="logo-name">KRIXIA</div>
-      <div class="logo-tagline">Medical Intelligence</div>
+  <!-- MEDICAL TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-label">⚕ KRIXIA</div>
+    <div class="ticker-scroll-wrap">
+      <div class="ticker-track" id="ticker-track">
+        <span class="ticker-item"><span class="t-icon">💓</span>Normal resting heart rate: <span class="t-highlight">60–100 bpm</span></span>
+        <span class="ticker-item"><span class="t-icon">🩸</span>Know your blood group — it can save your life in an emergency</span>
+        <span class="ticker-item"><span class="t-icon">💧</span>Drink at least <span class="t-highlight">8 glasses of water</span> daily</span>
+        <span class="ticker-item"><span class="t-icon">🌡️</span>Normal body temperature: <span class="t-highlight">36.1°C – 37.2°C</span></span>
+        <span class="ticker-item"><span class="t-icon">🫁</span>Normal SpO₂: <span class="t-highlight">95% – 100%</span></span>
+        <span class="ticker-item"><span class="t-icon">💊</span>Never self-medicate antibiotics — always complete the prescribed course</span>
+        <span class="ticker-item"><span class="t-icon">🧠</span>Mental health matters — talk to someone today</span>
+        <span class="ticker-item"><span class="t-icon">🏃</span>WHO recommends <span class="t-highlight">150 minutes</span> of exercise per week</span>
+        <span class="ticker-item"><span class="t-icon">👁️</span>Stroke signs: Face drooping, Arm weakness, Speech difficulty — <span class="t-highlight">call emergency</span></span>
+        <span class="ticker-item"><span class="t-icon">😴</span>Adults need <span class="t-highlight">7–9 hours</span> of sleep per night</span>
+        <span class="ticker-item"><span class="t-icon">🩺</span>Regular checkups detect disease <span class="t-highlight">before symptoms appear</span></span>
+        <span class="ticker-item"><span class="t-icon">🚨</span>Nigeria Emergency: <span class="t-highlight">112</span> · Ambulance: <span class="t-highlight">199</span></span>
+        <span class="ticker-item"><span class="t-icon">💓</span>Normal resting heart rate: <span class="t-highlight">60–100 bpm</span></span>
+        <span class="ticker-item"><span class="t-icon">🩸</span>Know your blood group — it can save your life in an emergency</span>
+        <span class="ticker-item"><span class="t-icon">💧</span>Drink at least <span class="t-highlight">8 glasses of water</span> daily</span>
+        <span class="ticker-item"><span class="t-icon">🌡️</span>Normal body temperature: <span class="t-highlight">36.1°C – 37.2°C</span></span>
+        <span class="ticker-item"><span class="t-icon">🫁</span>Normal SpO₂: <span class="t-highlight">95% – 100%</span></span>
+        <span class="ticker-item"><span class="t-icon">💊</span>Never self-medicate antibiotics — always complete the prescribed course</span>
+        <span class="ticker-item"><span class="t-icon">🧠</span>Mental health matters — talk to someone today</span>
+        <span class="ticker-item"><span class="t-icon">🏃</span>WHO recommends <span class="t-highlight">150 minutes</span> of exercise per week</span>
+      </div>
     </div>
   </div>
 
-  <div class="header-center">
-    <div class="status-live"><span class="status-dot"></span>AI Doctor Online</div>
-  </div>
+  <!-- HEADER -->
+  <header>
+    <div class="logo" id="logo-trigger">
+      <div class="logo-svg-wrap">
+        <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <defs>
+            <linearGradient id="goldG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#F0D888"/><stop offset="45%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#A8832A"/>
+            </linearGradient>
+            <linearGradient id="greenG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1D9E64"/><stop offset="100%" stop-color="#0D3D28"/>
+            </linearGradient>
+          </defs>
+          <polygon points="22,2 40,11.5 40,32.5 22,42 4,32.5 4,11.5" fill="url(#greenG)" stroke="url(#goldG)" stroke-width="1.2"/>
+          <rect x="18.5" y="11" width="7" height="22" rx="2" fill="url(#goldG)"/>
+          <rect x="11" y="18.5" width="22" height="7" rx="2" fill="url(#goldG)"/>
+          <circle cx="22" cy="22" r="3.5" fill="#0A2A1C"/>
+        </svg>
+      </div>
+      <div class="logo-wordmark">
+        <div class="logo-name">KRIXIA</div>
+        <div class="logo-tagline">Medical Intelligence</div>
+      </div>
+    </div>
 
-  <div class="header-right">
-    <div class="usage-pill" id="usage-pill">
-      <div class="usage-dots" id="usage-dots-wrap">
-        <div class="usage-dot" id="ud-0"></div>
-        <div class="usage-dot" id="ud-1"></div>
-        <div class="usage-dot" id="ud-2"></div>
-        <div class="usage-dot" id="ud-3"></div>
-        <div class="usage-dot" id="ud-4"></div>
-        <div class="usage-dot" id="ud-5"></div>
-        <div class="usage-dot" id="ud-6"></div>
-        <div class="usage-dot" id="ud-7"></div>
-        <div class="usage-dot" id="ud-8"></div>
-        <div class="usage-dot" id="ud-9"></div>
-      </div>
-      <span id="usage-label">10 left today</span>
+    <div class="header-center">
+      <div class="status-live"><span class="status-dot"></span>AI Doctor Online</div>
     </div>
-    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
-    <button class="btn-premium" id="upgrade-btn" onclick="openPricingModal()">👑 Premium</button>
-    <button class="btn-medid" id="btn-register" onclick="openRegisterModal()">Get Health ID</button>
-  </div>
-</header>
 
-<!-- MAIN -->
-<div class="main">
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div>
-      <div class="sidebar-label">Specialty</div>
-      <div class="specialty-grid">
-        <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')"><span class="icon">🩺</span>General</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')"><span class="icon">👶</span>Pediatrics</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')"><span class="icon">❤️</span>Cardiology</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')"><span class="icon">🔬</span>Skin Care</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology &amp; Obstetrics')"><span class="icon">🤱</span>Women's</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')"><span class="icon">🦴</span>Ortho</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')"><span class="icon">🧠</span>Neuro</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'ENT')"><span class="icon">👃</span>ENT</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')"><span class="icon">👁️</span>Eye Care</button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health')"><span class="icon">🧘</span>Mental</button>
+    <div class="header-right">
+      <div class="usage-pill" id="usage-pill">
+        <div class="usage-dots" id="usage-dots-wrap">
+          <div class="usage-dot" id="ud-0"></div><div class="usage-dot" id="ud-1"></div><div class="usage-dot" id="ud-2"></div>
+          <div class="usage-dot" id="ud-3"></div><div class="usage-dot" id="ud-4"></div><div class="usage-dot" id="ud-5"></div>
+          <div class="usage-dot" id="ud-6"></div><div class="usage-dot" id="ud-7"></div><div class="usage-dot" id="ud-8"></div><div class="usage-dot" id="ud-9"></div>
+        </div>
+        <span id="usage-label">10 left today</span>
       </div>
+      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+      <button class="btn-premium" id="upgrade-btn" onclick="openPanel('pricing-panel')">👑 Premium</button>
+      <button class="btn-medid" id="btn-register" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')">Get Health ID</button>
     </div>
-    <div>
-      <div class="sidebar-label">Diagnostic Tools</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <button class="scan-btn" onclick="triggerImageUpload()">
-          <span class="s-icon">📷</span>
-          <div><div class="s-title">Photo / Video Scan</div><div class="s-sub">Upload injury or skin condition</div></div>
-        </button>
-        <button class="scan-btn" onclick="startVitals()">
-          <span class="s-icon">💓</span>
-          <div><div class="s-title">Vitals Scanner</div><div class="s-sub">Camera pulse & SpO₂ detection</div></div>
-        </button>
-        <button class="hosp-btn" onclick="openHospitalFinder()">
-          <span class="s-icon">🏥</span>
-          <div><div class="s-title">Find Nearest Hospital</div><div class="s-sub">GPS-based referral system</div></div>
-        </button>
-      </div>
-    </div>
-    <div>
-      <div class="sidebar-label">Last Vitals</div>
-      <div class="vital-cards">
-        <div class="vital-card"><div class="vl">Heart Rate</div><div class="vv" id="vital-hr">—</div><div class="vu">bpm</div></div>
-        <div class="vital-card"><div class="vl">SpO₂</div><div class="vv" id="vital-spo2">—</div><div class="vu">%</div></div>
-        <div class="vital-card"><div class="vl">Resp. Rate</div><div class="vv" id="vital-rr">—</div><div class="vu">br/min</div></div>
-        <div class="vital-card"><div class="vl">Temp Est.</div><div class="vv" id="vital-temp">—</div><div class="vu">°C</div></div>
-      </div>
-    </div>
-    <div class="disclaimer-box">⚠️ AI-assisted guidance only. Always consult a licensed physician for definitive diagnosis and treatment.</div>
-  </aside>
+  </header>
 
-  <!-- CHAT -->
-  <div class="chat-area">
-    <div class="chat-topbar">
-      <div class="doc-wrap">
-        <div class="doc-avatar">⚕</div>
-        <div>
-          <div class="doc-name">Krixia Super Doctor</div>
-          <div class="doc-status"><span class="status-dot"></span>All specialties · Instant AI response</div>
+  <!-- MAIN -->
+  <div class="main">
+    <!-- SIDEBAR (desktop) -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-label">Quick Actions</div>
+        <div class="quick-action-grid">
+          <button class="qa-card" onclick="openVitalsPanel()"><span class="qa-icon">💓</span><div><div class="qa-text">Vitals Scan</div><div class="qa-sub">Camera pulse & SpO₂</div></div></button>
+          <button class="qa-card" onclick="openHospitalPanel()"><span class="qa-icon">🏥</span><div><div class="qa-text">Find Hospital</div><div class="qa-sub">GPS-based referral</div></div></button>
+          <button class="qa-card" onclick="triggerImageUpload()"><span class="qa-icon">📷</span><div><div class="qa-text">Photo Scan</div><div class="qa-sub">Skin & injury analysis</div></div></button>
+          <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
         </div>
       </div>
-      <div class="mode-tabs">
-        <button class="mode-tab active" id="tab-chat" onclick="setMode('chat')">💬 Chat</button>
-        <button class="mode-tab" id="tab-voice" onclick="setMode('voice')">🎙️ Voice</button>
-        <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Scan</button>
-      </div>
-    </div>
 
-    <div class="messages" id="messages">
-      <div class="message ai">
-        <div class="msg-avatar ai-av">⚕</div>
-        <div class="welcome-card">
-          <div class="wc-top">
-            <div class="wc-icon">⚕</div>
-            <div>
-              <div class="wc-brand">KRIXIA</div>
-              <div class="wc-sub">World Class Medical Intelligence</div>
+      <div>
+        <div class="sidebar-label">Specialty</div>
+        <div class="specialty-grid">
+          <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')"><span class="icon">🩺</span>General<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('General Medicine')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')"><span class="icon">👶</span>Pediatrics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Pediatrics')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')"><span class="icon">❤️</span>Cardiology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Cardiology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')"><span class="icon">🔬</span>Skin Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Dermatology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology &amp; Obstetrics')"><span class="icon">🤱</span>Women's<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Gynecology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')"><span class="icon">🦴</span>Ortho<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Orthopedics')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')"><span class="icon">🧠</span>Neuro<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Neurology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'ENT')"><span class="icon">👃</span>ENT<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('ENT')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')"><span class="icon">👁️</span>Eye Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Ophthalmology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health')"><span class="icon">🧘</span>Mental<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Mental Health')">ⓘ</span></button>
+        </div>
+      </div>
+
+      <div>
+        <div class="sidebar-label">Last Vitals</div>
+        <div class="vital-cards">
+          <div class="vital-card"><div class="vl">Heart Rate</div><div class="vv" id="vital-hr">—</div><div class="vu">bpm</div></div>
+          <div class="vital-card"><div class="vl">SpO₂</div><div class="vv" id="vital-spo2">—</div><div class="vu">%</div></div>
+          <div class="vital-card"><div class="vl">Resp. Rate</div><div class="vv" id="vital-rr">—</div><div class="vu">br/min</div></div>
+          <div class="vital-card"><div class="vl">Temp Est.</div><div class="vv" id="vital-temp">—</div><div class="vu">°C</div></div>
+        </div>
+      </div>
+      <div class="disclaimer-box">⚠️ AI-assisted guidance only. Always consult a licensed physician for definitive diagnosis and treatment.</div>
+    </aside>
+
+    <!-- CHAT AREA -->
+    <div class="chat-area">
+      <div class="chat-topbar">
+        <div class="doc-wrap">
+          <div class="doc-avatar">⚕</div>
+          <div>
+            <div class="doc-name">Krixia Super Doctor</div>
+            <div class="doc-status"><span class="status-dot"></span>All specialties · Instant AI response</div>
+          </div>
+        </div>
+        <div class="mode-tabs">
+          <button class="mode-tab active" id="tab-chat" onclick="setMode('chat')">💬 Chat</button>
+          <button class="mode-tab" id="tab-voice" onclick="setMode('voice')">🎙️ Voice</button>
+          <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Scan</button>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="message ai" style="max-width:100%;">
+          <div style="width:100%;">
+            <div class="welcome-hero">
+              <div class="welcome-doctor">
+                <div class="doctor-figure-emoji" id="doctor-avatar">🧑🏿‍⚕️</div>
+                <div class="doctor-shadow"></div>
+              </div>
+              <div class="welcome-brand">KRIXIA</div>
+              <div class="welcome-sub">World Class Medical Intelligence</div>
+              <p class="welcome-intro" id="wc-typewriter"><span class="typewriter-cursor"></span></p>
+            </div>
+            <div class="welcome-actions" id="mobile-quick-actions">
+              <button class="qa-row" onclick="openVitalsPanel()">
+                <span class="qa-ic">💓</span>
+                <div><div class="qa-label">Vitals Scan</div><div class="qa-desc">Camera pulse & SpO₂ detection</div></div>
+                <span class="qa-arrow">›</span>
+              </button>
+              <button class="qa-row" onclick="openHospitalPanel()">
+                <span class="qa-ic">🏥</span>
+                <div><div class="qa-label">Find Hospital</div><div class="qa-desc">GPS-based referral system</div></div>
+                <span class="qa-arrow">›</span>
+              </button>
+              <button class="qa-row" onclick="triggerImageUpload()">
+                <span class="qa-ic">📷</span>
+                <div><div class="qa-label">Photo Scan</div><div class="qa-desc">Upload injury or skin condition</div></div>
+                <span class="qa-arrow">›</span>
+              </button>
             </div>
           </div>
-          <p class="wc-intro">I combine the expertise of specialists across <strong style="color:var(--gold-300)">every medical field</strong> to give you accurate, empathetic health guidance — from newborns to the elderly, any condition, anytime, anywhere.</p>
-          <div class="cap-grid">
-            <div class="cap-item"><span class="cap-icon">🔍</span>Diagnose symptoms with clinical precision</div>
-            <div class="cap-item"><span class="cap-icon">📸</span>Analyse injury & skin condition photos</div>
-            <div class="cap-item"><span class="cap-icon">💊</span>Recommend treatments & medications</div>
-            <div class="cap-item"><span class="cap-icon">🏥</span>Refer to nearest hospital by GPS</div>
-            <div class="cap-item"><span class="cap-icon">💓</span>Measure vitals via your camera</div>
-            <div class="cap-item"><span class="cap-icon">🌍</span>Serving Nigeria and the world</div>
+        </div>
+      </div>
+
+      <div class="quick-symptoms" id="quick-chips">
+        <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
+        <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
+        <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
+        <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
+        <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
+        <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety & Sleep</button>
+      </div>
+
+      <div class="image-preview" id="image-preview"></div>
+
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea id="chat-input" rows="1" placeholder="Describe your symptoms or ask any health question..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <div class="input-actions">
+            <button class="icon-btn" title="Upload image">📎<input type="file" accept="image/*,video/*" multiple onchange="handleFileUpload(event)"></button>
+            <button class="icon-btn" id="mic-btn" onclick="toggleVoice()">🎙️</button>
           </div>
         </div>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
       </div>
-    </div>
-
-    <div class="quick-symptoms" id="quick-chips">
-      <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
-      <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
-      <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
-      <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
-      <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
-      <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety & Sleep</button>
-    </div>
-
-    <div class="image-preview" id="image-preview"></div>
-
-    <div class="input-area">
-      <div class="input-wrapper">
-        <textarea id="chat-input" rows="1"
-          placeholder="Describe your symptoms or ask any health question..."
-          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-        <div class="input-actions">
-          <button class="icon-btn" title="Upload image">📎<input type="file" accept="image/*,video/*" multiple onchange="handleFileUpload(event)"></button>
-          <button class="icon-btn" id="mic-btn" onclick="toggleVoice()">🎙️</button>
-        </div>
-      </div>
-      <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
     </div>
   </div>
-</div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom-nav">
+    <button class="mob-nav-btn active" onclick="mobileNav('chat',this)"><span class="mob-icon">💬</span><span class="mob-label">Diagnose</span></button>
+    <button class="mob-nav-btn" onclick="mobileNav('specialty',this)"><span class="mob-icon">🩺</span><span class="mob-label">Specialty</span></button>
+    <button class="mob-nav-btn" onclick="mobileNav('vitals',this)"><span class="mob-icon">💓</span><span class="mob-label">Vitals</span></button>
+    <button class="mob-nav-btn" onclick="mobileNav('hospitals',this)"><span class="mob-icon">🏥</span><span class="mob-label">Hospitals</span></button>
+    <button class="mob-nav-btn" onclick="mobileNav('profile',this)"><span class="mob-icon">👤</span><span class="mob-label">Profile</span></button>
+  </nav>
+
+</div><!-- end app-wrapper -->
 
 <!-- VOICE OVERLAY -->
 <div class="voice-overlay" id="voice-overlay">
@@ -1358,225 +663,318 @@ header {
   <button class="voice-stop" onclick="stopVoice()">Stop Recording</button>
 </div>
 
-<!-- REGISTER MODAL -->
-<div class="modal-overlay" id="register-modal">
-  <div class="modal" style="max-height:88vh;overflow-y:auto;">
-    <div class="modal-header" style="flex-shrink:0;"><h2>🏥 Krixia Health ID</h2><button class="modal-close" onclick="closeModal('register-modal')">✕</button></div>
-    <p class="modal-sub">Create your free digital health profile</p>
-    <div class="form-row">
-      <div class="form-group"><label>First Name</label><input type="text" id="reg-firstname" placeholder="Elvis"></div>
-      <div class="form-group"><label>Last Name</label><input type="text" id="reg-lastname" placeholder="Ogbeda"></div>
+<!-- ============================================================
+     UNIFIED PANELS — same structure: header / body / footer
+============================================================ -->
+
+<!-- SPECIALTY SELECT PANEL (mobile only entry point) -->
+<div class="panel-overlay" id="specialty-select-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('specialty-select-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🩺 Choose Specialty</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('specialty-select-panel')">✕</button>
     </div>
-    <div class="form-row">
-      <div class="form-group"><label>Date of Birth</label><input type="date" id="reg-dob"></div>
-      <div class="form-group"><label>Sex</label><select id="reg-sex"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Blood Group</label><select id="reg-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
-      <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" placeholder="+234..."></div>
-    </div>
-    <div class="form-group"><label>Known Allergies</label><input type="text" id="reg-allergies" placeholder="e.g. Penicillin (or None)"></div>
-    <div class="form-group"><label>Existing Conditions</label><input type="text" id="reg-conditions" placeholder="e.g. Diabetes (or None)"></div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('register-modal')">Cancel</button>
-      <button class="btn-primary" onclick="generateMedCard()">Generate My Health ID →</button>
+    <div class="panel-body">
+      <div class="specialty-grid" style="margin-top:0.5rem;">
+        <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine');closePanel('specialty-select-panel')"><span class="icon">🩺</span>General<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('General Medicine')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics');closePanel('specialty-select-panel')"><span class="icon">👶</span>Pediatrics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Pediatrics')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology');closePanel('specialty-select-panel')"><span class="icon">❤️</span>Cardiology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Cardiology')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology');closePanel('specialty-select-panel')"><span class="icon">🔬</span>Skin Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Dermatology')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology');closePanel('specialty-select-panel')"><span class="icon">🤱</span>Women's<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Gynecology')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics');closePanel('specialty-select-panel')"><span class="icon">🦴</span>Orthopedics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Orthopedics')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Neurology');closePanel('specialty-select-panel')"><span class="icon">🧠</span>Neurology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Neurology')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'ENT');closePanel('specialty-select-panel')"><span class="icon">👃</span>ENT<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('ENT')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology');closePanel('specialty-select-panel')"><span class="icon">👁️</span>Eye Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Ophthalmology')">ⓘ</span></button>
+        <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health');closePanel('specialty-select-panel')"><span class="icon">🧘</span>Mental Health<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Mental Health')">ⓘ</span></button>
+      </div>
+      <p style="font-size:12px;color:var(--text-3);margin:12px 0;text-align:center;">Tap ⓘ to learn more about a specialty</p>
     </div>
   </div>
 </div>
 
-<!-- MED CARD MODAL -->
-<div class="modal-overlay" id="card-modal">
-  <div class="modal">
-    <div class="modal-header"><h2>Your Krixia Health ID 🎉</h2><button class="modal-close" onclick="closeModal('card-modal')">✕</button></div>
-    <p class="modal-sub">Your digital health identity is active. Share with any doctor or clinic.</p>
-    <div class="med-card" id="generated-card"></div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('card-modal')">Close</button>
-      <button class="btn-primary" onclick="shareCard()">📋 Copy Card ID</button>
+<!-- SPECIALTY DETAIL PANEL -->
+<div class="panel-overlay" id="specialty-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('specialty-panel')">← Back</button>
+      <h2 class="panel-close-desktop" id="spec-panel-title">Specialty</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('specialty-panel')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="specialty-detail-icon" id="spec-panel-icon">🩺</div>
+      <p style="font-size:14px;color:var(--text-3);margin-bottom:1rem;" id="spec-panel-desc">Description</p>
+      <div style="font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Common Conditions We Help With</div>
+      <div class="specialty-condition-list" id="spec-panel-conditions"></div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('specialty-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" style="flex:2;" onclick="startSpecialtyChat()">Start Consultation →</button>
     </div>
   </div>
 </div>
 
-<!-- VITALS MODAL -->
-<div class="modal-overlay" id="vitals-modal">
-  <div class="modal" style="max-width:470px;display:flex;flex-direction:column;max-height:88vh;overflow-y:auto;">
-    <div class="modal-header" style="flex-shrink:0;"><h2>💓 Vitals Scanner</h2><button class="modal-close" onclick="stopPPG();closeModal('vitals-modal')">✕</button></div>
-    <p class="modal-sub" style="flex-shrink:0;">Real-time heart rate via camera photoplethysmography (PPG)</p>
-    <div id="ppg-step-1">
-      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:var(--r-md);padding:0.9rem;margin-bottom:0.75rem;text-align:center;">
-        <div style="font-size:36px;margin-bottom:6px;">👆</div>
-        <p style="font-size:14px;font-weight:700;color:var(--gold-300);margin-bottom:5px;">How to measure your pulse</p>
-        <p style="font-size:13px;color:var(--text-2);line-height:1.5;">Press your <strong style="color:var(--gold-300)">fingertip over the rear camera</strong> and flashlight. Hold still 30 seconds.</p>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:0.75rem;">
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:8px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:18px;margin-bottom:3px;">🔦</div>Cover camera</div>
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:8px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:18px;margin-bottom:3px;">✋</div>Hold still</div>
-        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:8px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:18px;margin-bottom:3px;">⏱️</div>30 seconds</div>
-      </div>
-      <button class="btn-primary" onclick="startPPG()">Start Pulse Scan →</button>
+<!-- VITALS PANEL -->
+<div class="panel-overlay" id="vitals-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="stopPPG();closePanel('vitals-panel')">← Back</button>
+      <h2 class="panel-close-desktop">💓 Vitals Scanner</h2>
+      <button class="panel-close panel-close-desktop" onclick="stopPPG();closePanel('vitals-panel')">✕</button>
     </div>
-    <div id="ppg-step-2" style="display:none;text-align:center;">
-      <div style="position:relative;margin:0 auto 1rem;width:180px;height:180px;">
-        <canvas id="ppg-canvas" width="180" height="180" style="border-radius:50%;border:2px solid rgba(201,168,76,0.25);background:#000;display:block;"></canvas>
-        <div id="ppg-pulse-ring" style="position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--gold-400);opacity:0;transition:opacity 0.1s;pointer-events:none;"></div>
-        <div style="position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border-2);border-radius:20px;padding:4px 13px;font-size:13px;font-weight:700;color:var(--gold-300);white-space:nowrap;font-family:'JetBrains Mono',monospace;" id="ppg-live-bpm">— bpm</div>
-      </div>
-      <div style="margin:1.5rem 0 0.75rem;background:var(--surface-2);border-radius:11px;padding:10px 14px;border:1px solid var(--border);">
-        <canvas id="ppg-wave-canvas" width="380" height="60" style="width:100%;display:block;"></canvas>
-      </div>
-      <div style="background:var(--surface-2);border-radius:8px;height:9px;overflow:hidden;margin-bottom:9px;border:1px solid var(--border);">
-        <div id="ppg-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--gold-600),var(--gold-300));width:0%;transition:width 0.5s;border-radius:8px;"></div>
-      </div>
-      <p style="font-size:14px;color:var(--text-2);" id="ppg-status">Warming up camera...</p>
-      <p style="font-size:12px;color:var(--text-3);margin-top:5px;" id="ppg-timer">30s remaining</p>
-      <button onclick="stopPPG()" style="margin-top:13px;background:none;border:1px solid var(--border);border-radius:9px;padding:8px 18px;font-size:13px;cursor:pointer;color:var(--text-2);font-family:'Inter',sans-serif;">Cancel</button>
-    </div>
-    <div id="ppg-step-3" style="display:none;">
-      <div style="text-align:center;margin-bottom:1rem;">
-        <div id="ppg-heart-anim" style="font-size:52px;animation:heartbeat 0.8s infinite;">❤️</div>
-        <div style="font-size:52px;font-weight:700;color:var(--gold-300);line-height:1;font-family:'JetBrains Mono',monospace;" id="ppg-final-bpm">--</div>
-        <div style="font-size:14px;color:var(--text-3);margin-top:5px;">beats per minute</div>
-        <div id="ppg-bpm-zone" style="margin-top:9px;display:inline-block;padding:5px 16px;border-radius:20px;font-size:13px;font-weight:700;"></div>
-      </div>
-      <div class="vital-cards" style="margin:1rem 0;">
-        <div class="vital-card"><div class="vl">Heart Rate</div><div class="vv" id="ppg-r-hr">—</div><div class="vu">bpm</div></div>
-        <div class="vital-card"><div class="vl">SpO₂ Est.</div><div class="vv" id="ppg-r-spo2">—</div><div class="vu">%</div></div>
-        <div class="vital-card"><div class="vl">HRV Score</div><div class="vv" id="ppg-r-hrv">—</div><div class="vu">ms</div></div>
-        <div class="vital-card"><div class="vl">Status</div><div class="vv" id="ppg-r-status" style="font-size:13px;">—</div><div class="vu">reading</div></div>
-      </div>
-      <div id="ppg-interpretation" style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:11px;padding:13px 15px;font-size:14px;color:var(--text-2);margin-bottom:1rem;line-height:1.7;"></div>
-      <div class="modal-actions">
-        <button class="btn-secondary" onclick="resetPPG()">Scan Again</button>
-        <button class="btn-primary" onclick="sendVitalsToChat()">💬 Discuss with Krixia →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- HOSPITAL MODAL -->
-<div class="modal-overlay" id="hospital-modal">
-  <div class="modal hospital-modal" style="display:flex;flex-direction:column;max-height:88vh;">
-    <div class="modal-header" style="flex-shrink:0;"><h2>🏥 Nearest Hospitals</h2><button class="modal-close" onclick="closeModal('hospital-modal')">✕</button></div>
-    <p class="modal-sub" style="flex-shrink:0;">Hospitals and clinics nearest to your current GPS location</p>
-    <div class="emergency-banner" id="emergency-banner" style="display:none;">
-      <div class="em-icon">🚨</div>
-      <div class="em-text">
-        <strong>Emergency? Call immediately</strong>
-        Nigeria emergency lines — available 24/7
-        <div class="emergency-numbers">
-          <a class="emnum-btn" href="tel:112">📞 112</a>
-          <a class="emnum-btn" href="tel:08000225522">📞 LASAMBUS</a>
-          <a class="emnum-btn" href="tel:199">📞 199</a>
+    <p class="panel-sub">Real-time heart rate via camera photoplethysmography (PPG)</p>
+    <div class="panel-body">
+      <div id="ppg-step-1">
+        <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:var(--r-md);padding:1.25rem;margin-bottom:1rem;text-align:center;">
+          <div style="font-size:44px;margin-bottom:8px;">👆</div>
+          <p style="font-size:15px;font-weight:700;color:var(--gold-300);margin-bottom:6px;">How to measure your pulse</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.6;">Press your <strong style="color:var(--gold-300)">fingertip over the rear camera</strong> and flashlight together. Hold still for 30 seconds.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem;">
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:20px;margin-bottom:4px;">🔦</div>Cover camera</div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:20px;margin-bottom:4px;">✋</div>Hold still</div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:20px;margin-bottom:4px;">⏱️</div>30 seconds</div>
         </div>
       </div>
+      <div id="ppg-step-2" style="display:none;text-align:center;">
+        <div style="position:relative;margin:0 auto 1rem;width:170px;height:170px;">
+          <canvas id="ppg-canvas" width="170" height="170" style="border-radius:50%;border:2px solid rgba(201,168,76,0.25);background:#000;display:block;"></canvas>
+          <div id="ppg-pulse-ring" style="position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--gold-400);opacity:0;transition:opacity 0.1s;pointer-events:none;"></div>
+          <div style="position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border-2);border-radius:20px;padding:4px 13px;font-size:13px;font-weight:700;color:var(--gold-300);white-space:nowrap;font-family:'JetBrains Mono',monospace;" id="ppg-live-bpm">— bpm</div>
+        </div>
+        <div style="margin:1.5rem 0 0.75rem;background:var(--surface-2);border-radius:11px;padding:10px 14px;border:1px solid var(--border);">
+          <canvas id="ppg-wave-canvas" width="380" height="60" style="width:100%;display:block;"></canvas>
+        </div>
+        <div style="background:var(--surface-2);border-radius:8px;height:9px;overflow:hidden;margin-bottom:9px;border:1px solid var(--border);">
+          <div id="ppg-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--gold-600),var(--gold-300));width:0%;transition:width 0.5s;border-radius:8px;"></div>
+        </div>
+        <p style="font-size:14px;color:var(--text-2);" id="ppg-status">Warming up camera...</p>
+        <p style="font-size:12px;color:var(--text-3);margin-top:5px;" id="ppg-timer">30s remaining</p>
+        <button onclick="stopPPG()" style="margin-top:13px;background:none;border:1px solid var(--border);border-radius:9px;padding:8px 18px;font-size:13px;cursor:pointer;color:var(--text-2);font-family:'Inter',sans-serif;">Cancel</button>
+      </div>
+      <div id="ppg-step-3" style="display:none;">
+        <div style="text-align:center;margin-bottom:1rem;">
+          <div id="ppg-heart-anim" style="font-size:48px;animation:heartbeat 0.8s infinite;">❤️</div>
+          <div style="font-size:48px;font-weight:700;color:var(--gold-300);line-height:1;font-family:'JetBrains Mono',monospace;" id="ppg-final-bpm">--</div>
+          <div style="font-size:14px;color:var(--text-3);margin-top:5px;">beats per minute</div>
+          <div id="ppg-bpm-zone" style="margin-top:9px;display:inline-block;padding:5px 16px;border-radius:20px;font-size:13px;font-weight:700;"></div>
+        </div>
+        <div class="vital-cards" style="margin:1rem 0;">
+          <div class="vital-card"><div class="vl">Heart Rate</div><div class="vv" id="ppg-r-hr">—</div><div class="vu">bpm</div></div>
+          <div class="vital-card"><div class="vl">SpO₂ Est.</div><div class="vv" id="ppg-r-spo2">—</div><div class="vu">%</div></div>
+          <div class="vital-card"><div class="vl">HRV Score</div><div class="vv" id="ppg-r-hrv">—</div><div class="vu">ms</div></div>
+          <div class="vital-card"><div class="vl">Status</div><div class="vv" id="ppg-r-status" style="font-size:13px;">—</div><div class="vu">reading</div></div>
+        </div>
+        <div id="ppg-interpretation" style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:11px;padding:13px 15px;font-size:14px;color:var(--text-2);margin-bottom:1rem;line-height:1.7;"></div>
+      </div>
     </div>
-    <div class="location-bar" id="location-bar">
-      <span>📍</span><span class="loc-text" id="loc-text">Detecting your location...</span>
-      <button class="loc-refresh" onclick="detectLocation()">↻</button>
+    <div class="panel-footer" id="ppg-footer-1">
+      <button class="btn-primary" onclick="startPPG()" style="flex:1;">Start Pulse Scan →</button>
     </div>
-    <div class="hosp-filter-tabs">
-      <button class="hf-tab active" onclick="filterHospitals('all',this)">All</button>
-      <button class="hf-tab" onclick="filterHospitals('govt',this)">Govt/Teaching</button>
-      <button class="hf-tab" onclick="filterHospitals('private',this)">Private</button>
-      <button class="hf-tab" onclick="filterHospitals('emergency',this)">24hr Emergency</button>
+    <div class="panel-footer" id="ppg-footer-3" style="display:none;">
+      <button class="btn-secondary" onclick="resetPPG()" style="flex:1;">Scan Again</button>
+      <button class="btn-primary" onclick="sendVitalsToChat()" style="flex:2;">💬 Discuss with Krixia →</button>
     </div>
-    <div class="map-embed" id="map-embed"><div style="font-size:34px;">🗺️</div><span>Map loads after location access</span></div>
-    <div class="hospitals-list" id="hospitals-list"><div class="loading-hospitals"><div class="loading-spinner"></div><span>Locating nearby hospitals...</span></div></div>
-    <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0;">
-      <button class="btn-secondary" onclick="closeModal('hospital-modal')" style="flex:1;">Close</button>
+  </div>
+</div>
+
+<!-- HOSPITAL PANEL -->
+<div class="panel-overlay" id="hospital-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('hospital-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🏥 Nearest Hospitals</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('hospital-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Hospitals and clinics nearest to your current GPS location</p>
+    <div class="panel-body">
+      <div class="emergency-banner" id="emergency-banner" style="display:none;">
+        <div class="em-icon">🚨</div>
+        <div class="em-text">
+          <strong>Emergency? Call immediately</strong>
+          Nigeria emergency lines — available 24/7
+          <div class="emergency-numbers">
+            <a class="emnum-btn" href="tel:112">📞 112</a>
+            <a class="emnum-btn" href="tel:08000225522">📞 LASAMBUS</a>
+            <a class="emnum-btn" href="tel:199">📞 199</a>
+          </div>
+        </div>
+      </div>
+      <div class="location-bar" id="location-bar">
+        <span>📍</span><span class="loc-text" id="loc-text">Detecting your location...</span>
+        <button class="loc-refresh" onclick="detectLocation()">↻</button>
+      </div>
+      <div class="hosp-filter-tabs">
+        <button class="hf-tab active" onclick="filterHospitals('all',this)">All</button>
+        <button class="hf-tab" onclick="filterHospitals('govt',this)">Government</button>
+        <button class="hf-tab" onclick="filterHospitals('private',this)">Private</button>
+        <button class="hf-tab" onclick="filterHospitals('teaching',this)">Specialist</button>
+        <button class="hf-tab" onclick="filterHospitals('emergency',this)">24hr Emergency</button>
+        <button class="hf-tab" onclick="showDoctorsList()">👨‍⚕️ Doctors</button>
+      </div>
+      <div class="map-embed" id="map-embed"><div style="font-size:30px;">🗺️</div><span>Map loads after location access</span></div>
+      <div class="hospitals-list" id="hospitals-list"><div class="loading-hospitals"><div class="loading-spinner"></div><span>Locating nearby hospitals...</span></div></div>
+      <div id="doctors-section" style="display:none;"></div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('hospital-panel')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral →</button>
     </div>
   </div>
 </div>
 
-<!-- PRICING MODAL -->
-<div class="modal-overlay" id="pricing-modal">
-  <div class="modal pricing-modal">
-    <div class="modal-header"><h2>👑 Krixia Premium</h2><button class="modal-close" onclick="closeModal('pricing-modal')">✕</button></div>
-    <p class="modal-sub">Unlimited diagnoses · Full medical history · Priority referrals</p>
-    <div class="plan-toggle">
-      <button class="plan-toggle-btn active" id="toggle-monthly" onclick="setBillingCycle('monthly')">Monthly</button>
-      <button class="plan-toggle-btn" id="toggle-annual" onclick="setBillingCycle('annual')">Annual <span class="save-badge">-40%</span></button>
+<!-- REGISTER / HEALTH ID PANEL -->
+<div class="panel-overlay" id="register-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('register-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🏥 Krixia Health ID</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('register-panel')">✕</button>
     </div>
-    <div class="plans-grid" id="plans-grid"></div>
-    <div style="border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1rem;">
-      <p style="font-size:11px;font-weight:700;color:var(--text-3);margin-bottom:9px;letter-spacing:1px;text-transform:uppercase;">Everything Premium includes</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Unlimited daily diagnoses</div>
-        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Full medical history</div>
-        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Priority hospital referrals</div>
-        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Image &amp; video analysis</div>
-        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>PPG vitals scanner</div>
-        <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Family profiles (up to 5)</div>
+    <p class="panel-sub">Create your free digital health profile</p>
+    <div class="panel-body">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="reg-firstname" placeholder="Elvis"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="reg-lastname" placeholder="Ogbeda"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date of Birth</label><input type="date" id="reg-dob"></div>
+        <div class="form-group"><label>Sex</label><select id="reg-sex"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Blood Group</label><select id="reg-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" placeholder="+234..."></div>
+      </div>
+      <div class="form-group"><label>Known Allergies</label><input type="text" id="reg-allergies" placeholder="e.g. Penicillin (or None)"></div>
+      <div class="form-group"><label>Existing Conditions</label><input type="text" id="reg-conditions" placeholder="e.g. Diabetes (or None)"></div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('register-panel')" style="flex:1;">Cancel</button>
+      <button class="btn-primary" onclick="generateMedCard()" style="flex:2;">Generate My Health ID →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEALTH ID CARD PANEL -->
+<div class="panel-overlay" id="card-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('card-panel')">← Back</button>
+      <h2 class="panel-close-desktop">Your Krixia Health ID 🎉</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('card-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Your digital health identity is active. Share with any doctor or clinic.</p>
+    <div class="panel-body">
+      <div class="med-card" id="generated-card"></div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('card-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="shareCard()" style="flex:2;">📋 Copy Card ID</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING PANEL -->
+<div class="panel-overlay" id="pricing-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('pricing-panel')">← Back</button>
+      <h2 class="panel-close-desktop">👑 Krixia Premium</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('pricing-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Unlimited diagnoses · Full medical history · Priority referrals</p>
+    <div class="panel-body">
+      <div class="plan-toggle">
+        <button class="plan-toggle-btn active" id="toggle-monthly" onclick="setBillingCycle('monthly')">Monthly</button>
+        <button class="plan-toggle-btn" id="toggle-annual" onclick="setBillingCycle('annual')">Annual <span class="save-badge">-40%</span></button>
+      </div>
+      <div class="plans-grid" id="plans-grid"></div>
+      <div style="border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1rem;">
+        <p style="font-size:11px;font-weight:700;color:var(--text-3);margin-bottom:9px;letter-spacing:1px;text-transform:uppercase;">Everything Premium includes</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Unlimited daily diagnoses</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Full medical history</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Priority hospital referrals</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Image &amp; video analysis</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>PPG vitals scanner</div>
+          <div style="font-size:13px;color:var(--text-2);display:flex;gap:7px;"><span style="color:var(--gold-300);font-weight:700;">✓</span>Family profiles (up to 5)</div>
+        </div>
       </div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('pricing-modal')">Later</button>
-      <button class="btn-primary" id="proceed-pay-btn" onclick="proceedToPayment()">Continue to Payment →</button>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('pricing-panel')" style="flex:1;">Later</button>
+      <button class="btn-primary" id="proceed-pay-btn" onclick="proceedToPayment()" style="flex:2;">Continue to Payment →</button>
     </div>
   </div>
 </div>
 
-<!-- PAYMENT MODAL -->
-<div class="modal-overlay" id="payment-modal">
-  <div class="modal" style="max-width:430px;">
-    <div class="modal-header"><h2>💳 Complete Payment</h2><button class="modal-close" onclick="closeModal('payment-modal')">✕</button></div>
-    <div class="pay-summary">
-      <div><div class="ps-plan" id="pay-plan-name">Krixia Premium</div><div style="font-size:12px;color:var(--text-3);" id="pay-plan-cycle">Monthly subscription</div></div>
-      <div class="ps-price" id="pay-plan-price">₦2,500</div>
+<!-- PAYMENT PANEL -->
+<div class="panel-overlay" id="payment-panel">
+  <div class="panel" style="max-width:440px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('payment-panel')">← Back</button>
+      <h2 class="panel-close-desktop">💳 Complete Payment</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('payment-panel')">✕</button>
     </div>
-    <div class="form-group"><label>Email Address</label><input type="email" id="pay-email" placeholder="you@email.com"></div>
-    <div class="form-group"><label>Full Name</label><input type="text" id="pay-name" placeholder="Your full name"></div>
-    <div class="form-group"><label>Phone Number</label><input type="tel" id="pay-phone" placeholder="+234..."></div>
-    <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:9px;padding:11px 13px;margin-bottom:1rem;font-size:13px;color:var(--text-2);line-height:1.5;">🔒 Secured by <strong style="color:var(--gold-300)">Paystack</strong>. Cancel anytime. 7-day money-back guarantee.</div>
-    <button class="paystack-btn" onclick="initiatePaystackPayment()">💳 Pay with Paystack · Cards, Bank Transfer, USSD</button>
-    <p class="secure-note">SSL encrypted · PCI DSS compliant · Nigerian Naira (₦)</p>
+    <div class="panel-body">
+      <div class="pay-summary">
+        <div><div class="ps-plan" id="pay-plan-name">Krixia Premium</div><div style="font-size:12px;color:var(--text-3);" id="pay-plan-cycle">Monthly subscription</div></div>
+        <div class="ps-price" id="pay-plan-price">₦2,500</div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="pay-email" placeholder="you@email.com"></div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="pay-name" placeholder="Your full name"></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="pay-phone" placeholder="+234..."></div>
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:9px;padding:11px 13px;margin-bottom:1rem;font-size:13px;color:var(--text-2);line-height:1.5;">🔒 Secured by <strong style="color:var(--gold-300)">Paystack</strong>. Cancel anytime.</div>
+      <p class="secure-note">SSL encrypted · PCI DSS compliant · Nigerian Naira (₦)</p>
+    </div>
+    <div class="panel-footer">
+      <button class="paystack-btn" onclick="initiatePaystackPayment()" style="flex:1;">💳 Pay with Paystack</button>
+    </div>
   </div>
 </div>
 
-<!-- SUCCESS MODAL -->
-<div class="modal-overlay" id="success-modal">
-  <div class="modal" style="max-width:390px;text-align:center;">
-    <div class="success-crown">👑</div>
-    <h2 style="font-family:'Playfair Display',serif;font-size:28px;margin-bottom:9px;background:linear-gradient(90deg,var(--gold-300),var(--gold-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Welcome to Krixia Premium!</h2>
-    <p style="font-size:15px;color:var(--text-2);margin-bottom:1.5rem;line-height:1.65;">Unlimited diagnoses, full health history, priority referrals — all unlocked. You now have world-class medical intelligence at your fingertips.</p>
-    <div class="premium-badge-pill" style="margin:0 auto 1.5rem;display:inline-flex;">👑 Krixia Premium · Active</div>
-    <button class="btn-primary" onclick="closeModal('success-modal')">Start Diagnosing →</button>
+<!-- SUCCESS PANEL -->
+<div class="panel-overlay" id="success-panel">
+  <div class="panel" style="max-width:390px;">
+    <div class="panel-body" style="text-align:center;padding-top:1.5rem;">
+      <div class="success-crown">👑</div>
+      <h2 style="font-size:24px;font-weight:800;margin-bottom:9px;background:linear-gradient(90deg,var(--gold-300),var(--gold-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Welcome to Krixia Premium!</h2>
+      <p style="font-size:15px;color:var(--text-2);margin-bottom:1.5rem;line-height:1.65;">Unlimited diagnoses, full health history, priority referrals — all unlocked.</p>
+      <div class="premium-badge-pill" style="margin:0 auto 1rem;display:inline-flex;">👑 Krixia Premium · Active</div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-primary" onclick="closePanel('success-panel')" style="flex:1;">Start Diagnosing →</button>
+    </div>
   </div>
 </div>
 
-</div><!-- end app-wrapper -->
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-bottom-nav">
-  <button class="mob-nav-btn active" onclick="mobileNav('chat',this)"><span class="mob-icon">💬</span><span class="mob-label">Diagnose</span></button>
-  <button class="mob-nav-btn" onclick="mobileNav('specialty',this)"><span class="mob-icon">🩺</span><span class="mob-label">Specialty</span></button>
-  <button class="mob-nav-btn" onclick="mobileNav('vitals',this)"><span class="mob-icon">💓</span><span class="mob-label">Vitals</span></button>
-  <button class="mob-nav-btn" onclick="mobileNav('hospitals',this)"><span class="mob-icon">🏥</span><span class="mob-label">Hospitals</span></button>
-  <button class="mob-nav-btn" onclick="mobileNav('profile',this)"><span class="mob-icon">👤</span><span class="mob-label">Profile</span></button>
-</nav>
-
-<!-- MOBILE SPECIALTY DRAWER -->
-<div class="mobile-drawer-overlay" id="specialty-drawer-overlay" onclick="closeDrawer('specialty')"></div>
-<div class="mobile-drawer" id="specialty-drawer">
-  <div class="drawer-handle"></div>
-  <div class="drawer-title">🩺 Choose Specialty</div>
-  <div class="specialty-grid">
-    <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine');closeDrawer('specialty')"><span class="icon">🩺</span>General</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics');closeDrawer('specialty')"><span class="icon">👶</span>Pediatrics</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology');closeDrawer('specialty')"><span class="icon">❤️</span>Cardiology</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology');closeDrawer('specialty')"><span class="icon">🔬</span>Skin Care</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology');closeDrawer('specialty')"><span class="icon">🤱</span>Women's</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics');closeDrawer('specialty')"><span class="icon">🦴</span>Orthopedics</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Neurology');closeDrawer('specialty')"><span class="icon">🧠</span>Neurology</button>
-    <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health');closeDrawer('specialty')"><span class="icon">🧘</span>Mental Health</button>
+<!-- ADMIN LOGIN PANEL -->
+<div class="panel-overlay" id="admin-panel">
+  <div class="panel" style="max-width:400px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('admin-panel')">← Back</button>
+      <h2 class="panel-close-desktop" style="background:linear-gradient(90deg,#A855F7,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🛡️ Admin Access</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('admin-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Enter your admin credentials to unlock unlimited access</p>
+    <div class="panel-body">
+      <div class="form-group"><label>Admin Email</label><input type="email" id="admin-email" placeholder="admin@krixia.ai"></div>
+      <div class="form-group"><label>Admin Password</label><input type="password" id="admin-password" placeholder="••••••••"></div>
+      <div id="admin-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);margin-bottom:1rem;"></div>
+      <p style="text-align:center;font-size:11px;color:var(--text-3);">Admin access is restricted to authorized personnel only</p>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('admin-panel')" style="flex:1;">Cancel</button>
+      <button class="admin-panel-btn" style="flex:2;justify-content:center;" onclick="attemptAdminLogin()">Login as Admin →</button>
+    </div>
   </div>
-  <div style="margin-top:1rem;padding:11px 13px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:9px;font-size:13px;color:var(--gold-300);font-weight:600;" id="mob-current-specialty">Current: General Medicine</div>
 </div>
 
 <input type="file" id="hidden-file-input" accept="image/*,video/*" multiple style="display:none" onchange="handleFileUpload(event)">
 
+
 <script>
+
 
 
 const SYSTEM_PROMPT = `You are Krixia — the world's most advanced AI super doctor, combining expertise across ALL medical specialties: General Medicine, Pediatrics, Cardiology, Dermatology, Gynecology & Obstetrics, Orthopedics, Neurology, Psychiatry & Mental Health, ENT, Ophthalmology, Gastroenterology, Endocrinology, Oncology, Infectious Disease, Nephrology, Pulmonology, Urology, Rheumatology, Hematology, and Emergency Medicine.
@@ -1818,7 +1216,7 @@ function toggleVoice() {
   recognition.onend = () => stopVoice();
   recognition.start();
   isRecording = true;
-  document.getElementById('voice-overlay').classList.add('active');
+  openPanel('voice-overlay');
   document.getElementById('mic-btn').style.color = '#E24B4A';
 }
 
@@ -1832,11 +1230,18 @@ function stopVoice() {
 }
 
 // REGISTER
-function openRegisterModal() {
-  document.getElementById('register-modal').classList.add('active');
+function openRegisterPanel() {
+  openPanel('register-panel');
 }
-function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
+function openPanel(id) {
+  document.querySelectorAll('.panel-overlay.active').forEach(p => { if (p.id !== id) p.classList.remove('active'); });
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+}
+function closePanel(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('active');
+  if (typeof resetMobileNavToChat === 'function') resetMobileNavToChat();
 }
 
 function generateMedCard() {
@@ -1876,12 +1281,12 @@ function generateMedCard() {
   `;
 
   document.querySelector('.msg-avatar.user-av') && (document.querySelector('.msg-avatar.user-av').textContent = initials);
-  closeModal('register-modal');
-  document.getElementById('card-modal').classList.add('active');
+  closePanel('register-panel');
+  openPanel('card-panel');
 
   const btnR = document.querySelector('.btn-register');
   btnR.textContent = `👤 ${fn}`;
-  btnR.onclick = () => document.getElementById('card-modal').classList.add('active');
+  btnR.onclick = () => openPanel('card-panel');
 }
 
 function shareCard() {
@@ -1903,8 +1308,9 @@ let ppgStartTime = null;
 const PPG_DURATION = 30; // seconds
 
 function startVitals() {
-  document.getElementById('vitals-modal').classList.add('active');
+  openPanel('vitals-panel');
 }
+function openVitalsPanel() { startVitals(); }
 
 async function startPPG() {
   try {
@@ -1927,6 +1333,7 @@ async function startPPG() {
 
     document.getElementById('ppg-step-1').style.display = 'none';
     document.getElementById('ppg-step-2').style.display = 'block';
+    document.getElementById('ppg-footer-1').style.display = 'none';
 
     ppgSamples = [];
     ppgWaveData = [];
@@ -2167,6 +1574,7 @@ function finalisePPG(bpm, samples) {
   // Show results
   document.getElementById('ppg-step-2').style.display = 'none';
   document.getElementById('ppg-step-3').style.display = 'block';
+  document.getElementById('ppg-footer-3').style.display = 'flex';
 }
 
 function stopPPGStream() {
@@ -2192,6 +1600,8 @@ function resetPPG() {
   document.getElementById('ppg-step-1').style.display = 'block';
   document.getElementById('ppg-step-2').style.display = 'none';
   document.getElementById('ppg-step-3').style.display = 'none';
+  document.getElementById('ppg-footer-1').style.display = 'flex';
+  document.getElementById('ppg-footer-3').style.display = 'none';
   document.getElementById('ppg-progress-bar').style.width = '0%';
   document.getElementById('ppg-live-bpm').textContent = '— bpm';
 }
@@ -2202,10 +1612,11 @@ function sendVitalsToChat() {
   const hrv = document.getElementById('ppg-r-hrv').textContent;
   const zone = document.getElementById('ppg-bpm-zone').textContent;
   stopPPGStream();
-  closeModal('vitals-modal');
+  closePanel('vitals-panel');
   const msg = `My camera vitals scan just completed. Heart Rate: ${hr} bpm (${zone}), SpO₂: ${spo2}%, HRV: ${hrv}ms. What does this mean for my health and should I be concerned?`;
   document.getElementById('chat-input').value = msg;
   sendMessage();
+  setTimeout(resetPPG, 400);
 }
 
 
@@ -2256,8 +1667,8 @@ function getDistance(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-function openHospitalFinder(forceEmergency) {
-  document.getElementById('hospital-modal').classList.add('active');
+function openHospitalPanel(forceEmergency) {
+  openPanel('hospital-panel');
   if (forceEmergency) document.getElementById('emergency-banner').style.display = 'flex';
   detectLocation();
 }
@@ -2383,10 +1794,10 @@ function selectHospital(idx) {
 
 function sendReferralToChat() {
   const hosp = selectedHospital || allHospitals[0];
-  if (!hosp) { closeModal('hospital-modal'); return; }
+  if (!hosp) { closePanel('hospital-panel'); return; }
   const dist = hosp.distance < 1 ? `${Math.round(hosp.distance * 1000)}m` : `${hosp.distance.toFixed(1)}km`;
   const msg = `Krixia has referred me to **${hosp.name}** (${dist} away) at ${hosp.address}. Phone: ${hosp.phone}. Please advise on what to tell them when I arrive.`;
-  closeModal('hospital-modal');
+  closePanel('hospital-panel');
   document.getElementById('chat-input').value = msg;
   sendMessage();
 }
@@ -2406,7 +1817,7 @@ function checkForReferralTrigger(aiText) {
           <strong style="color:var(--red-600);">🚨 Immediate Action Required</strong><br>
           Based on your symptoms, I recommend going to a hospital urgently. Tap below to find the nearest one.
           <br>
-          <button class="refer-inline-btn" onclick="openHospitalFinder(true)" style="background:var(--red-400);color:white;border:none;margin-top:8px;">
+          <button class="refer-inline-btn" onclick="openHospitalPanel(true)" style="background:var(--red-400);color:white;border:none;margin-top:8px;">
             🏥 Find Nearest Emergency Hospital →
           </button>
         </div>`;
@@ -2427,7 +1838,7 @@ function checkForReferralTrigger(aiText) {
             <strong style="color:var(--teal-600);">🏥 Ready to refer you</strong><br>
             I can find the nearest hospitals, clinics, and specialists to your location right now.
             <br>
-            <button class="refer-inline-btn" onclick="openHospitalFinder()" style="margin-top:8px;">
+            <button class="refer-inline-btn" onclick="openHospitalPanel()" style="margin-top:8px;">
               🗺️ Find Nearest Hospital →
             </button>
           </div>`;
@@ -2586,7 +1997,7 @@ function showPaywall() {
     <p>Free users get 3 AI consultations per day. Upgrade to Premium for unlimited diagnoses, full medical history, family profiles, and priority doctor referrals.</p>
     <div class="gate-actions">
       <button class="btn-secondary" onclick="this.closest('.paywall-gate').remove()">Maybe tomorrow</button>
-      <button class="upgrade-btn" onclick="openPricingModal()" style="font-size:14px;padding:10px 20px;">
+      <button class="upgrade-btn" onclick="openPricingPanel()" style="font-size:14px;padding:10px 20px;">
         👑 Unlock Premium — from ₦2,500/mo
       </button>
     </div>
@@ -2601,18 +2012,18 @@ function showLimitWarning(remaining) {
   const div = document.createElement('div');
   div.id = 'limit-warn';
   div.className = 'limit-warning-msg';
-  div.innerHTML = `⚠️ <span><strong>${remaining} free diagnosis remaining today.</strong> <button onclick="openPricingModal()" style="background:none;border:none;cursor:pointer;color:var(--teal-600);font-weight:600;font-size:13px;font-family:inherit;padding:0;">Upgrade to Premium →</button></span>`;
+  div.innerHTML = `⚠️ <span><strong>${remaining} free diagnosis remaining today.</strong> <button onclick="openPricingPanel()" style="background:none;border:none;cursor:pointer;color:var(--teal-600);font-weight:600;font-size:13px;font-family:inherit;padding:0;">Upgrade to Premium →</button></span>`;
   document.getElementById('messages').after(div);
 }
 
 // PRICING MODAL
-function openPricingModal() {
-  closeModal('pricing-modal');
+function openPricingPanel() {
+  closePanel('pricing-panel');
   billingCycle = 'monthly';
-  document.getElementById('toggle-monthly').classList.add('active');
+  openPanel('toggle-monthly');
   document.getElementById('toggle-annual').classList.remove('active');
   renderPlans();
-  document.getElementById('pricing-modal').classList.add('active');
+  openPanel('pricing-panel');
 }
 
 function setBillingCycle(cycle) {
@@ -2659,7 +2070,7 @@ function selectPlan(planId) {
 
 function proceedToPayment() {
   if (!selectedPlan) { alert('Please select a plan.'); return; }
-  closeModal('pricing-modal');
+  closePanel('pricing-panel');
 
   // Pre-fill from profile
   if (userProfile) {
@@ -2671,7 +2082,7 @@ function proceedToPayment() {
   document.getElementById('pay-plan-cycle').textContent = billingCycle === 'annual' ? 'Annual subscription (save 40%)' : 'Monthly subscription';
   document.getElementById('pay-plan-price').textContent = `₦${selectedPlan.naira.toLocaleString()}`;
 
-  document.getElementById('payment-modal').classList.add('active');
+  openPanel('payment-panel');
 }
 
 function initiatePaystackPayment() {
@@ -2720,7 +2131,7 @@ function simulatePayment(email, name) {
 }
 
 function onPaymentSuccess(reference) {
-  closeModal('payment-modal');
+  closePanel('payment-panel');
 
   isPremium = true;
   localStorage.setItem('krixia_premium', JSON.stringify({
@@ -2731,7 +2142,7 @@ function onPaymentSuccess(reference) {
   }));
 
   activatePremiumUI();
-  document.getElementById('success-modal').classList.add('active');
+  openPanel('success-panel');
 
   // Remove paywall gate if showing
   document.getElementById('paywall-gate-msg')?.remove();
@@ -2776,7 +2187,7 @@ window.addEventListener('load', initUsageSystem);
 // Touch swipe handled by mobile nav system below
 
 window.addEventListener('click', (e) => {
-  if (e.target.classList.contains('modal-overlay')) {
+  if (e.target.classList.contains('panel-overlay')) {
     e.target.classList.remove('active');
   }
 });
@@ -2944,77 +2355,342 @@ function mobileNav(tab, btn) {
   document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   if (tab === 'chat') {
+    closeAllPanels();
     const msgs = document.getElementById('messages');
     msgs.scrollTop = msgs.scrollHeight;
-    document.getElementById('chat-input').focus();
   } else if (tab === 'specialty') {
-    openDrawer('specialty');
+    openPanel('specialty-select-panel');
   } else if (tab === 'vitals') {
     startVitals();
   } else if (tab === 'hospitals') {
-    openHospitalFinder();
+    openHospitalPanel();
   } else if (tab === 'profile') {
-    userProfile ? document.getElementById('card-modal').classList.add('active') : openRegisterModal();
+    userProfile ? openPanel('card-panel') : openRegisterPanel();
   }
 }
 
-function openDrawer(name) {
-  document.getElementById(name + '-drawer-overlay').classList.add('active');
-  document.getElementById(name + '-drawer').classList.add('active');
-}
-function closeDrawer(name) {
-  document.getElementById(name + '-drawer-overlay').classList.remove('active');
-  document.getElementById(name + '-drawer').classList.remove('active');
+function resetMobileNavToChat() {
   document.querySelectorAll('.mob-nav-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
 }
 
-// Swipe down to close drawers
-let touchStartY = 0;
-document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
-document.addEventListener('touchend', e => {
-  if (e.changedTouches[0].clientY - touchStartY > 80) {
-    document.querySelectorAll('.mobile-drawer.active').forEach(d => closeDrawer(d.id.replace('-drawer', '')));
-  }
-}, { passive: true });
+function closeAllPanels() {
+  document.querySelectorAll('.panel-overlay.active').forEach(p => p.classList.remove('active'));
+}
 
 window.addEventListener('click', (e) => {
-  if (e.target.classList.contains('modal-overlay')) {
+  if (e.target.classList.contains('panel-overlay')) {
     e.target.classList.remove('active');
+    resetMobileNavToChat();
   }
 });
 
 
-// ── MOBILE NAV ────────────────────────────────────────────────
-function mobileNav(tab, btn) {
-  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (tab==='chat') {
-    const msgs=document.getElementById('messages');
-    msgs.scrollTop=msgs.scrollHeight;
-    document.getElementById('chat-input').focus();
-  } else if(tab==='specialty') openDrawer('specialty');
-  else if(tab==='vitals') startVitals();
-  else if(tab==='hospitals') openHospitalFinder();
-  else if(tab==='profile') userProfile ? document.getElementById('card-modal').classList.add('active') : openRegisterModal();
+
+
+
+// ============================================================
+// DOCTOR AVATAR PHOTO (admin can set a custom photo)
+// ============================================================
+function setDoctorPhoto(url) {
+  localStorage.setItem('krixia_doctor_photo', url);
+  renderDoctorAvatar();
 }
-function openDrawer(n) {
-  document.getElementById(n+'-drawer-overlay').classList.add('active');
-  document.getElementById(n+'-drawer').classList.add('active');
+function renderDoctorAvatar() {
+  const el = document.getElementById('doctor-avatar');
+  if (!el) return;
+  const photo = localStorage.getItem('krixia_doctor_photo');
+  if (photo) {
+    el.outerHTML = `<img id="doctor-avatar" src="${photo}" alt="Krixia AI Doctor" class="doctor-figure-emoji" style="width:110px;height:110px;object-fit:cover;border-radius:50%;border:3px solid var(--gold-400);" onerror="this.outerHTML='<div class=&quot;doctor-figure-emoji&quot; id=&quot;doctor-avatar&quot;>🧑🏿‍⚕️</div>'">`;
+  }
 }
-function closeDrawer(n) {
-  document.getElementById(n+'-drawer-overlay').classList.remove('active');
-  document.getElementById(n+'-drawer').classList.remove('active');
-  document.querySelectorAll('.mob-nav-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+window.addEventListener('DOMContentLoaded', renderDoctorAvatar);
+
+// ============================================================
+// TYPEWRITER WELCOME ANIMATION
+// ============================================================
+const WC_MESSAGES = [
+  [
+    { text: "Hi, I'm your AI doctor — covering ", bold: false },
+    { text: "every medical specialty", bold: true },
+    { text: " for any age, anytime. Describe your symptoms below to get started.", bold: false }
+  ],
+  [
+    { text: "I can analyse ", bold: false },
+    { text: "photos of injuries, rashes & skin conditions", bold: true },
+    { text: " — just tap the camera icon and show me.", bold: false }
+  ],
+  [
+    { text: "Feeling unwell? I can measure your ", bold: false },
+    { text: "heart rate & SpO₂", bold: true },
+    { text: " using just your phone camera — try the Vitals Scan.", bold: false }
+  ],
+  [
+    { text: "Need to see a doctor in person? I'll find the ", bold: false },
+    { text: "nearest hospital", bold: true },
+    { text: " to you using GPS and connect you instantly.", bold: false }
+  ],
+  [
+    { text: "From newborns to the elderly, ", bold: false },
+    { text: "every condition, every specialty", bold: true },
+    { text: " — I'm here for you, anytime, anywhere.", bold: false }
+  ]
+];
+
+let _wcMsgIndex = 0;
+
+function typewriterEffect() {
+  const el = document.getElementById('wc-typewriter');
+  if (!el) return;
+  const segments = WC_MESSAGES[_wcMsgIndex % WC_MESSAGES.length];
+  const cursor = '<span class="typewriter-cursor"></span>';
+  let output = '';
+  let segIdx = 0, charIdx = 0;
+
+  function typeTick() {
+    if (segIdx >= segments.length) {
+      el.innerHTML = output + cursor;
+      // Pause, then erase and move to next message
+      setTimeout(eraseTick, 3200);
+      return;
+    }
+    const seg = segments[segIdx];
+    if (charIdx < seg.text.length) {
+      charIdx++;
+      const partial = seg.text.substring(0, charIdx);
+      let html = output + (seg.bold ? '<strong style="color:var(--gold-300)">' + partial + '</strong>' : partial) + cursor;
+      el.innerHTML = html;
+      setTimeout(typeTick, 16 + Math.random() * 20);
+    } else {
+      output += seg.bold ? '<strong style="color:var(--gold-300)">' + seg.text + '</strong>' : seg.text;
+      segIdx++; charIdx = 0;
+      setTimeout(typeTick, 60);
+    }
+  }
+
+  function eraseTick() {
+    el.style.opacity = '0';
+    setTimeout(() => {
+      _wcMsgIndex++;
+      el.style.opacity = '1';
+      typewriterEffect();
+    }, 400);
+  }
+
+  el.style.transition = 'opacity 0.4s ease';
+  typeTick();
 }
-let _ty=0;
-document.addEventListener('touchstart',e=>{_ty=e.touches[0].clientY;},{passive:true});
-document.addEventListener('touchend',e=>{
-  if(e.changedTouches[0].clientY-_ty>80)
-    document.querySelectorAll('.mobile-drawer.active').forEach(d=>closeDrawer(d.id.replace('-drawer','')));
-},{passive:true});
-window.addEventListener('click',e=>{
-  if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
-});
+window.addEventListener('DOMContentLoaded', () => setTimeout(typewriterEffect, 400));
+
+// ============================================================
+// DOCTORS DIRECTORY
+// ============================================================
+const NIGERIA_DOCTORS = [
+  { name: 'Dr. Adaeze Okonkwo', specialty: 'Cardiology', hospital: 'Lagos University Teaching Hospital', city: 'Lagos', phone: '+2348012345001', whatsapp: '+2348012345001', linkedin: 'https://linkedin.com/in/sample-cardiologist-ng' },
+  { name: 'Dr. Chinedu Eze', specialty: 'General Medicine', hospital: 'Reddington Hospital', city: 'Lagos', phone: '+2348012345002', whatsapp: '+2348012345002', linkedin: 'https://linkedin.com/in/sample-gp-ng' },
+  { name: 'Dr. Funmilayo Bello', specialty: 'Pediatrics', hospital: 'National Hospital Abuja', city: 'Abuja', phone: '+2348012345003', whatsapp: '+2348012345003', linkedin: 'https://linkedin.com/in/sample-pediatrician-ng' },
+  { name: 'Dr. Ibrahim Sani', specialty: 'Orthopedics', hospital: 'Aminu Kano Teaching Hospital', city: 'Kano', phone: '+2348012345004', whatsapp: '+2348012345004', linkedin: 'https://linkedin.com/in/sample-ortho-ng' },
+  { name: 'Dr. Ngozi Umeh', specialty: "Women's Health", hospital: 'UCH Ibadan', city: 'Ibadan', phone: '+2348012345005', whatsapp: '+2348012345005', linkedin: 'https://linkedin.com/in/sample-gyn-ng' },
+  { name: 'Dr. Tunde Afolabi', specialty: 'Dermatology', hospital: 'Eko Hospital', city: 'Lagos', phone: '+2348012345006', whatsapp: '+2348012345006', linkedin: 'https://linkedin.com/in/sample-derm-ng' },
+];
+
+function showDoctorsList() {
+  document.querySelectorAll('.hf-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('hospitals-list').style.display = 'none';
+  document.getElementById('map-embed').style.display = 'none';
+  const section = document.getElementById('doctors-section');
+  section.style.display = 'flex';
+  section.style.flexDirection = 'column';
+  section.style.gap = '9px';
+  section.style.flex = '1';
+  section.style.minHeight = '0';
+  section.style.overflowY = 'auto';
+  section.style.maxHeight = '320px';
+
+  section.innerHTML = NIGERIA_DOCTORS.map(d => `
+    <div class="hospital-card">
+      <div class="hosp-rank rank-n" style="font-size:18px;">👨‍⚕️</div>
+      <div class="hosp-info">
+        <div class="hosp-name">${d.name}</div>
+        <div class="hosp-address">${d.specialty} · ${d.hospital}, ${d.city}</div>
+        <div class="hosp-meta">
+          <span class="hosp-type-badge badge-private">${d.specialty}</span>
+          <span class="hosp-type-badge badge-govt">${d.city}</span>
+        </div>
+      </div>
+      <div class="hosp-actions">
+        <a class="hosp-action-btn hab-call" href="tel:${d.phone}">📞 Call</a>
+        <a class="hosp-action-btn hab-whatsapp" href="https://wa.me/${d.whatsapp.replace('+','')}" target="_blank">💬 WhatsApp</a>
+        <a class="hosp-action-btn hab-directions" href="${d.linkedin}" target="_blank">🔗 LinkedIn</a>
+      </div>
+    </div>
+  `).join('') + `
+    <div style="text-align:center;padding:1rem;font-size:12px;color:var(--text-3);">
+      📋 More doctor profiles coming soon. This directory is being expanded with verified specialists across Nigeria.
+    </div>
+  `;
+}
+
+// Restore hospital view when other filter tabs clicked
+const _origFilterHospitals = filterHospitals;
+filterHospitals = function(type, btn) {
+  document.getElementById('doctors-section').style.display = 'none';
+  document.getElementById('hospitals-list').style.display = 'flex';
+  document.getElementById('map-embed').style.display = 'flex';
+  _origFilterHospitals(type, btn);
+};
+
+// ============================================================
+// SPECIALTY INFO SYSTEM
+// ============================================================
+const SPECIALTY_INFO = {
+  'General Medicine': {
+    icon: '🩺', name: 'General Medicine',
+    desc: 'Your first point of contact for everyday health concerns — from infections to chronic disease management.',
+    conditions: [
+      ['🤒','Fever, colds & flu'],
+      ['💧','Dehydration & general weakness'],
+      ['🩹','Minor injuries & wound care'],
+      ['💊','Medication reviews & checkups'],
+      ['🦠','Infections (bacterial & viral)']
+    ]
+  },
+  'Pediatrics': {
+    icon: '👶', name: 'Pediatrics',
+    desc: 'Specialized care for infants, children, and teenagers — from newborn concerns to growth and development.',
+    conditions: [
+      ['🌡️','Fever in children'],
+      ['🤢','Diarrhoea & vomiting'],
+      ['🫁','Childhood asthma & cough'],
+      ['💉','Vaccination guidance'],
+      ['📏','Growth & developmental concerns']
+    ]
+  },
+  'Cardiology': {
+    icon: '❤️', name: 'Cardiology',
+    desc: 'Heart and cardiovascular health — from blood pressure management to chest pain evaluation.',
+    conditions: [
+      ['💔','Chest pain & discomfort'],
+      ['📈','High blood pressure'],
+      ['💓','Irregular heartbeat (palpitations)'],
+      ['🫁','Shortness of breath'],
+      ['🦵','Swelling in legs & feet']
+    ]
+  },
+  'Dermatology': {
+    icon: '🔬', name: 'Skin Care',
+    desc: 'Skin, hair, and nail conditions — upload a photo for visual analysis of rashes, lesions, and more.',
+    conditions: [
+      ['🔴','Rashes & skin irritation'],
+      ['🩹','Wounds, cuts & burns'],
+      ['🦠','Fungal & bacterial skin infections'],
+      ['✨','Acne & skin conditions'],
+      ['🐛','Insect bites & allergic reactions']
+    ]
+  },
+  'Gynecology': {
+    icon: '🤱', name: "Women's Health",
+    desc: 'Reproductive health, pregnancy guidance, and conditions specific to women at every life stage.',
+    conditions: [
+      ['🤰','Pregnancy concerns & prenatal care'],
+      ['🩸','Menstrual irregularities'],
+      ['🦠','Reproductive infections'],
+      ['💊','Family planning guidance'],
+      ['🌸','Menopause symptoms']
+    ]
+  },
+  'Orthopedics': {
+    icon: '🦴', name: 'Orthopedics',
+    desc: 'Bones, joints, muscles, and ligaments — sports injuries, arthritis, and musculoskeletal pain.',
+    conditions: [
+      ['🦴','Fractures & bone pain'],
+      ['🦵','Joint pain & arthritis'],
+      ['💪','Muscle strains & sprains'],
+      ['🏃','Sports injuries'],
+      ['🧍','Back & posture problems']
+    ]
+  },
+  'Neurology': {
+    icon: '🧠', name: 'Neurology',
+    desc: 'Brain, spine, and nervous system conditions — headaches, dizziness, seizures, and more.',
+    conditions: [
+      ['🤕','Headaches & migraines'],
+      ['💫','Dizziness & vertigo'],
+      ['⚡','Seizures & convulsions'],
+      ['🦾','Numbness & tingling'],
+      ['🧠','Memory & cognitive concerns']
+    ]
+  },
+  'ENT': {
+    icon: '👃', name: 'ENT — Ear, Nose & Throat',
+    desc: 'Conditions affecting the ears, nose, throat, and sinuses — infections, hearing, and breathing issues.',
+    conditions: [
+      ['👂','Ear pain & infections'],
+      ['👃','Sinus congestion & nasal issues'],
+      ['🗣️','Sore throat & voice problems'],
+      ['😮‍💨','Snoring & breathing difficulties'],
+      ['🩺','Hearing concerns']
+    ]
+  },
+  'Ophthalmology': {
+    icon: '👁️', name: 'Eye Care',
+    desc: 'Vision and eye health — from minor irritation to vision changes that need urgent attention.',
+    conditions: [
+      ['👁️','Eye redness & irritation'],
+      ['😣','Eye pain or injury'],
+      ['🔍','Blurred or changing vision'],
+      ['💧','Dry eyes & excessive tearing'],
+      ['🦟','Foreign objects in the eye']
+    ]
+  },
+  'Mental Health': {
+    icon: '🧘', name: 'Mental Health & Psychiatry',
+    desc: 'Emotional and psychological wellbeing — a safe, judgment-free space to talk about how you feel.',
+    conditions: [
+      ['😟','Anxiety & excessive worry'],
+      ['😔','Low mood & depression'],
+      ['😴','Sleep difficulties'],
+      ['😣','Stress management'],
+      ['🗣️','Someone to talk to']
+    ]
+  }
+};
+
+let _pendingSpecialty = null;
+
+function openSpecialtyPanel(key) { openSpecialtyInfo(key); }
+function openSpecialtyInfo(key) {
+  const info = SPECIALTY_INFO[key];
+  if (!info) return;
+  _pendingSpecialty = key;
+  document.getElementById('spec-panel-title').textContent = info.name;
+  document.getElementById('spec-panel-icon').textContent = info.icon;
+  document.getElementById('spec-panel-desc').textContent = info.desc;
+  document.getElementById('spec-panel-conditions').innerHTML = info.conditions.map(c =>
+    `<div class="specialty-condition-item"><span class="cond-icon">${c[0]}</span>${c[1]}</div>`
+  ).join('');
+  openPanel('specialty-panel');
+}
+
+function startSpecialtyChat() {
+  if (!_pendingSpecialty) { closePanel('specialty-panel'); return; }
+  const info = SPECIALTY_INFO[_pendingSpecialty];
+  currentSpecialty = _pendingSpecialty === 'Gynecology' ? 'Gynecology & Obstetrics' :
+                      _pendingSpecialty === 'Mental Health' ? 'Mental Health & Psychiatry' :
+                      _pendingSpecialty === 'ENT' ? 'ENT — Ear, Nose & Throat' :
+                      _pendingSpecialty;
+
+  // Update active specialty button
+  document.querySelectorAll('.specialty-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.specialty-btn').forEach(b => {
+    if (b.textContent.includes(info.name.split(' ')[0]) || b.onclick?.toString().includes(_pendingSpecialty)) {
+      b.classList.add('active');
+    }
+  });
+
+  closePanel('specialty-panel');
+  document.getElementById('chat-input').value = `I'd like to discuss a ${info.name.toLowerCase()} concern.`;
+  document.getElementById('chat-input').focus();
+}
 
 // ============================================================
 // ADMIN SYSTEM — KRIXIA
@@ -3024,7 +2700,7 @@ let isAdmin = false;
 
 function openAdminPanel() {
   if (localStorage.getItem('krixia_admin') === 'true') { activateAdmin(); return; }
-  document.getElementById('admin-modal').classList.add('active');
+  openPanel('admin-panel');
   setTimeout(() => document.getElementById('admin-email').focus(), 300);
 }
 
@@ -3035,7 +2711,7 @@ function attemptAdminLogin() {
   if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
   if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
     localStorage.setItem('krixia_admin', 'true');
-    closeModal('admin-modal');
+    closePanel('admin-panel');
     activateAdmin();
   } else {
     errEl.textContent = 'Invalid credentials. Please try again.';
@@ -3091,26 +2767,7 @@ document.addEventListener('DOMContentLoaded', () => {
   logo.addEventListener('touchend', () => clearTimeout(_pt), { passive:true });
 });
 
+
 </script>
-
-<!-- ADMIN LOGIN MODAL -->
-<div class="modal-overlay" id="admin-modal">
-  <div class="modal" style="max-width:400px;">
-    <div class="modal-header">
-      <h2 style="background:linear-gradient(90deg,#A855F7,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🛡️ Admin Access</h2>
-      <button class="modal-close" onclick="closeModal('admin-modal')">✕</button>
-    </div>
-    <p class="modal-sub">Enter your admin credentials to unlock unlimited access</p>
-    <div class="form-group"><label>Admin Email</label><input type="email" id="admin-email" placeholder="admin@krixia.ai"></div>
-    <div class="form-group"><label>Admin Password</label><input type="password" id="admin-password" placeholder="••••••••"></div>
-    <div id="admin-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);margin-bottom:1rem;"></div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('admin-modal')">Cancel</button>
-      <button style="flex:1;background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;border-radius:var(--r-sm);padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;" onclick="attemptAdminLogin()">Login as Admin →</button>
-    </div>
-    <p style="text-align:center;font-size:11px;color:var(--text-3);margin-top:12px;">Admin access is restricted to authorized personnel only</p>
-  </div>
-</div>
-
 </body>
 </html>
