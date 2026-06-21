@@ -1114,7 +1114,7 @@ async function sendMessage() {
   const typingEl = appendTyping();
 
   try {
-    const res = await fetch('https://medai-backend-kdt3.onrender.com/api/diagnose', {
+    const res = await fetch('https://api.tickit.com.ng/api/diagnose', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
