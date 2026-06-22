@@ -550,6 +550,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
           <button class="qa-card" onclick="openVitalsPanel()"><span class="qa-icon">💓</span><div><div class="qa-text">Vitals Scan</div><div class="qa-sub">Camera pulse & SpO₂</div></div></button>
           <button class="qa-card" onclick="openHospitalPanel()"><span class="qa-icon">🏥</span><div><div class="qa-text">Find Hospital</div><div class="qa-sub">GPS-based referral</div></div></button>
           <button class="qa-card" onclick="triggerImageUpload()"><span class="qa-icon">📷</span><div><div class="qa-text">Photo Scan</div><div class="qa-sub">Skin & injury analysis</div></div></button>
+          <button class="qa-card" onclick="openScreeningPanel()"><span class="qa-icon">👁️</span><div><div class="qa-text">Eye & Nail Screen</div><div class="qa-sub">Jaundice & anemia signs</div></div></button>
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
         </div>
       </div>
@@ -625,6 +626,11 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
               <button class="qa-row" onclick="triggerImageUpload()">
                 <span class="qa-ic">📷</span>
                 <div><div class="qa-label">Photo Scan</div><div class="qa-desc">Upload injury or skin condition</div></div>
+                <span class="qa-arrow">›</span>
+              </button>
+              <button class="qa-row" onclick="openScreeningPanel()">
+                <span class="qa-ic">👁️</span>
+                <div><div class="qa-label">Eye & Nail Screen</div><div class="qa-desc">Check for jaundice & anemia signs</div></div>
                 <span class="qa-arrow">›</span>
               </button>
             </div>
@@ -786,6 +792,82 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     <div class="panel-footer" id="ppg-footer-3" style="display:none;">
       <button class="btn-secondary" onclick="resetPPG()" style="flex:1;">Scan Again</button>
       <button class="btn-primary" onclick="sendVitalsToChat()" style="flex:2;">💬 Discuss with Krixia →</button>
+    </div>
+  </div>
+</div>
+
+<!-- EYE & NAIL SCREENING PANEL -->
+<div class="panel-overlay" id="screening-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="resetScreening();closePanel('screening-panel')">← Back</button>
+      <h2 class="panel-close-desktop">👁️ Eye &amp; Nail Screening</h2>
+      <button class="panel-close panel-close-desktop" onclick="resetScreening();closePanel('screening-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Photo-based screening for signs of jaundice and anemia</p>
+    <div class="panel-body">
+
+      <div id="screen-step-1">
+        <div style="background:rgba(58,123,212,0.08);border:1px solid rgba(58,123,212,0.25);border-radius:var(--r-md);padding:1rem;margin-bottom:1rem;display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:20px;flex-shrink:0;">ℹ️</span>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6;">
+            This is a <strong style="color:var(--blue-400)">screening tool only</strong> — based on published research analysing eye and nail bed colour. It cannot replace a blood test. It flags possible signs of <strong>jaundice</strong> (yellowing, linked to liver/bilirubin issues) and <strong>anemia</strong> (paleness, linked to low iron/hemoglobin) so you know whether to seek a real lab test.
+          </p>
+        </div>
+
+        <div class="hosp-filter-tabs" style="margin-bottom:1rem;">
+          <button class="hf-tab active" onclick="setScreenType('eye',this)">👁️ Eye (Sclera)</button>
+          <button class="hf-tab" onclick="setScreenType('nail',this)">💅 Nail Bed</button>
+        </div>
+
+        <div id="screen-instructions-eye">
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1.1rem;margin-bottom:1rem;text-align:center;">
+            <div style="font-size:40px;margin-bottom:8px;">👁️</div>
+            <p style="font-size:14px;font-weight:700;color:var(--gold-300);margin-bottom:6px;">How to take this photo</p>
+            <p style="font-size:13px;color:var(--text-2);line-height:1.6;">Pull your lower eyelid down gently. In <strong style="color:var(--gold-300)">bright, natural daylight</strong> (face a window, not the sun), take a close-up photo of the white of your eye and inner eyelid.</p>
+          </div>
+        </div>
+        <div id="screen-instructions-nail" style="display:none;">
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1.1rem;margin-bottom:1rem;text-align:center;">
+            <div style="font-size:40px;margin-bottom:8px;">💅</div>
+            <p style="font-size:14px;font-weight:700;color:var(--gold-300);margin-bottom:6px;">How to take this photo</p>
+            <p style="font-size:13px;color:var(--text-2);line-height:1.6;">In <strong style="color:var(--gold-300)">bright, natural daylight</strong>, press your fingernail gently then release. Take a close-up photo of your nail bed and the skin just below your nail, without nail polish.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem;">
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:20px;margin-bottom:4px;">☀️</div>Bright daylight</div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:20px;margin-bottom:4px;">🔍</div>Close-up, in focus</div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;font-size:12px;color:var(--text-2);"><div style="font-size:20px;margin-bottom:4px;">🚫</div>No filters/flash</div>
+        </div>
+
+        <input type="file" id="screening-file-input" accept="image/*" capture="environment" style="display:none" onchange="handleScreeningPhoto(event)">
+        <button class="btn-primary" onclick="document.getElementById('screening-file-input').click()" style="width:100%;">📷 Take or Upload Photo</button>
+      </div>
+
+      <div id="screen-step-2" style="display:none;text-align:center;">
+        <img id="screen-preview-img" style="max-width:100%;max-height:260px;border-radius:var(--r-md);border:1px solid var(--border-2);margin-bottom:1rem;">
+        <div class="loading-hospitals" id="screen-analyzing">
+          <div class="loading-spinner"></div>
+          <span>Analysing colour patterns...</span>
+        </div>
+      </div>
+
+      <div id="screen-step-3" style="display:none;">
+        <div style="text-align:center;margin-bottom:1.25rem;">
+          <div id="screen-result-icon" style="font-size:48px;margin-bottom:8px;">✅</div>
+          <div id="screen-result-title" style="font-size:18px;font-weight:700;color:var(--text);">Result</div>
+        </div>
+        <div id="screen-result-detail" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem 1.1rem;font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:1rem;"></div>
+        <div style="background:rgba(232,93,74,0.08);border:1px solid rgba(232,93,74,0.25);border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:var(--text-2);line-height:1.6;">
+          ⚠️ <strong style="color:var(--red-400)">This is not a diagnosis.</strong> Colour-based phone screening cannot confirm bilirubin or hemoglobin levels. If this result concerns you, please get a real blood test at a hospital or lab.
+        </div>
+      </div>
+
+    </div>
+    <div class="panel-footer" id="screen-footer-3" style="display:none;">
+      <button class="btn-secondary" onclick="resetScreening()" style="flex:1;">Scan Again</button>
+      <button class="btn-primary" onclick="sendScreeningToChat()" style="flex:2;">💬 Discuss with Krixia →</button>
     </div>
   </div>
 </div>
@@ -2527,6 +2609,175 @@ function typewriterEffect() {
 window.addEventListener('DOMContentLoaded', () => setTimeout(typewriterEffect, 400));
 
 // ============================================================
+// EYE & NAIL SCREENING — color-based jaundice/anemia screening
+// Method based on published research: sclera chromaticity for
+// jaundice (Leung et al, Biomed Opt Express 2019) and conjunctiva/
+// nail bed color analysis for anemia (PLoS One 2021).
+// This performs client-side pixel color analysis, then asks Krixia
+// (Claude) to interpret the readings in context — it is NOT a lab
+// test and is always framed as a screening/triage aid only.
+// ============================================================
+
+let currentScreenType = 'eye';
+let screenResultData = null;
+
+function openScreeningPanel() {
+  resetScreening();
+  openPanel('screening-panel');
+}
+
+function setScreenType(type, btn) {
+  currentScreenType = type;
+  document.querySelectorAll('#screening-panel .hf-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('screen-instructions-eye').style.display = type === 'eye' ? 'block' : 'none';
+  document.getElementById('screen-instructions-nail').style.display = type === 'nail' ? 'block' : 'none';
+}
+
+function handleScreeningPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('screen-step-1').style.display = 'none';
+    document.getElementById('screen-step-2').style.display = 'block';
+    document.getElementById('screen-preview-img').src = e.target.result;
+
+    const img = new Image();
+    img.onload = () => {
+      setTimeout(() => analyzeScreeningImage(img), 900);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function analyzeScreeningImage(img) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0);
+
+  const cropW = Math.floor(img.width * 0.4);
+  const cropH = Math.floor(img.height * 0.4);
+  const cropX = Math.floor((img.width - cropW) / 2);
+  const cropY = Math.floor((img.height - cropH) / 2);
+
+  let pixelData;
+  try {
+    pixelData = ctx.getImageData(cropX, cropY, cropW, cropH).data;
+  } catch (err) {
+    showScreeningError();
+    return;
+  }
+
+  let rSum = 0, gSum = 0, bSum = 0, count = 0;
+  for (let i = 0; i < pixelData.length; i += 16) {
+    rSum += pixelData[i];
+    gSum += pixelData[i + 1];
+    bSum += pixelData[i + 2];
+    count++;
+  }
+  const r = rSum / count, g = gSum / count, b = bSum / count;
+
+  const { h, s, v } = rgbToHsv(r, g, b);
+  const yellownessIndex = ((r + g) / 2 - b) / 255;
+  const pallorIndex = (v - s);
+
+  screenResultData = { type: currentScreenType, r, g, b, h, s, v, yellownessIndex, pallorIndex };
+  renderScreeningResult();
+}
+
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const d = max - min;
+  let h = 0;
+  if (d !== 0) {
+    if (max === r) h = ((g - b) / d) % 6;
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  const s = max === 0 ? 0 : d / max;
+  const v = max;
+  return { h, s, v };
+}
+
+function showScreeningError() {
+  document.getElementById('screen-step-2').style.display = 'none';
+  document.getElementById('screen-step-1').style.display = 'block';
+  alert('Could not analyse this photo. Please try again with better lighting.');
+}
+
+function renderScreeningResult() {
+  const d = screenResultData;
+  document.getElementById('screen-step-2').style.display = 'none';
+  document.getElementById('screen-step-3').style.display = 'block';
+  document.getElementById('screen-footer-3').style.display = 'flex';
+
+  const icon = document.getElementById('screen-result-icon');
+  const title = document.getElementById('screen-result-title');
+  const detail = document.getElementById('screen-result-detail');
+
+  if (d.type === 'eye') {
+    const yellowFlag = d.yellownessIndex > 0.06;
+    if (yellowFlag) {
+      icon.textContent = '⚠️';
+      title.textContent = 'Possible Yellowing Detected';
+      title.style.color = 'var(--amber-400)';
+      detail.innerHTML = 'Your photo shows a yellowness reading consistent with mild-to-moderate scleral yellowing, which can be an early sign of <strong style="color:var(--gold-300)">jaundice</strong> (elevated bilirubin, often linked to liver or red blood cell issues). <br><br>This pattern alone isn\'t enough to confirm anything — lighting and skin tone affect results — but it\'s worth a same-week visit to a clinic for a bilirubin blood test.';
+    } else {
+      icon.textContent = '✅';
+      title.textContent = 'No Significant Yellowing Detected';
+      title.style.color = 'var(--em-300)';
+      detail.innerHTML = 'Your sclera colour looks within a typical range — no strong signs of jaundice in this photo. <br><br>If you have other symptoms like dark urine, pale stool, fatigue, or abdominal pain, mention them to Krixia regardless of this result.';
+    }
+  } else {
+    const paleFlag = d.pallorIndex > 0.35;
+    if (paleFlag) {
+      icon.textContent = '⚠️';
+      title.textContent = 'Possible Pallor Detected';
+      title.style.color = 'var(--amber-400)';
+      detail.innerHTML = 'Your nail bed photo shows a paleness pattern that can sometimes be associated with <strong style="color:var(--gold-300)">anemia</strong> (low iron or hemoglobin). <br><br>This is only a visual screening — fatigue, dizziness, shortness of breath, or pale skin elsewhere would support getting a full blood count (FBC) done at a lab.';
+    } else {
+      icon.textContent = '✅';
+      title.textContent = 'Healthy Colour Range Detected';
+      title.style.color = 'var(--em-300)';
+      detail.innerHTML = 'Your nail bed colour looks within a typical pink/healthy range — no strong signs of pallor in this photo. <br><br>If you\'re still experiencing fatigue or weakness, let Krixia know so we can explore other causes.';
+    }
+  }
+}
+
+function resetScreening() {
+  document.getElementById('screen-step-1').style.display = 'block';
+  document.getElementById('screen-step-2').style.display = 'none';
+  document.getElementById('screen-step-3').style.display = 'none';
+  document.getElementById('screen-footer-3').style.display = 'none';
+  document.getElementById('screening-file-input').value = '';
+  screenResultData = null;
+}
+
+function sendScreeningToChat() {
+  if (!screenResultData) { closePanel('screening-panel'); return; }
+  const d = screenResultData;
+  const typeLabel = d.type === 'eye' ? 'eye (sclera) jaundice screening' : 'nail bed anemia screening';
+  const yellowFlag = d.yellownessIndex > 0.06;
+  const paleFlag = d.pallorIndex > 0.35;
+  const flagged = d.type === 'eye' ? yellowFlag : paleFlag;
+
+  closePanel('screening-panel');
+  const msg = 'I just did a Krixia ' + typeLabel + '. Result: ' + (flagged ? 'possible signs detected, flagged for follow-up' : 'no significant signs detected') + '. Can you help me understand what this means and what I should do next?';
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+  setTimeout(resetScreening, 400);
+}
+
+
+// ============================================================
 // DOCTORS DIRECTORY
 // ============================================================
 const NIGERIA_DOCTORS = [
@@ -2739,8 +2990,11 @@ function startSpecialtyChat() {
 
 // ============================================================
 // ADMIN SYSTEM — KRIXIA
+// TEMPORARILY DISABLED: client-side admin login removed for security.
+// A hardcoded password in frontend code is visible to anyone who views
+// page source. This will be rebuilt as a proper backend-verified login
+// (password checked server-side, never sent to the browser) shortly.
 // ============================================================
-const ADMIN_CREDENTIALS = { email: 'admin@krixia.ai', password: 'Krixia@Admin2026!' };
 let isAdmin = false;
 
 function openAdminPanel() {
@@ -2750,19 +3004,10 @@ function openAdminPanel() {
 }
 
 function attemptAdminLogin() {
-  const email = document.getElementById('admin-email').value.trim();
-  const password = document.getElementById('admin-password').value;
   const errEl = document.getElementById('admin-error');
-  if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
-  if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-    localStorage.setItem('krixia_admin', 'true');
-    closePanel('admin-panel');
-    activateAdmin();
-  } else {
-    errEl.textContent = 'Invalid credentials. Please try again.';
-    errEl.style.display = 'block';
-    document.getElementById('admin-password').value = '';
-  }
+  errEl.textContent = 'Admin login is temporarily unavailable while we upgrade its security. Please check back soon.';
+  errEl.style.display = 'block';
+  document.getElementById('admin-password').value = '';
 }
 
 function activateAdmin() {
