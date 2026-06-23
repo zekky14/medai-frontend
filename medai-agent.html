@@ -1991,14 +1991,14 @@ const NIGERIA_HOSPITALS = [
   { name: 'R-Jolad Hospital Gbagada', address: '1 Akindele Street, New Garage, Gbagada, Lagos', type: 'private', lat: 6.5520, lng: 3.3810, phone: '+2348033456001', emergency: true, state: 'Lagos' },
   { name: 'Lighthouse Medical Centre Festac', address: 'Festac Town, Lagos', type: 'private', lat: 6.4652, lng: 3.2763, phone: '+2348033015477', emergency: true, state: 'Lagos' },
   { name: 'Imperial Medical Centre Ebute Metta', address: '65 Brickfield Road, Ebute Metta, Lagos', type: 'private', lat: 6.4862, lng: 3.3712, phone: '+2348033567890', emergency: false, state: 'Lagos' },
-  { name: 'St. Raphael\'s Hospital Okota', address: '114 Lateef Adegboyega Street, Okota, Lagos', type: 'private', lat: 6.5094, lng: 3.3241, phone: '+2348034567890', emergency: true, state: 'Lagos' },
+  { name: 'St. Raphaels Hospital Okota', address: '114 Lateef Adegboyega Street, Okota, Lagos', type: 'private', lat: 6.5094, lng: 3.3241, phone: '+2348034567890', emergency: true, state: 'Lagos' },
   { name: 'Lafia Group Hospital Apapa', address: 'Wharf Road, Apapa, Lagos', type: 'private', lat: 6.4490, lng: 3.3640, phone: '+2348035678901', emergency: true, state: 'Lagos' },
 
 
   // ── Amuwo-Odofin ──────────────────────────────────────────
   { name: 'Amuwo-Odofin General Hospital', address: 'Amuwo-Odofin, Mile 2, Lagos', type: 'govt', lat: 6.4740, lng: 3.2900, phone: '+2348023456780', emergency: true, state: 'Lagos' },
   { name: 'Navy Reference Hospital', address: 'Navy Town, Ojo, Lagos', type: 'private', lat: 6.4700, lng: 3.1950, phone: '+234-1-7740550', emergency: true, state: 'Lagos' },
-  { name: 'St. Jude's Hospital Festac', address: 'Plot 8, Block 7, Site G Estate, Satellite Town, Lagos', type: 'private', lat: 6.4648, lng: 3.2740, phone: '+2348033234567', emergency: true, state: 'Lagos' },
+  { name: 'St. Judes Hospital Festac', address: 'Plot 8, Block 7, Site G Estate, Satellite Town, Lagos', type: 'private', lat: 6.4648, lng: 3.2740, phone: '+2348033234567', emergency: true, state: 'Lagos' },
 
   // ── Eti-Osa (Lekki, VI, Ajah) ─────────────────────────────
   { name: 'Eti-Osa General Hospital', address: 'Eti-Osa, Lagos', type: 'govt', lat: 6.4350, lng: 3.5500, phone: '+234-1-7736123', emergency: true, state: 'Lagos' },
@@ -2017,7 +2017,7 @@ const NIGERIA_HOSPITALS = [
 
   // ── Shomolu (Bariga, Gbagada North) ───────────────────────
   { name: 'Shomolu General Hospital', address: 'Shomolu, Lagos', type: 'govt', lat: 6.5420, lng: 3.3830, phone: '+234-1-8930778', emergency: true, state: 'Lagos' },
-  { name: 'St. Thelma's Hospital Bariga', address: 'Anuoluwapo Street, Bariga, Lagos', type: 'private', lat: 6.5381, lng: 3.3855, phone: '+2348039123456', emergency: true, state: 'Lagos' },
+  { name: 'St. Thelmas Hospital Bariga', address: 'Anuoluwapo Street, Bariga, Lagos', type: 'private', lat: 6.5381, lng: 3.3855, phone: '+2348039123456', emergency: true, state: 'Lagos' },
   { name: 'Ladi-Lak Medical Centre Bariga', address: '53 Igi-Olugbin Street, Ladi-Lak, Bariga, Lagos', type: 'clinic', lat: 6.5370, lng: 3.3830, phone: '+2348040234567', emergency: false, state: 'Lagos' },
 
   // ══════════════════════════════════════════════════════════
@@ -2031,7 +2031,7 @@ const NIGERIA_HOSPITALS = [
   { name: 'Wuse General Hospital', address: 'Wuse Zone 5, Abuja', type: 'govt', lat: 9.0656, lng: 7.4773, phone: '+234-9-5239341', emergency: true, state: 'FCT' },
   { name: 'Cedarcrest Hospital Abuja', address: '2 Sam Mbakwe Street, Gudu District, Apo, Abuja', type: 'private', lat: 9.0207, lng: 7.5036, phone: '+2348095157906', emergency: true, state: 'FCT' },
   { name: 'Nizamiye Hospital Abuja', address: 'Plot 113, Sector S, Lifecamp, Abuja', type: 'private', lat: 9.0832, lng: 7.4212, phone: '+2348166666023', emergency: true, state: 'FCT' },
-  { name: 'NOVA-Medi-Clinic Maitama', address: '1 Yedersam Crescent, Opp. Farmer\'s Market, Maitama, Abuja', type: 'private', lat: 9.0836, lng: 7.4920, phone: '+2348121988888', emergency: true, state: 'FCT' },
+  { name: 'NOVA-Medi-Clinic Maitama', address: '1 Yedersam Crescent, Opp. Farmers Market, Maitama, Abuja', type: 'private', lat: 9.0836, lng: 7.4920, phone: '+2348121988888', emergency: true, state: 'FCT' },
   { name: 'St. Jude\'s Hospital Asokoro', address: 'Asokoro District, Abuja', type: 'private', lat: 9.0420, lng: 7.5180, phone: '+2348023456789', emergency: true, state: 'FCT' },
   { name: 'Nyanya General Hospital', address: 'Nyanya, Abuja', type: 'govt', lat: 8.9933, lng: 7.5341, phone: '+234-9-6710022', emergency: true, state: 'FCT' },
 
@@ -2206,7 +2206,7 @@ async function searchHospitalsByName() {
     });
 
     if (merged.length === 0) {
-      list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">No hospitals found for "<strong style='color:var(--gold-300);'>' + query + '</strong>".<br><br>Try a different name or browse the full list.</div>';
+      list.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">No hospitals found for "<strong style="color:var(--gold-300);">${query}</strong>".<br><br>Try a different name or browse the full list.</div>`;'>' + query + '</strong>".<br><br>Try a different name or browse the full list.</div>';
       return;
     }
 
