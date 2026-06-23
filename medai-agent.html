@@ -151,7 +151,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
 .doc-name { font-size: 15px; font-weight: 600; color: var(--text); }
 .doc-status { font-size: 12px; color: var(--text-3); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
 .mode-tabs { display: flex; gap: 5px; }
-.mode-tab { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: var(--text-2); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.15s; font-family: 'Inter', sans-serif; }
+.mode-tab { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.15s; font-family: 'Inter', sans-serif; }
 .mode-tab.active, .mode-tab:hover { background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); border-color: transparent; color: var(--obsidian); font-weight: 700; }
 @media (max-width: 768px) { .chat-topbar { padding: 10px 1rem; } .doc-name { font-size: 14px; } .mode-tab { padding: 5px 10px; font-size: 11px; } }
 
@@ -441,6 +441,75 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
   .welcome-actions { display: none; }
 }
 
+
+  /* SPECIALTY DEDICATED PAGES */
+  .spec-page-hero {
+    background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(29,158,100,0.06));
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .spec-page-icon {
+    font-size: 56px; margin-bottom: 10px; display: block;
+    filter: drop-shadow(0 4px 12px rgba(201,168,76,0.3));
+  }
+  .spec-page-name {
+    font-size: 22px; font-weight: 800; letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--gold-300), var(--gold-400));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 6px;
+  }
+  .spec-page-desc {
+    font-size: 14px; color: var(--text-2); line-height: 1.6;
+    max-width: 380px; margin: 0 auto;
+  }
+  .spec-conditions-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding: 1rem 1.5rem;
+  }
+  .spec-condition-card {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text-2);
+    transition: all 0.2s; cursor: pointer;
+  }
+  .spec-condition-card:hover {
+    border-color: var(--border-2); background: rgba(201,168,76,0.06);
+    color: var(--gold-300);
+  }
+  .spec-condition-card .sc-icon { font-size: 20px; flex-shrink: 0; }
+  .spec-ask-section {
+    padding: 0 1.5rem 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+  }
+  .spec-ask-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
+  }
+  .spec-quick-btns {
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .spec-quick-btn {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 10px 14px;
+    font-size: 13px; color: var(--text-2);
+    cursor: pointer; text-align: left; transition: all 0.2s;
+    font-family: 'Inter', sans-serif; width: 100%;
+  }
+  .spec-quick-btn:hover {
+    border-color: var(--gold-400); color: var(--gold-300);
+    background: rgba(201,168,76,0.06);
+  }
+  @media (max-width: 768px) {
+    .spec-conditions-grid { grid-template-columns: 1fr; padding: 0.75rem 1rem; }
+    .spec-page-icon { font-size: 44px; }
+    .spec-page-name { font-size: 20px; }
+    .spec-ask-section { padding: 0 1rem 1rem; padding-top: 1rem; }
+  }
+
 </style>
 </head>
 <body>
@@ -522,7 +591,6 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     </div>
 
     <div class="header-center">
-      <div class="status-live"><span class="status-dot"></span>AI Doctor Online</div>
     </div>
 
     <div class="header-right">
@@ -558,16 +626,16 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
       <div>
         <div class="sidebar-label">Specialty</div>
         <div class="specialty-grid">
-          <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')"><span class="icon">🩺</span>General<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('General Medicine')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')"><span class="icon">👶</span>Pediatrics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Pediatrics')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')"><span class="icon">❤️</span>Cardiology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Cardiology')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')"><span class="icon">🔬</span>Skin Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Dermatology')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology &amp; Obstetrics')"><span class="icon">🤱</span>Women's<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Gynecology')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')"><span class="icon">🦴</span>Ortho<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Orthopedics')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')"><span class="icon">🧠</span>Neuro<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Neurology')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'ENT')"><span class="icon">👃</span>ENT<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('ENT')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')"><span class="icon">👁️</span>Eye Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Ophthalmology')">ⓘ</span></button>
-          <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health')"><span class="icon">🧘</span>Mental<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Mental Health')">ⓘ</span></button>
+          <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine')" ondblclick="openSpecialtyPage('General Medicine')"><span class="icon">🩺</span>General<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('General Medicine')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics')" ondblclick="openSpecialtyPage('Pediatrics')"><span class="icon">👶</span>Pediatrics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Pediatrics')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology')" ondblclick="openSpecialtyPage('Cardiology')"><span class="icon">❤️</span>Cardiology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Cardiology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology')" ondblclick="openSpecialtyPage('Dermatology')"><span class="icon">🔬</span>Skin Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Dermatology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology')" ondblclick="openSpecialtyPage('Gynecology')"><span class="icon">🤱</span>Women's<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Gynecology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics')" ondblclick="openSpecialtyPage('Orthopedics')"><span class="icon">🦴</span>Ortho<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Orthopedics')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Neurology')" ondblclick="openSpecialtyPage('Neurology')"><span class="icon">🧠</span>Neuro<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Neurology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'ENT')" ondblclick="openSpecialtyPage('ENT')"><span class="icon">👃</span>ENT<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('ENT')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology')" ondblclick="openSpecialtyPage('Ophthalmology')"><span class="icon">👁️</span>Eye Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Ophthalmology')">ⓘ</span></button>
+          <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health')" ondblclick="openSpecialtyPage('Mental Health')"><span class="icon">🧘</span>Mental<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPage('Mental Health')">ⓘ</span></button>
         </div>
       </div>
 
@@ -590,13 +658,15 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
           <div class="doc-avatar">⚕</div>
           <div>
             <div class="doc-name">Krixia Super Doctor</div>
-            <div class="doc-status"><span class="status-dot"></span>All specialties · Instant AI response</div>
+            <div class="doc-status"><span class="status-dot"></span>Online · All specialties</div>
           </div>
         </div>
-        <div class="mode-tabs">
-          <button class="mode-tab active" id="tab-chat" onclick="setMode('chat')">💬 Chat</button>
-          <button class="mode-tab" id="tab-voice" onclick="setMode('voice')">🎙️ Voice</button>
-          <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Scan</button>
+        <div class="mode-tabs-wrap">
+          <div class="mode-tabs">
+            <button class="mode-tab active" id="tab-chat" onclick="setMode('chat')">💬 Chat</button>
+            <button class="mode-tab" id="tab-voice" onclick="setMode('voice')">🎙️ Voice</button>
+            <button class="mode-tab" id="tab-image" onclick="triggerImageUpload()">📷 Scan</button>
+          </div>
         </div>
       </div>
 
@@ -695,16 +765,16 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     </div>
     <div class="panel-body">
       <div class="specialty-grid" style="margin-top:0.5rem;">
-        <button class="specialty-btn active" onclick="setSpecialty(this,'General Medicine');closePanel('specialty-select-panel')"><span class="icon">🩺</span>General<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('General Medicine')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Pediatrics');closePanel('specialty-select-panel')"><span class="icon">👶</span>Pediatrics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Pediatrics')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Cardiology');closePanel('specialty-select-panel')"><span class="icon">❤️</span>Cardiology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Cardiology')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Dermatology');closePanel('specialty-select-panel')"><span class="icon">🔬</span>Skin Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Dermatology')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Gynecology');closePanel('specialty-select-panel')"><span class="icon">🤱</span>Women's<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Gynecology')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Orthopedics');closePanel('specialty-select-panel')"><span class="icon">🦴</span>Orthopedics<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Orthopedics')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Neurology');closePanel('specialty-select-panel')"><span class="icon">🧠</span>Neurology<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Neurology')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'ENT');closePanel('specialty-select-panel')"><span class="icon">👃</span>ENT<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('ENT')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Ophthalmology');closePanel('specialty-select-panel')"><span class="icon">👁️</span>Eye Care<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Ophthalmology')">ⓘ</span></button>
-        <button class="specialty-btn" onclick="setSpecialty(this,'Mental Health');closePanel('specialty-select-panel')"><span class="icon">🧘</span>Mental Health<span class="spec-info" onclick="event.stopPropagation();openSpecialtyPanel('Mental Health')">ⓘ</span></button>
+        <button class="specialty-btn active" onclick="openSpecialtyPage('General Medicine');closePanel('specialty-select-panel')"><span class="icon">🩺</span>General Medicine</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Pediatrics');closePanel('specialty-select-panel')"><span class="icon">👶</span>Pediatrics</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Cardiology');closePanel('specialty-select-panel')"><span class="icon">❤️</span>Cardiology</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Dermatology');closePanel('specialty-select-panel')"><span class="icon">🔬</span>Skin Care</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Gynecology');closePanel('specialty-select-panel')"><span class="icon">🤱</span>Women's Health</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Orthopedics');closePanel('specialty-select-panel')"><span class="icon">🦴</span>Orthopedics</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Neurology');closePanel('specialty-select-panel')"><span class="icon">🧠</span>Neurology</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('ENT');closePanel('specialty-select-panel')"><span class="icon">👃</span>ENT</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Ophthalmology');closePanel('specialty-select-panel')"><span class="icon">👁️</span>Eye Care</button>
+        <button class="specialty-btn" onclick="openSpecialtyPage('Mental Health');closePanel('specialty-select-panel')"><span class="icon">🧘</span>Mental Health</button>
       </div>
       <p style="font-size:12px;color:var(--text-3);margin:12px 0;text-align:center;">Tap ⓘ to learn more about a specialty</p>
     </div>
@@ -872,6 +942,94 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
   </div>
 </div>
 
+
+<!-- SPECIALTY DEDICATED PAGE PANEL -->
+<div class="panel-overlay" id="specialty-page-panel">
+  <div class="panel" style="max-width:560px;">
+    <div class="panel-header" style="padding-bottom:0;">
+      <button class="panel-close-mobile" onclick="closePanel('specialty-page-panel')">← Back</button>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('specialty-page-panel')">✕</button>
+    </div>
+    <div class="panel-body" style="padding:0;overflow-y:auto;">
+      <div class="spec-page-hero">
+        <span class="spec-page-icon" id="sp-icon">🩺</span>
+        <div class="spec-page-name" id="sp-name">General Medicine</div>
+        <p class="spec-page-desc" id="sp-desc">Your primary care specialist for all general health concerns.</p>
+      </div>
+      <div style="padding:1rem 1.5rem 0.5rem;">
+        <div class="sidebar-label">Common Conditions</div>
+      </div>
+      <div class="spec-conditions-grid" id="sp-conditions"></div>
+      <div class="spec-ask-section">
+        <div class="spec-ask-label">Quick Questions</div>
+        <div class="spec-quick-btns" id="sp-quick-btns"></div>
+      </div>
+      <div style="padding:0 1.5rem 1.5rem;">
+        <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:var(--text-3);line-height:1.6;">
+          ⚕️ Krixia's AI provides guidance based on symptoms described. Always consult a licensed physician for definitive diagnosis and treatment.
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('specialty-page-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="startSpecialtyConsult()" style="flex:2;">🩺 Start Consultation →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOCTOR REGISTRATION PANEL -->
+<div class="panel-overlay" id="doctor-register-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('doctor-register-panel')">← Back</button>
+      <h2 class="panel-close-desktop">👨‍⚕️ Join Krixia as a Doctor</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('doctor-register-panel')">✕</button>
+    </div>
+    <p class="panel-sub">List your practice on Krixia and connect with patients who need you</p>
+    <div class="panel-body">
+      <div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:1rem;font-size:13px;color:var(--text-2);line-height:1.6;">
+        ✅ <strong style="color:var(--em-300);">Free to list.</strong> Your profile goes live after verification by the Krixia team. Patients can contact you directly.
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="dr-firstname" placeholder="Dr. Emeka"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="dr-lastname" placeholder="Okonkwo"></div>
+      </div>
+      <div class="form-group"><label>Specialty</label>
+        <select id="dr-specialty">
+          <option value="">Select your specialty</option>
+          <option>General Medicine</option><option>Pediatrics</option><option>Cardiology</option>
+          <option>Dermatology</option><option>Gynecology & Obstetrics</option><option>Orthopedics</option>
+          <option>Neurology</option><option>ENT</option><option>Ophthalmology</option>
+          <option>Mental Health / Psychiatry</option><option>Dentistry</option><option>Radiology</option>
+          <option>Surgery</option><option>Urology</option><option>Endocrinology</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Hospital / Clinic Name</label><input type="text" id="dr-hospital" placeholder="Lagos University Teaching Hospital"></div>
+      <div class="form-row">
+        <div class="form-group"><label>State</label>
+          <select id="dr-state">
+            <option value="">Select state</option>
+            <option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option><option>Kano</option>
+            <option>Ogun</option><option>Oyo</option><option>Delta</option><option>Enugu</option>
+            <option>Anambra</option><option>Imo</option><option>Kaduna</option><option>Edo</option>
+            <option>Cross River</option><option>Plateau</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Years Experience</label><input type="number" id="dr-years" placeholder="5" min="0" max="60"></div>
+      </div>
+      <div class="form-group"><label>Phone (WhatsApp preferred)</label><input type="tel" id="dr-phone" placeholder="+234 801 234 5678"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="dr-email" placeholder="doctor@email.com"></div>
+      <div class="form-group"><label>Brief Bio (optional)</label>
+        <input type="text" id="dr-bio" placeholder="e.g. Specialist in hypertension and diabetes management">
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('doctor-register-panel')" style="flex:1;">Cancel</button>
+      <button class="btn-primary" onclick="submitDoctorRegistration()" style="flex:2;">Submit for Review →</button>
+    </div>
+  </div>
+</div>
+
 <!-- HOSPITAL PANEL -->
 <div class="panel-overlay" id="hospital-panel">
   <div class="panel">
@@ -910,8 +1068,8 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
       <div class="hospitals-list" id="hospitals-list"><div class="loading-hospitals"><div class="loading-spinner"></div><span>Locating nearby hospitals...</span></div></div>
       <div id="doctors-section" style="display:none;"></div>
     </div>
-    <div class="panel-footer">
-      <button class="btn-secondary" onclick="closePanel('hospital-panel')" style="flex:1;">Close</button>
+    <div class="panel-footer" style="flex-wrap:wrap;gap:8px;">
+      <button class="btn-secondary" onclick="openDoctorRegistration()" style="flex:1;font-size:12px;">👨‍⚕️ Join as Doctor</button>
       <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral →</button>
     </div>
   </div>
@@ -1795,6 +1953,8 @@ function getDistance(lat1, lon1, lat2, lon2) {
 }
 
 function openHospitalPanel(forceEmergency) {
+  // Note: Google Places integration is ready — add your API key to GOOGLE_PLACES_API_KEY above
+  // and create the /api/hospitals/nearby endpoint on your Asura backend to enable live data.
   openPanel('hospital-panel');
   if (forceEmergency) document.getElementById('emergency-banner').style.display = 'flex';
   detectLocation();
@@ -2776,6 +2936,384 @@ function sendScreeningToChat() {
   setTimeout(resetScreening, 400);
 }
 
+
+
+// ============================================================
+// SPECIALTY DEDICATED PAGES
+// ============================================================
+
+const SPECIALTY_PAGES = {
+  'General Medicine': {
+    icon: '🩺', color: 'var(--em-300)',
+    desc: 'Your primary care specialist for all general health concerns — from common infections to chronic disease management.',
+    conditions: [
+      { icon: '🤒', name: 'Fever & Infections' },
+      { icon: '🫁', name: 'Respiratory Issues' },
+      { icon: '💊', name: 'Hypertension' },
+      { icon: '🍬', name: 'Diabetes Management' },
+      { icon: '😴', name: 'Fatigue & Weakness' },
+      { icon: '🤢', name: 'Nausea & Vomiting' },
+      { icon: '🦠', name: 'Malaria & Typhoid' },
+      { icon: '💉', name: 'Vaccinations' }
+    ],
+    questions: [
+      'I have had a fever for 3 days with body aches',
+      'My blood pressure reading is 150/95 — is this dangerous?',
+      'I feel constantly tired and weak, what could it be?',
+      'How do I manage my type 2 diabetes better?'
+    ]
+  },
+  'Pediatrics': {
+    icon: '👶', color: '#60A5FA',
+    desc: 'Specialist care for infants, children, and adolescents — from newborn health to teenage development.',
+    conditions: [
+      { icon: '🤒', name: 'Childhood Fever' },
+      { icon: '💩', name: 'Diarrhoea & Vomiting' },
+      { icon: '😮‍💨', name: 'Breathing Difficulties' },
+      { icon: '🦠', name: 'Childhood Infections' },
+      { icon: '📏', name: 'Growth & Development' },
+      { icon: '🧠', name: 'Developmental Delays' },
+      { icon: '🤧', name: 'Allergies & Asthma' },
+      { icon: '💉', name: 'Child Immunisation' }
+    ],
+    questions: [
+      'My 2-year-old has had diarrhoea and won\'t eat for 2 days',
+      'My child has a fever of 39.5°C — when should I go to hospital?',
+      'My baby is not gaining weight as expected',
+      'How do I know if my child\'s development is on track?'
+    ]
+  },
+  'Cardiology': {
+    icon: '❤️', color: 'var(--red-400)',
+    desc: 'Heart and cardiovascular system specialist — from chest pain and palpitations to heart disease management.',
+    conditions: [
+      { icon: '💔', name: 'Chest Pain' },
+      { icon: '💓', name: 'Palpitations' },
+      { icon: '😮‍💨', name: 'Shortness of Breath' },
+      { icon: '💊', name: 'Hypertension' },
+      { icon: '🫀', name: 'Heart Failure' },
+      { icon: '🩸', name: 'High Cholesterol' },
+      { icon: '⚡', name: 'Arrhythmia' },
+      { icon: '🚨', name: 'Heart Attack Signs' }
+    ],
+    questions: [
+      'I have chest pain that spreads to my left arm — is this serious?',
+      'My heart keeps skipping beats — what could cause this?',
+      'What are the early warning signs of a heart attack?',
+      'My cholesterol is high — what should I do?'
+    ]
+  },
+  'Dermatology': {
+    icon: '🔬', color: 'var(--amber-400)',
+    desc: 'Skin, hair, and nail specialist — diagnosing and treating everything from acne to skin infections.',
+    conditions: [
+      { icon: '🔴', name: 'Rashes & Hives' },
+      { icon: '😣', name: 'Acne & Breakouts' },
+      { icon: '🌑', name: 'Skin Discolouration' },
+      { icon: '🦠', name: 'Fungal Infections' },
+      { icon: '💧', name: 'Eczema & Psoriasis' },
+      { icon: '☀️', name: 'Sun Damage' },
+      { icon: '💇', name: 'Hair Loss' },
+      { icon: '💅', name: 'Nail Problems' }
+    ],
+    questions: [
+      'I have a rash that is spreading — what could it be?',
+      'How do I treat stubborn acne on dark skin?',
+      'I have a dark patch on my skin that is growing',
+      'I\'m losing hair rapidly — what could cause this?'
+    ]
+  },
+  'Gynecology': {
+    icon: '🤱', color: '#F472B6',
+    desc: 'Women\'s reproductive health specialist — from menstrual health and pregnancy to menopause and fertility.',
+    conditions: [
+      { icon: '🩸', name: 'Menstrual Problems' },
+      { icon: '🤰', name: 'Pregnancy Care' },
+      { icon: '😣', name: 'Pelvic Pain' },
+      { icon: '🧬', name: 'Fertility Issues' },
+      { icon: '🦠', name: 'Vaginal Infections' },
+      { icon: '🌡️', name: 'Menopause Symptoms' },
+      { icon: '🔍', name: 'Cervical Screening' },
+      { icon: '💊', name: 'Contraception' }
+    ],
+    questions: [
+      'My period is very heavy and painful — is this normal?',
+      'I\'ve been trying to get pregnant for 8 months with no success',
+      'I have unusual vaginal discharge — should I be concerned?',
+      'What are the signs of early pregnancy?'
+    ]
+  },
+  'Orthopedics': {
+    icon: '🦴', color: '#94A3B8',
+    desc: 'Bone, joint, and muscle specialist — from fractures and sports injuries to arthritis and back pain.',
+    conditions: [
+      { icon: '🦴', name: 'Fractures & Breaks' },
+      { icon: '🦵', name: 'Knee Problems' },
+      { icon: '🔙', name: 'Back & Spine Pain' },
+      { icon: '🤸', name: 'Sports Injuries' },
+      { icon: '🦾', name: 'Arthritis' },
+      { icon: '💪', name: 'Shoulder Problems' },
+      { icon: '🦶', name: 'Foot & Ankle Issues' },
+      { icon: '🤕', name: 'Joint Swelling' }
+    ],
+    questions: [
+      'I have severe lower back pain that goes down my leg',
+      'My knee swells up and hurts when I climb stairs',
+      'I injured my ankle playing football — is it broken?',
+      'How do I know if my joint pain is arthritis?'
+    ]
+  },
+  'Neurology': {
+    icon: '🧠', color: '#A78BFA',
+    desc: 'Brain and nervous system specialist — from headaches and seizures to stroke and memory disorders.',
+    conditions: [
+      { icon: '🤕', name: 'Severe Headaches' },
+      { icon: '⚡', name: 'Seizures & Epilepsy' },
+      { icon: '😵', name: 'Dizziness & Vertigo' },
+      { icon: '🧠', name: 'Memory Loss' },
+      { icon: '😴', name: 'Sleep Disorders' },
+      { icon: '🤲', name: 'Tremors & Shaking' },
+      { icon: '🚨', name: 'Stroke Symptoms' },
+      { icon: '😶', name: 'Numbness & Tingling' }
+    ],
+    questions: [
+      'I get severe headaches on one side with nausea — is this migraine?',
+      'My hand trembles when I try to hold things — what could this be?',
+      'What are the warning signs of a stroke?',
+      'I\'ve been forgetting things more than usual lately'
+    ]
+  },
+  'ENT': {
+    icon: '👃', color: '#34D399',
+    desc: 'Ear, Nose and Throat specialist — treating hearing loss, sinusitis, tonsils, and throat conditions.',
+    conditions: [
+      { icon: '👂', name: 'Hearing Loss' },
+      { icon: '🤧', name: 'Sinusitis' },
+      { icon: '😮', name: 'Tonsillitis' },
+      { icon: '🔊', name: 'Tinnitus (Ringing)' },
+      { icon: '😤', name: 'Snoring & Sleep Apnea' },
+      { icon: '👃', name: 'Nosebleeds' },
+      { icon: '😣', name: 'Ear Pain & Infection' },
+      { icon: '🗣️', name: 'Voice Problems' }
+    ],
+    questions: [
+      'I\'ve had a blocked nose and facial pain for 2 weeks',
+      'My ear is painful and I can\'t hear well from it',
+      'I have a constant ringing sound in my ears',
+      'My child\'s tonsils are swollen and they have difficulty swallowing'
+    ]
+  },
+  'Ophthalmology': {
+    icon: '👁️', color: '#38BDF8',
+    desc: 'Eye specialist — from vision problems and infections to cataracts, glaucoma, and diabetic eye disease.',
+    conditions: [
+      { icon: '👓', name: 'Vision Problems' },
+      { icon: '🔴', name: 'Red & Irritated Eyes' },
+      { icon: '💧', name: 'Watery Eyes' },
+      { icon: '🌑', name: 'Cataracts' },
+      { icon: '📈', name: 'Glaucoma' },
+      { icon: '🦠', name: 'Eye Infections' },
+      { icon: '⚡', name: 'Flashes & Floaters' },
+      { icon: '😣', name: 'Eye Pain' }
+    ],
+    questions: [
+      'My vision has been blurry for the past few weeks',
+      'My eyes are red, itchy, and have discharge',
+      'I keep seeing flashes of light and floating spots',
+      'I have diabetes — how does it affect my eyes?'
+    ]
+  },
+  'Mental Health': {
+    icon: '🧘', color: '#C084FC',
+    desc: 'Mental health and psychiatry specialist — supporting anxiety, depression, stress, and all emotional wellbeing concerns.',
+    conditions: [
+      { icon: '😟', name: 'Anxiety & Panic' },
+      { icon: '😔', name: 'Depression' },
+      { icon: '😴', name: 'Sleep Problems' },
+      { icon: '😤', name: 'Stress & Burnout' },
+      { icon: '🧠', name: 'ADHD' },
+      { icon: '💭', name: 'Trauma & PTSD' },
+      { icon: '🍽️', name: 'Eating Disorders' },
+      { icon: '🫂', name: 'Relationship Issues' }
+    ],
+    questions: [
+      'I feel constantly anxious and can\'t stop worrying',
+      'I\'ve been feeling hopeless and unmotivated for weeks',
+      'I can\'t sleep — my mind won\'t stop racing at night',
+      'How do I know if what I\'m feeling is depression?'
+    ]
+  }
+};
+
+let currentSpecialtyPage = null;
+
+function openSpecialtyPage(specialtyKey) {
+  const data = SPECIALTY_PAGES[specialtyKey];
+  if (!data) { openSpecialtyPanel(specialtyKey); return; }
+
+  currentSpecialtyPage = specialtyKey;
+
+  document.getElementById('sp-icon').textContent = data.icon;
+  document.getElementById('sp-name').textContent = specialtyKey;
+  document.getElementById('sp-desc').textContent = data.desc;
+
+  // Render conditions grid
+  const grid = document.getElementById('sp-conditions');
+  grid.innerHTML = data.conditions.map(c =>
+    `<div class="spec-condition-card" onclick="askAboutCondition('${c.name}', '${specialtyKey}')">
+      <span class="sc-icon">${c.icon}</span>${c.name}
+    </div>`
+  ).join('');
+
+  // Render quick question buttons
+  const btns = document.getElementById('sp-quick-btns');
+  btns.innerHTML = data.questions.map(q =>
+    `<button class="spec-quick-btn" onclick="sendSpecialtyQuestion('${q.replace(/'/g, "\\'")}', '${specialtyKey}')">
+      💬 ${q}
+    </button>`
+  ).join('');
+
+  openPanel('specialty-page-panel');
+}
+
+function askAboutCondition(conditionName, specialty) {
+  closePanel('specialty-page-panel');
+  setSpecialtyByName(specialty);
+  const msg = `I want to ask about ${conditionName} — can you explain what it is, what causes it, and what symptoms I should look out for?`;
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+}
+
+function sendSpecialtyQuestion(question, specialty) {
+  closePanel('specialty-page-panel');
+  setSpecialtyByName(specialty);
+  document.getElementById('chat-input').value = question;
+  sendMessage();
+}
+
+function startSpecialtyConsult() {
+  if (!currentSpecialtyPage) { closePanel('specialty-page-panel'); return; }
+  closePanel('specialty-page-panel');
+  setSpecialtyByName(currentSpecialtyPage);
+  const data = SPECIALTY_PAGES[currentSpecialtyPage];
+  const msg = `I'd like a ${currentSpecialtyPage} consultation. Please introduce yourself and ask me about my symptoms.`;
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+}
+
+function setSpecialtyByName(name) {
+  currentSpecialty = name;
+  document.querySelectorAll('.specialty-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(name.split(' ')[0]));
+  });
+}
+
+// ============================================================
+// DOCTOR SELF-REGISTRATION
+// ============================================================
+
+function openDoctorRegistration() {
+  openPanel('doctor-register-panel');
+}
+
+async function submitDoctorRegistration() {
+  const firstname = document.getElementById('dr-firstname').value.trim();
+  const lastname = document.getElementById('dr-lastname').value.trim();
+  const specialty = document.getElementById('dr-specialty').value;
+  const hospital = document.getElementById('dr-hospital').value.trim();
+  const state = document.getElementById('dr-state').value;
+  const years = document.getElementById('dr-years').value;
+  const phone = document.getElementById('dr-phone').value.trim();
+  const email = document.getElementById('dr-email').value.trim();
+  const bio = document.getElementById('dr-bio').value.trim();
+
+  if (!firstname || !lastname || !specialty || !hospital || !state || !phone || !email) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  // Store locally for now (backend endpoint to be built)
+  const registration = {
+    name: `Dr. ${firstname} ${lastname}`,
+    specialty, hospital, state, years, phone, email, bio,
+    submitted: new Date().toISOString(),
+    status: 'pending_review'
+  };
+
+  try {
+    localStorage.setItem('krixia_dr_reg_' + Date.now(), JSON.stringify(registration));
+  } catch(e) {}
+
+  closePanel('doctor-register-panel');
+
+  // Show success message in chat
+  const msgs = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = 'message ai';
+  d.style.maxWidth = '100%';
+  d.innerHTML = `<div class="msg-avatar ai-av">👨‍⚕️</div>
+    <div class="msg-bubble" style="background:rgba(29,158,100,0.08);border-color:rgba(29,158,100,0.2);">
+      <strong style="color:var(--em-300);">✅ Registration Received!</strong><br>
+      Thank you, <strong>Dr. ${firstname} ${lastname}</strong>. Your application to join Krixia as a ${specialty} specialist has been submitted.<br><br>
+      Our verification team will review your details and contact you at <strong>${email}</strong> within 2-3 business days.<br><br>
+      <span style="font-size:12px;color:var(--text-3);">Once approved, your profile will be visible to patients searching for ${specialty} specialists in ${state}.</span>
+    </div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Clear form
+  ['dr-firstname','dr-lastname','dr-specialty','dr-hospital','dr-state','dr-years','dr-phone','dr-email','dr-bio']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+}
+
+
+
+// ============================================================
+// GOOGLE PLACES API — Real hospital data
+// Replace GOOGLE_PLACES_API_KEY with your actual key from
+// Google Cloud Console (Maps JavaScript API + Places API enabled)
+// Free tier: $200/month credit = ~40,000 nearby searches free
+// ============================================================
+const GOOGLE_PLACES_API_KEY = ''; // ADD YOUR KEY HERE
+
+async function fetchGooglePlacesHospitals(lat, lng) {
+  if (!GOOGLE_PLACES_API_KEY) return null; // Fall back to hardcoded if no key
+
+  try {
+    // Google Places Nearby Search via a CORS proxy (needed for browser requests)
+    // When you have a backend endpoint, route this through api.tickit.com.ng/api/hospitals
+    const radius = 5000; // 5km radius
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=hospital&key=${GOOGLE_PLACES_API_KEY}`;
+    
+    const res = await fetch(`https://api.tickit.com.ng/api/hospitals/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
+    if (!res.ok) return null;
+    
+    const data = await res.json();
+    if (!data.results || data.results.length === 0) return null;
+
+    return data.results.map((place, idx) => {
+      const distLat = place.geometry.location.lat - lat;
+      const distLng = place.geometry.location.lng - lng;
+      const distKm = Math.sqrt(distLat*distLat + distLng*distLng) * 111;
+      
+      return {
+        name: place.name,
+        address: place.vicinity || 'Address not available',
+        type: place.types?.includes('hospital') ? 'govt' : 'clinic',
+        phone: place.formatted_phone_number || null,
+        open: place.opening_hours?.open_now,
+        distance: distKm.toFixed(1),
+        lat: place.geometry.location.lat,
+        lng: place.geometry.location.lng,
+        placeId: place.place_id,
+        rating: place.rating
+      };
+    });
+  } catch(err) {
+    console.log('Google Places unavailable, using local data:', err.message);
+    return null;
+  }
+}
 
 // ============================================================
 // DOCTORS DIRECTORY
