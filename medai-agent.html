@@ -1515,44 +1515,48 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
       <div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:1rem;font-size:13px;color:var(--text-2);line-height:1.6;">
         ⚕️ Krixia AI gives you an initial assessment. For definitive diagnosis and prescriptions, consult a licensed physician below.
       </div>
+      <!-- Partner notice -->
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:1rem;font-size:12px;color:var(--text-3);line-height:1.6;text-align:center;">
+        🤝 <strong style="color:var(--gold-300);">Partnership in progress</strong> — Our team will connect you with the right provider. Tap any option below to chat with us directly.
+      </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <a href="https://www.drconsult.ng" target="_blank" class="tele-card">
+        <div class="tele-card" onclick="openTeleWhatsApp('DrConsult.ng — Video & chat consultations with Nigerian doctors')">
           <div class="tele-icon">👨‍⚕️</div>
           <div class="tele-info">
             <div class="tele-name">DrConsult.ng</div>
             <div class="tele-desc">Video & chat consultations • Nigerian doctors • From ₦2,500</div>
           </div>
-          <div class="tele-arrow">→</div>
-        </a>
-        <a href="https://www.wellahealth.com" target="_blank" class="tele-card">
+          <div class="tele-arrow">💬</div>
+        </div>
+        <div class="tele-card" onclick="openTeleWhatsApp('WellaHealth — HMO & telemedicine, drug delivery Lagos & Abuja')">
           <div class="tele-icon">💊</div>
           <div class="tele-info">
             <div class="tele-name">WellaHealth</div>
             <div class="tele-desc">HMO & telemedicine • Drug delivery • Lagos & Abuja</div>
           </div>
-          <div class="tele-arrow">→</div>
-        </a>
-        <a href="https://www.mdaasgroup.com" target="_blank" class="tele-card">
+          <div class="tele-arrow">💬</div>
+        </div>
+        <div class="tele-card" onclick="openTeleWhatsApp('MDaaS Global — Diagnostic centres & affordable testing nationwide')">
           <div class="tele-icon">🏥</div>
           <div class="tele-info">
             <div class="tele-name">MDaaS Global</div>
             <div class="tele-desc">Diagnostic centres • Affordable testing • Nationwide</div>
           </div>
-          <div class="tele-arrow">→</div>
-        </a>
-        <a href="https://www.healthconnect247.com" target="_blank" class="tele-card">
+          <div class="tele-arrow">💬</div>
+        </div>
+        <div class="tele-card" onclick="openTeleWhatsApp('HealthConnect247 — 24/7 doctor on call & emergency consultations')">
           <div class="tele-icon">📱</div>
           <div class="tele-info">
             <div class="tele-name">HealthConnect247</div>
             <div class="tele-desc">24/7 doctor on call • Emergency consultations • Nigeria</div>
           </div>
-          <div class="tele-arrow">→</div>
-        </a>
-        <a href="tel:0800-DOCTORX" class="tele-card" style="border-color:rgba(232,93,74,0.3);background:rgba(232,93,74,0.05);">
+          <div class="tele-arrow">💬</div>
+        </div>
+        <a href="tel:112" class="tele-card" style="border-color:rgba(232,93,74,0.3);background:rgba(232,93,74,0.05);">
           <div class="tele-icon">🚨</div>
           <div class="tele-info">
             <div class="tele-name" style="color:var(--red-400);">Emergency • 112</div>
-            <div class="tele-desc">FRSC Emergency Line — tap to call now</div>
+            <div class="tele-desc">Nigeria Emergency Line — tap to call now</div>
           </div>
           <div class="tele-arrow" style="color:var(--red-400);">📞</div>
         </a>
@@ -4439,6 +4443,23 @@ document.addEventListener('DOMContentLoaded', function() {
   if (select) select.value = saved;
   if (saved !== 'en') setLanguage(saved);
 });
+
+
+// ── TELEMEDICINE WHATSAPP REDIRECT ────────────────────────
+function openTeleWhatsApp(service) {
+  var lastMsg = '';
+  if (conversationHistory && conversationHistory.length > 0) {
+    var lastUser = conversationHistory.filter(function(m) { return m.role === 'user'; }).pop();
+    if (lastUser) lastMsg = lastUser.content.slice(0, 200);
+  }
+  var text = 'Hello, I found you via *Krixia Medical AI* 🏥\n\n' +
+    'I am interested in: *' + service + '*\n\n' +
+    (lastMsg ? 'My symptoms: ' + lastMsg + '\n\n' : '') +
+    'Please help me connect with the right doctor. Thank you.';
+  var url = 'https://wa.me/2347038609008?text=' + encodeURIComponent(text);
+  window.open(url, '_blank');
+  closePanel('telemedicine-panel');
+}
 
 // ============================================================
 // TELEMEDICINE
