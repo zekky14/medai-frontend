@@ -43,9 +43,7 @@ html[data-theme="light"], html[data-theme="light"] body {
   color: #081A10 !important;
 }
 
-/* ============================================================
-   KRIXIA SPLASH SCREEN — PWA Launch Animation
-============================================================ */
+
 #krixia-splash {
   position: fixed;
   inset: 0;
@@ -860,38 +858,66 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
 <body>
 
 <!-- KRIXIA SPLASH SCREEN -->
-<div id="krixia-splash">
-  <div class="splash-logo-wrap">
-    <div class="splash-ring"></div>
-    <div class="splash-ring splash-ring-2"></div>
-    <div class="splash-icon-inner">
-      <svg viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg" fill="none" width="88" height="88">
+<div id="splash" style="position:fixed;inset:0;z-index:99999;background:#030806;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
+  <div style="position:relative;width:110px;height:110px;margin-bottom:28px;">
+    <div style="position:absolute;inset:-8px;border-radius:50%;border:2px solid transparent;border-top-color:#C9A84C;border-right-color:#E8C97A;animation:sp1 1.2s linear infinite;"></div>
+    <div style="position:absolute;inset:-16px;border-radius:50%;border:2px solid transparent;border-top-color:rgba(201,168,76,0.3);border-bottom-color:rgba(201,168,76,0.2);animation:sp2 2s linear infinite;"></div>
+    <div style="width:110px;height:110px;display:flex;align-items:center;justify-content:center;animation:spp 1.5s ease-in-out infinite;">
+      <svg viewBox="0 0 88 88" width="88" height="88" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#F0D888"/>
-            <stop offset="45%" stop-color="#C9A84C"/>
-            <stop offset="100%" stop-color="#A8832A"/>
-          </linearGradient>
-          <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#1D9E64"/>
-            <stop offset="100%" stop-color="#0D3D28"/>
+          <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F0D888"/><stop offset="45%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#A8832A"/>
           </linearGradient>
         </defs>
-        <polygon points="44,4 80,23 80,65 44,84 8,65 8,23" fill="url(#gg)" stroke="url(#sg)" stroke-width="2"/>
-        <rect x="37" y="22" width="14" height="44" rx="4" fill="url(#sg)"/>
-        <rect x="22" y="37" width="44" height="14" rx="4" fill="url(#sg)"/>
+        <polygon points="44,4 80,23 80,65 44,84 8,65 8,23" fill="#0D3D28" stroke="url(#sg2)" stroke-width="2"/>
+        <rect x="37" y="22" width="14" height="44" rx="4" fill="url(#sg2)"/>
+        <rect x="22" y="37" width="44" height="14" rx="4" fill="url(#sg2)"/>
         <circle cx="44" cy="44" r="7" fill="#0A2A1C"/>
       </svg>
     </div>
   </div>
-  <div class="splash-brand">KRIXIA</div>
-  <div class="splash-tagline">Medical Intelligence</div>
-  <div class="splash-dots">
-    <div class="splash-dot"></div>
-    <div class="splash-dot"></div>
-    <div class="splash-dot"></div>
-  </div>
+  <div id="splash-text" style="font-family:Inter,sans-serif;font-size:32px;font-weight:800;letter-spacing:8px;background:linear-gradient(135deg,#F5E0A0,#D4B45E,#B8943A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;"></div>
+  <div style="font-family:Inter,sans-serif;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.35);">Medical Intelligence</div>
+  <style>
+    @keyframes sp1{to{transform:rotate(360deg)}}
+    @keyframes sp2{to{transform:rotate(-360deg)}}
+    @keyframes spp{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  </style>
 </div>
+<script>
+// SPLASH - runs immediately, guaranteed to dismiss
+(function(){
+  var s = document.getElementById('splash');
+  var txt = document.getElementById('splash-text');
+  var word = 'KRIXIA';
+  var i = 0;
+  
+  // Typewriter effect
+  var timer = setInterval(function(){
+    if(i <= word.length){ txt.textContent = word.slice(0,i); i++; }
+    else { clearInterval(timer); }
+  }, 120);
+
+  // GUARANTEED dismiss after 2.5s
+  function hide(){
+    if(!s) return;
+    s.style.opacity='0';
+    setTimeout(function(){ 
+      if(s && s.parentNode) s.parentNode.removeChild(s); 
+    }, 500);
+  }
+  
+  setTimeout(hide, 2500);
+  
+  // Failsafe at 4s
+  setTimeout(function(){
+    if(s && s.parentNode) s.parentNode.removeChild(s);
+  }, 4000);
+  
+  // Tap to dismiss
+  s.addEventListener('click', hide);
+})();
+</script>
 
 <!-- ANIMATED BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
@@ -4389,44 +4415,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// ── SPLASH SCREEN ─────────────────────────────────────────
-(function() {
-  var splash = document.getElementById('krixia-splash');
-  if (!splash) return;
-
-  // Only show splash when launched as PWA (standalone mode)
-  // or on first visit - not on every page reload
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                     window.navigator.standalone === true;
-  var isFirstVisit = !sessionStorage.getItem('krixia_visited');
-
-  // Always show on PWA, show once on first browser visit
-  if (!isStandalone && !isFirstVisit) {
-    splash.style.display = 'none';
-    return;
-  }
-
-  sessionStorage.setItem('krixia_visited', '1');
-  
-  // Make sure splash is visible immediately
-  splash.style.display = 'flex';
-  splash.style.opacity = '1';
-
-  // Dismiss after 2.8 seconds
-  setTimeout(function() {
-    splash.classList.add('hide');
-    setTimeout(function() {
-      splash.style.display = 'none';
-    }, 600);
-  }, 2800);
-
-  // Also dismiss on tap
-  splash.addEventListener('click', function() {
-    splash.classList.add('hide');
-    setTimeout(function() { splash.style.display = 'none'; }, 600);
-  });
-})();
-
 // ── PWA SERVICE WORKER REGISTRATION ───────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -4450,29 +4438,35 @@ function showInstallBanner() {
   if (!deferredPrompt) return;
   if (localStorage.getItem('krixia_pwa_dismissed')) return;
 
-  const banner = document.createElement('div');
+  var banner = document.createElement('div');
   banner.id = 'pwa-banner';
-  banner.style.cssText = [
-    'position:fixed', 'bottom:70px', 'left:12px', 'right:12px',
-    'background:var(--surface)', 'border:1px solid var(--border-2)',
-    'border-radius:16px', 'padding:14px 16px',
-    'display:flex', 'align-items:center', 'gap:12px',
-    'z-index:500', 'box-shadow:0 8px 32px rgba(0,0,0,0.4)',
-    'animation:msgIn 0.3s ease'
-  ].join(';');
+  banner.style.cssText = 'position:fixed;bottom:70px;left:12px;right:12px;background:var(--surface);border:1px solid var(--border-2);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,0.4);';
 
-  banner.innerHTML = [
-    '<div style="font-size:32px;flex-shrink:0;">📱</div>',
-    '<div style="flex:1;">',
-      '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">Install Krixia</div>',
-      '<div style="font-size:12px;color:var(--text-3);">Add to home screen for instant access</div>',
-    '</div>',
-    '<button onclick="installPWA()" style="background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">Install</button>',
-    '<button onclick="dismissInstall()" style="background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:0 4px;line-height:1;">×</button>'
-  ].join('');
+  var icon = document.createElement('div');
+  icon.style.cssText = 'font-size:32px;flex-shrink:0;';
+  icon.textContent = '📱';
 
+  var text = document.createElement('div');
+  text.style.cssText = 'flex:1;';
+  text.innerHTML = '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">Install Krixia</div><div style="font-size:12px;color:var(--text-3);">Add to home screen for instant access</div>';
+
+  var installBtn = document.createElement('button');
+  installBtn.style.cssText = 'background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;';
+  installBtn.textContent = 'Install';
+  installBtn.onclick = installPWA;
+
+  var closeBtn = document.createElement('button');
+  closeBtn.style.cssText = 'background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:0 4px;line-height:1;';
+  closeBtn.textContent = '×';
+  closeBtn.onclick = dismissInstall;
+
+  banner.appendChild(icon);
+  banner.appendChild(text);
+  banner.appendChild(installBtn);
+  banner.appendChild(closeBtn);
   document.body.appendChild(banner);
 }
+
 
 function installPWA() {
   if (!deferredPrompt) return;
@@ -4481,14 +4475,12 @@ function installPWA() {
     var banner = document.getElementById('pwa-banner');
     if (result.outcome === 'accepted') {
       if (banner) {
-        banner.innerHTML = [
-          '<div style="font-size:32px;flex-shrink:0;">🎉</div>',
-          '<div style="flex:1;">',
-            '<div style="font-size:14px;font-weight:700;color:var(--em-300);margin-bottom:2px;">Krixia Installed!</div>',
-            '<div style="font-size:12px;color:var(--text-3);">Find it on your home screen or desktop</div>',
-          '</div>',
-          '<button onclick="this.closest('#pwa-banner').remove();" style="background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:0 4px;">×</button>'
-        ].join('');
+        while(banner.firstChild) banner.removeChild(banner.firstChild);
+        var si=document.createElement('div'); si.style.cssText='font-size:32px;flex-shrink:0;'; si.textContent='🎉';
+        var st=document.createElement('div'); st.style.cssText='flex:1;';
+        st.innerHTML='<div style="font-size:14px;font-weight:700;color:var(--em-300);">Krixia Installed!</div><div style="font-size:12px;color:var(--text-3);">Find it on your home screen or desktop</div>';
+        var sc=document.createElement('button'); sc.style.cssText='background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;'; sc.textContent='×'; sc.onclick=function(){banner.remove();};
+        banner.appendChild(si); banner.appendChild(st); banner.appendChild(sc);
         banner.style.borderColor = 'rgba(29,158,100,0.4)';
         setTimeout(function() { if (banner) banner.remove(); }, 4000);
       }
