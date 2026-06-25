@@ -37,6 +37,119 @@ html[data-theme="light"], html[data-theme="light"] body {
   background: #E8E3D8 !important;
   color: #081A10 !important;
 }
+
+/* ============================================================
+   KRIXIA SPLASH SCREEN — PWA Launch Animation
+============================================================ */
+#krixia-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #030806;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+#krixia-splash.hide {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+.splash-logo-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin-bottom: 28px;
+}
+.splash-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #C9A84C;
+  border-right-color: #E8C97A;
+  animation: splashSpin 1.2s linear infinite;
+}
+.splash-ring-2 {
+  inset: -16px;
+  border-top-color: rgba(201,168,76,0.3);
+  border-right-color: transparent;
+  border-bottom-color: rgba(201,168,76,0.2);
+  animation: splashSpin 2s linear infinite reverse;
+}
+@keyframes splashSpin {
+  to { transform: rotate(360deg); }
+}
+.splash-icon-inner {
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: splashPulse 1.5s ease-in-out infinite;
+}
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(201,168,76,0.4)); }
+  50% { transform: scale(1.05); filter: drop-shadow(0 0 24px rgba(201,168,76,0.7)); }
+}
+.splash-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #F5E0A0, #D4B45E, #B8943A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #C9A84C;
+  width: 0;
+  animation: splashType 1s steps(6, end) 0.3s forwards, splashCursor 0.6s step-end 1.3s infinite;
+  margin-bottom: 8px;
+}
+@keyframes splashType {
+  to { width: 200px; }
+}
+@keyframes splashCursor {
+  0%, 100% { border-right-color: #C9A84C; }
+  50% { border-right-color: transparent; }
+}
+.splash-tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0);
+  animation: splashFadeIn 0.5s ease 1.2s forwards;
+}
+@keyframes splashFadeIn {
+  to { color: rgba(255,255,255,0.35); }
+}
+.splash-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 48px;
+}
+.splash-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.3);
+  animation: splashDotPulse 1.2s ease-in-out infinite;
+}
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes splashDotPulse {
+  0%, 100% { background: rgba(201,168,76,0.2); transform: scale(1); }
+  50% { background: rgba(201,168,76,0.8); transform: scale(1.4); }
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -740,6 +853,40 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
 </style>
 </head>
 <body>
+
+<!-- KRIXIA SPLASH SCREEN -->
+<div id="krixia-splash">
+  <div class="splash-logo-wrap">
+    <div class="splash-ring"></div>
+    <div class="splash-ring splash-ring-2"></div>
+    <div class="splash-icon-inner">
+      <svg viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg" fill="none" width="88" height="88">
+        <defs>
+          <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F0D888"/>
+            <stop offset="45%" stop-color="#C9A84C"/>
+            <stop offset="100%" stop-color="#A8832A"/>
+          </linearGradient>
+          <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1D9E64"/>
+            <stop offset="100%" stop-color="#0D3D28"/>
+          </linearGradient>
+        </defs>
+        <polygon points="44,4 80,23 80,65 44,84 8,65 8,23" fill="url(#gg)" stroke="url(#sg)" stroke-width="2"/>
+        <rect x="37" y="22" width="14" height="44" rx="4" fill="url(#sg)"/>
+        <rect x="22" y="37" width="44" height="14" rx="4" fill="url(#sg)"/>
+        <circle cx="44" cy="44" r="7" fill="#0A2A1C"/>
+      </svg>
+    </div>
+  </div>
+  <div class="splash-brand">KRIXIA</div>
+  <div class="splash-tagline">Medical Intelligence</div>
+  <div class="splash-dots">
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+  </div>
+</div>
 
 <!-- ANIMATED BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
@@ -4235,6 +4382,40 @@ document.addEventListener('DOMContentLoaded', () => {
   logo.addEventListener('touchend', () => clearTimeout(_pt), { passive:true });
 });
 
+
+
+// ── SPLASH SCREEN ─────────────────────────────────────────
+(function() {
+  var splash = document.getElementById('krixia-splash');
+  if (!splash) return;
+
+  // Only show splash when launched as PWA (standalone mode)
+  // or on first visit - not on every page reload
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                     window.navigator.standalone === true;
+  var isFirstVisit = !sessionStorage.getItem('krixia_visited');
+
+  if (!isStandalone && !isFirstVisit) {
+    splash.style.display = 'none';
+    return;
+  }
+
+  sessionStorage.setItem('krixia_visited', '1');
+
+  // Dismiss after 2.8 seconds
+  setTimeout(function() {
+    splash.classList.add('hide');
+    setTimeout(function() {
+      splash.style.display = 'none';
+    }, 600);
+  }, 2800);
+
+  // Also dismiss on tap
+  splash.addEventListener('click', function() {
+    splash.classList.add('hide');
+    setTimeout(function() { splash.style.display = 'none'; }, 600);
+  });
+})();
 
 // ── PWA SERVICE WORKER REGISTRATION ───────────────────────
 if ('serviceWorker' in navigator) {
