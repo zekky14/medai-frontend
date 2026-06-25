@@ -1069,6 +1069,8 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
         <div class="quick-action-grid">
           <button class="qa-card" onclick="openVitalsPanel()"><span class="qa-icon">💓</span><div><div class="qa-text">Vitals Scan</div><div class="qa-sub">Camera pulse & SpO₂</div></div></button>
           <button class="qa-card" onclick="openHospitalPanel()"><span class="qa-icon">🏥</span><div><div class="qa-text">Find Hospital</div><div class="qa-sub">GPS-based referral</div></div></button>
+          <button class="qa-card" onclick="openHistoryPanel()"><span class="qa-icon">📋</span><div><div class="qa-text">Health History</div><div class="qa-sub">Your past consultations</div></div></button>
+          <button class="qa-card" onclick="openPanel('telemedicine-panel')"><span class="qa-icon">👨‍⚕️</span><div><div class="qa-text">Book a Doctor</div><div class="qa-sub">Connect with specialists</div></div></button>
           <button class="qa-card" onclick="triggerImageUpload()"><span class="qa-icon">📷</span><div><div class="qa-text">Photo Scan</div><div class="qa-sub">Skin & injury analysis</div></div></button>
           <button class="qa-card" onclick="openScreeningPanel()"><span class="qa-icon">👁️</span><div><div class="qa-text">Eye & Nail Screen</div><div class="qa-sub">Jaundice & anemia signs</div></div></button>
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
@@ -4309,7 +4311,7 @@ async function openHistoryPanel() {
     }).join('');
 
   } catch(err) {
-    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">Could not load history. Please check your connection.</div>';
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">Could not load history.<br><small style="color:var(--red-400);">' + err.message + '</small></div>';
   }
 }
 
