@@ -18,6 +18,48 @@
 <!-- Force dark background on iOS splash -->
 <style>
   html { background: #030806 !important; }
+
+/* TELEMEDICINE CARDS */
+.tele-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 14px 16px;
+  text-decoration: none; transition: all 0.2s; cursor: pointer;
+}
+.tele-card:hover { border-color: var(--border-2); background: rgba(201,168,76,0.06); transform: translateY(-1px); }
+.tele-icon { font-size: 28px; flex-shrink: 0; }
+.tele-info { flex: 1; }
+.tele-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.tele-desc { font-size: 12px; color: var(--text-3); line-height: 1.5; }
+.tele-arrow { font-size: 18px; color: var(--text-3); flex-shrink: 0; }
+
+/* HEALTH HISTORY CARDS */
+.history-card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 10px;
+  cursor: pointer; transition: all 0.2s;
+}
+.history-card:hover { border-color: var(--border-2); background: rgba(201,168,76,0.06); }
+.history-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.history-specialty { font-size: 12px; font-weight: 700; color: var(--gold-300); letter-spacing: 0.5px; }
+.history-date { font-size: 11px; color: var(--text-3); }
+.history-preview { font-size: 13px; color: var(--text-2); line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.history-severity { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 6px; }
+.sev-low { background: rgba(29,158,100,0.15); color: var(--em-300); }
+.sev-moderate { background: rgba(212,135,58,0.15); color: var(--amber-400); }
+.sev-high { background: rgba(232,93,74,0.15); color: var(--red-400); }
+.sev-emergency { background: rgba(232,93,74,0.3); color: var(--red-400); }
+
+/* LANGUAGE SELECTOR */
+.lang-selector {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r-sm); padding: 6px 10px;
+  cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.7);
+  font-family: 'Inter', sans-serif; transition: all 0.2s;
+}
+.lang-selector:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.35); }
+
 </style>
 <meta name="msapplication-TileColor" content="#06100C">
 <meta name="msapplication-tap-highlight" content="no">
@@ -999,6 +1041,12 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     </div>
 
     <div class="header-right">
+      <select class="lang-selector" id="lang-select" onchange="setLanguage(this.value)" title="Select Language">
+        <option value="en">🌐 EN</option>
+        <option value="yo">🇳🇬 YO</option>
+        <option value="ig">🇳🇬 IG</option>
+        <option value="ha">🇳🇬 HA</option>
+      </select>
       <div class="usage-pill" id="usage-pill">
         <div class="usage-dots" id="usage-dots-wrap">
           <div class="usage-dot" id="ud-0"></div><div class="usage-dot" id="ud-1"></div><div class="usage-dot" id="ud-2"></div>
@@ -1140,9 +1188,9 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
   <nav class="mobile-bottom-nav">
     <button class="mob-nav-btn active" onclick="mobileNav('chat',this)"><span class="mob-icon">💬</span><span class="mob-label">Diagnose</span></button>
     <button class="mob-nav-btn" onclick="mobileNav('specialty',this)"><span class="mob-icon">🩺</span><span class="mob-label">Specialty</span></button>
-    <button class="mob-nav-btn" onclick="mobileNav('vitals',this)"><span class="mob-icon">💓</span><span class="mob-label">Vitals</span></button>
     <button class="mob-nav-btn" onclick="mobileNav('hospitals',this)"><span class="mob-icon">🏥</span><span class="mob-label">Hospitals</span></button>
-    <button class="mob-nav-btn" onclick="mobileNav('profile',this)"><span class="mob-icon">👤</span><span class="mob-label">Profile</span></button>
+    <button class="mob-nav-btn" onclick="openHistoryPanel()"><span class="mob-icon">📋</span><span class="mob-label">History</span></button>
+    <button class="mob-nav-btn" onclick="openPanel('telemedicine-panel')"><span class="mob-icon">👨‍⚕️</span><span class="mob-label">Doctors</span></button>
   </nav>
 
 </div><!-- end app-wrapper -->
@@ -1430,6 +1478,89 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('doctor-register-panel')" style="flex:1;">Cancel</button>
       <button class="btn-primary" onclick="submitDoctorRegistration()" style="flex:2;">Submit for Review →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- HEALTH HISTORY PANEL -->
+<div class="panel-overlay" id="history-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('history-panel')">← Back</button>
+      <h2 class="panel-close-desktop">📋 Health History</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('history-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Your past consultations — tap any to continue or review</p>
+    <div class="panel-body" id="history-list" style="padding:0 1rem;">
+      <div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">Loading your history...</div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('history-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="clearHistory()" style="flex:1;background:rgba(232,93,74,0.15);color:var(--red-400);border:1px solid rgba(232,93,74,0.3);">🗑 Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- TELEMEDICINE PANEL -->
+<div class="panel-overlay" id="telemedicine-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('telemedicine-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🩺 Book a Real Doctor</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('telemedicine-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Connect with licensed Nigerian doctors for video/phone consultations</p>
+    <div class="panel-body">
+      <div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:1rem;font-size:13px;color:var(--text-2);line-height:1.6;">
+        ⚕️ Krixia AI gives you an initial assessment. For definitive diagnosis and prescriptions, consult a licensed physician below.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="https://www.drconsult.ng" target="_blank" class="tele-card">
+          <div class="tele-icon">👨‍⚕️</div>
+          <div class="tele-info">
+            <div class="tele-name">DrConsult.ng</div>
+            <div class="tele-desc">Video & chat consultations • Nigerian doctors • From ₦2,500</div>
+          </div>
+          <div class="tele-arrow">→</div>
+        </a>
+        <a href="https://www.wellahealth.com" target="_blank" class="tele-card">
+          <div class="tele-icon">💊</div>
+          <div class="tele-info">
+            <div class="tele-name">WellaHealth</div>
+            <div class="tele-desc">HMO & telemedicine • Drug delivery • Lagos & Abuja</div>
+          </div>
+          <div class="tele-arrow">→</div>
+        </a>
+        <a href="https://www.mdaasgroup.com" target="_blank" class="tele-card">
+          <div class="tele-icon">🏥</div>
+          <div class="tele-info">
+            <div class="tele-name">MDaaS Global</div>
+            <div class="tele-desc">Diagnostic centres • Affordable testing • Nationwide</div>
+          </div>
+          <div class="tele-arrow">→</div>
+        </a>
+        <a href="https://www.healthconnect247.com" target="_blank" class="tele-card">
+          <div class="tele-icon">📱</div>
+          <div class="tele-info">
+            <div class="tele-name">HealthConnect247</div>
+            <div class="tele-desc">24/7 doctor on call • Emergency consultations • Nigeria</div>
+          </div>
+          <div class="tele-arrow">→</div>
+        </a>
+        <a href="tel:0800-DOCTORX" class="tele-card" style="border-color:rgba(232,93,74,0.3);background:rgba(232,93,74,0.05);">
+          <div class="tele-icon">🚨</div>
+          <div class="tele-info">
+            <div class="tele-name" style="color:var(--red-400);">Emergency • 112</div>
+            <div class="tele-desc">FRSC Emergency Line — tap to call now</div>
+          </div>
+          <div class="tele-arrow" style="color:var(--red-400);">📞</div>
+        </a>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('telemedicine-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="sendTelemedicineToChat()" style="flex:2;">💬 Ask AI First →</button>
     </div>
   </div>
 </div>
@@ -4134,6 +4265,192 @@ async function submitDoctorRegistration() {
 
 
 // ============================================================
+
+// ============================================================
+// HEALTH HISTORY — Save & Load from Supabase
+// ============================================================
+
+async function openHistoryPanel() {
+  openPanel('history-panel');
+  const list = document.getElementById('history-list');
+  list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading...</div>';
+
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/history?limit=20', {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+
+    if (!data.sessions || data.sessions.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">No history yet.<br>Start a consultation to see your past diagnoses here.</div>';
+      return;
+    }
+
+    list.innerHTML = data.sessions.map(session => {
+      const msgs = session.messages || [];
+      const lastAI = msgs.filter(m => m.role === 'assistant').pop();
+      const preview = lastAI ? lastAI.content.replace(/\*\*/g, '').slice(0, 120) + '...' : 'No response recorded';
+      const date = new Date(session.updated_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+      const sevClass = 'sev-' + (session.severity || 'low');
+      const sevLabel = (session.severity || 'low').charAt(0).toUpperCase() + (session.severity || 'low').slice(1);
+
+      return `<div class="history-card" onclick="loadHistorySession('${session.session_token}')">
+        <div class="history-card-top">
+          <span class="history-specialty">${session.specialty || 'General Medicine'}</span>
+          <span class="history-date">${date}</span>
+        </div>
+        <div class="history-preview">${preview}</div>
+        <span class="history-severity ${sevClass}">${sevLabel}</span>
+      </div>`;
+    }).join('');
+
+  } catch(err) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">Could not load history. Please check your connection.</div>';
+  }
+}
+
+async function loadHistorySession(token) {
+  closePanel('history-panel');
+  try {
+    const res = await fetch(`https://api.tickit.com.ng/api/diagnose/session/${token}`);
+    const data = await res.json();
+    if (data.messages) {
+      conversationHistory = data.messages;
+      krixiaSessionToken = token;
+      const msgs = document.getElementById('messages');
+      // Clear and reload messages
+      const children = Array.from(msgs.children);
+      children.slice(1).forEach(el => el.remove());
+      data.messages.forEach(msg => {
+        if (msg.role !== 'system') appendMessage(msg.role === 'user' ? 'user' : 'ai', msg.content);
+      });
+      msgs.scrollTop = msgs.scrollHeight;
+      document.getElementById('quick-chips').style.display = 'none';
+    }
+  } catch(err) {
+    appendMessage('ai', '⚠️ Could not load that session. Please try again.');
+  }
+}
+
+async function clearHistory() {
+  if (!confirm('Clear all your health history? This cannot be undone.')) return;
+  document.getElementById('history-list').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">History cleared.</div>';
+}
+
+// ============================================================
+// LANGUAGE SELECTOR
+// ============================================================
+
+const KRIXIA_LANGS = {
+  en: {
+    welcome_brand: 'KRIXIA',
+    welcome_sub: 'Medical Intelligence',
+    welcome_intro: 'Your AI-powered medical companion. Describe your symptoms and get instant, expert guidance.',
+    chip_fever: '🤒 Fever',
+    chip_headache: '🤕 Headache',
+    chip_chest: '💔 Chest Pain',
+    chip_child: '👶 Child Sick',
+    chip_skin: '🔴 Skin Rash',
+    chip_diabetes: '💊 Diabetes',
+    input_placeholder: 'Describe your symptoms...',
+    doc_name: 'AI Doctor',
+  },
+  yo: {
+    welcome_brand: 'KRIXIA',
+    welcome_sub: 'Ìmọ Ìlera',
+    welcome_intro: 'Alábàápàdé ìlera rẹ tí AI ń ṣe. Ṣapejuwe àwọn àmì aisan rẹ kí o sì gba ìtọ́sọ̀nà lẹsẹkẹsẹ.',
+    chip_fever: '🤒 Ibà',
+    chip_headache: '🤕 Orí Fífọ́',
+    chip_chest: '💔 Irora Àyà',
+    chip_child: '👶 Ọmọ Àìsàn',
+    chip_skin: '🔴 Àrùn Awọ',
+    chip_diabetes: '💊 Àtọgbẹ',
+    input_placeholder: 'Ṣapejuwe àwọn àmì aisan rẹ...',
+    doc_name: 'Dókítà AI',
+  },
+  ig: {
+    welcome_brand: 'KRIXIA',
+    welcome_sub: 'Ihe Ọmụma Ahụike',
+    welcome_intro: 'Onye enyemaka ahụike gị nke AI na-achị. Kọọ ihe ọrịa gị ma nweta ndụmọdụ ozugbo.',
+    chip_fever: '🤒 Ọkụ Ahụ',
+    chip_headache: '🤕 Isi Ọwụwa',
+    chip_chest: '💔 Ọgbu Obi',
+    chip_child: '👶 Nwa Ọrịa',
+    chip_skin: '🔴 Ọrịa Akpụkpọ',
+    chip_diabetes: '💊 Shuga',
+    input_placeholder: 'Kọọ ihe ọrịa gị...',
+    doc_name: 'Dọkịta AI',
+  },
+  ha: {
+    welcome_brand: 'KRIXIA',
+    welcome_sub: 'Ilimin Lafiya',
+    welcome_intro: 'Abokin lafiyar ku na AI. Kwatanta alamomin rashin lafiya ku kuma samun jagora nan take.',
+    chip_fever: '🤒 Zazzabi',
+    chip_headache: '🤕 Ciwon Kai',
+    chip_chest: '💔 Ciwon Kirji',
+    chip_child: '👶 Yaro Maras Lafiya',
+    chip_skin: '🔴 Ciwon Fata',
+    chip_diabetes: '💊 Ciwon Sukari',
+    input_placeholder: 'Kwatanta alamomin rashin lafiya...',
+    doc_name: 'Likita AI',
+  }
+};
+
+let currentLang = 'en';
+
+function setLanguage(lang) {
+  currentLang = lang;
+  const t = KRIXIA_LANGS[lang] || KRIXIA_LANGS.en;
+  localStorage.setItem('krixia_lang', lang);
+
+  // Update UI elements
+  const brand = document.querySelector('.welcome-brand');
+  const sub = document.querySelector('.welcome-sub');
+  const intro = document.querySelector('.welcome-intro');
+  const input = document.getElementById('chat-input');
+  const docName = document.querySelector('.doc-name');
+
+  if (brand) brand.textContent = t.welcome_brand;
+  if (sub) sub.textContent = t.welcome_sub;
+  if (intro) intro.textContent = t.welcome_intro;
+  if (input) input.placeholder = t.input_placeholder;
+  if (docName) docName.textContent = t.doc_name;
+
+  // Update symptom chips
+  const chips = document.querySelectorAll('.symptom-chip');
+  const chipKeys = ['chip_fever', 'chip_headache', 'chip_chest', 'chip_child', 'chip_skin', 'chip_diabetes'];
+  chips.forEach((chip, i) => {
+    if (chipKeys[i] && t[chipKeys[i]]) chip.textContent = t[chipKeys[i]];
+  });
+
+  // Update system prompt language instruction
+  if (lang !== 'en') {
+    const langNames = { yo: 'Yoruba', ig: 'Igbo', ha: 'Hausa' };
+    window._langInstruction = `\n\nIMPORTANT: The patient prefers ${langNames[lang]}. Please respond in ${langNames[lang]} language, but keep medical terms in English where necessary for clarity.`;
+  } else {
+    window._langInstruction = '';
+  }
+}
+
+// Load saved language on startup
+document.addEventListener('DOMContentLoaded', function() {
+  const saved = localStorage.getItem('krixia_lang') || 'en';
+  const select = document.getElementById('lang-select');
+  if (select) select.value = saved;
+  if (saved !== 'en') setLanguage(saved);
+});
+
+// ============================================================
+// TELEMEDICINE
+// ============================================================
+
+function sendTelemedicineToChat() {
+  closePanel('telemedicine-panel');
+  document.getElementById('chat-input').value = 'I would like to consult a real doctor. Based on what we have discussed, which type of specialist should I see and what should I tell them?';
+  sendMessage();
+}
+
+
 // DOCTORS DIRECTORY
 // ============================================================
 const NIGERIA_DOCTORS = [
