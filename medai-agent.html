@@ -4282,10 +4282,10 @@ async function openHistoryPanel() {
   list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading...</div>';
 
   try {
-    const res = await fetch('https://api.tickit.com.ng/api/history?limit=20', {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const res = await fetch('https://api.tickit.com.ng/api/history?limit=20');
+    if (!res.ok) throw new Error('Server error: ' + res.status);
     const data = await res.json();
+    console.log('History data:', data);
 
     if (!data.sessions || data.sessions.length === 0) {
       list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">No history yet.<br>Start a consultation to see your past diagnoses here.</div>';
