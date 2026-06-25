@@ -14,6 +14,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Krixia">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!-- Force dark background on iOS splash -->
+<style>
+  html { background: #030806 !important; }
+</style>
 <meta name="msapplication-TileColor" content="#06100C">
 <meta name="msapplication-tap-highlight" content="no">
 
@@ -4395,12 +4400,17 @@ document.addEventListener('DOMContentLoaded', () => {
                      window.navigator.standalone === true;
   var isFirstVisit = !sessionStorage.getItem('krixia_visited');
 
+  // Always show on PWA, show once on first browser visit
   if (!isStandalone && !isFirstVisit) {
     splash.style.display = 'none';
     return;
   }
 
   sessionStorage.setItem('krixia_visited', '1');
+  
+  // Make sure splash is visible immediately
+  splash.style.display = 'flex';
+  splash.style.opacity = '1';
 
   // Dismiss after 2.8 seconds
   setTimeout(function() {
