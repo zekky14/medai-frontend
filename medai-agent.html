@@ -4,6 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Krixia — World Class Medical Intelligence</title>
+
+<!-- PWA Meta Tags -->
+<meta name="application-name" content="Krixia">
+<meta name="description" content="World class AI medical intelligence — diagnose symptoms, find hospitals, scan vitals. Nigeria's premier medical AI platform.">
+<meta name="theme-color" content="#06100C">
+<meta name="background-color" content="#06100C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Krixia">
+<meta name="msapplication-TileColor" content="#06100C">
+<meta name="msapplication-tap-highlight" content="no">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="/manifest.json">
+
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+
 <style>
 /* Critical inline CSS - prevents white flash before main CSS loads */
 html, body {
@@ -20,79 +41,7 @@ html[data-theme="light"], html[data-theme="light"] body {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://js.paystack.co/v1/inline.js"></script>
-<script>
-// ── PULL TO REFRESH — soft reset, no page reload ──────────
-(function() {
-  if (!('ontouchstart' in window)) return;
-  var startY = 0, startX = 0, isTracking = false;
-  var THRESHOLD = 80;
 
-  var bar = document.createElement('div');
-  bar.style.cssText = 'position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#A8832A,#E8C97A);transform:scaleX(0);transform-origin:left;z-index:99999;pointer-events:none;';
-  document.body.appendChild(bar);
-
-  var lbl = document.createElement('div');
-  lbl.style.cssText = 'position:fixed;top:3px;left:50%;transform:translateX(-50%) translateY(-120%);background:#C9A84C;color:#06100C;padding:5px 14px;border-radius:0 0 10px 10px;font-size:11px;font-weight:800;font-family:Inter,sans-serif;z-index:99999;pointer-events:none;white-space:nowrap;transition:transform 0.2s ease;';
-  document.body.appendChild(lbl);
-
-  function softReset() {
-    // Reset chat to welcome state without reloading the page
-    var msgs = document.getElementById('messages');
-    var chips = document.getElementById('quick-chips');
-    if (msgs) {
-      // Keep only the first welcome message
-      var children = Array.from(msgs.children);
-      children.slice(1).forEach(function(el) { el.remove(); });
-      msgs.scrollTop = 0;
-    }
-    if (chips) chips.style.display = 'flex';
-    // Reset conversation history
-    if (typeof conversationHistory !== 'undefined') conversationHistory = [];
-    // Close any open panels
-    document.querySelectorAll('.panel-overlay.active').forEach(function(p) { p.classList.remove('active'); });
-    lbl.textContent = '\u2713 Refreshed';
-    lbl.style.background = '#1D9E64';
-    setTimeout(function() {
-      lbl.style.transform = 'translateX(-50%) translateY(-120%)';
-    }, 1000);
-  }
-
-  document.addEventListener('touchstart', function(e) {
-    var msgs = document.getElementById('messages');
-    startY = e.touches[0].clientY;
-    startX = e.touches[0].clientX;
-    isTracking = msgs && msgs.scrollTop <= 0;
-  }, { passive: true });
-
-  document.addEventListener('touchmove', function(e) {
-    if (!isTracking) return;
-    var dy = e.touches[0].clientY - startY;
-    var dx = e.touches[0].clientX - startX;
-    if (Math.abs(dx) > Math.abs(dy) || dy <= 0) { isTracking = false; return; }
-    bar.style.transform = 'scaleX(' + Math.min(dy / THRESHOLD, 1) + ')';
-    if (dy > 20) {
-      lbl.style.transform = 'translateX(-50%) translateY(0%)';
-      lbl.textContent = dy >= THRESHOLD ? '\u2191 Release to refresh' : '\u2193 Pull to refresh';
-      lbl.style.background = dy >= THRESHOLD ? '#1D9E64' : '#C9A84C';
-    }
-  }, { passive: true });
-
-  document.addEventListener('touchend', function(e) {
-    if (!isTracking) return;
-    var dy = e.changedTouches[0].clientY - startY;
-    bar.style.transform = 'scaleX(0)';
-    isTracking = false;
-    if (dy >= THRESHOLD) {
-      lbl.textContent = '\u21bb Refreshing...';
-      lbl.style.background = '#1D9E64';
-      lbl.style.transform = 'translateX(-50%) translateY(0%)';
-      setTimeout(softReset, 400);
-    } else {
-      lbl.style.transform = 'translateX(-50%) translateY(-120%)';
-    }
-  }, { passive: true });
-})();
-</script>
 
 <style>
 /* ============================================================
@@ -4284,6 +4233,77 @@ document.addEventListener('DOMContentLoaded', () => {
   let _pt;
   logo.addEventListener('touchstart', () => { _pt = setTimeout(openAdminPanel, 1500); }, { passive:true });
   logo.addEventListener('touchend', () => clearTimeout(_pt), { passive:true });
+});
+
+
+// ── PWA SERVICE WORKER REGISTRATION ───────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(reg) { console.log('SW registered:', reg.scope); })
+      .catch(function(err) { console.log('SW registration failed:', err); });
+  });
+}
+
+// ── PWA INSTALL PROMPT ─────────────────────────────────────
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install button after 30 seconds if not dismissed
+  setTimeout(showInstallBanner, 30000);
+});
+
+function showInstallBanner() {
+  if (!deferredPrompt) return;
+  if (localStorage.getItem('krixia_pwa_dismissed')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-banner';
+  banner.style.cssText = [
+    'position:fixed', 'bottom:70px', 'left:12px', 'right:12px',
+    'background:var(--surface)', 'border:1px solid var(--border-2)',
+    'border-radius:16px', 'padding:14px 16px',
+    'display:flex', 'align-items:center', 'gap:12px',
+    'z-index:500', 'box-shadow:0 8px 32px rgba(0,0,0,0.4)',
+    'animation:msgIn 0.3s ease'
+  ].join(';');
+
+  banner.innerHTML = [
+    '<div style="font-size:32px;flex-shrink:0;">📱</div>',
+    '<div style="flex:1;">',
+      '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">Install Krixia</div>',
+      '<div style="font-size:12px;color:var(--text-3);">Add to home screen for instant access</div>',
+    '</div>',
+    '<button onclick="installPWA()" style="background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">Install</button>',
+    '<button onclick="dismissInstall()" style="background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:0 4px;line-height:1;">×</button>'
+  ].join('');
+
+  document.body.appendChild(banner);
+}
+
+function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(result) {
+    if (result.outcome === 'accepted') {
+      document.getElementById('pwa-banner') && document.getElementById('pwa-banner').remove();
+    }
+    deferredPrompt = null;
+  });
+}
+
+function dismissInstall() {
+  localStorage.setItem('krixia_pwa_dismissed', '1');
+  var banner = document.getElementById('pwa-banner');
+  if (banner) banner.remove();
+}
+
+window.addEventListener('appinstalled', function() {
+  var banner = document.getElementById('pwa-banner');
+  if (banner) banner.remove();
+  deferredPrompt = null;
 });
 </script>
 </body>
