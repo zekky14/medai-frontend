@@ -64,27 +64,29 @@
 /* ── DAILY HEALTH TOPIC ─────────────────────────────────── */
 .daily-topic-overlay {
   position: fixed; inset: 0; z-index: 800;
-  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
   display: flex; align-items: center; justify-content: center;
-  padding: 1rem; opacity: 0; pointer-events: none;
-  transition: opacity 0.4s ease;
+  padding: 1.5rem; opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
 }
 .daily-topic-overlay.show {
   opacity: 1; pointer-events: all;
 }
 .daily-topic-card {
   background: var(--modal-bg); border: 1px solid var(--border-2);
-  border-radius: 24px; max-width: 480px; width: 100%;
-  overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.6);
-  transform: translateY(20px); transition: transform 0.4s ease;
+  border-radius: 24px; max-width: 380px; width: 100%;
+  position: relative;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.1);
+  transform: translateY(24px) scale(0.97); transition: transform 0.35s ease;
 }
 .daily-topic-overlay.show .daily-topic-card {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 .daily-topic-hero {
   background: linear-gradient(135deg, #0A2A1C, #0D3D28);
   padding: 1.5rem; text-align: center; position: relative;
   border-bottom: 1px solid var(--border);
+  overflow: hidden;
 }
 .daily-topic-badge {
   display: inline-flex; align-items: center; gap: 6px;
@@ -102,13 +104,13 @@
   font-size: 12px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase;
 }
 .daily-topic-close {
-  position: absolute; top: 12px; right: 14px;
-  background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.6);
-  width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
+  position: absolute; top: 12px; right: 14px; z-index: 10;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-3); width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+  font-size: 14px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; font-family: Inter,sans-serif;
 }
-.daily-topic-close:hover { background: rgba(255,255,255,0.2); color: white; }
+.daily-topic-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
 .daily-topic-body { padding: 1.25rem 1.5rem; }
 .daily-topic-text {
   font-size: 14px; color: var(--text-2); line-height: 1.7;
@@ -4564,6 +4566,13 @@ function sendTelemedicineToChat() {
 
 
 // ── DAILY HEALTH TOPIC ────────────────────────────────────
+// Elvis's video IDs — add more as you record them
+const ELVIS_VIDEOS = [
+  'I-W1kJgQ20A',
+  'Y-tkksRiUso',
+  'M1epFHjJOHM'
+];
+
 const DAILY_TOPICS = [
   { icon: '❤️', specialty: 'Cardiology', title: 'Protecting Your Heart', prompt: 'Give me a brief, friendly 3-sentence health tip about heart health and what Nigerians can do daily to protect their heart.' },
   { icon: '🧠', specialty: 'Neurology', title: 'Understanding Headaches', prompt: 'Give me a brief, friendly 3-sentence health tip about headaches — what causes them and simple relief tips for Nigerians.' },
@@ -4611,6 +4620,17 @@ async function loadDailyTopic() {
   document.getElementById('dt-title').textContent = topic.title;
   document.getElementById('dt-specialty').textContent = topic.specialty;
   document.getElementById('dt-text').textContent = 'Loading today\'s health insight...';
+
+  // Embed video if available for this day
+  var videoIndex = dayOfYear % ELVIS_VIDEOS.length;
+  var videoId = ELVIS_VIDEOS[videoIndex];
+  var videoWrap = document.getElementById('dt-video-wrap');
+  var videoFrame = document.getElementById('dt-video');
+  if (videoId && videoWrap && videoFrame) {
+    videoFrame.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=0&rel=0&modestbranding=1';
+    videoWrap.style.display = 'block';
+    document.getElementById('dt-icon').style.display = 'none';
+  }
 
   // Show popup after 3 seconds (after splash clears)
   setTimeout(function() {
@@ -5039,22 +5059,49 @@ window.addEventListener('appinstalled', function() {
 </script>
 
 <!-- DAILY HEALTH TOPIC POPUP -->
-<div class="daily-topic-overlay" id="daily-topic-overlay">
+<div class="daily-topic-overlay" id="daily-topic-overlay" onclick="if(event.target===this)closeDailyTopic()">
   <div class="daily-topic-card">
-    <div class="daily-topic-hero">
-      <button class="daily-topic-close" onclick="closeDailyTopic()">✕</button>
-      <div class="daily-topic-badge">📅 Today's Health Topic</div>
-      <span class="daily-topic-icon" id="dt-icon">🩺</span>
-      <div class="daily-topic-title" id="dt-title">Loading today's topic...</div>
-      <div class="daily-topic-specialty" id="dt-specialty">Krixia Medical Intelligence</div>
+
+    <!-- Close button top right -->
+    <button class="daily-topic-close" onclick="closeDailyTopic()">✕</button>
+
+    <!-- Doctor photo + badge -->
+    <div style="text-align:center;padding:1.5rem 1.5rem 0.75rem;">
+      <div style="position:relative;display:inline-block;margin-bottom:12px;">
+        <img src="/audio/elvis-photo.jpg"
+          onerror="this.style.display='none';document.getElementById('dt-avatar-fallback').style.display='flex';"
+          style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--gold-400);box-shadow:0 4px 16px rgba(201,168,76,0.3);">
+        <div id="dt-avatar-fallback" style="display:none;width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));align-items:center;justify-content:center;font-size:32px;border:3px solid var(--gold-400);">👨🏾‍⚕️</div>
+        <div style="position:absolute;bottom:-2px;right:-2px;width:22px;height:22px;background:var(--em-400);border-radius:50%;border:2px solid var(--modal-bg);display:flex;align-items:center;justify-content:center;font-size:11px;">✓</div>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);">Dr. Elvis • Krixia AI</div>
+      <div class="daily-topic-badge" style="margin:8px auto 0;">📅 Today's Health Topic</div>
     </div>
-    <div class="daily-topic-body">
-      <div class="daily-topic-text" id="dt-text">Fetching today's health insight for you...</div>
+
+    <!-- Topic icon + title -->
+    <div style="text-align:center;padding:0 1.5rem 0.75rem;border-bottom:1px solid var(--border);">
+      <span id="dt-icon" style="font-size:36px;display:block;margin-bottom:6px;">🩺</span>
+      <div id="dt-title" style="font-size:17px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:4px;">Loading today's topic...</div>
+      <div id="dt-specialty" style="font-size:11px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;">Krixia Medical Intelligence</div>
     </div>
-    <div class="daily-topic-footer">
-      <button class="btn-secondary" onclick="closeDailyTopic()" style="flex:1;padding:11px;">Skip</button>
-      <button class="btn-primary" onclick="learnMoreDailyTopic()" style="flex:2;padding:11px;">Learn More →</button>
+
+    <!-- Health tip text -->
+    <div style="padding:1rem 1.5rem;">
+      <div id="dt-text" style="font-size:13px;color:var(--text-2);line-height:1.8;text-align:center;">Fetching today's health insight...</div>
     </div>
+
+    <!-- Action buttons -->
+    <div style="display:flex;gap:10px;padding:0 1.5rem 1.5rem;">
+      <button onclick="closeDailyTopic()"
+        style="flex:1;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">
+        Skip
+      </button>
+      <button onclick="learnMoreDailyTopic()"
+        style="flex:2;padding:12px;background:linear-gradient(135deg,var(--gold-600),var(--gold-300));border:none;border-radius:12px;color:var(--obsidian);font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">
+        Learn More →
+      </button>
+    </div>
+
   </div>
 </div>
 
