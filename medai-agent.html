@@ -19,7 +19,8 @@ html[data-theme="light"], html[data-theme="light"] body {
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://js.paystack.co/v1/inline.js">
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
 // ── PULL TO REFRESH — soft reset, no page reload ──────────
 (function() {
   if (!('ontouchstart' in window)) return;
@@ -91,6 +92,8 @@ html[data-theme="light"], html[data-theme="light"] body {
     }
   }, { passive: true });
 })();
+</script>
+
 <style>
 /* ============================================================
    KRIXIA — PREMIUM MEDICAL AI — REBUILT DESIGN SYSTEM
@@ -4282,8 +4285,6 @@ document.addEventListener('DOMContentLoaded', () => {
   logo.addEventListener('touchstart', () => { _pt = setTimeout(openAdminPanel, 1500); }, { passive:true });
   logo.addEventListener('touchend', () => clearTimeout(_pt), { passive:true });
 });
-
-
 </script>
 </body>
 </html>
