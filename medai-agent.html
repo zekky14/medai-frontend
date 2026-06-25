@@ -10,9 +10,7 @@
 // ── PULL TO REFRESH ───────────────────────────────────────
 (function() {
   if (!('ontouchstart' in window)) return;
-  var startY = 0;
-  var startX = 0;
-  var isTracking = false;
+  var startY = 0, startX = 0, isTracking = false;
   var THRESHOLD = 80;
 
   var bar = document.createElement('div');
@@ -24,28 +22,17 @@
   document.body.appendChild(lbl);
 
   document.addEventListener('touchstart', function(e) {
+    var msgs = document.getElementById('messages');
     startY = e.touches[0].clientY;
     startX = e.touches[0].clientX;
-    isTracking = false;
-    var msgs = document.getElementById('messages');
-    // Only start tracking if messages div is scrolled to very top
-    if (msgs && msgs.scrollTop <= 0) {
-      isTracking = true;
-    }
+    isTracking = msgs && msgs.scrollTop <= 0;
   }, { passive: true });
 
   document.addEventListener('touchmove', function(e) {
     if (!isTracking) return;
     var dy = e.touches[0].clientY - startY;
     var dx = e.touches[0].clientX - startX;
-    // Only vertical pulls, not horizontal swipes
-    if (Math.abs(dx) > Math.abs(dy)) { isTracking = false; return; }
-    // Only downward pulls
-    if (dy <= 0) { isTracking = false; return; }
-    // Check messages still at top
-    var msgs = document.getElementById('messages');
-    if (msgs && msgs.scrollTop > 5) { isTracking = false; return; }
-
+    if (Math.abs(dx) > Math.abs(dy) || dy <= 0) { isTracking = false; return; }
     bar.style.transform = 'scaleX(' + Math.min(dy / THRESHOLD, 1) + ')';
     if (dy > 20) {
       lbl.style.transform = 'translateX(-50%) translateY(0%)';
@@ -62,10 +49,7 @@
     if (dy >= THRESHOLD) {
       lbl.textContent = '↻ Refreshing...';
       lbl.style.background = '#1D9E64';
-      // Use href reload to avoid blank screen
-      setTimeout(function() {
-        window.location.href = window.location.href.split('?')[0] + '?r=' + Date.now();
-      }, 500);
+      setTimeout(function() { location.reload(); }, 500);
     } else {
       lbl.style.transform = 'translateX(-50%) translateY(-120%)';
     }
