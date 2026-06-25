@@ -60,6 +60,77 @@
 }
 .lang-selector:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.35); }
 
+
+/* ── DAILY HEALTH TOPIC ─────────────────────────────────── */
+.daily-topic-overlay {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem; opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.daily-topic-overlay.show {
+  opacity: 1; pointer-events: all;
+}
+.daily-topic-card {
+  background: var(--modal-bg); border: 1px solid var(--border-2);
+  border-radius: 24px; max-width: 480px; width: 100%;
+  overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  transform: translateY(20px); transition: transform 0.4s ease;
+}
+.daily-topic-overlay.show .daily-topic-card {
+  transform: translateY(0);
+}
+.daily-topic-hero {
+  background: linear-gradient(135deg, #0A2A1C, #0D3D28);
+  padding: 1.5rem; text-align: center; position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.daily-topic-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: var(--gold-300); text-transform: uppercase; margin-bottom: 12px;
+}
+.daily-topic-icon { font-size: 52px; margin-bottom: 10px; display: block; }
+.daily-topic-title {
+  font-size: 20px; font-weight: 800; color: var(--text);
+  margin-bottom: 6px; line-height: 1.3;
+}
+.daily-topic-specialty {
+  font-size: 12px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase;
+}
+.daily-topic-close {
+  position: absolute; top: 12px; right: 14px;
+  background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.6);
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.daily-topic-close:hover { background: rgba(255,255,255,0.2); color: white; }
+.daily-topic-body { padding: 1.25rem 1.5rem; }
+.daily-topic-text {
+  font-size: 14px; color: var(--text-2); line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.daily-topic-footer {
+  display: flex; gap: 10px; padding: 0 1.5rem 1.5rem;
+}
+
+/* Desktop: right panel topic widget */
+.desktop-daily-topic {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(29,158,100,0.04));
+  border: 1px solid var(--border-2); border-radius: var(--r-md);
+  padding: 1rem; margin-top: 0.5rem;
+}
+.ddt-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-400); margin-bottom: 8px; }
+.ddt-icon { font-size: 28px; margin-bottom: 6px; display: block; }
+.ddt-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+.ddt-preview { font-size: 12px; color: var(--text-3); line-height: 1.6; }
+.ddt-btn { margin-top: 10px; background: linear-gradient(135deg, var(--gold-600), var(--gold-400)); color: var(--obsidian); border: none; border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; font-family: Inter, sans-serif; transition: all 0.2s; }
+.ddt-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(201,168,76,0.3); }
+
 </style>
 <meta name="msapplication-TileColor" content="#06100C">
 <meta name="msapplication-tap-highlight" content="no">
@@ -938,7 +1009,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
   var timer = setInterval(function(){
     if(i <= word.length){ txt.textContent = word.slice(0,i); i++; }
     else { clearInterval(timer); }
-  }, 120);
+  }, 220);
 
   // GUARANTEED dismiss after 2.5s
   function hide(){
@@ -1075,6 +1146,15 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
           <button class="qa-card" onclick="openScreeningPanel()"><span class="qa-icon">👁️</span><div><div class="qa-text">Eye & Nail Screen</div><div class="qa-sub">Jaundice & anemia signs</div></div></button>
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
         </div>
+      </div>
+
+      <!-- Desktop Daily Topic Widget -->
+      <div class="desktop-daily-topic" id="desktop-daily-topic" style="display:none;">
+        <div class="ddt-label">📅 Today's Topic</div>
+        <span class="ddt-icon" id="ddt-icon">🩺</span>
+        <div class="ddt-title" id="ddt-title">Loading...</div>
+        <div class="ddt-preview" id="ddt-preview"></div>
+        <button class="ddt-btn" onclick="learnMoreDailyTopic()">Explore This Topic →</button>
       </div>
 
       <div>
@@ -4292,23 +4372,31 @@ async function openHistoryPanel() {
       return;
     }
 
-    list.innerHTML = data.sessions.map(session => {
-      const msgs = session.messages || [];
-      const lastAI = msgs.filter(m => m.role === 'assistant').pop();
-      const preview = lastAI ? lastAI.content.replace(/\*\*/g, '').slice(0, 120) + '...' : 'No response recorded';
-      const date = new Date(session.updated_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
-      const sevClass = 'sev-' + (session.severity || 'low');
-      const sevLabel = (session.severity || 'low').charAt(0).toUpperCase() + (session.severity || 'low').slice(1);
+    list.innerHTML = '';
+    data.sessions.forEach(function(session) {
+      var msgs = Array.isArray(session.messages) ? session.messages : [];
+      var userMsg = msgs.find(function(m) { return m.role === 'user'; });
+      var aiMsg = msgs.filter(function(m) { return m.role === 'assistant'; }).pop();
+      var preview = userMsg ? userMsg.content.slice(0, 100) + '...' : 'Consultation recorded';
+      var aiPreview = aiMsg ? aiMsg.content.replace(/[#*`]/g, '').slice(0, 80) + '...' : '';
+      var date = new Date(session.updated_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+      var sev = session.severity || 'low';
+      var sevClass = 'sev-' + sev;
+      var sevLabel = sev.charAt(0).toUpperCase() + sev.slice(1);
 
-      return `<div class="history-card" onclick="loadHistorySession('${session.session_token}')">
-        <div class="history-card-top">
-          <span class="history-specialty">${session.specialty || 'General Medicine'}</span>
-          <span class="history-date">${date}</span>
-        </div>
-        <div class="history-preview">${preview}</div>
-        <span class="history-severity ${sevClass}">${sevLabel}</span>
-      </div>`;
-    }).join('');
+      var card = document.createElement('div');
+      card.className = 'history-card';
+      card.onclick = function() { loadHistorySession(session.session_token); };
+      card.innerHTML =
+        '<div class="history-card-top">' +
+          '<span class="history-specialty">' + (session.specialty || 'General Medicine') + '</span>' +
+          '<span class="history-date">' + date + '</span>' +
+        '</div>' +
+        '<div class="history-preview" style="color:var(--gold-300);font-size:12px;margin-bottom:4px;">You: ' + preview + '</div>' +
+        (aiPreview ? '<div class="history-preview">AI: ' + aiPreview + '</div>' : '') +
+        '<span class="history-severity ' + sevClass + '">' + sevLabel + '</span>';
+      list.appendChild(card);
+    });
 
   } catch(err) {
     list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">Could not load history.<br><small style="color:var(--red-400);">' + err.message + '</small></div>';
@@ -4473,6 +4561,100 @@ function sendTelemedicineToChat() {
   sendMessage();
 }
 
+
+
+// ── DAILY HEALTH TOPIC ────────────────────────────────────
+const DAILY_TOPICS = [
+  { icon: '❤️', specialty: 'Cardiology', title: 'Protecting Your Heart', prompt: 'Give me a brief, friendly 3-sentence health tip about heart health and what Nigerians can do daily to protect their heart.' },
+  { icon: '🧠', specialty: 'Neurology', title: 'Understanding Headaches', prompt: 'Give me a brief, friendly 3-sentence health tip about headaches — what causes them and simple relief tips for Nigerians.' },
+  { icon: '🤱', specialty: 'Gynecology', title: 'Womens Health Matters', prompt: 'Give me a brief, friendly 3-sentence health tip about female reproductive health that Nigerian women should know.' },
+  { icon: '👶', specialty: 'Pediatrics', title: 'Keeping Children Healthy', prompt: 'Give me a brief, friendly 3-sentence health tip for Nigerian parents about keeping their children healthy.' },
+  { icon: '🦴', specialty: 'Orthopedics', title: 'Joint & Back Pain', prompt: 'Give me a brief, friendly 3-sentence health tip about preventing and managing joint and back pain common in Nigeria.' },
+  { icon: '🧘', specialty: 'Mental Health', title: 'Mind Matters', prompt: 'Give me a brief, friendly 3-sentence tip about mental health and managing stress for Nigerians.' },
+  { icon: '🔬', specialty: 'Dermatology', title: 'Skin Health in Nigeria', prompt: 'Give me a brief, friendly 3-sentence health tip about skin care for dark skin and common Nigerian skin conditions.' },
+  { icon: '🦠', specialty: 'Infectious Disease', title: 'Malaria & Prevention', prompt: 'Give me a brief, friendly 3-sentence health tip about malaria prevention for Nigerians.' },
+  { icon: '💊', specialty: 'Endocrinology', title: 'Managing Diabetes', prompt: 'Give me a brief, friendly 3-sentence health tip about diabetes management for Nigerians.' },
+  { icon: '👁️', specialty: 'Ophthalmology', title: 'Eye Health', prompt: 'Give me a brief, friendly 3-sentence health tip about protecting your eyes, especially for people who use screens a lot.' },
+  { icon: '👃', specialty: 'ENT', title: 'Ear, Nose & Throat Health', prompt: 'Give me a brief, friendly 3-sentence health tip about ear, nose and throat health common concerns in Nigeria.' },
+  { icon: '🫁', specialty: 'Pulmonology', title: 'Breathing & Lung Health', prompt: 'Give me a brief, friendly 3-sentence health tip about lung health and breathing problems common in Nigeria.' },
+  { icon: '🍽️', specialty: 'Nutrition', title: 'Eating Well Nigerian Style', prompt: 'Give me a brief, friendly 3-sentence health tip about eating healthy using common Nigerian foods.' },
+  { icon: '🏃', specialty: 'General Health', title: 'Exercise for Busy People', prompt: 'Give me a brief, friendly 3-sentence tip about staying active and exercising even with a busy Nigerian schedule.' },
+];
+
+let currentDailyTopic = null;
+
+async function loadDailyTopic() {
+  // Pick topic based on day of year so it changes daily
+  var dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  var topic = DAILY_TOPICS[dayOfYear % DAILY_TOPICS.length];
+  currentDailyTopic = topic;
+
+  // Check if already shown today
+  var lastShown = localStorage.getItem('krixia_daily_topic_date');
+  var today = new Date().toDateString();
+
+  // Update desktop widget always
+  var desktopWidget = document.getElementById('desktop-daily-topic');
+  if (desktopWidget) {
+    document.getElementById('ddt-icon').textContent = topic.icon;
+    document.getElementById('ddt-title').textContent = topic.title;
+    document.getElementById('ddt-preview').textContent = 'Today: ' + topic.specialty;
+    desktopWidget.style.display = 'block';
+  }
+
+  // Only show popup once per day
+  if (lastShown === today) return;
+  localStorage.setItem('krixia_daily_topic_date', today);
+
+  // Update popup
+  document.getElementById('dt-icon').textContent = topic.icon;
+  document.getElementById('dt-title').textContent = topic.title;
+  document.getElementById('dt-specialty').textContent = topic.specialty;
+  document.getElementById('dt-text').textContent = 'Loading today\'s health insight...';
+
+  // Show popup after 3 seconds (after splash clears)
+  setTimeout(function() {
+    document.getElementById('daily-topic-overlay').classList.add('show');
+  }, 3500);
+
+  // Fetch AI-generated tip
+  try {
+    var res = await fetch('https://api.tickit.com.ng/api/diagnose', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: topic.prompt }],
+        specialty: topic.specialty,
+        stream: false
+      })
+    });
+    var data = await res.json();
+    var tip = data.reply || 'Stay healthy and consult Krixia AI for personalized medical guidance.';
+    // Clean up markdown
+    tip = tip.replace(/[#*`]/g, '').replace(/\n+/g, ' ').trim().slice(0, 280);
+    document.getElementById('dt-text').textContent = tip;
+    document.getElementById('ddt-preview').textContent = tip.slice(0, 80) + '...';
+  } catch(e) {
+    document.getElementById('dt-text').textContent = 'Stay healthy! Open Krixia anytime to get personalized medical guidance from our AI doctor.';
+  }
+}
+
+function closeDailyTopic() {
+  document.getElementById('daily-topic-overlay').classList.remove('show');
+}
+
+function learnMoreDailyTopic() {
+  closeDailyTopic();
+  if (currentDailyTopic) {
+    document.getElementById('chat-input').value = 'Tell me more about ' + currentDailyTopic.title + ' — give me detailed information and tips.';
+    sendMessage();
+  }
+}
+
+// Load daily topic on startup
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(loadDailyTopic, 500);
+});
 
 // DOCTORS DIRECTORY
 // ============================================================
@@ -4855,5 +5037,26 @@ window.addEventListener('appinstalled', function() {
   showInstallSuccessInChat();
 });
 </script>
+
+<!-- DAILY HEALTH TOPIC POPUP -->
+<div class="daily-topic-overlay" id="daily-topic-overlay">
+  <div class="daily-topic-card">
+    <div class="daily-topic-hero">
+      <button class="daily-topic-close" onclick="closeDailyTopic()">✕</button>
+      <div class="daily-topic-badge">📅 Today's Health Topic</div>
+      <span class="daily-topic-icon" id="dt-icon">🩺</span>
+      <div class="daily-topic-title" id="dt-title">Loading today's topic...</div>
+      <div class="daily-topic-specialty" id="dt-specialty">Krixia Medical Intelligence</div>
+    </div>
+    <div class="daily-topic-body">
+      <div class="daily-topic-text" id="dt-text">Fetching today's health insight for you...</div>
+    </div>
+    <div class="daily-topic-footer">
+      <button class="btn-secondary" onclick="closeDailyTopic()" style="flex:1;padding:11px;">Skip</button>
+      <button class="btn-primary" onclick="learnMoreDailyTopic()" style="flex:2;padding:11px;">Learn More →</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
