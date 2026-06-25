@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://js.paystack.co/v1/inline.js">
-// ── PULL TO REFRESH ───────────────────────────────────────
+// ── PULL TO REFRESH — soft reset, no page reload ──────────
 (function() {
   if (!('ontouchstart' in window)) return;
   var startY = 0, startX = 0, isTracking = false;
@@ -20,6 +20,28 @@
   var lbl = document.createElement('div');
   lbl.style.cssText = 'position:fixed;top:3px;left:50%;transform:translateX(-50%) translateY(-120%);background:#C9A84C;color:#06100C;padding:5px 14px;border-radius:0 0 10px 10px;font-size:11px;font-weight:800;font-family:Inter,sans-serif;z-index:99999;pointer-events:none;white-space:nowrap;transition:transform 0.2s ease;';
   document.body.appendChild(lbl);
+
+  function softReset() {
+    // Reset chat to welcome state without reloading the page
+    var msgs = document.getElementById('messages');
+    var chips = document.getElementById('quick-chips');
+    if (msgs) {
+      // Keep only the first welcome message
+      var children = Array.from(msgs.children);
+      children.slice(1).forEach(function(el) { el.remove(); });
+      msgs.scrollTop = 0;
+    }
+    if (chips) chips.style.display = 'flex';
+    // Reset conversation history
+    if (typeof conversationHistory !== 'undefined') conversationHistory = [];
+    // Close any open panels
+    document.querySelectorAll('.panel-overlay.active').forEach(function(p) { p.classList.remove('active'); });
+    lbl.textContent = '\u2713 Refreshed';
+    lbl.style.background = '#1D9E64';
+    setTimeout(function() {
+      lbl.style.transform = 'translateX(-50%) translateY(-120%)';
+    }, 1000);
+  }
 
   document.addEventListener('touchstart', function(e) {
     var msgs = document.getElementById('messages');
@@ -36,7 +58,7 @@
     bar.style.transform = 'scaleX(' + Math.min(dy / THRESHOLD, 1) + ')';
     if (dy > 20) {
       lbl.style.transform = 'translateX(-50%) translateY(0%)';
-      lbl.textContent = dy >= THRESHOLD ? '↑ Release to refresh' : '↓ Pull to refresh';
+      lbl.textContent = dy >= THRESHOLD ? '\u2191 Release to refresh' : '\u2193 Pull to refresh';
       lbl.style.background = dy >= THRESHOLD ? '#1D9E64' : '#C9A84C';
     }
   }, { passive: true });
@@ -47,9 +69,10 @@
     bar.style.transform = 'scaleX(0)';
     isTracking = false;
     if (dy >= THRESHOLD) {
-      lbl.textContent = '↻ Refreshing...';
+      lbl.textContent = '\u21bb Refreshing...';
       lbl.style.background = '#1D9E64';
-      setTimeout(function() { location.reload(); }, 500);
+      lbl.style.transform = 'translateX(-50%) translateY(0%)';
+      setTimeout(softReset, 400);
     } else {
       lbl.style.transform = 'translateX(-50%) translateY(-120%)';
     }
