@@ -4478,11 +4478,36 @@ function installPWA() {
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then(function(result) {
+    var banner = document.getElementById('pwa-banner');
     if (result.outcome === 'accepted') {
-      document.getElementById('pwa-banner') && document.getElementById('pwa-banner').remove();
+      if (banner) {
+        banner.innerHTML = [
+          '<div style="font-size:32px;flex-shrink:0;">🎉</div>',
+          '<div style="flex:1;">',
+            '<div style="font-size:14px;font-weight:700;color:var(--em-300);margin-bottom:2px;">Krixia Installed!</div>',
+            '<div style="font-size:12px;color:var(--text-3);">Find it on your home screen or desktop</div>',
+          '</div>',
+          '<button onclick="this.closest('#pwa-banner').remove();" style="background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:0 4px;">×</button>'
+        ].join('');
+        banner.style.borderColor = 'rgba(29,158,100,0.4)';
+        setTimeout(function() { if (banner) banner.remove(); }, 4000);
+      }
+      showInstallSuccessInChat();
+    } else {
+      if (banner) banner.remove();
     }
     deferredPrompt = null;
   });
+}
+
+function showInstallSuccessInChat() {
+  var msgs = document.getElementById('messages');
+  if (!msgs) return;
+  var d = document.createElement('div');
+  d.className = 'message ai';
+  d.innerHTML = '<div class="msg-avatar ai-av">📱</div><div class="msg-bubble" style="background:rgba(29,158,100,0.08);border-color:rgba(29,158,100,0.25);"><strong style="color:var(--em-300);">✅ Krixia Successfully Installed!</strong><br>You can now find Krixia on your home screen or desktop. Open it anytime for instant access — no browser needed.<br><br><span style="font-size:12px;color:var(--text-3);">Tip: The app works offline too. Your health, always accessible.</span></div>';
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
 function dismissInstall() {
@@ -4495,6 +4520,7 @@ window.addEventListener('appinstalled', function() {
   var banner = document.getElementById('pwa-banner');
   if (banner) banner.remove();
   deferredPrompt = null;
+  showInstallSuccessInChat();
 });
 </script>
 </body>
