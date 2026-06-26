@@ -4598,9 +4598,15 @@ async function loadDailyTopic() {
   var topic = DAILY_TOPICS[dayOfYear % DAILY_TOPICS.length];
   currentDailyTopic = topic;
 
-  // Check if already shown today
+  // Get today's date string — resets at midnight
+  var now = new Date();
+  var today = now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate();
   var lastShown = localStorage.getItem('krixia_daily_topic_date');
-  var today = new Date().toDateString();
+
+  // If date has changed since last shown, clear the cache
+  if (lastShown && lastShown !== today) {
+    localStorage.removeItem('krixia_daily_topic_date');
+  }
 
   // Update desktop widget always
   var desktopWidget = document.getElementById('desktop-daily-topic');
