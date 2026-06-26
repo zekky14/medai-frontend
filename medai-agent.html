@@ -1373,6 +1373,56 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     <button class="mob-nav-btn" onclick="openPanel('telemedicine-panel')"><span class="mob-icon">👨‍⚕️</span><span class="mob-label">Doctors</span></button>
   </nav>
 
+
+<!-- ADMIN DASHBOARD PANEL -->
+<div class="panel-overlay" id="admin-dashboard-panel">
+  <div class="panel" style="max-width:640px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('admin-dashboard-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🛡️ Admin Dashboard</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('admin-dashboard-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Krixia platform management</p>
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 1rem 1rem;">
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;text-align:center;">
+        <div style="font-size:24px;font-weight:800;color:var(--gold-300);" id="stat-sessions">—</div>
+        <div style="font-size:11px;color:var(--text-3);">Total Sessions</div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;text-align:center;">
+        <div style="font-size:24px;font-weight:800;color:var(--em-300);" id="stat-doctors">—</div>
+        <div style="font-size:11px;color:var(--text-3);">Doctors</div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;text-align:center;">
+        <div style="font-size:24px;font-weight:800;color:var(--amber-400);" id="stat-pending">—</div>
+        <div style="font-size:11px;color:var(--text-3);">Pending</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;border-bottom:1px solid var(--border);padding:0 1rem;">
+      <button onclick="adminTab('doctors')" id="atab-doctors"
+        style="padding:10px 16px;background:none;border:none;border-bottom:2px solid var(--gold-400);color:var(--gold-300);font-weight:700;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">
+        👨‍⚕️ Doctor Applications
+      </button>
+      <button onclick="adminTab('sessions')" id="atab-sessions"
+        style="padding:10px 16px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-3);font-weight:500;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">
+        📋 Recent Sessions
+      </button>
+    </div>
+
+    <div class="panel-body" id="admin-content" style="padding:1rem;overflow-y:auto;max-height:50vh;">
+      <div style="text-align:center;padding:2rem;color:var(--text-3);">Loading...</div>
+    </div>
+
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('admin-dashboard-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="loadAdminData()" style="flex:1;">🔄 Refresh</button>
+    </div>
+  </div>
+</div>
+
 </div><!-- end app-wrapper -->
 
 <!-- VOICE OVERLAY -->
@@ -4783,6 +4833,121 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(loadDailyTopic, 500);
 });
 
+
+// ── ADMIN DASHBOARD ───────────────────────────────────────
+let currentAdminTab = 'doctors';
+
+function openAdminDashboard() {
+  if (!isAdmin) { openAdminPanel(); return; }
+  openPanel('admin-dashboard-panel');
+  loadAdminData();
+}
+
+function adminTab(tab) {
+  currentAdminTab = tab;
+  document.getElementById('atab-doctors').style.borderBottomColor = tab === 'doctors' ? 'var(--gold-400)' : 'transparent';
+  document.getElementById('atab-doctors').style.color = tab === 'doctors' ? 'var(--gold-300)' : 'var(--text-3)';
+  document.getElementById('atab-sessions').style.borderBottomColor = tab === 'sessions' ? 'var(--gold-400)' : 'transparent';
+  document.getElementById('atab-sessions').style.color = tab === 'sessions' ? 'var(--gold-300)' : 'var(--text-3)';
+  loadAdminData();
+}
+
+async function loadAdminData() {
+  const content = document.getElementById('admin-content');
+  content.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading...</div>';
+
+  const token = localStorage.getItem('krixia_admin_token') || '';
+
+  try {
+    if (currentAdminTab === 'doctors') {
+      const res = await fetch('https://api.tickit.com.ng/api/admin/doctors', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const data = await res.json();
+      const doctors = data.doctors || [];
+
+      // Update stats
+      document.getElementById('stat-doctors').textContent = doctors.filter(d => d.status === 'approved').length;
+      document.getElementById('stat-pending').textContent = doctors.filter(d => d.status === 'pending_review').length;
+
+      if (doctors.length === 0) {
+        content.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No doctor applications yet.</div>';
+        return;
+      }
+
+      content.innerHTML = doctors.map(d => `
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;">
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);">${d.name}</div>
+              <div style="font-size:12px;color:var(--text-3);">${d.specialty} • ${d.hospital} • ${d.state}</div>
+              <div style="font-size:12px;color:var(--text-3);">${d.phone} • ${d.email}</div>
+            </div>
+            <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:${d.status === 'approved' ? 'rgba(29,158,100,0.15)' : 'rgba(212,135,58,0.15)'};color:${d.status === 'approved' ? 'var(--em-300)' : 'var(--amber-400)'};">
+              ${d.status === 'approved' ? '✅ Approved' : '⏳ Pending'}
+            </span>
+          </div>
+          ${d.bio ? `<div style="font-size:12px;color:var(--text-3);margin-bottom:8px;">${d.bio}</div>` : ''}
+          <div style="display:flex;gap:8px;">
+            ${d.status !== 'approved' ? `<button onclick="updateDoctorStatus('${d.id}','approved')" style="flex:1;background:rgba(29,158,100,0.15);border:1px solid rgba(29,158,100,0.3);color:var(--em-300);border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">✅ Approve</button>` : ''}
+            ${d.status !== 'rejected' ? `<button onclick="updateDoctorStatus('${d.id}','rejected')" style="flex:1;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);color:var(--red-400);border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">❌ Reject</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+    } else {
+      // Sessions tab
+      const res = await fetch('https://api.tickit.com.ng/api/history?limit=10', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const data = await res.json();
+      const sessions = data.sessions || [];
+
+      document.getElementById('stat-sessions').textContent = sessions.length + '+';
+
+      if (sessions.length === 0) {
+        content.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No sessions yet.</div>';
+        return;
+      }
+
+      content.innerHTML = sessions.map(s => {
+        const msgs = Array.isArray(s.messages) ? s.messages : [];
+        const userMsg = msgs.find(m => m.role === 'user');
+        const date = new Date(s.updated_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+        return `
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:700;color:var(--gold-300);">${s.specialty || 'General'}</span>
+              <span style="font-size:11px;color:var(--text-3);">${date}</span>
+            </div>
+            <div style="font-size:13px;color:var(--text-2);">${userMsg ? userMsg.content.slice(0, 100) + '...' : 'Session recorded'}</div>
+          </div>`;
+      }).join('');
+    }
+  } catch(err) {
+    content.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--red-400);">Error loading data: ' + err.message + '</div>';
+  }
+}
+
+async function updateDoctorStatus(id, status) {
+  const token = localStorage.getItem('krixia_admin_token') || '';
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/admin/doctors/' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      loadAdminData(); // Refresh the list
+    } else {
+      alert('Error: ' + data.error);
+    }
+  } catch(err) {
+    alert('Connection error: ' + err.message);
+  }
+}
+
 // DOCTORS DIRECTORY
 // ============================================================
 const NIGERIA_DOCTORS = [
@@ -5053,9 +5218,9 @@ function activateAdmin() {
   if (ub) ub.style.display = 'none';
   const rb = document.getElementById('btn-register');
   if (rb) {
-    rb.textContent = '🛡️ Admin Mode';
-    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;';
-    rb.onclick = () => { if(confirm('Log out of admin mode?')) { localStorage.removeItem('krixia_admin'); location.reload(); } };
+    rb.textContent = '🛡️ Dashboard';
+    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;cursor:pointer;border-radius:var(--r-sm);padding:9px 14px;font-size:13px;font-weight:700;font-family:Inter,sans-serif;';
+    rb.onclick = () => openAdminDashboard();
   }
   const msgs = document.getElementById('messages');
   const d = document.createElement('div');
