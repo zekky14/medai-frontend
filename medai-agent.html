@@ -1025,7 +1025,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
 
   // 3. Detect DevTools open and blur the app
   var devtoolsOpen = false;
-  var threshold = 160;
+  var threshold = 250; // Increased to avoid false positives on Chrome
   setInterval(function() {
     if (devUnlocked) return; // Skip blur if developer unlocked
     if (window.outerWidth - window.innerWidth > threshold ||
@@ -1051,11 +1051,16 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     }
   }, 1000);
 
-  // 4. Disable text selection on UI elements (not chat input)
+  // 4. Disable text selection on UI elements (not interactive elements)
   document.addEventListener('selectstart', function(e) {
-    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-      e.preventDefault();
+    var tag = e.target.tagName;
+    var type = e.target.type;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
+        tag === 'BUTTON' || tag === 'A' ||
+        e.target.isContentEditable) {
+      return true;
     }
+    e.preventDefault();
   });
 
   // 5. Copyright console message
