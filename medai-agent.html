@@ -4416,18 +4416,18 @@ async function submitDoctorRegistration() {
     return;
   }
 
-  // For now: save to localStorage as pending, show confirmation
-  // In production: POST to /api/doctors/register on backend
-  const submission = {
-    name: `Dr. ${fn} ${ln}`,
-    specialty, hospital, state, phone, email, years, bio,
-    submittedAt: new Date().toISOString(),
-    status: 'pending_review'
-  };
-
-  const existing = JSON.parse(localStorage.getItem('krixia_doctor_submissions') || '[]');
-  existing.push(submission);
-  localStorage.setItem('krixia_doctor_submissions', JSON.stringify(existing));
+  // Submit to backend
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/doctors/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstname: fn, lastname: ln, specialty, hospital, state, phone, email, years, bio })
+    });
+    const data = await res.json();
+    if (!res.ok) console.error('Doctor reg error:', data.error);
+  } catch(err) {
+    console.error('Doctor registration error:', err.message);
+  }
 
   closePanel('doctor-register-panel');
 
@@ -5010,9 +5010,39 @@ function openAdminPanel() {
 
 function attemptAdminLogin() {
   const errEl = document.getElementById('admin-error');
-  errEl.textContent = 'Admin login is temporarily unavailable while we upgrade its security. Please check back soon.';
+  const email = document.getElementById('admin-email').value.trim();
+  const password = document.getElementById('admin-password').value;
+
+  if (!email || !password) {
+    errEl.textContent = 'Please enter your username and password.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.textContent = 'Verifying...';
   errEl.style.display = 'block';
-  document.getElementById('admin-password').value = '';
+  errEl.style.color = 'var(--gold-300)';
+
+  fetch('https://api.tickit.com.ng/api/admin/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: email, password: password })
+  }).then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data }; }); })
+  .then(function(result) {
+    if (result.ok && result.data.success) {
+      localStorage.setItem('krixia_admin', 'true');
+      localStorage.setItem('krixia_admin_token', result.data.token);
+      closePanel('admin-panel');
+      activateAdmin();
+    } else {
+      errEl.textContent = result.data.error || 'Invalid credentials';
+      errEl.style.color = 'var(--red-400)';
+      document.getElementById('admin-password').value = '';
+    }
+  }).catch(function() {
+    errEl.textContent = 'Connection error. Please try again.';
+    errEl.style.color = 'var(--red-400)';
+  });
 }
 
 function activateAdmin() {
