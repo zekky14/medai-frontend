@@ -2327,6 +2327,9 @@ async function sendMessage() {
       }
       conversationHistory.push({ role: 'assistant', content: fullReply });
       checkForReferralTrigger(fullReply);
+      // Track session count per user
+      var sc = parseInt(localStorage.getItem('krixia_session_count') || '0') + 1;
+      localStorage.setItem('krixia_session_count', sc);
 
     } else {
       // NON-STREAMING FALLBACK — original behavior
@@ -5141,8 +5144,21 @@ async function krixiaSignup() {
 
     if (!res.ok) throw new Error(data.error || 'Signup failed');
 
-    // Auto-login after signup
-    await doLogin(email, password);
+    // Call login endpoint to get proper token
+    const res2 = await fetch(KAUTH_BASE + '/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const loginData = await res2.json();
+    if (res2.ok && loginData.success) {
+      // Override fullname with what user entered
+      loginData.user.fullname = name;
+      krixiaUser = loginData.user;
+      localStorage.setItem('krixia_token', loginData.token);
+      localStorage.setItem('krixia_user', JSON.stringify(loginData.user));
+      updateAuthUI(loginData.user);
+    }
     closePanel('signup-panel');
     showAuthSuccessMessage('signup', name);
 
@@ -5267,17 +5283,18 @@ function openUserProfile() {
   document.getElementById('profile-email').textContent = krixiaUser.email;
 
   // Load session count
-  fetch('https://api.tickit.com.ng/api/history?limit=100').then(function(r) {
-    return r.json();
-  }).then(function(d) {
-    document.getElementById('profile-sessions').textContent = d.count || 0;
-    // Calculate days active
-    if (d.sessions && d.sessions.length > 0) {
-      var oldest = new Date(d.sessions[d.sessions.length-1].updated_at);
-      var days = Math.max(1, Math.floor((new Date() - oldest) / 86400000));
-      document.getElementById('profile-days').textContent = days;
-    }
-  }).catch(function() {});
+  // Get session count from localStorage diagnosisCount for accuracy
+  var sessionCount = parseInt(localStorage.getItem('krixia_session_count') || '0');
+  document.getElementById('profile-sessions').textContent = sessionCount;
+  
+  // Days since account created
+  var createdAt = localStorage.getItem('krixia_created_at');
+  if (!createdAt) {
+    localStorage.setItem('krixia_created_at', new Date().toISOString());
+    createdAt = new Date().toISOString();
+  }
+  var days = Math.max(1, Math.floor((new Date() - new Date(createdAt)) / 86400000));
+  document.getElementById('profile-days').textContent = days;
 }
 
 function switchToLogin() {
