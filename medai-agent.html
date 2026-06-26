@@ -4968,13 +4968,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// ── PWA SERVICE WORKER REGISTRATION ───────────────────────
+// ── PWA SERVICE WORKER + UPDATE NOTIFICATION ──────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(reg) { console.log('SW registered:', reg.scope); })
-      .catch(function(err) { console.log('SW registration failed:', err); });
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      console.log('SW registered:', reg.scope);
+
+      // Check for updates every 60 seconds
+      setInterval(function() { reg.update(); }, 60000);
+
+      // When a new service worker is waiting, show update banner
+      reg.addEventListener('updatefound', function() {
+        var newWorker = reg.installing;
+        newWorker.addEventListener('statechange', function() {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBanner(newWorker);
+          }
+        });
+      });
+    }).catch(function(err) { console.log('SW registration failed:', err); });
+
+    // Handle controller change (after update applied)
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      window.location.reload();
+    });
   });
+}
+
+function showUpdateBanner(newWorker) {
+  // Don't show if already showing
+  if (document.getElementById('update-banner')) return;
+
+  var banner = document.createElement('div');
+  banner.id = 'update-banner';
+  banner.style.cssText = [
+    'position:fixed', 'bottom:80px', 'left:12px', 'right:12px',
+    'background:linear-gradient(135deg,#0A2A1C,#0D3D28)',
+    'border:1px solid var(--border-2)',
+    'border-radius:16px', 'padding:14px 16px',
+    'display:flex', 'align-items:center', 'gap:12px',
+    'z-index:9000', 'box-shadow:0 8px 32px rgba(0,0,0,0.5)',
+    'animation:msgIn 0.3s ease'
+  ].join(';');
+
+  var icon = document.createElement('div');
+  icon.style.cssText = 'font-size:28px;flex-shrink:0;';
+  icon.textContent = '🔄';
+
+  var text = document.createElement('div');
+  text.style.cssText = 'flex:1;';
+  text.innerHTML = '<div style="font-size:14px;font-weight:700;color:var(--gold-300);margin-bottom:2px;">Update Available!</div>' +
+    '<div style="font-size:12px;color:var(--text-3);">A new version of Krixia is ready</div>';
+
+  var updateBtn = document.createElement('button');
+  updateBtn.style.cssText = 'background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;';
+  updateBtn.textContent = 'Update';
+  updateBtn.onclick = function() {
+    newWorker.postMessage({ type: 'SKIP_WAITING' });
+    banner.remove();
+  };
+
+  var closeBtn = document.createElement('button');
+  closeBtn.style.cssText = 'background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:0 4px;';
+  closeBtn.textContent = '×';
+  closeBtn.onclick = function() { banner.remove(); };
+
+  banner.appendChild(icon);
+  banner.appendChild(text);
+  banner.appendChild(updateBtn);
+  banner.appendChild(closeBtn);
+  document.body.appendChild(banner);
 }
 
 // ── PWA INSTALL PROMPT ─────────────────────────────────────
