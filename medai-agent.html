@@ -1423,6 +1423,129 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
 </div>
 
 
+
+<!-- AUTH: SIGNUP PANEL -->
+<div class="panel-overlay" id="signup-panel">
+  <div class="panel" style="max-width:420px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('signup-panel')">← Back</button>
+      <h2 class="panel-close-desktop">Create Account</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('signup-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Join Krixia — your health history saved forever</p>
+    <div class="panel-body">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <div style="font-size:48px;margin-bottom:8px;">⚕️</div>
+        <div style="font-size:13px;color:var(--text-3);">Create your free Krixia account</div>
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="su-name" placeholder="Elvis Ogbeda" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="su-email" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Phone (optional)</label>
+        <input type="tel" id="su-phone" placeholder="+234 801 234 5678">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="su-password" placeholder="Min 6 characters" autocomplete="new-password">
+      </div>
+      <div id="su-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);margin-bottom:1rem;"></div>
+      <div style="font-size:11px;color:var(--text-3);line-height:1.6;margin-bottom:1rem;text-align:center;">
+        By creating an account you agree to our Terms of Service and Privacy Policy. Your health data is encrypted and never sold.
+      </div>
+    </div>
+    <div class="panel-footer" style="flex-direction:column;gap:10px;">
+      <button class="btn-primary" onclick="krixiaSignup()" style="width:100%;padding:14px;font-size:15px;">
+        Create Free Account
+      </button>
+      <button class="btn-secondary" onclick="switchToLogin()" style="width:100%;padding:12px;font-size:13px;">
+        Already have an account? Sign In
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH: LOGIN PANEL -->
+<div class="panel-overlay" id="login-panel">
+  <div class="panel" style="max-width:420px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('login-panel')">← Back</button>
+      <h2 class="panel-close-desktop">Sign In</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('login-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Welcome back to Krixia</p>
+    <div class="panel-body">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <div style="font-size:48px;margin-bottom:8px;">👋</div>
+        <div style="font-size:13px;color:var(--text-3);">Sign in to access your health history</div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="li-email" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="li-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div id="li-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);margin-bottom:1rem;"></div>
+      <div style="text-align:right;margin-bottom:1rem;">
+        <button onclick="forgotPassword()" style="background:none;border:none;color:var(--gold-300);font-size:12px;cursor:pointer;font-family:Inter,sans-serif;">Forgot password?</button>
+      </div>
+    </div>
+    <div class="panel-footer" style="flex-direction:column;gap:10px;">
+      <button class="btn-primary" onclick="krixiaLogin()" style="width:100%;padding:14px;font-size:15px;">
+        Sign In
+      </button>
+      <button class="btn-secondary" onclick="switchToSignup()" style="width:100%;padding:12px;font-size:13px;">
+        New to Krixia? Create Account
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- USER PROFILE PANEL -->
+<div class="panel-overlay" id="user-profile-panel">
+  <div class="panel" style="max-width:420px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('user-profile-panel')">← Back</button>
+      <h2 class="panel-close-desktop">My Profile</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('user-profile-panel')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div style="text-align:center;padding:1rem 0 1.5rem;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;border:3px solid var(--border-2);" id="profile-avatar">👤</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);" id="profile-name">Loading...</div>
+        <div style="font-size:13px;color:var(--text-3);" id="profile-email"></div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--em-300);margin-top:8px;">
+          <span class="status-dot"></span>Krixia Member
+        </div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem;margin-bottom:1rem;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-400);margin-bottom:12px;">Health Summary</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:800;color:var(--gold-300);" id="profile-sessions">—</div>
+            <div style="font-size:11px;color:var(--text-3);">Consultations</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:800;color:var(--em-300);" id="profile-days">—</div>
+            <div style="font-size:11px;color:var(--text-3);">Days Active</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer" style="flex-direction:column;gap:8px;">
+      <button class="btn-primary" onclick="openHistoryPanel();closePanel('user-profile-panel')" style="width:100%;padding:12px;">📋 View Health History</button>
+      <button onclick="krixiaLogout()" style="width:100%;padding:12px;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:12px;color:var(--red-400);font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Sign Out</button>
+    </div>
+  </div>
+</div>
+
 </div><!-- end app-wrapper -->
 
 <!-- VOICE OVERLAY -->
@@ -4946,6 +5069,264 @@ async function updateDoctorStatus(id, status) {
     alert('Connection error: ' + err.message);
   }
 }
+
+
+// ============================================================
+// KRIXIA USER AUTHENTICATION
+// ============================================================
+
+let krixiaUser = null; // Current logged-in user
+const KAUTH_BASE = 'https://api.tickit.com.ng/api/kauth';
+
+// ── INITIALIZE AUTH ON LOAD ───────────────────────────────
+async function initKrixiaAuth() {
+  const token = localStorage.getItem('krixia_token');
+  const userData = localStorage.getItem('krixia_user');
+  if (!token || !userData) return;
+
+  try {
+    krixiaUser = JSON.parse(userData);
+    updateAuthUI(krixiaUser);
+
+    // Verify token is still valid
+    const res = await fetch(KAUTH_BASE + '/me', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      krixiaUser = data.user;
+      localStorage.setItem('krixia_user', JSON.stringify(krixiaUser));
+      updateAuthUI(krixiaUser);
+    } else {
+      // Token expired
+      krixiaLogoutLocal();
+    }
+  } catch(e) {
+    console.log('Auth init error:', e.message);
+  }
+}
+
+// ── SIGNUP ────────────────────────────────────────────────
+async function krixiaSignup() {
+  const name = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const phone = document.getElementById('su-phone').value.trim();
+  const password = document.getElementById('su-password').value;
+  const errEl = document.getElementById('su-error');
+
+  errEl.style.display = 'none';
+
+  if (!name || !email || !password) {
+    errEl.textContent = 'Please fill in name, email and password.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (password.length < 6) {
+    errEl.textContent = 'Password must be at least 6 characters.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.querySelector('#signup-panel .btn-primary');
+  btn.textContent = 'Creating account...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(KAUTH_BASE + '/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, fullname: name, phone })
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Signup failed');
+
+    // Auto-login after signup
+    await doLogin(email, password);
+    closePanel('signup-panel');
+    showAuthSuccessMessage('signup', name);
+
+  } catch(err) {
+    errEl.textContent = err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = 'Create Free Account';
+    btn.disabled = false;
+  }
+}
+
+// ── LOGIN ─────────────────────────────────────────────────
+async function krixiaLogin() {
+  const email = document.getElementById('li-email').value.trim();
+  const password = document.getElementById('li-password').value;
+  const errEl = document.getElementById('li-error');
+
+  errEl.style.display = 'none';
+
+  if (!email || !password) {
+    errEl.textContent = 'Please enter your email and password.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.querySelector('#login-panel .btn-primary');
+  btn.textContent = 'Signing in...';
+  btn.disabled = true;
+
+  try {
+    await doLogin(email, password);
+    closePanel('login-panel');
+    showAuthSuccessMessage('login', krixiaUser?.fullname || email);
+  } catch(err) {
+    errEl.textContent = err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = 'Sign In';
+    btn.disabled = false;
+  }
+}
+
+async function doLogin(email, password) {
+  const res = await fetch(KAUTH_BASE + '/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Login failed');
+
+  krixiaUser = data.user;
+  localStorage.setItem('krixia_token', data.token);
+  localStorage.setItem('krixia_user', JSON.stringify(data.user));
+  updateAuthUI(data.user);
+}
+
+// ── LOGOUT ────────────────────────────────────────────────
+async function krixiaLogout() {
+  if (!confirm('Sign out of Krixia?')) return;
+  try {
+    await fetch(KAUTH_BASE + '/logout', { method: 'POST' });
+  } catch(e) {}
+  krixiaLogoutLocal();
+  closePanel('user-profile-panel');
+  appendMessage('ai', '👋 You have been signed out. Your health history is saved and will be waiting when you return.');
+}
+
+function krixiaLogoutLocal() {
+  krixiaUser = null;
+  localStorage.removeItem('krixia_token');
+  localStorage.removeItem('krixia_user');
+  updateAuthUI(null);
+}
+
+// ── FORGOT PASSWORD ───────────────────────────────────────
+async function forgotPassword() {
+  const email = document.getElementById('li-email').value.trim();
+  if (!email) {
+    document.getElementById('li-error').textContent = 'Enter your email above first.';
+    document.getElementById('li-error').style.display = 'block';
+    return;
+  }
+  try {
+    const res = await fetch(KAUTH_BASE + '/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById('li-error').style.cssText = 'display:block;background:rgba(29,158,100,0.1);border-color:rgba(29,158,100,0.3);color:var(--em-300);';
+      document.getElementById('li-error').textContent = '✅ Password reset email sent! Check your inbox.';
+    }
+  } catch(e) {}
+}
+
+// ── UI UPDATES ────────────────────────────────────────────
+function updateAuthUI(user) {
+  const medidBtn = document.getElementById('btn-medid');
+  const upgradeBtn = document.getElementById('upgrade-btn');
+
+  if (user) {
+    // Logged in state
+    if (medidBtn) {
+      medidBtn.textContent = '👤 ' + (user.fullname ? user.fullname.split(' ')[0] : 'Profile');
+      medidBtn.onclick = function() { openUserProfile(); };
+    }
+    // Update usage to show user is logged in
+    const usagePill = document.getElementById('usage-pill');
+    if (usagePill && !isPremium) {
+      usagePill.title = 'Signed in as ' + user.email;
+    }
+  } else {
+    // Logged out state
+    if (medidBtn) {
+      medidBtn.textContent = '🔑 Sign In';
+      medidBtn.onclick = function() { openPanel('login-panel'); };
+    }
+  }
+}
+
+function openUserProfile() {
+  if (!krixiaUser) { openPanel('login-panel'); return; }
+  openPanel('user-profile-panel');
+
+  document.getElementById('profile-name').textContent = krixiaUser.fullname || 'Krixia User';
+  document.getElementById('profile-email').textContent = krixiaUser.email;
+
+  // Load session count
+  fetch('https://api.tickit.com.ng/api/history?limit=100').then(function(r) {
+    return r.json();
+  }).then(function(d) {
+    document.getElementById('profile-sessions').textContent = d.count || 0;
+    // Calculate days active
+    if (d.sessions && d.sessions.length > 0) {
+      var oldest = new Date(d.sessions[d.sessions.length-1].updated_at);
+      var days = Math.max(1, Math.floor((new Date() - oldest) / 86400000));
+      document.getElementById('profile-days').textContent = days;
+    }
+  }).catch(function() {});
+}
+
+function switchToLogin() {
+  closePanel('signup-panel');
+  setTimeout(function() { openPanel('login-panel'); }, 300);
+}
+
+function switchToSignup() {
+  closePanel('login-panel');
+  setTimeout(function() { openPanel('signup-panel'); }, 300);
+}
+
+function showAuthSuccessMessage(type, name) {
+  var msg = type === 'signup'
+    ? '🎉 Welcome to Krixia, <strong>' + name + '</strong>! Your account is created. All your consultations will now be saved to your profile permanently.'
+    : '👋 Welcome back, <strong>' + name + '</strong>! Your health history is loaded and ready.';
+
+  var msgs = document.getElementById('messages');
+  var d = document.createElement('div');
+  d.className = 'message ai';
+  d.innerHTML = '<div class="msg-avatar ai-av">⚕</div><div class="msg-bubble" style="background:rgba(29,158,100,0.08);border-color:rgba(29,158,100,0.2);">' + msg + '</div>';
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+  document.getElementById('quick-chips').style.display = 'none';
+}
+
+// ── INITIALIZE ON PAGE LOAD ───────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  initKrixiaAuth();
+
+  // Update Health ID button to show Sign In if not logged in
+  setTimeout(function() {
+    if (!krixiaUser) {
+      var medidBtn = document.getElementById('btn-medid');
+      if (medidBtn) {
+        medidBtn.textContent = '🔑 Sign In';
+        medidBtn.onclick = function() { openPanel('login-panel'); };
+      }
+    }
+  }, 500);
+});
+
 
 // DOCTORS DIRECTORY
 // ============================================================
