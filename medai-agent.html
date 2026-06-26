@@ -4615,6 +4615,11 @@ async function loadDailyTopic() {
   if (lastShown === today) return;
   localStorage.setItem('krixia_daily_topic_date', today);
 
+  // Rotate photo based on day
+  var photoIndex = (dayOfYear % 3) + 1;
+  var photoEl = document.getElementById('dt-photo');
+  if (photoEl) photoEl.src = '/audio/elvis-photo-' + photoIndex + '.jpg';
+
   // Update popup
   document.getElementById('dt-icon').textContent = topic.icon;
   document.getElementById('dt-title').textContent = topic.title;
@@ -5068,7 +5073,7 @@ window.addEventListener('appinstalled', function() {
     <!-- Doctor photo + badge -->
     <div style="text-align:center;padding:1.5rem 1.5rem 0.75rem;">
       <div style="position:relative;display:inline-block;margin-bottom:12px;">
-        <img src="/audio/elvis-photo.jpg"
+        <img id="dt-photo" src="/audio/elvis-photo-1.jpg"
           onerror="this.style.display='none';document.getElementById('dt-avatar-fallback').style.display='flex';"
           style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--gold-400);box-shadow:0 4px 16px rgba(201,168,76,0.3);">
         <div id="dt-avatar-fallback" style="display:none;width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));align-items:center;justify-content:center;font-size:32px;border:3px solid var(--gold-400);">👨🏾‍⚕️</div>
