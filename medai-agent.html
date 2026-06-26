@@ -15,8 +15,6 @@
 <meta name="background-color" content="#06100C">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-touch-fullscreen" content="yes">
-<meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Krixia">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -69,7 +67,7 @@
 /* ── DAILY HEALTH TOPIC ─────────────────────────────────── */
 .daily-topic-overlay {
   position: fixed; inset: 0; z-index: 800;
-  background: rgba(0,0,0,0.75); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
   display: flex; align-items: center; justify-content: center;
   padding: 1.5rem; opacity: 0; pointer-events: none;
   transition: opacity 0.35s ease;
@@ -324,8 +322,7 @@ html { scroll-behavior: smooth; font-size: 16px; }
 body {
   font-family: 'Inter', sans-serif; font-size: 16px;
   background: var(--bg); color: var(--text);
-  height: 100vh; height: 100vh;
-  height: 100dvh;
+  height: 100vh; height: 100dvh;
   display: flex; flex-direction: column;
   transition: background 0.4s, color 0.4s; overflow: hidden;
 }
@@ -350,7 +347,7 @@ body {
 
 
 /* TICKER */
-.ticker-bar { position: relative; z-index: 101; background: var(--ticker-bg); border-bottom: 1px solid rgba(201,168,76,0.2); height: 32px; display: flex; align-items: center; overflow: hidden; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); flex-shrink: 0; }
+.ticker-bar { position: relative; z-index: 101; background: var(--ticker-bg); border-bottom: 1px solid rgba(201,168,76,0.2); height: 32px; display: flex; align-items: center; overflow: hidden; backdrop-filter: blur(10px); flex-shrink: 0; }
 .ticker-label { flex-shrink: 0; background: linear-gradient(135deg, var(--gold-500), var(--gold-300)); color: var(--obsidian); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 0 14px; height: 100%; display: flex; align-items: center; z-index: 2; gap: 6px; }
 .ticker-scroll-wrap { flex: 1; overflow: hidden; position: relative; }
 .ticker-scroll-wrap::before { content:''; position:absolute; left:0; top:0; bottom:0; width:30px; background:linear-gradient(90deg,var(--ticker-bg),transparent); z-index:1; }
@@ -363,7 +360,7 @@ body {
 .ticker-item .t-highlight { color: var(--gold-300); font-weight: 600; }
 
 /* HEADER */
-header { position: relative; z-index: 100; background: var(--header-bg); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(201,168,76,0.18); height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; flex-shrink: 0; }
+header { position: relative; z-index: 100; background: var(--header-bg); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(201,168,76,0.18); height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; flex-shrink: 0; }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
 .logo-svg-wrap { width: 38px; height: 38px; flex-shrink: 0; filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
 .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
@@ -523,7 +520,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
 }
 
 /* VOICE OVERLAY */
-.voice-overlay { display: none; position: fixed; inset: 0; background: rgba(6,16,12,0.94); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); z-index: 500; align-items: center; justify-content: center; flex-direction: column; gap: 22px; }
+.voice-overlay { display: none; position: fixed; inset: 0; background: rgba(6,16,12,0.94); backdrop-filter: blur(24px); z-index: 500; align-items: center; justify-content: center; flex-direction: column; gap: 22px; }
 .voice-overlay.active { display: flex; }
 .voice-ring { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-600), var(--gold-300)); display: flex; align-items: center; justify-content: center; font-size: 46px; color: var(--obsidian); animation: voicePulse 1.2s infinite; }
 @keyframes voicePulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,168,76,0.5); } 50% { transform: scale(1.06); box-shadow: 0 0 0 26px rgba(201,168,76,0); } }
@@ -537,7 +534,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
    Mobile: genuine full-screen page slide-in.
    Same internal structure everywhere: header / scroll-body / footer
 ============================================================ */
-.panel-overlay { display: none; position: fixed; inset: 0; background: var(--overlay); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); z-index: 300; align-items: center; justify-content: center; padding: 1rem; }
+.panel-overlay { display: none; position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(8px); z-index: 300; align-items: center; justify-content: center; padding: 1rem; }
 .panel-overlay.active { display: flex; }
 .panel {
   background: var(--modal-bg); border-radius: var(--r-xl);
@@ -704,7 +701,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
 ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 10px; }
 
 /* MOBILE BOTTOM NAV */
-.mobile-bottom-nav { display: none; position: relative; z-index: 150; background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); grid-template-columns: repeat(5,1fr); flex-shrink: 0; }
+.mobile-bottom-nav { display: none; position: relative; z-index: 150; background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18); backdrop-filter: blur(24px); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); grid-template-columns: repeat(5,1fr); flex-shrink: 0; }
 .mob-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; padding: 4px; font-family: 'Inter', sans-serif; transition: all 0.15s; }
 .mob-nav-btn .mob-icon { font-size: 21px; line-height: 1; }
 .mob-nav-btn .mob-label { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.35); }
@@ -780,14 +777,13 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     border-color: var(--gold-400); color: var(--gold-300);
     background: rgba(201,168,76,0.06);
   }
+  @media (max-width: 768px) {
+    .spec-conditions-grid { grid-template-columns: 1fr; padding: 0.75rem 1rem; }
+    .spec-page-icon { font-size: 44px; }
+    .spec-page-name { font-size: 20px; }
+    .spec-ask-section { padding: 0 1rem 1rem; padding-top: 1rem; }
+  }
 
-
-@media (max-width: 768px) {
-  .spec-conditions-grid { grid-template-columns: 1fr; padding: 0.75rem 1rem; }
-  .spec-page-icon { font-size: 44px; }
-  .spec-page-name { font-size: 20px; }
-  .spec-ask-section { padding: 0 1rem 1rem; padding-top: 1rem; }
-}
 
 @media (max-width: 768px) { .app-wrapper { max-width: 100%; box-shadow: none; } }
 @media (max-width: 768px) { .main { grid-template-columns: 1fr; } }
@@ -800,8 +796,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
 ============================================================ */
 
 /* Force Firefox to handle backdrop-filter gracefully */
-@supports not (-webkit-backdrop-filter: blur(1px)) {
-  header { background: #06100C !important; backdrop-filter: blur(1px)) {
+@supports not (backdrop-filter: blur(1px)) {
   header { background: #06100C !important; }
   .mobile-bottom-nav { background: #06100C !important; }
   [data-theme="light"] header { background: rgba(6,42,22,0.99) !important; }
@@ -1026,7 +1021,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
 
   // 3. Detect DevTools open and blur the app
   var devtoolsOpen = false;
-  var threshold = 250; // Increased to avoid false positives on Chrome
+  var threshold = 160;
   setInterval(function() {
     if (devUnlocked) return; // Skip blur if developer unlocked
     if (window.outerWidth - window.innerWidth > threshold ||
@@ -1052,16 +1047,11 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     }
   }, 1000);
 
-  // 4. Disable text selection on UI elements (not interactive elements)
+  // 4. Disable text selection on UI elements (not chat input)
   document.addEventListener('selectstart', function(e) {
-    var tag = e.target.tagName;
-    var type = e.target.type;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
-        tag === 'BUTTON' || tag === 'A' ||
-        e.target.isContentEditable) {
-      return true;
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
     }
-    e.preventDefault();
   });
 
   // 5. Copyright console message
@@ -1383,7 +1373,6 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     <button class="mob-nav-btn" onclick="openPanel('telemedicine-panel')"><span class="mob-icon">👨‍⚕️</span><span class="mob-label">Doctors</span></button>
   </nav>
 
-
 <!-- ADMIN DASHBOARD PANEL -->
 <div class="panel-overlay" id="admin-dashboard-panel">
   <div class="panel" style="max-width:640px;">
@@ -1432,6 +1421,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     </div>
   </div>
 </div>
+
 
 </div><!-- end app-wrapper -->
 
@@ -2179,9 +2169,8 @@ async function sendMessage() {
 
     // Check if backend supports streaming
     const contentType = res.headers.get('content-type') || '';
-    const canStream = contentType.includes('text/event-stream') && typeof ReadableStream !== 'undefined' && res.body;
     
-    if (canStream) {
+    if (contentType.includes('text/event-stream')) {
       // STREAMING MODE — show text word by word as it arrives
       typingEl.remove();
       const msgEl = appendStreamingMessage();
@@ -3479,7 +3468,7 @@ function updateUsageMeter() {
 
 function showLastChancePopup() {
   const popup = document.createElement('div');
-  popup.style.cssText = 'position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;background:rgba(0,0,0,0.6);-webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);';
+  popup.style.cssText = 'position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);';
   popup.innerHTML = `
     <div style="width:100%;background:var(--modal-bg);border-radius:24px 24px 0 0;padding:1.5rem;border-top:1px solid var(--border-2);box-shadow:0 -8px 40px rgba(0,0,0,0.4);">
       <div style="text-align:center;margin-bottom:1rem;">
@@ -4844,7 +4833,6 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(loadDailyTopic, 500);
 });
 
-
 // ── ADMIN DASHBOARD ───────────────────────────────────────
 let currentAdminTab = 'doctors';
 
@@ -5230,7 +5218,7 @@ function activateAdmin() {
   const rb = document.getElementById('btn-register');
   if (rb) {
     rb.textContent = '🛡️ Dashboard';
-    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;cursor:pointer;border-radius:var(--r-sm);padding:9px 14px;font-size:13px;font-weight:700;font-family:Inter,sans-serif;';
+    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;';
     rb.onclick = () => openAdminDashboard();
   }
   const msgs = document.getElementById('messages');
