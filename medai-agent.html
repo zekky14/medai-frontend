@@ -821,7 +821,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
   .header-right { gap: 5px; }
   .theme-btn { width: 32px; height: 32px; font-size: 14px; }
   .btn-premium { padding: 7px 10px; font-size: 11px; gap: 4px; }
-  .btn-medid { display: none; } /* Hide Health ID from header on mobile — accessible via bottom nav */
+  .btn-medid { padding: 7px 10px !important; font-size: 11px !important; }
   .admin-badge { font-size: 10px; padding: 3px 8px; }
 
   /* Header center — hide on mobile (status shown in chat topbar) */
@@ -1225,7 +1225,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
       </div>
       <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
       <button class="btn-premium" id="upgrade-btn" onclick="openPanel('pricing-panel')">👑 Premium</button>
-      <button class="btn-medid" id="btn-register" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')">Get Health ID</button>
+      <button class="btn-medid" id="btn-register" onclick="krixiaUser ? openUserProfile() : openPanel('login-panel')">🔑 Sign In</button>
     </div>
   </header>
 
@@ -5243,22 +5243,15 @@ async function forgotPassword() {
 
 // ── UI UPDATES ────────────────────────────────────────────
 function updateAuthUI(user) {
-  const medidBtn = document.getElementById('btn-medid');
+  const medidBtn = document.getElementById('btn-register');
   const upgradeBtn = document.getElementById('upgrade-btn');
 
   if (user) {
-    // Logged in state
     if (medidBtn) {
       medidBtn.textContent = '👤 ' + (user.fullname ? user.fullname.split(' ')[0] : 'Profile');
       medidBtn.onclick = function() { openUserProfile(); };
     }
-    // Update usage to show user is logged in
-    const usagePill = document.getElementById('usage-pill');
-    if (usagePill && !isPremium) {
-      usagePill.title = 'Signed in as ' + user.email;
-    }
   } else {
-    // Logged out state
     if (medidBtn) {
       medidBtn.textContent = '🔑 Sign In';
       medidBtn.onclick = function() { openPanel('login-panel'); };
@@ -5318,7 +5311,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Update Health ID button to show Sign In if not logged in
   setTimeout(function() {
     if (!krixiaUser) {
-      var medidBtn = document.getElementById('btn-medid');
+      var medidBtn = document.getElementById('btn-register');
       if (medidBtn) {
         medidBtn.textContent = '🔑 Sign In';
         medidBtn.onclick = function() { openPanel('login-panel'); };
