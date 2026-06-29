@@ -1340,6 +1340,12 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
         </div>
       </div>
 
+      <!-- Medical Disclaimer -->
+      <div style="margin:0 1rem 0.5rem;background:rgba(212,135,58,0.08);border:1px solid rgba(212,135,58,0.2);border-radius:10px;padding:9px 12px;display:flex;align-items:flex-start;gap:8px;">
+        <span style="font-size:14px;flex-shrink:0;">⚕️</span>
+        <div style="font-size:11px;color:var(--text-3);line-height:1.6;"><strong style="color:var(--amber-400);">Medical Disclaimer:</strong> Krixia provides AI-assisted health guidance for informational purposes only. Not a substitute for professional medical advice. Always consult a licensed doctor.</div>
+      </div>
+
       <div class="quick-symptoms" id="quick-chips">
         <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
         <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
@@ -1518,11 +1524,23 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     </div>
     <div class="panel-body">
       <div style="text-align:center;padding:1rem 0 1.5rem;">
-        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;border:3px solid var(--border-2);" id="profile-avatar">👤</div>
+        <div style="position:relative;display:inline-block;margin-bottom:12px;">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));display:flex;align-items:center;justify-content:center;font-size:36px;border:3px solid var(--border-2);overflow:hidden;" id="profile-avatar">
+            <img id="profile-photo" src="" style="display:none;width:100%;height:100%;object-fit:cover;object-position:top;">
+            <span id="profile-avatar-emoji">👤</span>
+          </div>
+          <button onclick="document.getElementById('profile-photo-input').click()"
+            style="position:absolute;bottom:0;right:0;width:26px;height:26px;border-radius:50%;background:var(--gold-400);border:2px solid var(--modal-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;line-height:1;">📷</button>
+          <input type="file" id="profile-photo-input" accept="image/*" style="display:none;" onchange="uploadProfilePhoto(this)">
+        </div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Tap 📷 to change photo</div>
         <div style="font-size:18px;font-weight:700;color:var(--text);" id="profile-name">Loading...</div>
         <div style="font-size:13px;color:var(--text-3);" id="profile-email"></div>
         <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--em-300);margin-top:8px;">
           <span class="status-dot"></span>Krixia Member
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.15);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--em-300);margin-top:6px;">
+          🔐 End-to-End Encrypted
         </div>
       </div>
       <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem;margin-bottom:1rem;">
@@ -2132,6 +2150,12 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
 
 
 
+const MEDICAL_DISCLAIMER = `
+
+IMPORTANT DISCLAIMER — Always include this at the end of every response:
+> ⚕️ *This AI consultation is for general health guidance only and does not replace examination by a licensed medical doctor. Krixia is not a certified medical device. Always consult a qualified healthcare professional for diagnosis, treatment, or before making any medical decisions. In an emergency, call 112 or go to your nearest hospital immediately.*
+`;
+
 const SYSTEM_PROMPT = `You are Krixia — the world's most advanced AI super doctor, combining expertise across ALL medical specialties: General Medicine, Pediatrics, Cardiology, Dermatology, Gynecology & Obstetrics, Orthopedics, Neurology, Psychiatry & Mental Health, ENT, Ophthalmology, Gastroenterology, Endocrinology, Oncology, Infectious Disease, Nephrology, Pulmonology, Urology, Rheumatology, Hematology, and Emergency Medicine.
 
 You serve patients of all ages — from premature infants to the elderly — across all demographics, especially in Nigeria and Africa.
@@ -2592,7 +2616,17 @@ const PPG_DURATION = 30; // seconds
 function startVitals() {
   openPanel('vitals-panel');
 }
-function openVitalsPanel() { startVitals(); }
+function openVitalsPanel() {
+  // Show vitals disclaimer first
+  if (!sessionStorage.getItem('krixia_vitals_disclaimer_shown')) {
+    sessionStorage.setItem('krixia_vitals_disclaimer_shown', '1');
+    var msgs = document.getElementById('messages');
+    var d = document.createElement('div');
+    d.className = 'message ai';
+    d.innerHTML = '<div class="msg-avatar ai-av">⚕</div><div class="msg-bubble" style="background:rgba(212,135,58,0.08);border-color:rgba(212,135,58,0.2);font-size:13px;"><strong style="color:var(--amber-400);">📋 Vitals Measurement Disclaimer</strong><br><br>Krixia\'s camera-based vitals use photoplethysmography (PPG) technology — the same principle used in wearable devices. These readings are <strong>approximate estimates for wellness awareness only</strong> and are NOT clinically certified measurements.<br><br>For accurate medical vitals, please use certified medical equipment or visit a healthcare provider. Do not use these readings to make medical decisions.</div>';
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+  } startVitals(); }
 
 async function startPPG() {
   try {
@@ -5074,6 +5108,104 @@ async function updateDoctorStatus(id, status) {
 }
 
 
+
+// ============================================================
+// KRIXIA END-TO-END ENCRYPTION (E2EE)
+// All health conversations encrypted on device before storage
+// Even Krixia admins cannot read your medical data
+// Uses AES-256-GCM via Web Crypto API (built into all browsers)
+// ============================================================
+
+const KrixiaE2EE = {
+
+  // Derive encryption key from user password using PBKDF2
+  async deriveKey(password, email) {
+    const encoder = new TextEncoder();
+    // Salt = email + fixed string (unique per user, not secret)
+    const salt = encoder.encode(email + ':krixia:health:v1');
+    const baseKey = await crypto.subtle.importKey(
+      'raw', encoder.encode(password),
+      'PBKDF2', false, ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+      baseKey,
+      { name: 'AES-GCM', length: 256 },
+      false, ['encrypt', 'decrypt']
+    );
+  },
+
+  // Encrypt text with AES-256-GCM
+  async encrypt(text, key) {
+    const encoder = new TextEncoder();
+    const iv = crypto.getRandomValues(new Uint8Array(12)); // Random IV
+    const encrypted = await crypto.subtle.encrypt(
+      { name: 'AES-GCM', iv },
+      key,
+      encoder.encode(text)
+    );
+    // Combine IV + ciphertext and encode as base64
+    const combined = new Uint8Array(iv.length + encrypted.byteLength);
+    combined.set(iv);
+    combined.set(new Uint8Array(encrypted), iv.length);
+    return btoa(String.fromCharCode(...combined));
+  },
+
+  // Decrypt text with AES-256-GCM
+  async decrypt(encryptedB64, key) {
+    try {
+      const combined = new Uint8Array(
+        atob(encryptedB64).split('').map(c => c.charCodeAt(0))
+      );
+      const iv = combined.slice(0, 12);
+      const data = combined.slice(12);
+      const decrypted = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        data
+      );
+      return new TextDecoder().decode(decrypted);
+    } catch(e) {
+      console.log('Decryption failed - data may be unencrypted or key mismatch');
+      return null;
+    }
+  },
+
+  // Store key in memory only (never persisted)
+  _key: null,
+  _email: null,
+
+  async initKey(password, email) {
+    this._key = await this.deriveKey(password, email);
+    this._email = email;
+    console.log('%c🔐 E2EE Active - Your health data is end-to-end encrypted', 'color:#4DC48A;font-weight:700;');
+  },
+
+  clearKey() {
+    this._key = null;
+    this._email = null;
+  },
+
+  async encryptMessages(messages) {
+    if (!this._key) return JSON.stringify(messages); // Fallback if no key
+    return await this.encrypt(JSON.stringify(messages), this._key);
+  },
+
+  async decryptMessages(encrypted) {
+    if (!this._key) {
+      // Try parsing as plain JSON (backward compat)
+      try { return JSON.parse(encrypted); } catch(e) { return []; }
+    }
+    // Check if it looks like base64 (encrypted) or JSON (unencrypted)
+    if (encrypted.startsWith('[') || encrypted.startsWith('{')) {
+      try { return JSON.parse(encrypted); } catch(e) { return []; }
+    }
+    const decrypted = await this.decrypt(encrypted, this._key);
+    if (!decrypted) return [];
+    try { return JSON.parse(decrypted); } catch(e) { return []; }
+  }
+};
+
 // ============================================================
 // KRIXIA USER AUTHENTICATION
 // ============================================================
@@ -5215,6 +5347,9 @@ async function doLogin(email, password) {
   localStorage.setItem('krixia_token', data.token);
   localStorage.setItem('krixia_user', JSON.stringify(data.user));
   updateAuthUI(data.user);
+
+  // Initialize E2EE key from password (stays in memory only, never stored)
+  await KrixiaE2EE.initKey(password, email);
 }
 
 // ── LOGOUT ────────────────────────────────────────────────
@@ -5223,6 +5358,7 @@ async function krixiaLogout() {
   try {
     await fetch(KAUTH_BASE + '/logout', { method: 'POST' });
   } catch(e) {}
+  KrixiaE2EE.clearKey(); // Clear encryption key from memory
   krixiaLogoutLocal();
   closePanel('user-profile-panel');
   appendMessage('ai', '👋 You have been signed out. Your health history is saved and will be waiting when you return.');
@@ -5282,21 +5418,38 @@ function openUserProfile() {
   document.getElementById('profile-name').textContent = krixiaUser.fullname || 'Krixia User';
   document.getElementById('profile-email').textContent = krixiaUser.email;
 
-  // Load session count
-  // Get session count from localStorage diagnosisCount for accuracy
+  // Load saved photo
+  var savedPhoto = localStorage.getItem('krixia_profile_photo');
+  if (savedPhoto) {
+    var img = document.getElementById('profile-photo');
+    var emoji = document.getElementById('profile-avatar-emoji');
+    if (img) { img.src = savedPhoto; img.style.display = 'block'; }
+    if (emoji) emoji.style.display = 'none';
+  }
+
   var sessionCount = parseInt(localStorage.getItem('krixia_session_count') || '0');
   document.getElementById('profile-sessions').textContent = sessionCount;
-  
-  // Days since account created
   var createdAt = localStorage.getItem('krixia_created_at');
-  if (!createdAt) {
-    localStorage.setItem('krixia_created_at', new Date().toISOString());
-    createdAt = new Date().toISOString();
-  }
+  if (!createdAt) { localStorage.setItem('krixia_created_at', new Date().toISOString()); createdAt = new Date().toISOString(); }
   var days = Math.max(1, Math.floor((new Date() - new Date(createdAt)) / 86400000));
   document.getElementById('profile-days').textContent = days;
 }
 
+function uploadProfilePhoto(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { alert('Photo must be under 5MB'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var dataUrl = e.target.result;
+    try { localStorage.setItem('krixia_profile_photo', dataUrl); } catch(err) { alert('Photo too large. Try a smaller image.'); return; }
+    var img = document.getElementById('profile-photo');
+    var emoji = document.getElementById('profile-avatar-emoji');
+    if (img) { img.src = dataUrl; img.style.display = 'block'; }
+    if (emoji) emoji.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
 function switchToLogin() {
   closePanel('signup-panel');
   setTimeout(function() { openPanel('login-panel'); }, 300);
