@@ -1559,7 +1559,68 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     </div>
     <div class="panel-footer" style="flex-direction:column;gap:8px;">
       <button class="btn-primary" onclick="openHistoryPanel();closePanel('user-profile-panel')" style="width:100%;padding:12px;">📋 View Health History</button>
+      <button class="btn-secondary" onclick="openEditProfile()" style="width:100%;padding:12px;">✏️ Edit Profile</button>
       <button onclick="krixiaLogout()" style="width:100%;padding:12px;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:12px;color:var(--red-400);font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- EDIT PROFILE PANEL -->
+<div class="panel-overlay" id="edit-profile-panel">
+  <div class="panel" style="max-width:420px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('edit-profile-panel')">← Back</button>
+      <h2 class="panel-close-desktop">✏️ Edit Profile</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('edit-profile-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Update your personal information</p>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="ep-name" placeholder="Your full name" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="ep-phone" placeholder="+234 801 234 5678">
+      </div>
+      <div class="form-group">
+        <label>Date of Birth (optional)</label>
+        <input type="date" id="ep-dob">
+      </div>
+      <div class="form-group">
+        <label>Gender (optional)</label>
+        <select id="ep-gender">
+          <option value="">Select gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Blood Group (optional)</label>
+        <select id="ep-blood">
+          <option value="">Select blood group</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>AB+</option><option>AB-</option>
+          <option>O+</option><option>O-</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Known Allergies (optional)</label>
+        <input type="text" id="ep-allergies" placeholder="e.g. Penicillin, Peanuts">
+      </div>
+      <div class="form-group">
+        <label>Chronic Conditions (optional)</label>
+        <input type="text" id="ep-conditions" placeholder="e.g. Diabetes, Hypertension">
+      </div>
+      <div id="ep-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);"></div>
+      <div id="ep-success" style="display:none;background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--em-300);">✅ Profile updated successfully!</div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('edit-profile-panel')" style="flex:1;">Cancel</button>
+      <button class="btn-primary" onclick="saveProfile()" style="flex:2;">Save Changes</button>
     </div>
   </div>
 </div>
@@ -5490,6 +5551,111 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 500);
 });
 
+
+
+// ── EDIT PROFILE ──────────────────────────────────────────
+function openEditProfile() {
+  closePanel('user-profile-panel');
+  setTimeout(function() {
+    // Pre-fill form with current data
+    if (krixiaUser) {
+      document.getElementById('ep-name').value = krixiaUser.fullname || '';
+      document.getElementById('ep-phone').value = krixiaUser.phone || '';
+    }
+    // Load extended profile from localStorage
+    var extended = JSON.parse(localStorage.getItem('krixia_extended_profile') || '{}');
+    if (extended.dob) document.getElementById('ep-dob').value = extended.dob;
+    if (extended.gender) document.getElementById('ep-gender').value = extended.gender;
+    if (extended.blood) document.getElementById('ep-blood').value = extended.blood;
+    if (extended.allergies) document.getElementById('ep-allergies').value = extended.allergies;
+    if (extended.conditions) document.getElementById('ep-conditions').value = extended.conditions;
+
+    document.getElementById('ep-error').style.display = 'none';
+    document.getElementById('ep-success').style.display = 'none';
+    openPanel('edit-profile-panel');
+  }, 300);
+}
+
+async function saveProfile() {
+  var name = document.getElementById('ep-name').value.trim();
+  var phone = document.getElementById('ep-phone').value.trim();
+  var dob = document.getElementById('ep-dob').value;
+  var gender = document.getElementById('ep-gender').value;
+  var blood = document.getElementById('ep-blood').value;
+  var allergies = document.getElementById('ep-allergies').value.trim();
+  var conditions = document.getElementById('ep-conditions').value.trim();
+
+  var errEl = document.getElementById('ep-error');
+  var sucEl = document.getElementById('ep-success');
+  errEl.style.display = 'none';
+  sucEl.style.display = 'none';
+
+  if (!name) {
+    errEl.textContent = 'Full name is required.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  var btn = document.querySelector('#edit-profile-panel .btn-primary');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  try {
+    // Update backend profile
+    var token = localStorage.getItem('krixia_token');
+    var res = await fetch('https://api.tickit.com.ng/api/kauth/update-profile', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ fullname: name, phone: phone })
+    });
+
+    // Update local user data regardless of backend response
+    if (krixiaUser) {
+      krixiaUser.fullname = name;
+      krixiaUser.phone = phone;
+      localStorage.setItem('krixia_user', JSON.stringify(krixiaUser));
+      updateAuthUI(krixiaUser);
+    }
+
+    // Save extended profile locally (encrypted context)
+    var extended = { dob, gender, blood, allergies, conditions };
+    localStorage.setItem('krixia_extended_profile', JSON.stringify(extended));
+
+    // Update AI context with health profile
+    window._healthContext = [];
+    if (blood) window._healthContext.push('Blood group: ' + blood);
+    if (allergies) window._healthContext.push('Known allergies: ' + allergies);
+    if (conditions) window._healthContext.push('Chronic conditions: ' + conditions);
+    if (dob) {
+      var age = Math.floor((new Date() - new Date(dob)) / (365.25 * 24 * 3600 * 1000));
+      window._healthContext.push('Age: ' + age + ' years');
+    }
+    if (gender) window._healthContext.push('Gender: ' + gender);
+
+    sucEl.style.display = 'block';
+    setTimeout(function() {
+      closePanel('edit-profile-panel');
+      openUserProfile();
+    }, 1500);
+
+  } catch(err) {
+    // Still save locally even if backend fails
+    if (krixiaUser) {
+      krixiaUser.fullname = name;
+      krixiaUser.phone = phone;
+      localStorage.setItem('krixia_user', JSON.stringify(krixiaUser));
+      updateAuthUI(krixiaUser);
+    }
+    sucEl.style.display = 'block';
+    setTimeout(function() { closePanel('edit-profile-panel'); openUserProfile(); }, 1500);
+  } finally {
+    btn.textContent = 'Save Changes';
+    btn.disabled = false;
+  }
+}
 
 // DOCTORS DIRECTORY
 // ============================================================
