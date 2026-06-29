@@ -1114,8 +1114,25 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
     if(!s) return;
     s.style.opacity='0';
     setTimeout(function(){ 
-      if(s && s.parentNode) s.parentNode.removeChild(s); 
+      if(s && s.parentNode) s.parentNode.removeChild(s);
+      // Show welcome screen if user not logged in
+      var token = localStorage.getItem('krixia_token');
+      var dismissed = sessionStorage.getItem('krixia_welcome_dismissed');
+      if (!token && !dismissed) {
+        var ws = document.getElementById('welcome-screen');
+        if (ws) ws.style.display = 'flex';
+      }
     }, 500);
+  }
+
+  function dismissWelcome() {
+    sessionStorage.setItem('krixia_welcome_dismissed', '1');
+    var ws = document.getElementById('welcome-screen');
+    if (ws) {
+      ws.style.opacity = '0';
+      ws.style.transition = 'opacity 0.3s ease';
+      setTimeout(function() { ws.style.display = 'none'; }, 300);
+    }
   }
   
   setTimeout(hide, 2500);
@@ -1129,6 +1146,60 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
   s.addEventListener('click', hide);
 })();
 </script>
+
+
+<!-- WELCOME / ONBOARDING SCREEN -->
+<div id="welcome-screen" style="display:none;position:fixed;inset:0;z-index:9998;background:#030806;flex-direction:column;align-items:center;justify-content:space-between;padding:env(safe-area-inset-top,20px) 1.5rem env(safe-area-inset-bottom,30px);">
+
+  <!-- Top branding -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;">
+
+    <!-- Elvis photo -->
+    <div style="position:relative;margin-bottom:20px;">
+      <img src="/audio/elvis-photo-1.jpg"
+        onerror="this.style.display='none';document.getElementById('ws-avatar-fallback').style.display='flex';"
+        style="width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid #C9A84C;box-shadow:0 8px 32px rgba(201,168,76,0.3);">
+      <div id="ws-avatar-fallback" style="display:none;width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#A8832A,#C9A84C);align-items:center;justify-content:center;font-size:40px;">👨🏾‍⚕️</div>
+      <div style="position:absolute;bottom:2px;right:2px;width:24px;height:24px;background:#1D9E64;border-radius:50%;border:2px solid #030806;display:flex;align-items:center;justify-content:center;font-size:12px;">✓</div>
+    </div>
+
+    <!-- Krixia logo -->
+    <div style="font-family:Inter,sans-serif;font-size:36px;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#F5E0A0,#C9A84C,#A8832A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;">KRIXIA</div>
+    <div style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:32px;">Medical Intelligence</div>
+
+    <!-- Tagline -->
+    <div style="font-family:Inter,sans-serif;font-size:18px;font-weight:700;color:#F2EFE8;line-height:1.5;margin-bottom:12px;max-width:300px;">Your AI Doctor,<br>Available 24/7</div>
+    <div style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;max-width:280px;">Describe your symptoms, find hospitals, track your health — all in one place. Built for Nigeria.</div>
+
+    <!-- Feature pills -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px;">
+      <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 12px;font-size:11px;color:#C9A84C;font-family:Inter,sans-serif;">🔐 E2E Encrypted</div>
+      <div style="background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.2);border-radius:20px;padding:5px 12px;font-size:11px;color:#4DC48A;font-family:Inter,sans-serif;">🏥 128+ Hospitals</div>
+      <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 12px;font-size:11px;color:#C9A84C;font-family:Inter,sans-serif;">🧠 AI Powered</div>
+      <div style="background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.2);border-radius:20px;padding:5px 12px;font-size:11px;color:#4DC48A;font-family:Inter,sans-serif;">🇳🇬 Built for Nigeria</div>
+    </div>
+  </div>
+
+  <!-- Auth buttons -->
+  <div style="width:100%;max-width:400px;display:flex;flex-direction:column;gap:12px;">
+    <button onclick="dismissWelcome();openPanel('signup-panel');"
+      style="width:100%;padding:16px;background:linear-gradient(135deg,#A8832A,#E8C97A);color:#06100C;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.5px;">
+      Create Free Account
+    </button>
+    <button onclick="dismissWelcome();openPanel('login-panel');"
+      style="width:100%;padding:15px;background:rgba(255,255,255,0.06);color:#F2EFE8;border:1px solid rgba(255,255,255,0.15);border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">
+      Sign In
+    </button>
+    <button onclick="dismissWelcome();"
+      style="width:100%;padding:12px;background:none;color:rgba(255,255,255,0.35);border:none;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">
+      Continue without account →
+    </button>
+    <div style="text-align:center;font-size:10px;color:rgba(255,255,255,0.2);font-family:Inter,sans-serif;padding-top:4px;">
+      © 2026 Tickit NG • krixia.tickit.com.ng
+    </div>
+  </div>
+
+</div>
 
 <!-- ANIMATED BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
