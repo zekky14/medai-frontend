@@ -2142,7 +2142,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
         <button class="loc-refresh" onclick="detectLocation()">↻</button>
       </div>
       <!-- HOSPITAL SEARCH BOX -->
-      <div style="display:flex;gap:8px;margin-bottom:1rem;">
+      <div style="display:flex;gap:8px;margin-bottom:0.75rem;">
         <div style="flex:1;background:var(--input-bg);border:1.5px solid var(--border);border-radius:var(--r-sm);display:flex;align-items:center;padding:0 12px;gap:8px;transition:all 0.2s;" id="hosp-search-wrap">
           <span style="font-size:16px;flex-shrink:0;">🔍</span>
           <input type="text" id="hosp-search-input" placeholder="Search hospital or area..." 
@@ -2151,6 +2151,14 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
             oninput="if(this.value==='')resetHospitalSearch()">
         </div>
         <button onclick="searchHospitalsByName()" style="background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:var(--r-sm);padding:0 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;">Search</button>
+      </div>
+      <!-- BROWSE BY STATE -->
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:1rem;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:var(--r-sm);padding:8px 10px;">
+        <span style="font-size:13px;color:var(--text-3);flex-shrink:0;">🇳🇬 Browse by state:</span>
+        <select id="state-select" onchange="browseHospitalsByState(this.value)"
+          style="flex:1;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-size:13px;color:var(--text);font-family:'Inter',sans-serif;">
+          <option value="">All 36 States + FCT</option>
+        </select>
       </div>
       <div class="hosp-filter-tabs">
         <button class="hf-tab active" onclick="filterHospitals('all',this)">All</button>
@@ -3452,6 +3460,7 @@ function resetHospitalSearch() {
 // userCoords declared above
 
 function openHospitalPanel(forceEmergency) {
+  loadStateList();
   // Note: Google Places integration is ready — add your API key to GOOGLE_PLACES_API_KEY above
   // and create the /api/hospitals/nearby endpoint on your Asura backend to enable live data.
   openPanel('hospital-panel');
@@ -5851,6 +5860,70 @@ function exploreWithoutAccount() {
     msgs.appendChild(d);
     msgs.scrollTop = msgs.scrollHeight;
   }, 2000);
+}
+
+
+// ── BROWSE HOSPITALS BY STATE (National Database) ─────────
+async function loadStateList() {
+  const select = document.getElementById('state-select');
+  if (!select || select.options.length > 1) return; // already loaded
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/hospitals/by-state');
+    const data = await res.json();
+    if (data.states) {
+      data.states.sort((a, b) => a.state.localeCompare(b.state));
+      data.states.forEach(function(s) {
+        const opt = document.createElement('option');
+        opt.value = s.state;
+        opt.textContent = s.state + ' (' + s.count + ')';
+        select.appendChild(opt);
+      });
+    }
+  } catch(e) { console.log('State list load error:', e.message); }
+}
+
+async function browseHospitalsByState(state) {
+  if (!state) {
+    detectLocation(); // fall back to GPS
+    return;
+  }
+  const list = document.getElementById('hospital-list');
+  if (!list) return;
+  list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading ' + state + ' hospitals...</div>';
+  document.getElementById('loc-text').textContent = 'Showing hospitals in ' + state + ' State';
+
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/hospitals/by-state?state=' + encodeURIComponent(state));
+    const data = await res.json();
+    const hospitals = data.hospitals || [];
+
+    if (hospitals.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No hospitals found for ' + state + ' yet. More coming soon.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    hospitals.forEach(function(h, i) {
+      const card = document.createElement('div');
+      card.className = 'hospital-card';
+      const gmapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(h.name + ' ' + h.address);
+      card.innerHTML = '<div class="hosp-rank rank-n">' + (i+1) + '</div>' +
+        '<div class="hosp-info">' +
+          '<div class="hosp-name">' + h.name + '</div>' +
+          '<div class="hosp-address">' + h.address + '</div>' +
+          '<div class="hosp-meta">' +
+            '<span class="hosp-type-badge badge-teaching">' + (h.type || 'Hospital') + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="hosp-actions">' +
+          '<a class="hosp-action-btn hab-directions" href="' + gmapsUrl + '" target="_blank">🗺️ Directions</a>' +
+          (h.phone ? '<a class="hosp-action-btn hab-call" href="tel:' + h.phone + '">📞 Call</a>' : '') +
+        '</div>';
+      list.appendChild(card);
+    });
+  } catch(err) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Could not load hospitals. Please try again.</div>';
+  }
 }
 
 // DOCTORS DIRECTORY
