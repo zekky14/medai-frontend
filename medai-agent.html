@@ -1449,22 +1449,28 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
         </div>
       </div>
 
-      <!-- Medical Disclaimer -->
-      <div style="margin:0 1rem 0.5rem;background:rgba(212,135,58,0.08);border:1px solid rgba(212,135,58,0.2);border-radius:10px;padding:9px 12px;display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:14px;flex-shrink:0;">⚕️</span>
-        <div style="font-size:11px;color:var(--text-3);line-height:1.6;"><strong style="color:var(--amber-400);">Medical Disclaimer:</strong> Krixia provides AI-assisted health guidance for informational purposes only. Not a substitute for professional medical advice. Always consult a licensed doctor.</div>
-      </div>
-
-      <div class="quick-symptoms" id="quick-chips">
-        <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
-        <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
-        <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
-        <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
-        <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
-        <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety & Sleep</button>
+      <!-- SYMPTOM DRAWER (slide-out) -->
+      <div id="symptom-drawer-wrap" style="position:relative;flex-shrink:0;">
+        <button id="symptom-drawer-tab" onclick="toggleSymptomDrawer()" style="position:absolute;right:0;top:-34px;z-index:5;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px 0 0 10px;padding:7px 10px 7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px;box-shadow:-2px 2px 8px rgba(0,0,0,0.2);">
+          <span id="symptom-drawer-arrow" style="transition:transform 0.3s;">‹</span> Symptoms
+        </button>
+        <div id="quick-chips" style="overflow:hidden;max-height:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),padding 0.35s;display:flex;gap:7px;flex-wrap:wrap;padding:0 1.5rem;flex-shrink:0;">
+          <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
+          <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
+          <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
+          <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
+          <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
+          <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety & Sleep</button>
+        </div>
       </div>
 
       <div class="image-preview" id="image-preview"></div>
+
+      <!-- Medical Disclaimer - now sits right above input bar -->
+      <div style="margin:0.5rem 1rem 0;background:rgba(212,135,58,0.08);border:1px solid rgba(212,135,58,0.2);border-radius:10px;padding:7px 11px;display:flex;align-items:flex-start;gap:7px;flex-shrink:0;">
+        <span style="font-size:12px;flex-shrink:0;">⚕️</span>
+        <div style="font-size:10px;color:var(--text-3);line-height:1.5;"><strong style="color:var(--amber-400);">Disclaimer:</strong> AI guidance only — not a substitute for professional medical advice.</div>
+      </div>
 
       <div class="input-area">
         <div class="input-wrapper">
@@ -2543,7 +2549,7 @@ async function sendMessage() {
   input.value = '';
   input.style.height = 'auto';
   document.getElementById('image-preview').innerHTML = '';
-  document.getElementById('quick-chips').style.display = 'none';
+  document.getElementById('quick-chips').style.display = 'none'; var sdt = document.getElementById('symptom-drawer-tab'); if (sdt) sdt.style.display = 'none';
 
   const imagesPayload = pendingImages.map(img => ({
     mediaType: img.data.split(';')[0].split(':')[1],
@@ -5010,7 +5016,7 @@ async function loadHistorySession(token) {
         if (msg.role !== 'system') appendMessage(msg.role === 'user' ? 'user' : 'ai', msg.content);
       });
       msgs.scrollTop = msgs.scrollHeight;
-      document.getElementById('quick-chips').style.display = 'none';
+      document.getElementById('quick-chips').style.display = 'none'; var sdt = document.getElementById('symptom-drawer-tab'); if (sdt) sdt.style.display = 'none';
     }
   } catch(err) {
     appendMessage('ai', '⚠️ Could not load that session. Please try again.');
@@ -5812,7 +5818,7 @@ function showAuthSuccessMessage(type, name) {
   d.innerHTML = '<div class="msg-avatar ai-av">⚕</div><div class="msg-bubble" style="background:rgba(29,158,100,0.08);border-color:rgba(29,158,100,0.2);">' + msg + '</div>';
   msgs.appendChild(d);
   msgs.scrollTop = msgs.scrollHeight;
-  document.getElementById('quick-chips').style.display = 'none';
+  document.getElementById('quick-chips').style.display = 'none'; var sdt = document.getElementById('symptom-drawer-tab'); if (sdt) sdt.style.display = 'none';
 }
 
 // ── INITIALIZE ON PAGE LOAD ───────────────────────────────
@@ -6337,6 +6343,27 @@ window.addEventListener('resize', function() {
     showTourStep(currentTourStep);
   }
 });
+
+
+// ── SYMPTOM DRAWER TOGGLE ─────────────────────────────────
+let symptomDrawerOpen = false;
+
+function toggleSymptomDrawer() {
+  symptomDrawerOpen = !symptomDrawerOpen;
+  var drawer = document.getElementById('quick-chips');
+  var arrow = document.getElementById('symptom-drawer-arrow');
+  if (!drawer) return;
+
+  if (symptomDrawerOpen) {
+    drawer.style.maxHeight = '120px';
+    drawer.style.padding = '0.75rem 1.5rem 0.5rem';
+    if (arrow) arrow.style.transform = 'rotate(180deg)';
+  } else {
+    drawer.style.maxHeight = '0';
+    drawer.style.padding = '0 1.5rem';
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+  }
+}
 
 // DOCTORS DIRECTORY
 // ============================================================
