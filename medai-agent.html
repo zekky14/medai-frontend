@@ -1359,6 +1359,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div class="header-right">
       <select class="lang-selector" id="lang-select" onchange="setLanguage(this.value)" title="Select Language">
         <option value="en">🌐 EN</option>
+        <option value="pcm">🇳🇬 Pidgin</option>
         <option value="yo">🇳🇬 YO</option>
         <option value="ig">🇳🇬 IG</option>
         <option value="ha">🇳🇬 HA</option>
@@ -5250,6 +5251,19 @@ const KRIXIA_LANGS = {
     chip_diabetes: '💊 Ciwon Sukari',
     input_placeholder: 'Kwatanta alamomin rashin lafiya...',
     doc_name: 'Likita AI',
+  },
+  pcm: {
+    welcome_brand: 'KRIXIA',
+    welcome_sub: 'Medical Sense',
+    welcome_intro: 'Your AI doctor wey go yarn with you. Tell am wetin dey worry you and e go give you correct guidance sharp sharp.',
+    chip_fever: '🤒 Fever & Body Hot',
+    chip_headache: '🤕 Headache',
+    chip_chest: '💔 Chest Dey Pain',
+    chip_child: '👶 Pikin Dey Sick',
+    chip_skin: '🔴 Skin Rash',
+    chip_diabetes: '💊 Sugar Sickness',
+    input_placeholder: 'Tell us wetin dey worry you...',
+    doc_name: 'AI Doctor',
   }
 };
 
@@ -5282,8 +5296,9 @@ function setLanguage(lang) {
 
   // Update system prompt language instruction
   if (lang !== 'en') {
-    const langNames = { yo: 'Yoruba', ig: 'Igbo', ha: 'Hausa' };
-    window._langInstruction = `\n\nIMPORTANT: The patient prefers ${langNames[lang]}. Please respond in ${langNames[lang]} language, but keep medical terms in English where necessary for clarity.`;
+    const langNames = { yo: 'Yoruba', ig: 'Igbo', ha: 'Hausa', pcm: 'Nigerian Pidgin English' };
+    const langInstructionExtra = lang === 'pcm' ? ' Use natural, warm Nigerian Pidgin phrasing throughout (e.g. "wetin dey worry you", "e go better", "make you rest well") while keeping medical terms clear and accurate.' : '';
+    window._langInstruction = `\n\nIMPORTANT: The patient prefers ${langNames[lang]}. Please respond in ${langNames[lang]} language, but keep medical terms in English where necessary for clarity.${langInstructionExtra}`;
   } else {
     window._langInstruction = '';
   }
