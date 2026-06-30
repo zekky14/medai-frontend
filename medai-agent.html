@@ -840,18 +840,11 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 @media (max-width: 768px) { .main { grid-template-columns: 1fr; } }
 @media (max-width: 768px) { .sidebar { display: none; } }
 @media (min-width: 769px) { .welcome-actions { display: none; } }
+@media (min-width: 769px) { #mobile-signin-tab-wrap { display: none !important; } }
 
-/* SIGN IN / USER BUTTON — icon-only circle on mobile, saves header space */
+/* SIGN IN / USER BUTTON — removed from header on small mobile, moved to floating tab on body */
 @media (max-width: 480px) {
-  .btn-medid {
-    width: 34px; height: 34px; padding: 0 !important;
-    border-radius: 50%; gap: 0;
-  }
-  .btn-medid .bm-text { display: none; }
-  .btn-medid svg { width: 15px; height: 15px; }
-  .pb-text { display: none; }
-  .btn-premium { width: 34px; height: 34px; padding: 0 !important; border-radius: 50%; gap: 0; }
-  .pb-icon { font-size: 16px; }
+  .btn-medid { display: none !important; }
 }
 
 /* ============================================================
@@ -1025,8 +1018,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   .header-right { gap: 4px !important; }
   .usage-pill { display: none !important; }
   .btn-premium { padding: 7px 10px !important; font-size: 11px !important; }
-  .btn-medid { display: inline-flex !important; width: 32px !important; height: 32px !important; padding: 0 !important; border-radius: 50% !important; }
-  .btn-medid .bm-text { display: none !important; }
+  .btn-medid { display: none !important; }
   .logo-tagline { display: none !important; }
   .logo-name { font-size: 18px !important; }
   .logo-svg-wrap { width: 28px !important; height: 28px !important; }
@@ -1483,6 +1475,12 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
                 </div>
                 <span style="color:var(--gold-300);font-size:16px;">›</span>
               </div>
+            </div>
+            <div style="position:relative;margin:0 0 8px;display:flex;justify-content:flex-end;" id="mobile-signin-tab-wrap">
+              <button id="mobile-signin-tab" onclick="krixiaUser ? openUserProfile() : openPanel('login-panel')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);color:var(--text);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;gap:6px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="mst-icon"><path d="m21 2-9.6 9.6"></path><circle cx="7.5" cy="15.5" r="5.5"></circle></svg>
+                <span id="mst-label">Sign In</span>
+              </button>
             </div>
             <div class="welcome-actions" id="mobile-quick-actions">
               <button class="qa-row" onclick="openVitalsPanel()">
@@ -5794,6 +5792,13 @@ function updateAuthUI(user) {
       const firstName = user.fullname ? user.fullname.split(' ')[0] : 'Profile';
       medidBtn.innerHTML = userIconSvg + '<span class="bm-text">' + firstName + '</span>';
       medidBtn.onclick = function() { openUserProfile(); };
+    }
+    const mst = document.getElementById('mobile-signin-tab');
+    if (mst) {
+      const firstName2 = user.fullname ? user.fullname.split(' ')[0] : 'Profile';
+      document.getElementById('mst-icon').outerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="mst-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+      document.getElementById('mst-label').textContent = firstName2;
+      mst.onclick = function() { openUserProfile(); };
     }
   } else {
     if (medidBtn) {
