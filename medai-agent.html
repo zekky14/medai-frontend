@@ -2688,6 +2688,7 @@ async function sendMessage() {
       conversationHistory.push({ role: 'assistant', content: fullReply });
       checkForReferralTrigger(fullReply);
       addMedicationReminderButton(msgEl, fullReply);
+      addReadAloudButton(msgEl, fullReply);
       // Track session count per user
       var sc = parseInt(localStorage.getItem('krixia_session_count') || '0') + 1;
       localStorage.setItem('krixia_session_count', sc);
@@ -2783,12 +2784,110 @@ function appendMessage(role, text) {
   bubbleDiv.className = 'msg-bubble';
   bubbleDiv.innerHTML = formatMessage(text);
 
+  if (role === 'ai') {
+    addReadAloudButton(bubbleDiv, text);
+  }
+
   div.appendChild(avatarDiv);
   div.appendChild(bubbleDiv);
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
   return div;
 }
+
+// ── READ ALOUD (Text-to-Speech) ───────────────────────────
+let currentSpeechUtterance = null;
+let currentSpeakingButton = null;
+
+function addReadAloudButton(bubbleEl, rawText) {
+  if (!('speechSynthesis' in window)) return; // not supported
+  if (bubbleEl.querySelector('.read-aloud-btn')) return; // already added
+
+  const btn = document.createElement('button');
+  btn.className = 'read-aloud-btn';
+  btn.style.cssText = 'margin-top:10px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--gold-300);cursor:pointer;font-family:Inter,sans-serif;display:inline-flex;align-items:center;gap:6px;';
+  btn.innerHTML = '<span class="rab-icon">🔊</span><span class="rab-label">Listen</span>';
+  btn.onclick = function() { toggleReadAloud(btn, rawText); };
+  bubbleEl.appendChild(btn);
+}
+
+function cleanTextForSpeech(text) {
+  // Strip markdown symbols and emojis for natural speech
+  return text
+    .replace(/[#*`_~]/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]/gu, '')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function toggleReadAloud(btn, rawText) {
+  // If this button is currently speaking, stop it
+  if (currentSpeakingButton === btn) {
+    window.speechSynthesis.cancel();
+    resetReadAloudButton(btn);
+    currentSpeakingButton = null;
+    return;
+  }
+
+  // Stop any other message currently being read
+  if (currentSpeakingButton) {
+    resetReadAloudButton(currentSpeakingButton);
+    window.speechSynthesis.cancel();
+  }
+
+  const cleanText = cleanTextForSpeech(rawText);
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  utterance.rate = 0.95;
+  utterance.pitch = 1.0;
+  utterance.lang = 'en-NG'; // Nigerian English if available, falls back gracefully
+
+  // Try to pick a natural-sounding voice if available
+  const voices = window.speechSynthesis.getVoices();
+  const preferredVoice = voices.find(v => v.lang === 'en-NG') ||
+                          voices.find(v => v.lang === 'en-GB' && v.name.includes('Male')) ||
+                          voices.find(v => v.lang.startsWith('en-GB')) ||
+                          voices.find(v => v.lang.startsWith('en'));
+  if (preferredVoice) utterance.voice = preferredVoice;
+
+  utterance.onstart = function() {
+    btn.querySelector('.rab-icon').textContent = '⏸️';
+    btn.querySelector('.rab-label').textContent = 'Listening...';
+    btn.style.background = 'rgba(29,158,100,0.15)';
+    btn.style.borderColor = 'rgba(29,158,100,0.35)';
+    btn.style.color = 'var(--em-300)';
+    currentSpeakingButton = btn;
+  };
+
+  utterance.onend = function() {
+    resetReadAloudButton(btn);
+    currentSpeakingButton = null;
+  };
+
+  utterance.onerror = function() {
+    resetReadAloudButton(btn);
+    currentSpeakingButton = null;
+  };
+
+  currentSpeechUtterance = utterance;
+  window.speechSynthesis.speak(utterance);
+}
+
+function resetReadAloudButton(btn) {
+  if (!btn) return;
+  btn.querySelector('.rab-icon').textContent = '🔊';
+  btn.querySelector('.rab-label').textContent = 'Listen';
+  btn.style.background = 'rgba(201,168,76,0.1)';
+  btn.style.borderColor = 'rgba(201,168,76,0.25)';
+  btn.style.color = 'var(--gold-300)';
+}
+
+// Stop speech if user navigates away or closes the tab
+window.addEventListener('beforeunload', function() {
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+});
 
 function formatMessage(text) {
   return text
