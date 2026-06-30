@@ -1751,6 +1751,50 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
   </div>
 </div>
 
+
+<!-- MEDICATION REMINDER PANEL -->
+<div class="panel-overlay" id="medication-reminder-panel">
+  <div class="panel" style="max-width:420px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('medication-reminder-panel')">← Back</button>
+      <h2 class="panel-close-desktop">⏰ Medication Reminder</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('medication-reminder-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Never miss a dose — Krixia will notify you</p>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Medication Name</label>
+        <input type="text" id="med-name-input" placeholder="e.g. Paracetamol 500mg">
+      </div>
+      <div class="form-group">
+        <label>How often per day?</label>
+        <select id="med-frequency">
+          <option value="once">Once daily</option>
+          <option value="twice" selected>Twice daily</option>
+          <option value="thrice">Three times daily</option>
+          <option value="four">Four times daily</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>First dose time</label>
+        <input type="time" id="med-start-time" value="08:00">
+      </div>
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--text-3);line-height:1.6;margin-bottom:1rem;">
+        💡 Reminders work while Krixia is open in your browser or installed as an app. Keep notifications enabled for best results.
+      </div>
+
+      <div style="border-top:1px solid var(--border);padding-top:1rem;">
+        <p style="font-size:11px;font-weight:700;color:var(--text-3);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;">Active Reminders</p>
+        <div id="active-reminders-list"></div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('medication-reminder-panel')" style="flex:1;">Close</button>
+      <button class="btn-primary" onclick="scheduleReminder()" style="flex:2;">⏰ Set Reminder</button>
+    </div>
+  </div>
+</div>
+
 </div><!-- end app-wrapper -->
 
 <!-- VOICE OVERLAY -->
@@ -2554,6 +2598,7 @@ async function sendMessage() {
       }
       conversationHistory.push({ role: 'assistant', content: fullReply });
       checkForReferralTrigger(fullReply);
+      addMedicationReminderButton(msgEl, fullReply);
       // Track session count per user
       var sc = parseInt(localStorage.getItem('krixia_session_count') || '0') + 1;
       localStorage.setItem('krixia_session_count', sc);
@@ -2565,9 +2610,10 @@ async function sendMessage() {
       const reply = data.reply || 'I apologise, I was unable to process that. Please try again.';
       if (data.sessionToken) krixiaSessionToken = data.sessionToken;
       conversationHistory.push({ role: 'assistant', content: reply });
-      appendMessage('ai', reply);
+      const newMsgEl = appendMessage('ai', reply);
       updateUsageFromBackend(data.usage);
       checkForReferralTrigger(reply);
+      if (newMsgEl) addMedicationReminderButton(newMsgEl, reply);
     }
 
   } catch (err) {
@@ -5994,6 +6040,166 @@ async function browseHospitalsByState(state) {
     list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Could not load hospitals. Please try again.</div>';
   }
 }
+
+
+// ============================================================
+// MEDICATION REMINDERS
+// ============================================================
+
+function detectMedicationMention(text) {
+  // Look for common medication section markers in AI responses
+  var patterns = [
+    /\*\*Medications?:?\*\*/i,
+    /💊\s*\*\*Medication/i,
+    /OTC\s+(Option|Medication)/i,
+    /Paracetamol|Ibuprofen|Antacid|Antihistamine/i
+  ];
+  return patterns.some(function(p) { return p.test(text); });
+}
+
+function addMedicationReminderButton(msgEl, fullReply) {
+  if (!detectMedicationMention(fullReply)) return;
+  if (msgEl.querySelector('.med-reminder-btn')) return; // already added
+
+  var btn = document.createElement('button');
+  btn.className = 'med-reminder-btn';
+  btn.style.cssText = 'margin-top:10px;background:linear-gradient(135deg,rgba(29,158,100,0.15),rgba(29,158,100,0.05));border:1px solid rgba(29,158,100,0.3);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;color:var(--em-300);cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;gap:8px;width:fit-content;';
+  btn.innerHTML = '⏰ Set Medication Reminder';
+  btn.onclick = function() { openMedicationReminderPanel(fullReply); };
+
+  var bubble = msgEl.querySelector('.msg-bubble');
+  if (bubble) bubble.appendChild(btn);
+}
+
+function openMedicationReminderPanel(context) {
+  window._reminderContext = context;
+  openPanel('medication-reminder-panel');
+}
+
+async function scheduleReminder() {
+  var medName = document.getElementById('med-name-input').value.trim();
+  var frequency = document.getElementById('med-frequency').value;
+  var startTime = document.getElementById('med-start-time').value;
+
+  if (!medName) { alert('Please enter the medication name.'); return; }
+  if (!startTime) { alert('Please set a start time.'); return; }
+
+  // Request notification permission
+  if (!('Notification' in window)) {
+    alert('Notifications are not supported on this browser.');
+    return;
+  }
+
+  var permission = await Notification.requestPermission();
+  if (permission !== 'granted') {
+    alert('Please allow notifications to set reminders. You can enable this in your browser settings.');
+    return;
+  }
+
+  // Calculate reminder times based on frequency
+  var times = [];
+  var [h, m] = startTime.split(':').map(Number);
+  var freqMap = { once: 1, twice: 2, thrice: 3, four: 4 };
+  var count = freqMap[frequency] || 1;
+  var interval = Math.floor(24 / count);
+
+  for (var i = 0; i < count; i++) {
+    var hour = (h + i * interval) % 24;
+    times.push(hour + ':' + String(m).padStart(2, '0'));
+  }
+
+  // Save reminder to localStorage
+  var reminders = JSON.parse(localStorage.getItem('krixia_med_reminders') || '[]');
+  var reminder = {
+    id: 'med_' + Date.now(),
+    name: medName,
+    times: times,
+    frequency: frequency,
+    createdAt: new Date().toISOString(),
+    active: true
+  };
+  reminders.push(reminder);
+  localStorage.setItem('krixia_med_reminders', JSON.stringify(reminders));
+
+  // Schedule the notifications
+  scheduleNotificationsForReminder(reminder);
+
+  closePanel('medication-reminder-panel');
+  appendMessage('ai', '✅ Reminder set for <strong>' + medName + '</strong> at ' + times.join(', ') + ' daily. I\'ll notify you when it\'s time!');
+
+  document.getElementById('med-name-input').value = '';
+  renderActiveReminders();
+}
+
+function scheduleNotificationsForReminder(reminder) {
+  reminder.times.forEach(function(time) {
+    var [h, m] = time.split(':').map(Number);
+    var now = new Date();
+    var target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+    if (target < now) target.setDate(target.getDate() + 1); // schedule for tomorrow if time passed
+
+    var msUntil = target - now;
+
+    // Use setTimeout for next occurrence (works while tab/app is open)
+    setTimeout(function() {
+      showMedicationNotification(reminder.name);
+      // Reschedule for next day
+      scheduleNotificationsForReminder(reminder);
+    }, msUntil);
+  });
+}
+
+function showMedicationNotification(medName) {
+  if (Notification.permission === 'granted') {
+    var notif = new Notification('💊 Krixia Medication Reminder', {
+      body: 'Time to take your ' + medName,
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
+      tag: 'med-reminder',
+      requireInteraction: true
+    });
+    notif.onclick = function() { window.focus(); notif.close(); };
+  }
+}
+
+function renderActiveReminders() {
+  var list = document.getElementById('active-reminders-list');
+  if (!list) return;
+  var reminders = JSON.parse(localStorage.getItem('krixia_med_reminders') || '[]').filter(function(r) { return r.active; });
+
+  if (reminders.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--text-3);font-size:12px;">No active reminders</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  reminders.forEach(function(r) {
+    var card = document.createElement('div');
+    card.style.cssText = 'background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;';
+    card.innerHTML = '<div><div style="font-size:13px;font-weight:700;color:var(--text);">' + r.name + '</div><div style="font-size:11px;color:var(--text-3);">' + r.times.join(', ') + ' daily</div></div>';
+    var delBtn = document.createElement('button');
+    delBtn.textContent = '✕';
+    delBtn.style.cssText = 'background:none;border:none;color:var(--red-400);font-size:16px;cursor:pointer;';
+    delBtn.onclick = function() { deleteReminder(r.id); };
+    card.appendChild(delBtn);
+    list.appendChild(card);
+  });
+}
+
+function deleteReminder(id) {
+  var reminders = JSON.parse(localStorage.getItem('krixia_med_reminders') || '[]');
+  reminders = reminders.filter(function(r) { return r.id !== id; });
+  localStorage.setItem('krixia_med_reminders', JSON.stringify(reminders));
+  renderActiveReminders();
+}
+
+// Re-activate scheduled reminders on page load
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    var reminders = JSON.parse(localStorage.getItem('krixia_med_reminders') || '[]').filter(function(r) { return r.active; });
+    reminders.forEach(scheduleNotificationsForReminder);
+  }, 2000);
+});
 
 // DOCTORS DIRECTORY
 // ============================================================
