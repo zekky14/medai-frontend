@@ -5666,9 +5666,8 @@ function openUserProfile() {
 
   var sessionCount = parseInt(localStorage.getItem('krixia_session_count') || '0');
   document.getElementById('profile-sessions').textContent = sessionCount;
-  var createdAt = localStorage.getItem('krixia_created_at');
-  if (!createdAt) { localStorage.setItem('krixia_created_at', new Date().toISOString()); createdAt = new Date().toISOString(); }
-  var days = Math.max(1, Math.floor((new Date() - new Date(createdAt)) / 86400000));
+  var createdAt = krixiaUser.createdAt || localStorage.getItem('krixia_created_at') || new Date().toISOString();
+  var days = Math.max(1, Math.ceil((new Date() - new Date(createdAt)) / 86400000));
   document.getElementById('profile-days').textContent = days;
 }
 
