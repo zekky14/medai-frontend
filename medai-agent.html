@@ -295,7 +295,7 @@ html[data-theme="light"], html[data-theme="light"] body {
 [data-theme="dark"] {
   --bg: #07110D; --bg-2: #0D1A14; --surface: #0F1A15; --surface-2: #162118; --surface-3: #1C2B22;
   --border: rgba(201,168,76,0.1); --border-2: rgba(201,168,76,0.25); --border-3: rgba(201,168,76,0.4);
-  --text: #F2EFE8; --text-2: #B4C4BB; --text-3: #5E8070;
+  --text: #FAFAF7; --text-2: #C2D0C8; --text-3: #6B8C7B;
   --card-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
   --header-bg: rgba(6,16,12,0.97); --input-bg: rgba(255,255,255,0.03);
   --msg-ai-bg: #111E17; --msg-ai-border: rgba(201,168,76,0.12);
@@ -1686,6 +1686,7 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     </div>
     <div class="panel-footer" style="flex-direction:column;gap:8px;">
       <button class="btn-primary" onclick="openHistoryPanel();closePanel('user-profile-panel')" style="width:100%;padding:12px;">📋 View Health History</button>
+      <button onclick="closePanel('user-profile-panel');setTimeout(function(){localStorage.removeItem('krixia_tour_completed');startOnboardingTour();},300);" style="width:100%;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">🎯 Replay App Tour</button>
       <button class="btn-secondary" onclick="openEditProfile()" style="width:100%;padding:12px;">✏️ Edit Profile</button>
       <button onclick="krixiaLogout()" style="width:100%;padding:12px;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:12px;color:var(--red-400);font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Sign Out</button>
     </div>
@@ -1792,6 +1793,24 @@ header { position: relative; z-index: 100; background: var(--header-bg); -webkit
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('medication-reminder-panel')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="scheduleReminder()" style="flex:2;">⏰ Set Reminder</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ONBOARDING TOUR OVERLAY -->
+<div id="tour-overlay" style="display:none;position:fixed;inset:0;z-index:9500;pointer-events:none;">
+  <div id="tour-spotlight" style="position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(3,8,6,0.82);transition:all 0.4s cubic-bezier(0.4,0,0.2,1);pointer-events:none;"></div>
+  <div id="tour-tooltip" style="position:absolute;background:var(--modal-bg);border:1px solid var(--gold-400);border-radius:16px;padding:1.1rem;max-width:300px;box-shadow:0 16px 50px rgba(0,0,0,0.5);pointer-events:all;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span id="tour-step-icon" style="font-size:20px;">💬</span>
+      <span id="tour-step-counter" style="font-size:11px;color:var(--text-3);font-weight:600;">Step 1 of 5</span>
+    </div>
+    <div id="tour-step-title" style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;">Welcome to Krixia!</div>
+    <div id="tour-step-desc" style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:14px;">Let's take a quick tour of what you can do here.</div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="skipTour()" style="flex:1;padding:9px;background:none;border:1px solid var(--border);border-radius:10px;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Skip Tour</button>
+      <button onclick="nextTourStep()" id="tour-next-btn" style="flex:1.5;padding:9px;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Next →</button>
     </div>
   </div>
 </div>
@@ -5577,6 +5596,7 @@ async function krixiaSignup() {
     }
     closePanel('signup-panel');
     showAuthSuccessMessage('signup', name);
+    setTimeout(startOnboardingTour, 1200);
 
   } catch(err) {
     errEl.textContent = err.message;
@@ -6200,6 +6220,122 @@ document.addEventListener('DOMContentLoaded', function() {
     var reminders = JSON.parse(localStorage.getItem('krixia_med_reminders') || '[]').filter(function(r) { return r.active; });
     reminders.forEach(scheduleNotificationsForReminder);
   }, 2000);
+});
+
+
+// ============================================================
+// FIRST-TIME USER ONBOARDING TOUR
+// ============================================================
+
+const TOUR_STEPS = [
+  {
+    icon: '💬',
+    title: 'Chat with Krixia AI',
+    desc: 'Describe any symptom here and get instant, expert-level health guidance — available 24/7.',
+    selector: '#chat-input, .input-wrapper',
+    fallbackSelector: '.input-area'
+  },
+  {
+    icon: '🏥',
+    title: 'Find a Hospital',
+    desc: 'Browse 128+ verified hospitals near you, or search any of Nigeria\'s 36 states.',
+    selector: '[onclick*="openHospitalPanel"]',
+  },
+  {
+    icon: '📅',
+    title: "Today's Health Topic",
+    desc: 'A new health tip every day, covering all medical specialties. Tap to learn more.',
+    selector: '#mobile-daily-topic, #desktop-daily-topic',
+  },
+  {
+    icon: '👤',
+    title: 'Your Profile',
+    desc: 'View your health history, update your profile, and manage your account here.',
+    selector: '#btn-register',
+  },
+  {
+    icon: '🔐',
+    title: "You're All Set!",
+    desc: 'Your health data is end-to-end encrypted and completely private. Start your first consultation now!',
+    selector: '#chat-input, .input-wrapper',
+  }
+];
+
+let currentTourStep = 0;
+
+function startOnboardingTour() {
+  if (localStorage.getItem('krixia_tour_completed')) return;
+  currentTourStep = 0;
+  document.getElementById('tour-overlay').style.display = 'block';
+  showTourStep(0);
+}
+
+function showTourStep(index) {
+  var step = TOUR_STEPS[index];
+  if (!step) { completeTour(); return; }
+
+  var target = document.querySelector(step.selector) || (step.fallbackSelector ? document.querySelector(step.fallbackSelector) : null);
+  var spotlight = document.getElementById('tour-spotlight');
+  var tooltip = document.getElementById('tour-tooltip');
+
+  document.getElementById('tour-step-icon').textContent = step.icon;
+  document.getElementById('tour-step-counter').textContent = 'Step ' + (index + 1) + ' of ' + TOUR_STEPS.length;
+  document.getElementById('tour-step-title').textContent = step.title;
+  document.getElementById('tour-step-desc').textContent = step.desc;
+  document.getElementById('tour-next-btn').textContent = index === TOUR_STEPS.length - 1 ? 'Get Started ✨' : 'Next →';
+
+  if (target) {
+    var rect = target.getBoundingClientRect();
+    var pad = 8;
+    spotlight.style.left = (rect.left - pad) + 'px';
+    spotlight.style.top = (rect.top - pad) + 'px';
+    spotlight.style.width = (rect.width + pad * 2) + 'px';
+    spotlight.style.height = (rect.height + pad * 2) + 'px';
+    spotlight.style.display = 'block';
+
+    // Position tooltip near target, keeping it on screen
+    var winW = window.innerWidth, winH = window.innerHeight;
+    var tooltipW = 300;
+    var top = rect.bottom + 16;
+    var left = Math.min(Math.max(rect.left, 16), winW - tooltipW - 16);
+
+    if (top + 200 > winH) { top = Math.max(16, rect.top - 220); }
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  } else {
+    // No target found - center the tooltip, dim everything
+    spotlight.style.display = 'none';
+    tooltip.style.left = '50%';
+    tooltip.style.top = '50%';
+    tooltip.style.transform = 'translate(-50%,-50%)';
+  }
+
+  currentTourStep = index;
+}
+
+function nextTourStep() {
+  if (currentTourStep >= TOUR_STEPS.length - 1) {
+    completeTour();
+  } else {
+    showTourStep(currentTourStep + 1);
+  }
+}
+
+function skipTour() {
+  completeTour();
+}
+
+function completeTour() {
+  localStorage.setItem('krixia_tour_completed', '1');
+  document.getElementById('tour-overlay').style.display = 'none';
+}
+
+// Reposition spotlight on window resize
+window.addEventListener('resize', function() {
+  if (document.getElementById('tour-overlay').style.display === 'block') {
+    showTourStep(currentTourStep);
+  }
 });
 
 // DOCTORS DIRECTORY
