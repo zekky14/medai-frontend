@@ -5655,12 +5655,12 @@ function openUserProfile() {
   document.getElementById('profile-name').textContent = krixiaUser.fullname || 'Krixia User';
   document.getElementById('profile-email').textContent = krixiaUser.email;
 
-  // Load saved photo
-  var savedPhoto = localStorage.getItem('krixia_profile_photo');
-  if (savedPhoto) {
-    var img = document.getElementById('profile-photo');
-    var emoji = document.getElementById('profile-avatar-emoji');
-    if (img) { img.src = savedPhoto; img.style.display = 'block'; }
+  // Load photo - cloud first, local as fallback
+  var img = document.getElementById('profile-photo');
+  var emoji = document.getElementById('profile-avatar-emoji');
+  var photoSrc = krixiaUser.avatarUrl || localStorage.getItem('krixia_profile_photo');
+  if (photoSrc) {
+    if (img) { img.src = photoSrc; img.style.display = 'block'; }
     if (emoji) emoji.style.display = 'none';
   }
 
@@ -5674,15 +5674,53 @@ function openUserProfile() {
 function uploadProfilePhoto(input) {
   var file = input.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { alert('Photo must be under 5MB'); return; }
+  if (file.size > 8 * 1024 * 1024) { alert('Photo must be under 8MB'); return; }
+
+  var img = document.getElementById('profile-photo');
+  var emoji = document.getElementById('profile-avatar-emoji');
+
   var reader = new FileReader();
   reader.onload = function(e) {
-    var dataUrl = e.target.result;
-    try { localStorage.setItem('krixia_profile_photo', dataUrl); } catch(err) { alert('Photo too large. Try a smaller image.'); return; }
-    var img = document.getElementById('profile-photo');
-    var emoji = document.getElementById('profile-avatar-emoji');
-    if (img) { img.src = dataUrl; img.style.display = 'block'; }
-    if (emoji) emoji.style.display = 'none';
+    // Compress image using canvas before upload
+    var image = new Image();
+    image.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxSize = 400;
+      var w = image.width, h = image.height;
+      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
+      else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0, w, h);
+      var compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+      // Show preview immediately
+      if (img) { img.src = compressedDataUrl; img.style.display = 'block'; }
+      if (emoji) emoji.style.display = 'none';
+
+      // Upload to cloud if logged in
+      if (krixiaUser) {
+        var token = localStorage.getItem('krixia_token');
+        fetch('https://api.tickit.com.ng/api/kauth/upload-avatar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ imageBase64: compressedDataUrl })
+        }).then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.success && data.avatarUrl) {
+            krixiaUser.avatarUrl = data.avatarUrl;
+            localStorage.setItem('krixia_user', JSON.stringify(krixiaUser));
+            console.log('Avatar synced to cloud');
+          }
+        }).catch(function(err) {
+          console.log('Avatar upload failed, using local only:', err.message);
+        });
+      }
+
+      // Always keep a local fallback too
+      try { localStorage.setItem('krixia_profile_photo', compressedDataUrl); } catch(err) {}
+    };
+    image.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
