@@ -1410,6 +1410,18 @@ header { position: relative; z-index: 100; background: var(--header-bg); backdro
               <div class="welcome-sub">World Class Medical Intelligence</div>
               <p class="welcome-intro" id="wc-typewriter"><span class="typewriter-cursor"></span></p>
             </div>
+            <!-- Mobile Today's Topic Card -->
+            <div id="mobile-daily-topic" style="display:none;margin:0 1rem 0.875rem;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(29,158,100,0.05));border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:0.875rem;cursor:pointer;" onclick="reopenDailyTopic()">
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-400);margin-bottom:6px;">📅 Today's Health Topic</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span id="mdt-icon" style="font-size:26px;flex-shrink:0;">🩺</span>
+                <div style="flex:1;min-width:0;">
+                  <div id="mdt-title" style="font-size:13px;font-weight:700;color:var(--text);">Loading...</div>
+                  <div id="mdt-specialty" style="font-size:11px;color:var(--text-3);">Tap to view</div>
+                </div>
+                <span style="color:var(--gold-300);font-size:16px;">›</span>
+              </div>
+            </div>
             <div class="welcome-actions" id="mobile-quick-actions">
               <button class="qa-row" onclick="openVitalsPanel()">
                 <span class="qa-ic">💓</span>
@@ -5128,6 +5140,16 @@ async function loadDailyTopic() {
     desktopWidget.style.display = 'block';
   }
 
+  // Update mobile widget always (persistent, unlike the popup)
+  var mobileWidget = document.getElementById('mobile-daily-topic');
+  if (mobileWidget) {
+    document.getElementById('mdt-icon').textContent = topic.icon;
+    document.getElementById('mdt-title').textContent = topic.title;
+    document.getElementById('mdt-specialty').textContent = topic.specialty;
+    mobileWidget.style.display = 'block';
+  }
+  window._currentDailyTopicData = topic;
+
   // Only show popup once per day
   if (lastShown === today) return;
   localStorage.setItem('krixia_daily_topic_date', today);
@@ -5183,6 +5205,16 @@ async function loadDailyTopic() {
 
 function closeDailyTopic() {
   document.getElementById('daily-topic-overlay').classList.remove('show');
+}
+
+function reopenDailyTopic() {
+  // Re-show the popup on demand, bypassing the once-per-day lock
+  var overlay = document.getElementById('daily-topic-overlay');
+  if (!overlay || !currentDailyTopic) return;
+  document.getElementById('dt-icon').textContent = currentDailyTopic.icon;
+  document.getElementById('dt-title').textContent = currentDailyTopic.title;
+  document.getElementById('dt-specialty').textContent = currentDailyTopic.specialty;
+  overlay.classList.add('show');
 }
 
 function learnMoreDailyTopic() {
