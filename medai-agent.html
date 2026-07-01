@@ -2374,8 +2374,15 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         </button>
       </div>
       <button onclick="openPanel('pharmacist-panel')"
-        style="width:100%;padding:10px;background:rgba(29,158,100,0.08);border:1px dashed rgba(29,158,100,0.3);border-radius:12px;font-size:12px;font-weight:600;color:var(--em-300);cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
-        ➕ Are you a pharmacist? Register your pharmacy on Krixia
+        style="width:100%;background:linear-gradient(135deg,rgba(29,158,100,0.12),rgba(29,158,100,0.04));border:1px solid rgba(29,158,100,0.3);border-radius:14px;padding:0;cursor:pointer;font-family:Inter,sans-serif;overflow:hidden;display:flex;align-items:stretch;text-align:left;">
+        <div style="width:4px;background:linear-gradient(180deg,#1D9E64,#0D5C3A);flex-shrink:0;border-radius:0;"></div>
+        <div style="padding:12px 14px;flex:1;">
+          <div style="font-size:13px;font-weight:800;color:var(--em-300);margin-bottom:3px;display:flex;align-items:center;gap:7px;">
+            <span style="font-size:16px;">💊</span> Register Your Pharmacy on Krixia
+          </div>
+          <div style="font-size:11px;color:var(--text-3);line-height:1.5;">Licensed pharmacists — get your pharmacy listed and verified for millions of users</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 14px;color:var(--em-300);font-size:18px;flex-shrink:0;">›</div>
       </button>
     </div>
     <p class="panel-sub" id="hosp-panel-sub">Hospitals and clinics nearest to your current GPS location</p>
@@ -2443,9 +2450,24 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <div id="pharmacy-list"></div>
       </div>
     </div>
-    <div class="panel-footer" style="flex-wrap:wrap;gap:8px;">
-      <button class="btn-secondary" onclick="openDoctorRegistration()" style="flex:1;font-size:12px;">👨‍⚕️ Join as Doctor</button>
-      <button class="btn-primary" onclick="sendReferralToChat()" style="flex:2;">📋 Send Referral →</button>
+    <!-- Premium Join as Doctor + Send Referral footer -->
+    <div style="flex-shrink:0;border-top:1px solid var(--border);background:var(--modal-bg);">
+      <!-- Join as Doctor premium card -->
+      <div style="margin:12px 1rem 0;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border:1px solid rgba(201,168,76,0.25);border-radius:14px;overflow:hidden;display:flex;align-items:stretch;cursor:pointer;" onclick="openDoctorRegistration()">
+        <div style="width:4px;background:linear-gradient(180deg,var(--gold-400),var(--gold-600));flex-shrink:0;"></div>
+        <div style="display:flex;align-items:center;padding:10px 12px;gap:10px;flex:1;">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.08));border:1.5px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">👨‍⚕️</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--gold-300);margin-bottom:2px;">Join Krixia as a Doctor</div>
+            <div style="font-size:11px;color:var(--text-3);line-height:1.4;">Verified physicians — connect with patients across Nigeria</div>
+          </div>
+          <div style="color:var(--gold-300);font-size:18px;flex-shrink:0;padding-right:4px;">›</div>
+        </div>
+      </div>
+      <!-- Send Referral button -->
+      <div style="padding:10px 1rem 12px;">
+        <button class="btn-primary" onclick="sendReferralToChat()" style="width:100%;padding:13px;">📋 Send Hospital Referral to Chat →</button>
+      </div>
     </div>
   </div>
 </div>
