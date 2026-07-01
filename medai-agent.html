@@ -5121,12 +5121,29 @@ async function submitDoctorRegistration() {
 // ============================================================
 
 async function openHistoryPanel() {
+  // SECURITY: history is only available to authenticated users
+  if (!krixiaUser) {
+    openPanel('login-panel');
+    setTimeout(function() {
+      var errEl = document.getElementById('li-error');
+      if (errEl) {
+        errEl.textContent = 'Please sign in to view your medical history.';
+        errEl.style.display = 'block';
+      }
+    }, 300);
+    return;
+  }
+
   openPanel('history-panel');
   const list = document.getElementById('history-list');
   list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading...</div>';
 
+  const token = localStorage.getItem('krixia_token');
+
   try {
-    const res = await fetch('https://api.tickit.com.ng/api/history?limit=20');
+    const res = await fetch('https://api.tickit.com.ng/api/history?limit=20', {
+      headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+    });
     if (!res.ok) throw new Error('Server error: ' + res.status);
     const data = await res.json();
     console.log('History data:', data);
@@ -5868,6 +5885,12 @@ function krixiaLogoutLocal() {
   krixiaUser = null;
   localStorage.removeItem('krixia_token');
   localStorage.removeItem('krixia_user');
+  localStorage.removeItem('krixia_profile_photo');
+  // Clear any locally cached conversation to prevent data leaking to next user
+  conversationHistory = [];
+  krixiaSessionToken = null;
+  const msgs = document.getElementById('messages');
+  if (msgs) msgs.innerHTML = '';
   updateAuthUI(null);
 }
 
