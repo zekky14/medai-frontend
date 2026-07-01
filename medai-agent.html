@@ -605,12 +605,12 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 
 @media (max-width: 768px) {
   /* AUTH PANELS (login/signup) — compact floating card, not full screen */
-  #login-panel, #signup-panel {
+  #login-panel, #signup-panel, #admin-panel {
     padding: 1.25rem;
     align-items: center;
     justify-content: center;
   }
-  #login-panel .panel, #signup-panel .panel {
+  #login-panel .panel, #signup-panel .panel, #admin-panel .panel {
     max-width: 420px;
     max-height: 88vh;
     max-height: 88dvh;
@@ -621,14 +621,14 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   }
 
   /* ALL OTHER PANELS — keep full-screen slide-in behavior */
-  .panel-overlay:not(#login-panel):not(#signup-panel) { padding: 0; align-items: stretch; }
-  .panel-overlay:not(#login-panel):not(#signup-panel) .panel { max-width: 100%; max-height: 100%; height: 100%; border-radius: 0; animation: panelInMobile 0.3s cubic-bezier(0.32,0.72,0,1); }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) { padding: 0; align-items: stretch; }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) .panel { max-width: 100%; max-height: 100%; height: 100%; border-radius: 0; animation: panelInMobile 0.3s cubic-bezier(0.32,0.72,0,1); }
   @keyframes panelInMobile { from { transform: translateX(100%); } to { transform: translateX(0); } }
-  .panel-overlay:not(#login-panel):not(#signup-panel) .panel-header { padding: env(safe-area-inset-top, 1rem) 1rem 0.5rem; padding-top: max(1rem, env(safe-area-inset-top)); }
-  .panel-overlay:not(#login-panel):not(#signup-panel) .panel-header h2 { font-size: 18px; }
-  .panel-overlay:not(#login-panel):not(#signup-panel) .panel-sub { padding: 0 1rem; font-size: 13px; }
-  .panel-overlay:not(#login-panel):not(#signup-panel) .panel-body { padding: 0 1rem; }
-  .panel-overlay:not(#login-panel):not(#signup-panel) .panel-footer { padding: 0.85rem 1rem; padding-bottom: max(0.85rem, env(safe-area-inset-bottom)); }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) .panel-header { padding: env(safe-area-inset-top, 1rem) 1rem 0.5rem; padding-top: max(1rem, env(safe-area-inset-top)); }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) .panel-header h2 { font-size: 18px; }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) .panel-sub { padding: 0 1rem; font-size: 13px; }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) .panel-body { padding: 0 1rem; }
+  .panel-overlay:not(#login-panel):not(#signup-panel):not(#admin-panel) .panel-footer { padding: 0.85rem 1rem; padding-bottom: max(0.85rem, env(safe-area-inset-bottom)); }
 }
 
 .panel-close-mobile { display: none; }
@@ -6877,8 +6877,17 @@ function activateAdmin() {
   const rb = document.getElementById('btn-register');
   if (rb) {
     rb.textContent = '🛡️ Dashboard';
-    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;';
+    rb.style.cssText = 'background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;border:none;border-radius:var(--r-sm);padding:8px 13px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:inline-flex;align-items:center;gap:6px;';
     rb.onclick = () => openAdminDashboard();
+  }
+  // Update mobile body Sign In tab too
+  const mst = document.getElementById('mobile-signin-tab');
+  if (mst) {
+    mst.innerHTML = '<span style="font-size:13px;">🛡️</span><span id="mst-label">Admin</span>';
+    mst.style.background = 'linear-gradient(135deg,rgba(124,58,237,0.2),rgba(168,85,247,0.1))';
+    mst.style.borderColor = 'rgba(168,85,247,0.4)';
+    mst.style.color = '#A855F7';
+    mst.onclick = function() { openAdminDashboard(); };
   }
   const msgs = document.getElementById('messages');
   const d = document.createElement('div');
