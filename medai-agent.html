@@ -6606,6 +6606,57 @@ function toggleSymptomDrawer() {
   }
 }
 
+
+// ── ANDROID BACK BUTTON HANDLER ───────────────────────────
+// Intercepts browser back navigation to close panels/modals
+// instead of navigating away from the app
+
+function setupBackButtonHandler() {
+  // Push an initial state so we have something to go "back" to
+  history.pushState({ krixia: true }, '', window.location.href);
+
+  window.addEventListener('popstate', function(e) {
+    // Check if any panel is currently open
+    var openPanel = document.querySelector('.panel-overlay.active');
+    var tourActive = document.getElementById('tour-overlay') && 
+                     document.getElementById('tour-overlay').style.display !== 'none';
+    var dailyTopicActive = document.getElementById('daily-topic-overlay') && 
+                           document.getElementById('daily-topic-overlay').classList.contains('show');
+
+    if (tourActive) {
+      // Close tour
+      skipTour();
+      history.pushState({ krixia: true }, '', window.location.href);
+      return;
+    }
+
+    if (dailyTopicActive) {
+      // Close daily topic popup
+      closeDailyTopic();
+      history.pushState({ krixia: true }, '', window.location.href);
+      return;
+    }
+
+    if (openPanel) {
+      // Close the open panel instead of navigating back
+      openPanel.classList.remove('active');
+      document.body.style.overflow = '';
+      // Push state again so next back press works
+      history.pushState({ krixia: true }, '', window.location.href);
+      return;
+    }
+
+    // No panel open — push state again to prevent leaving the app
+    // This keeps the user in the PWA instead of going to a blank page
+    history.pushState({ krixia: true }, '', window.location.href);
+  });
+}
+
+// Initialize back button handler after page loads
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(setupBackButtonHandler, 500);
+});
+
 // DOCTORS DIRECTORY
 // ============================================================
 const NIGERIA_DOCTORS = [
