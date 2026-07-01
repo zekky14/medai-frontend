@@ -2362,10 +2362,21 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <button class="panel-close panel-close-desktop" onclick="closePanel('hospital-panel')">✕</button>
     </div>
     <!-- Mode switcher tabs -->
-    <div style="display:flex;gap:0;padding:0 1.5rem;margin-bottom:0.75rem;background:var(--surface-2);margin:0 1.5rem 1rem;border-radius:12px;border:1px solid var(--border);">
-      <button id="mode-hospitals" onclick="switchHospitalMode('hospitals')" style="flex:1;padding:9px 6px;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin:4px 2px 4px 4px;">🏥 Hospitals</button>
-      <button id="mode-pharmacies" onclick="switchHospitalMode('pharmacies')" style="flex:1;padding:9px 6px;background:none;color:var(--text-2);border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;margin:4px;">💊 Pharmacies</button>
-      <button id="mode-register-pharm" onclick="openPanel('pharmacist-panel')" style="flex:1;padding:9px 6px;background:none;color:var(--text-2);border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;margin:4px 4px 4px 2px;">➕ Register</button>
+    <div style="padding:0 1.5rem;margin-bottom:1rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <button id="mode-hospitals" onclick="switchHospitalMode('hospitals')"
+          style="padding:11px 8px;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          🏥 Hospitals
+        </button>
+        <button id="mode-pharmacies" onclick="switchHospitalMode('pharmacies')"
+          style="padding:11px 8px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);border-radius:12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          💊 Pharmacies
+        </button>
+      </div>
+      <button onclick="openPanel('pharmacist-panel')"
+        style="width:100%;padding:10px;background:rgba(29,158,100,0.08);border:1px dashed rgba(29,158,100,0.3);border-radius:12px;font-size:12px;font-weight:600;color:var(--em-300);cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+        ➕ Are you a pharmacist? Register your pharmacy on Krixia
+      </button>
     </div>
     <p class="panel-sub" id="hosp-panel-sub">Hospitals and clinics nearest to your current GPS location</p>
     <div class="panel-body">
@@ -2399,7 +2410,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <!-- BROWSE BY STATE -->
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:1rem;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:var(--r-sm);padding:8px 10px;">
         <span style="font-size:13px;color:var(--text-3);flex-shrink:0;">🇳🇬 Browse by state:</span>
-        <select id="state-select" onchange="browseHospitalsByState(this.value)"
+        <select id="state-select" onchange="handleStateSelect(this.value)"
           style="flex:1;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-size:13px;color:var(--text);font-family:'Inter',sans-serif;">
           <option value="">All 36 States + FCT</option>
         </select>
@@ -6347,44 +6358,27 @@ async function loadStateList() {
 }
 
 async function browseHospitalsByState(state) {
+  hospitalPage = 0;
   if (!state) {
-    detectLocation(); // fall back to GPS
+    detectLocation();
     return;
   }
   const list = document.getElementById('hospital-list');
   if (!list) return;
-  list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading ' + state + ' hospitals...</div>';
-  document.getElementById('loc-text').textContent = 'Showing hospitals in ' + state + ' State';
+  list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading hospitals in ' + state + '...</div>';
+  var locText = document.getElementById('loc-text');
+  if (locText) locText.textContent = 'Showing hospitals in ' + state + ' State';
 
   try {
     const res = await fetch('https://api.tickit.com.ng/api/hospitals/by-state?state=' + encodeURIComponent(state));
     const data = await res.json();
-    const hospitals = data.hospitals || [];
+    currentHospitalResults = data.hospitals || [];
 
-    if (hospitals.length === 0) {
+    if (currentHospitalResults.length === 0) {
       list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No hospitals found for ' + state + ' yet. More coming soon.</div>';
       return;
     }
-
-    list.innerHTML = '';
-    hospitals.forEach(function(h, i) {
-      const card = document.createElement('div');
-      card.className = 'hospital-card';
-      const gmapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(h.name + ' ' + h.address);
-      card.innerHTML = '<div class="hosp-rank rank-n">' + (i+1) + '</div>' +
-        '<div class="hosp-info">' +
-          '<div class="hosp-name">' + h.name + '</div>' +
-          '<div class="hosp-address">' + h.address + '</div>' +
-          '<div class="hosp-meta">' +
-            '<span class="hosp-type-badge badge-teaching">' + (h.type || 'Hospital') + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="hosp-actions">' +
-          '<a class="hosp-action-btn hab-directions" href="' + gmapsUrl + '" target="_blank">🗺️ Directions</a>' +
-          (h.phone ? '<a class="hosp-action-btn hab-call" href="tel:' + h.phone + '">📞 Call</a>' : '') +
-        '</div>';
-      list.appendChild(card);
-    });
+    renderHospitalPage();
   } catch(err) {
     list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Could not load hospitals. Please try again.</div>';
   }
@@ -6744,46 +6738,59 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================================
 
 let currentHospitalMode = 'hospitals';
+let hospitalPage = 0;
+let pharmacyPage = 0;
+const PAGE_SIZE = 10;
+let currentHospitalResults = [];
+let currentPharmacyResults = [];
+
+// Universal state dropdown router
+function handleStateSelect(state) {
+  if (currentHospitalMode === 'pharmacies') {
+    browsePharmaciesByState(state);
+  } else {
+    browseHospitalsByState(state);
+  }
+}
 
 function switchHospitalMode(mode) {
   currentHospitalMode = mode;
 
-  // Update tab button styles
   const modeHosp = document.getElementById('mode-hospitals');
   const modePharm = document.getElementById('mode-pharmacies');
-  const activeStyle = 'background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin:4px;';
-  const inactiveStyle = 'background:none;color:var(--text-2);border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;margin:4px;';
+
+  const activeStyle = 'padding:11px 8px;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;';
+  const inactiveStyle = 'padding:11px 8px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);border-radius:12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;';
 
   if (mode === 'hospitals') {
-    modeHosp.style.cssText = activeStyle + 'margin:4px 2px 4px 4px;';
-    modePharm.style.cssText = inactiveStyle;
+    if (modeHosp) modeHosp.style.cssText = activeStyle;
+    if (modePharm) modePharm.style.cssText = inactiveStyle;
     document.getElementById('hosp-panel-title').textContent = '🏥 Find Hospitals';
-    document.getElementById('hosp-panel-sub').textContent = 'Hospitals and clinics nearest to your GPS location';
-
-    // Restore hospital UI
-    var stateSelect = document.getElementById('state-select');
-    if (stateSelect) {
-      stateSelect.style.display = '';
-      stateSelect.parentElement.style.display = '';
-    }
+    document.getElementById('hosp-panel-sub').textContent = 'Hospitals and clinics near you across Nigeria';
+    // Reset dropdown for hospitals
+    var sel = document.getElementById('state-select');
+    if (sel) { sel.innerHTML = '<option value="">All 36 States + FCT</option>'; }
     loadStateList();
+    var list = document.getElementById('hospital-list');
+    if (list) list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Select a state or use GPS to find hospitals near you.</div>';
 
   } else if (mode === 'pharmacies') {
-    modeHosp.style.cssText = inactiveStyle + 'margin:4px 2px 4px 4px;';
-    modePharm.style.cssText = activeStyle;
+    if (modeHosp) modeHosp.style.cssText = inactiveStyle;
+    if (modePharm) modePharm.style.cssText = activeStyle;
     document.getElementById('hosp-panel-title').textContent = '💊 Find Pharmacies';
     document.getElementById('hosp-panel-sub').textContent = 'Licensed pharmacies across all 36 states + FCT';
-    browsePharmaciesByState('');
+    // Reset dropdown for pharmacies
+    var sel2 = document.getElementById('state-select');
+    if (sel2) { sel2.innerHTML = '<option value="">Select a State</option>'; }
     loadPharmacyStateList();
+    var list2 = document.getElementById('hospital-list');
+    if (list2) list2.innerHTML = '<div style="text-align:center;padding:2rem;"><div style="font-size:32px;margin-bottom:12px;">💊</div><div style="color:var(--text-2);font-size:14px;font-weight:600;margin-bottom:6px;">Find a Licensed Pharmacy</div><div style="color:var(--text-3);font-size:12px;">Select your state from the dropdown above.</div></div>';
   }
 }
 
 async function loadPharmacyStateList() {
   var select = document.getElementById('state-select');
   if (!select) return;
-  select.innerHTML = '<option value="">All States</option>';
-  select.onchange = function() { browsePharmaciesByState(this.value); };
-
   try {
     const res = await fetch('https://api.tickit.com.ng/api/hospitals/pharmacies');
     const data = await res.json();
@@ -6800,11 +6807,12 @@ async function loadPharmacyStateList() {
 }
 
 async function browsePharmaciesByState(state) {
+  pharmacyPage = 0;
   const list = document.getElementById('hospital-list');
   if (!list) return;
 
   if (!state) {
-    list.innerHTML = '<div style="text-align:center;padding:2rem;"><div style="font-size:32px;margin-bottom:12px;">💊</div><div style="color:var(--text-2);font-size:14px;font-weight:600;margin-bottom:6px;">Find a Licensed Pharmacy</div><div style="color:var(--text-3);font-size:12px;">Select your state from the dropdown above to find pharmacies near you.</div></div>';
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Select a state to see pharmacies.</div>';
     return;
   }
 
@@ -6813,37 +6821,124 @@ async function browsePharmaciesByState(state) {
   try {
     const res = await fetch('https://api.tickit.com.ng/api/hospitals/pharmacies?state=' + encodeURIComponent(state));
     const data = await res.json();
-    const pharmacies = data.pharmacies || [];
-
-    if (pharmacies.length === 0) {
-      list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No pharmacies listed for ' + state + ' yet. More coming soon.</div>';
-      return;
-    }
-
-    list.innerHTML = '';
-    pharmacies.forEach(function(p, i) {
-      const card = document.createElement('div');
-      card.className = 'hospital-card';
-      const gmapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(p.name + ' ' + p.address);
-      card.innerHTML =
-        '<div class="hosp-rank rank-n">' + (i+1) + '</div>' +
-        '<div class="hosp-info">' +
-          '<div class="hosp-name">' + p.name + '</div>' +
-          '<div class="hosp-address">' + p.address + '</div>' +
-          '<div class="hosp-meta">' +
-            '<span class="hosp-type-badge badge-teaching" style="background:rgba(29,158,100,0.12);color:var(--em-300);border-color:rgba(29,158,100,0.2);">💊 ' + (p.type || 'Pharmacy') + '</span>' +
-            (p.licensed ? '<span class="hosp-type-badge" style="background:rgba(201,168,76,0.1);color:var(--gold-300);border-color:rgba(201,168,76,0.2);margin-left:4px;">✓ Licensed</span>' : '') +
-          '</div>' +
-        '</div>' +
-        '<div class="hosp-actions">' +
-          '<a class="hosp-action-btn hab-directions" href="' + gmapsUrl + '" target="_blank">🗺️ Directions</a>' +
-          (p.phone ? '<a class="hosp-action-btn hab-call" href="tel:' + p.phone + '">📞 Call</a>' : '') +
-        '</div>';
-      list.appendChild(card);
-    });
+    currentPharmacyResults = data.pharmacies || [];
+    renderPharmacyPage();
   } catch(err) {
     list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Could not load pharmacies. Please try again.</div>';
   }
+}
+
+function renderPharmacyPage() {
+  const list = document.getElementById('hospital-list');
+  if (!list) return;
+  const total = currentPharmacyResults.length;
+  const start = pharmacyPage * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, total);
+  const page = currentPharmacyResults.slice(start, end);
+
+  list.innerHTML = '';
+
+  if (total === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No pharmacies found for this state yet.</div>';
+    return;
+  }
+
+  page.forEach(function(p, i) {
+    const card = document.createElement('div');
+    card.className = 'hospital-card';
+    const gmapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(p.name + ' ' + p.address);
+    card.innerHTML =
+      '<div class="hosp-rank rank-n">' + (start + i + 1) + '</div>' +
+      '<div class="hosp-info">' +
+        '<div class="hosp-name">' + p.name + '</div>' +
+        '<div class="hosp-address">' + p.address + '</div>' +
+        '<div class="hosp-meta">' +
+          '<span class="hosp-type-badge badge-teaching" style="background:rgba(29,158,100,0.12);color:var(--em-300);border-color:rgba(29,158,100,0.2);">💊 ' + (p.type || 'Pharmacy') + '</span>' +
+          (p.licensed ? '<span class="hosp-type-badge" style="background:rgba(201,168,76,0.1);color:var(--gold-300);border-color:rgba(201,168,76,0.2);margin-left:4px;">✓ Licensed</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="hosp-actions">' +
+        '<a class="hosp-action-btn hab-directions" href="' + gmapsUrl + '" target="_blank">🗺️ Directions</a>' +
+        (p.phone ? '<a class="hosp-action-btn hab-call" href="tel:' + p.phone + '">📞 Call</a>' : '') +
+      '</div>';
+    list.appendChild(card);
+  });
+
+  // Pagination
+  if (total > PAGE_SIZE) {
+    renderPagination(list, pharmacyPage, Math.ceil(total / PAGE_SIZE), total, 'pharmacy');
+  }
+}
+
+function renderHospitalPage() {
+  const list = document.getElementById('hospital-list');
+  if (!list) return;
+  const total = currentHospitalResults.length;
+  const start = hospitalPage * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, total);
+  const page = currentHospitalResults.slice(start, end);
+
+  list.innerHTML = '';
+
+  page.forEach(function(h, i) {
+    const card = document.createElement('div');
+    card.className = 'hospital-card';
+    const gmapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(h.name + ' ' + h.address);
+    card.innerHTML =
+      '<div class="hosp-rank rank-n">' + (start + i + 1) + '</div>' +
+      '<div class="hosp-info">' +
+        '<div class="hosp-name">' + h.name + '</div>' +
+        '<div class="hosp-address">' + h.address + '</div>' +
+        '<div class="hosp-meta">' +
+          '<span class="hosp-type-badge badge-teaching">' + (h.type || 'Hospital') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hosp-actions">' +
+        '<a class="hosp-action-btn hab-directions" href="' + gmapsUrl + '" target="_blank">🗺️ Directions</a>' +
+        (h.phone ? '<a class="hosp-action-btn hab-call" href="tel:' + h.phone + '">📞 Call</a>' : '') +
+      '</div>';
+    list.appendChild(card);
+  });
+
+  if (total > PAGE_SIZE) {
+    renderPagination(list, hospitalPage, Math.ceil(total / PAGE_SIZE), total, 'hospital');
+  }
+}
+
+function renderPagination(container, currentPg, totalPages, totalItems, type) {
+  const pag = document.createElement('div');
+  pag.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:12px 0;margin-top:8px;border-top:1px solid var(--border);';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.style.cssText = 'background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;font-family:Inter,sans-serif;';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = currentPg === 0;
+  if (currentPg === 0) prevBtn.style.opacity = '0.4';
+  prevBtn.onclick = function() {
+    if (type === 'pharmacy') { pharmacyPage--; renderPharmacyPage(); }
+    else { hospitalPage--; renderHospitalPage(); }
+    container.scrollTop = 0;
+  };
+
+  const info = document.createElement('span');
+  info.style.cssText = 'font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;';
+  info.textContent = 'Page ' + (currentPg + 1) + ' of ' + totalPages + ' (' + totalItems + ' total)';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.style.cssText = 'background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;font-family:Inter,sans-serif;';
+  nextBtn.textContent = 'Next →';
+  nextBtn.disabled = currentPg >= totalPages - 1;
+  if (currentPg >= totalPages - 1) nextBtn.style.opacity = '0.4';
+  nextBtn.onclick = function() {
+    if (type === 'pharmacy') { pharmacyPage++; renderPharmacyPage(); }
+    else { hospitalPage++; renderHospitalPage(); }
+    container.scrollTop = 0;
+  };
+
+  pag.appendChild(prevBtn);
+  pag.appendChild(info);
+  pag.appendChild(nextBtn);
+  container.appendChild(pag);
 }
 
 async function submitPharmacistRegistration() {
