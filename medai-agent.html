@@ -1902,6 +1902,81 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   </div>
 </div>
 
+
+<!-- PHARMACIST REGISTRATION PANEL -->
+<div class="panel-overlay" id="pharmacist-panel">
+  <div class="panel">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('pharmacist-panel')">← Back</button>
+      <h2 class="panel-close-desktop">💊 Register Your Pharmacy</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('pharmacist-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Licensed pharmacies only — NAFDAC number required</p>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Pharmacist Full Name *</label>
+        <input type="text" id="ph-name" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Pharmacy Name *</label>
+        <input type="text" id="ph-pharmacy-name" placeholder="e.g. HealthPlus Pharmacy Lekki">
+      </div>
+      <div class="form-group">
+        <label>NAFDAC License Number *</label>
+        <input type="text" id="ph-license" placeholder="e.g. PCN/REG/12345">
+      </div>
+      <div class="form-group">
+        <label>Pharmacy Type</label>
+        <select id="ph-type">
+          <option value="Retail Pharmacy">Retail Pharmacy</option>
+          <option value="Hospital Pharmacy">Hospital Pharmacy</option>
+          <option value="Community Pharmacy">Community Pharmacy</option>
+          <option value="Online Pharmacy">Online Pharmacy</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>State *</label>
+        <select id="ph-state">
+          <option value="">Select State</option>
+          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option>
+          <option>Anambra</option><option>Bauchi</option><option>Bayelsa</option>
+          <option>Benue</option><option>Borno</option><option>Cross River</option>
+          <option>Delta</option><option>Ebonyi</option><option>Edo</option>
+          <option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option>
+          <option>Gombe</option><option>Imo</option><option>Jigawa</option>
+          <option>Kaduna</option><option>Kano</option><option>Katsina</option>
+          <option>Kebbi</option><option>Kogi</option><option>Kwara</option>
+          <option>Lagos</option><option>Nasarawa</option><option>Niger</option>
+          <option>Ogun</option><option>Ondo</option><option>Osun</option>
+          <option>Oyo</option><option>Plateau</option><option>Rivers</option>
+          <option>Sokoto</option><option>Taraba</option><option>Yobe</option>
+          <option>Zamfara</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Pharmacy Address *</label>
+        <input type="text" id="ph-address" placeholder="Full street address">
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="ph-phone" placeholder="+234 801 234 5678">
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="ph-email" placeholder="pharmacy@email.com">
+      </div>
+      <div id="ph-error" style="display:none;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red-400);margin-bottom:1rem;"></div>
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--text-3);line-height:1.6;margin-bottom:1rem;">
+        🔍 <strong style="color:var(--gold-400);">Verification Process:</strong> We will verify your PCN (Pharmacists Council of Nigeria) registration number within 48 hours. Only verified pharmacies will appear on Krixia's pharmacy finder.
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn-secondary" onclick="closePanel('pharmacist-panel')" style="flex:1;">Cancel</button>
+      <button class="btn-primary" onclick="submitPharmacistRegistration()" style="flex:2;">💊 Submit Registration</button>
+    </div>
+  </div>
+</div>
+
 </div><!-- end app-wrapper -->
 
 <!-- VOICE OVERLAY -->
@@ -2283,10 +2358,16 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   <div class="panel">
     <div class="panel-header">
       <button class="panel-close-mobile" onclick="closePanel('hospital-panel')">← Back</button>
-      <h2 class="panel-close-desktop">🏥 Nearest Hospitals</h2>
+      <h2 class="panel-close-desktop" id="hosp-panel-title">🏥 Find Hospitals</h2>
       <button class="panel-close panel-close-desktop" onclick="closePanel('hospital-panel')">✕</button>
     </div>
-    <p class="panel-sub">Hospitals and clinics nearest to your current GPS location</p>
+    <!-- Mode switcher tabs -->
+    <div style="display:flex;gap:0;padding:0 1.5rem;margin-bottom:0.75rem;background:var(--surface-2);margin:0 1.5rem 1rem;border-radius:12px;border:1px solid var(--border);">
+      <button id="mode-hospitals" onclick="switchHospitalMode('hospitals')" style="flex:1;padding:9px 6px;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin:4px 2px 4px 4px;">🏥 Hospitals</button>
+      <button id="mode-pharmacies" onclick="switchHospitalMode('pharmacies')" style="flex:1;padding:9px 6px;background:none;color:var(--text-2);border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;margin:4px;">💊 Pharmacies</button>
+      <button id="mode-register-pharm" onclick="openPanel('pharmacist-panel')" style="flex:1;padding:9px 6px;background:none;color:var(--text-2);border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;margin:4px 4px 4px 2px;">➕ Register</button>
+    </div>
+    <p class="panel-sub" id="hosp-panel-sub">Hospitals and clinics nearest to your current GPS location</p>
     <div class="panel-body">
       <div class="emergency-banner" id="emergency-banner" style="display:none;">
         <div class="em-icon">🚨</div>
@@ -6656,6 +6737,163 @@ function setupBackButtonHandler() {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(setupBackButtonHandler, 500);
 });
+
+
+// ============================================================
+// PHARMACY FINDER & PHARMACIST REGISTRATION
+// ============================================================
+
+let currentHospitalMode = 'hospitals';
+
+function switchHospitalMode(mode) {
+  currentHospitalMode = mode;
+
+  // Update tab button styles
+  const modeHosp = document.getElementById('mode-hospitals');
+  const modePharm = document.getElementById('mode-pharmacies');
+  const activeStyle = 'background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin:4px;';
+  const inactiveStyle = 'background:none;color:var(--text-2);border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;margin:4px;';
+
+  if (mode === 'hospitals') {
+    modeHosp.style.cssText = activeStyle + 'margin:4px 2px 4px 4px;';
+    modePharm.style.cssText = inactiveStyle;
+    document.getElementById('hosp-panel-title').textContent = '🏥 Find Hospitals';
+    document.getElementById('hosp-panel-sub').textContent = 'Hospitals and clinics nearest to your GPS location';
+
+    // Restore hospital UI
+    var stateSelect = document.getElementById('state-select');
+    if (stateSelect) {
+      stateSelect.style.display = '';
+      stateSelect.parentElement.style.display = '';
+    }
+    loadStateList();
+
+  } else if (mode === 'pharmacies') {
+    modeHosp.style.cssText = inactiveStyle + 'margin:4px 2px 4px 4px;';
+    modePharm.style.cssText = activeStyle;
+    document.getElementById('hosp-panel-title').textContent = '💊 Find Pharmacies';
+    document.getElementById('hosp-panel-sub').textContent = 'Licensed pharmacies across all 36 states + FCT';
+    browsePharmaciesByState('');
+    loadPharmacyStateList();
+  }
+}
+
+async function loadPharmacyStateList() {
+  var select = document.getElementById('state-select');
+  if (!select) return;
+  select.innerHTML = '<option value="">All States</option>';
+  select.onchange = function() { browsePharmaciesByState(this.value); };
+
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/hospitals/pharmacies');
+    const data = await res.json();
+    if (data.states) {
+      data.states.sort((a, b) => a.state.localeCompare(b.state));
+      data.states.forEach(function(s) {
+        const opt = document.createElement('option');
+        opt.value = s.state;
+        opt.textContent = s.state + ' (' + s.count + ')';
+        select.appendChild(opt);
+      });
+    }
+  } catch(e) { console.log('Pharmacy state list error:', e.message); }
+}
+
+async function browsePharmaciesByState(state) {
+  const list = document.getElementById('hospital-list');
+  if (!list) return;
+
+  if (!state) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;"><div style="font-size:32px;margin-bottom:12px;">💊</div><div style="color:var(--text-2);font-size:14px;font-weight:600;margin-bottom:6px;">Find a Licensed Pharmacy</div><div style="color:var(--text-3);font-size:12px;">Select your state from the dropdown above to find pharmacies near you.</div></div>';
+    return;
+  }
+
+  list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading pharmacies in ' + state + '...</div>';
+
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/hospitals/pharmacies?state=' + encodeURIComponent(state));
+    const data = await res.json();
+    const pharmacies = data.pharmacies || [];
+
+    if (pharmacies.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No pharmacies listed for ' + state + ' yet. More coming soon.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    pharmacies.forEach(function(p, i) {
+      const card = document.createElement('div');
+      card.className = 'hospital-card';
+      const gmapsUrl = 'https://www.google.com/maps/search/' + encodeURIComponent(p.name + ' ' + p.address);
+      card.innerHTML =
+        '<div class="hosp-rank rank-n">' + (i+1) + '</div>' +
+        '<div class="hosp-info">' +
+          '<div class="hosp-name">' + p.name + '</div>' +
+          '<div class="hosp-address">' + p.address + '</div>' +
+          '<div class="hosp-meta">' +
+            '<span class="hosp-type-badge badge-teaching" style="background:rgba(29,158,100,0.12);color:var(--em-300);border-color:rgba(29,158,100,0.2);">💊 ' + (p.type || 'Pharmacy') + '</span>' +
+            (p.licensed ? '<span class="hosp-type-badge" style="background:rgba(201,168,76,0.1);color:var(--gold-300);border-color:rgba(201,168,76,0.2);margin-left:4px;">✓ Licensed</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="hosp-actions">' +
+          '<a class="hosp-action-btn hab-directions" href="' + gmapsUrl + '" target="_blank">🗺️ Directions</a>' +
+          (p.phone ? '<a class="hosp-action-btn hab-call" href="tel:' + p.phone + '">📞 Call</a>' : '') +
+        '</div>';
+      list.appendChild(card);
+    });
+  } catch(err) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Could not load pharmacies. Please try again.</div>';
+  }
+}
+
+async function submitPharmacistRegistration() {
+  const name = document.getElementById('ph-name').value.trim();
+  const pharmacy_name = document.getElementById('ph-pharmacy-name').value.trim();
+  const license_number = document.getElementById('ph-license').value.trim();
+  const state = document.getElementById('ph-state').value;
+  const address = document.getElementById('ph-address').value.trim();
+  const phone = document.getElementById('ph-phone').value.trim();
+  const email = document.getElementById('ph-email').value.trim();
+  const type = document.getElementById('ph-type').value;
+  const errEl = document.getElementById('ph-error');
+
+  errEl.style.display = 'none';
+
+  if (!name || !pharmacy_name || !license_number || !state || !phone || !email || !address) {
+    errEl.textContent = 'Please fill in all required fields.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.querySelector('#pharmacist-panel .btn-primary');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/kauth/register-pharmacist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, pharmacy_name, license_number, state, address, phone, email, type })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Registration failed');
+
+    closePanel('pharmacist-panel');
+    appendMessage('ai', '✅ **Pharmacy Registration Received!**\n\nThank you, **' + name + '**. Your pharmacy **' + pharmacy_name + '** has been submitted for verification.\n\n🔍 We will verify your PCN/NAFDAC license number **' + license_number + '** within 48 hours. Once approved, your pharmacy will appear on Krixia\'s pharmacy finder for all users in ' + state + '.');
+
+    // Clear form
+    ['ph-name','ph-pharmacy-name','ph-license','ph-address','ph-phone','ph-email'].forEach(function(id) {
+      document.getElementById(id).value = '';
+    });
+
+  } catch(err) {
+    errEl.textContent = err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = '💊 Submit Registration';
+    btn.disabled = false;
+  }
+}
 
 // DOCTORS DIRECTORY
 // ============================================================
