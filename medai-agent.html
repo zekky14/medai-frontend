@@ -1598,14 +1598,18 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     </div>
 
     <!-- Tabs -->
-    <div style="display:flex;border-bottom:1px solid var(--border);padding:0 1rem;">
+    <div style="display:flex;border-bottom:1px solid var(--border);padding:0 1rem;overflow-x:auto;">
       <button onclick="adminTab('doctors')" id="atab-doctors"
-        style="padding:10px 16px;background:none;border:none;border-bottom:2px solid var(--gold-400);color:var(--gold-300);font-weight:700;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">
-        👨‍⚕️ Doctor Applications
+        style="padding:10px 14px;background:none;border:none;border-bottom:2px solid var(--gold-400);color:var(--gold-300);font-weight:700;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">
+        👨‍⚕️ Doctors
+      </button>
+      <button onclick="adminTab('pharmacies')" id="atab-pharmacies"
+        style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-3);font-weight:500;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">
+        💊 Pharmacies
       </button>
       <button onclick="adminTab('sessions')" id="atab-sessions"
-        style="padding:10px 16px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-3);font-weight:500;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">
-        📋 Recent Sessions
+        style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-3);font-weight:500;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">
+        📋 Sessions
       </button>
     </div>
 
@@ -5658,10 +5662,13 @@ function openAdminDashboard() {
 
 function adminTab(tab) {
   currentAdminTab = tab;
-  document.getElementById('atab-doctors').style.borderBottomColor = tab === 'doctors' ? 'var(--gold-400)' : 'transparent';
-  document.getElementById('atab-doctors').style.color = tab === 'doctors' ? 'var(--gold-300)' : 'var(--text-3)';
-  document.getElementById('atab-sessions').style.borderBottomColor = tab === 'sessions' ? 'var(--gold-400)' : 'transparent';
-  document.getElementById('atab-sessions').style.color = tab === 'sessions' ? 'var(--gold-300)' : 'var(--text-3)';
+  ['doctors','pharmacies','sessions'].forEach(function(t) {
+    var btn = document.getElementById('atab-' + t);
+    if (!btn) return;
+    btn.style.borderBottomColor = tab === t ? 'var(--gold-400)' : 'transparent';
+    btn.style.color = tab === t ? 'var(--gold-300)' : 'var(--text-3)';
+    btn.style.fontWeight = tab === t ? '700' : '500';
+  });
   loadAdminData();
 }
 
@@ -5709,6 +5716,53 @@ async function loadAdminData() {
       `).join('');
 
     } else {
+      // Pharmacies tab
+      const pharmRes = await fetch('https://api.tickit.com.ng/api/admin/pharmacies', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const pharmData = await pharmRes.json();
+      const pharmacies = pharmData.pharmacies || [];
+
+      if (currentAdminTab === 'pharmacies') {
+        if (pharmacies.length === 0) {
+          content.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No pharmacy registrations yet.</div>';
+          return;
+        }
+        content.innerHTML = pharmacies.map(p => `
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:14px;font-weight:700;color:var(--text);">💊 ${p.pharmacy_name}</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:2px;">Pharmacist: ${p.name}</div>
+                <div style="font-size:12px;color:var(--gold-400);font-weight:600;margin-top:2px;">License: ${p.license_number}</div>
+                <div style="font-size:12px;color:var(--text-3);">${p.type} • ${p.state}</div>
+                <div style="font-size:12px;color:var(--text-3);">${p.address}</div>
+                <div style="font-size:12px;color:var(--text-3);">${p.phone} • ${p.email}</div>
+              </div>
+              <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;flex-shrink:0;margin-left:8px;background:${p.status === 'approved' ? 'rgba(29,158,100,0.15)' : p.status === 'rejected' ? 'rgba(232,93,74,0.1)' : 'rgba(212,135,58,0.15)'};color:${p.status === 'approved' ? 'var(--em-300)' : p.status === 'rejected' ? 'var(--red-400)' : 'var(--amber-400)'};">
+                ${p.status === 'approved' ? '✅ Verified' : p.status === 'rejected' ? '❌ Rejected' : '⏳ Pending'}
+              </span>
+            </div>
+            <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--text-3);">
+              🔍 <strong style="color:var(--gold-300);">Verify before approving:</strong> Confirm license <strong>${p.license_number}</strong> belongs to <strong>${p.name}</strong> on PCN portal
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <a href="https://pcncore.azurewebsites.net/PublicSearch/SearchForPharmacist" target="_blank"
+                style="flex:1;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);color:var(--gold-300);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                🔗 Verify Pharmacist (PCN)
+              </a>
+              <a href="https://pcncore.azurewebsites.net/PublicSearch/SearchForPharmacist" target="_blank"
+                style="flex:1;background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.25);color:var(--em-300);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                🏛️ Verify Premises
+              </a>
+              ${p.status !== 'approved' ? `<button onclick="updatePharmacyStatus('${p.id}','approved')" style="flex:1;background:rgba(29,158,100,0.15);border:1px solid rgba(29,158,100,0.3);color:var(--em-300);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">✅ Approve</button>` : ''}
+              ${p.status !== 'rejected' ? `<button onclick="updatePharmacyStatus('${p.id}','rejected')" style="flex:1;background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);color:var(--red-400);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">❌ Reject</button>` : ''}
+            </div>
+          </div>
+        `).join('');
+        return;
+      }
+
       // Sessions tab
       const res = await fetch('https://api.tickit.com.ng/api/history?limit=10', {
         headers: { 'Authorization': 'Bearer ' + token }
@@ -5753,6 +5807,25 @@ async function updateDoctorStatus(id, status) {
     const data = await res.json();
     if (res.ok) {
       loadAdminData(); // Refresh the list
+    } else {
+      alert('Error: ' + data.error);
+    }
+  } catch(err) {
+    alert('Connection error: ' + err.message);
+  }
+}
+
+async function updatePharmacyStatus(id, status) {
+  const token = localStorage.getItem('krixia_admin_token') || '';
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/admin/pharmacies/' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      loadAdminData();
     } else {
       alert('Error: ' + data.error);
     }
