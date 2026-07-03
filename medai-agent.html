@@ -1994,9 +1994,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 
 
 <!-- LIVE CONSULTATION MODAL -->
-<div id="consultation-modal" style="display:none;position:fixed;inset:0;z-index:8000;background:rgba(3,8,6,0.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);flex-direction:column;animation:consultSlideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);">
+<div id="consultation-modal" style="display:none;position:fixed;inset:0;z-index:8000;background:rgba(3,8,6,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);align-items:center;justify-content:center;padding:1rem;">
 
-  @keyframes consultSlideUp { from { opacity:0; transform:translateY(60px) scale(0.96); } to { opacity:1; transform:translateY(0) scale(1); } }
+  <!-- Centered Compact Card -->
+  <div style="background:var(--modal-bg);border:1px solid rgba(201,168,76,0.25);border-radius:20px;width:100%;max-width:520px;max-height:88vh;max-height:88dvh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(201,168,76,0.08);animation:consultSlideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);">
 
   <!-- Modal Header -->
   <div style="flex-shrink:0;background:linear-gradient(135deg,#060E08,#0A1A0F);border-bottom:1px solid rgba(201,168,76,0.2);padding:0;">
@@ -2050,7 +2051,8 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">⚕️ AI consultation only — not a substitute for professional medical care</div>
   </div>
 
-</div>
+  </div><!-- end compact card -->
+</div><!-- end consultation modal -->
 
 </div><!-- end app-wrapper -->
 
@@ -7220,7 +7222,7 @@ function launchConsultation(initialMessage, specialty) {
 
   // Show modal
   var modal = document.getElementById('consultation-modal');
-  if (modal) modal.classList.add('active');
+  if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
 
   // Start timer
   consultTimerInterval = setInterval(function() {
@@ -7387,6 +7389,7 @@ function endConsultation() {
     modal.style.transition = 'all 0.3s ease';
     setTimeout(function() {
       modal.classList.remove('active');
+      modal.style.display = 'none';
       modal.style.opacity = '';
       modal.style.transform = '';
       modal.style.transition = '';
