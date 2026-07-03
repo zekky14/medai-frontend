@@ -201,6 +201,17 @@ html[data-theme="light"], html[data-theme="light"] body {
   border-bottom-color: rgba(201,168,76,0.2);
   animation: splashSpin 2s linear infinite reverse;
 }
+@keyframes livePulse { 0%,100% { opacity:1; box-shadow:0 0 8px rgba(29,158,100,0.8); } 50% { opacity:0.5; box-shadow:0 0 4px rgba(29,158,100,0.4); } }
+@keyframes consultSlideUp { from { opacity:0; transform:translateY(60px) scale(0.96); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes dotPulse { 0%,100% { opacity:0.3; transform:scale(0.8); } 50% { opacity:1; transform:scale(1.2); } }
+#consultation-modal { display:none; }
+#consultation-modal.active { display:flex !important; }
+.consult-msg { display:flex; gap:10px; margin-bottom:4px; }
+.consult-msg.user { flex-direction:row-reverse; }
+.consult-bubble { max-width:78%; padding:11px 14px; border-radius:16px; font-size:14px; line-height:1.6; font-family:Inter,sans-serif; }
+.consult-msg.ai .consult-bubble { background:rgba(29,158,100,0.08); border:1px solid rgba(29,158,100,0.15); color:var(--text); border-top-left-radius:4px; }
+.consult-msg.user .consult-bubble { background:linear-gradient(135deg,var(--green),#1D9E64); color:white; border-top-right-radius:4px; }
+.consult-av { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:var(--gold-300); }
 @keyframes splashSpin {
   to { transform: rotate(360deg); }
 }
@@ -1981,6 +1992,66 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   </div>
 </div>
 
+
+<!-- LIVE CONSULTATION MODAL -->
+<div id="consultation-modal" style="display:none;position:fixed;inset:0;z-index:8000;background:rgba(3,8,6,0.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);flex-direction:column;animation:consultSlideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);">
+
+  @keyframes consultSlideUp { from { opacity:0; transform:translateY(60px) scale(0.96); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+  <!-- Modal Header -->
+  <div style="flex-shrink:0;background:linear-gradient(135deg,#060E08,#0A1A0F);border-bottom:1px solid rgba(201,168,76,0.2);padding:0;">
+
+    <!-- Top status bar -->
+    <div style="background:#030806;padding:10px 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:#1D9E64;box-shadow:0 0 8px rgba(29,158,100,0.8);animation:livePulse 1.5s ease-in-out infinite;"></div>
+        <span style="font-size:11px;font-weight:700;color:#1D9E64;letter-spacing:1.5px;text-transform:uppercase;font-family:Inter,sans-serif;">LIVE SESSION</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span id="consult-timer" style="font-size:11px;color:var(--text-3);font-family:'Courier New',monospace;">00:00</span>
+        <button onclick="endConsultation()" style="background:rgba(232,93,74,0.1);border:1px solid rgba(232,93,74,0.3);color:var(--red-400);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">End Session</button>
+      </div>
+    </div>
+
+    <!-- Doctor info bar -->
+    <div style="padding:14px 1.25rem;display:flex;align-items:center;gap:12px;">
+      <div style="position:relative;flex-shrink:0;">
+        <img src="/audio/elvis-doctor-headshot.jpg"
+          style="width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:50% 15%;border:2px solid var(--gold-400);"
+          onerror="this.style.display='none';document.getElementById('consult-avatar-fallback').style.display='flex';">
+        <div id="consult-avatar-fallback" style="display:none;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold-600),var(--gold-400));align-items:center;justify-content:center;font-size:22px;">⚕️</div>
+        <div style="position:absolute;bottom:1px;right:1px;width:12px;height:12px;background:#1D9E64;border-radius:50%;border:2px solid #030806;"></div>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:800;color:var(--text);font-family:Inter,sans-serif;margin-bottom:2px;">Krixia AI Medical Doctor</div>
+        <div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;" id="consult-specialty-label">General Medicine · AI-Assisted Consultation</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-size:10px;font-weight:700;color:var(--gold-300);letter-spacing:1px;text-transform:uppercase;font-family:Inter,sans-serif;">Krixia</div>
+        <div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Medical Intelligence</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Consultation Messages -->
+  <div id="consult-messages" style="flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch;">
+    <!-- Messages injected here -->
+  </div>
+
+  <!-- Input Area -->
+  <div style="flex-shrink:0;background:#030806;border-top:1px solid rgba(201,168,76,0.12);padding:12px 1rem;">
+    <div style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.2);border-radius:14px;display:flex;align-items:flex-end;padding:10px 14px;gap:10px;transition:border-color 0.2s;" id="consult-input-wrap">
+      <textarea id="consult-input" rows="1" placeholder="Type your response..."
+        style="flex:1;background:none;border:none;outline:none;font-family:Inter,sans-serif;font-size:14px;color:var(--text);resize:none;max-height:100px;line-height:1.5;"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendConsultMessage();}"
+        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"></textarea>
+      <button onclick="sendConsultMessage()" style="background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px;width:36px;height:36px;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">➤</button>
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">⚕️ AI consultation only — not a substitute for professional medical care</div>
+  </div>
+
+</div>
+
 </div><!-- end app-wrapper -->
 
 <!-- VOICE OVERLAY -->
@@ -2770,6 +2841,18 @@ async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text && pendingImages.length === 0) return;
+
+  // Launch consultation modal for symptom-related first messages
+  if (text && !consultationActive && conversationHistory.length === 0 && pendingImages.length === 0) {
+    const symptomTriggers = ['i have','i feel','my ','pain','ache','headache','fever','sick','hurt','bleed','vomit','cough','breath','chest','stomach','throat','dizzy','tired','rash','swollen','nausea','diarrhea','weak','itching','burning','discharge','pregnant','period','infection','symptom','doctor','ill','unwell'];
+    const lowerText = text.toLowerCase();
+    const isSymptom = symptomTriggers.some(function(t) { return lowerText.includes(t); });
+    if (isSymptom) {
+      input.value = '';
+      launchConsultation(text, currentSpecialty);
+      return;
+    }
+  }
 
   const sendBtn = document.getElementById('send-btn');
   sendBtn.disabled = true;
@@ -7106,6 +7189,216 @@ async function submitPharmacistRegistration() {
   } finally {
     btn.textContent = '💊 Submit Registration';
     btn.disabled = false;
+  }
+}
+
+
+// ============================================================
+// LIVE CONSULTATION MODAL ENGINE
+// ============================================================
+
+let consultationActive = false;
+let consultationHistory = [];
+let consultTimerInterval = null;
+let consultSeconds = 0;
+let consultSpecialty = 'General Medicine';
+
+function launchConsultation(initialMessage, specialty) {
+  if (consultationActive) return;
+  consultationActive = true;
+  consultSpecialty = specialty || currentSpecialty || 'General Medicine';
+  consultationHistory = [];
+  consultSeconds = 0;
+
+  // Set specialty label
+  var label = document.getElementById('consult-specialty-label');
+  if (label) label.textContent = consultSpecialty + ' · AI-Assisted Consultation';
+
+  // Clear previous messages
+  var msgs = document.getElementById('consult-messages');
+  if (msgs) msgs.innerHTML = '';
+
+  // Show modal
+  var modal = document.getElementById('consultation-modal');
+  if (modal) modal.classList.add('active');
+
+  // Start timer
+  consultTimerInterval = setInterval(function() {
+    consultSeconds++;
+    var mins = Math.floor(consultSeconds / 60).toString().padStart(2, '0');
+    var secs = (consultSeconds % 60).toString().padStart(2, '0');
+    var timer = document.getElementById('consult-timer');
+    if (timer) timer.textContent = mins + ':' + secs;
+  }, 1000);
+
+  // Show opening message then send user's symptom
+  appendConsultMessage('ai', 'Welcome. You are now in a live AI medical consultation session. Please describe what you are experiencing and I will guide you through an assessment.');
+
+  // Slight delay then send their initial message
+  setTimeout(function() {
+    if (initialMessage) {
+      appendConsultMessage('user', initialMessage);
+      consultationHistory.push({ role: 'user', content: initialMessage });
+      fetchConsultResponse();
+    }
+    // Focus input
+    var input = document.getElementById('consult-input');
+    if (input) input.focus();
+  }, 800);
+}
+
+function appendConsultMessage(role, text) {
+  var msgs = document.getElementById('consult-messages');
+  if (!msgs) return;
+
+  var wrapper = document.createElement('div');
+  wrapper.className = 'consult-msg ' + role;
+
+  var av = document.createElement('div');
+  av.className = 'consult-av';
+  av.textContent = role === 'ai' ? '⚕' : '👤';
+
+  var bubble = document.createElement('div');
+  bubble.className = 'consult-bubble';
+  bubble.innerHTML = formatMessage(text);
+
+  if (role === 'ai') {
+    wrapper.appendChild(av);
+    wrapper.appendChild(bubble);
+  } else {
+    wrapper.appendChild(bubble);
+    wrapper.appendChild(av);
+  }
+
+  msgs.appendChild(wrapper);
+  msgs.scrollTop = msgs.scrollHeight;
+  return bubble;
+}
+
+function appendConsultTyping() {
+  var msgs = document.getElementById('consult-messages');
+  if (!msgs) return null;
+  var wrapper = document.createElement('div');
+  wrapper.className = 'consult-msg ai';
+  wrapper.id = 'consult-typing';
+  var av = document.createElement('div');
+  av.className = 'consult-av';
+  av.textContent = '⚕';
+  var bubble = document.createElement('div');
+  bubble.className = 'consult-bubble';
+  bubble.innerHTML = '<span style="display:flex;gap:4px;align-items:center;"><span style="width:6px;height:6px;border-radius:50%;background:var(--gold-300);animation:dotPulse 1.2s ease-in-out infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gold-300);animation:dotPulse 1.2s ease-in-out 0.2s infinite;"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--gold-300);animation:dotPulse 1.2s ease-in-out 0.4s infinite;"></span></span>';
+  wrapper.appendChild(av);
+  wrapper.appendChild(bubble);
+  msgs.appendChild(wrapper);
+  msgs.scrollTop = msgs.scrollHeight;
+  return wrapper;
+}
+
+async function fetchConsultResponse() {
+  var typingEl = appendConsultTyping();
+
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/diagnose', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('krixia_token') || '') },
+      body: JSON.stringify({
+        messages: consultationHistory,
+        specialty: consultSpecialty,
+        stream: true
+      })
+    });
+
+    if (typingEl) typingEl.remove();
+
+    if (!res.ok) throw new Error('Connection error');
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullReply = '';
+    let bubble = null;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const parsed = JSON.parse(line.slice(6));
+          if (parsed.token) {
+            fullReply += parsed.token;
+            if (!bubble) {
+              var wrapper2 = document.createElement('div');
+              wrapper2.className = 'consult-msg ai';
+              var av2 = document.createElement('div');
+              av2.className = 'consult-av';
+              av2.textContent = '⚕';
+              bubble = document.createElement('div');
+              bubble.className = 'consult-bubble';
+              wrapper2.appendChild(av2);
+              wrapper2.appendChild(bubble);
+              var msgs2 = document.getElementById('consult-messages');
+              if (msgs2) { msgs2.appendChild(wrapper2); msgs2.scrollTop = msgs2.scrollHeight; }
+            }
+            bubble.innerHTML = formatMessage(fullReply) + '<span class="typewriter-cursor"></span>';
+            var msgs3 = document.getElementById('consult-messages');
+            if (msgs3) msgs3.scrollTop = msgs3.scrollHeight;
+          }
+        } catch(e) {}
+      }
+    }
+
+    if (bubble) bubble.innerHTML = formatMessage(fullReply);
+    consultationHistory.push({ role: 'assistant', content: fullReply });
+
+    // Add read aloud button
+    if (bubble) addReadAloudButton(bubble, fullReply);
+
+  } catch(err) {
+    if (typingEl) typingEl.remove();
+    appendConsultMessage('ai', '⚠️ Connection issue. Please check your internet and try again.');
+  }
+}
+
+function sendConsultMessage() {
+  var input = document.getElementById('consult-input');
+  if (!input) return;
+  var text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+
+  appendConsultMessage('user', text);
+  consultationHistory.push({ role: 'user', content: text });
+  fetchConsultResponse();
+}
+
+function endConsultation() {
+  consultationActive = false;
+  clearInterval(consultTimerInterval);
+  consultTimerInterval = null;
+
+  var modal = document.getElementById('consultation-modal');
+  if (modal) {
+    modal.style.opacity = '0';
+    modal.style.transform = 'translateY(30px)';
+    modal.style.transition = 'all 0.3s ease';
+    setTimeout(function() {
+      modal.classList.remove('active');
+      modal.style.opacity = '';
+      modal.style.transform = '';
+      modal.style.transition = '';
+    }, 300);
+  }
+
+  // Copy summary to main chat
+  if (consultationHistory.length > 0) {
+    var lastAI = [...consultationHistory].reverse().find(function(m) { return m.role === 'assistant'; });
+    if (lastAI) {
+      appendMessage('ai', '📋 **Consultation Summary**\n\n' + lastAI.content);
+    }
   }
 }
 
