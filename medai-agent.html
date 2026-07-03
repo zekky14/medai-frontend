@@ -7296,13 +7296,22 @@ function appendConsultTyping() {
   return wrapper;
 }
 
-async function fetchConsultResponse() {
+async function fetchConsultResponse(retryCount) {
+  retryCount = retryCount || 0;
   var typingEl = appendConsultTyping();
+
+  // Timeout controller — 45 seconds max per response
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 45000);
 
   try {
     const res = await fetch('https://api.tickit.com.ng/api/diagnose', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('krixia_token') || '') },
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (localStorage.getItem('krixia_token') || '')
+      },
       body: JSON.stringify({
         messages: consultationHistory,
         specialty: consultSpecialty,
@@ -7310,18 +7319,33 @@ async function fetchConsultResponse() {
       })
     });
 
+    clearTimeout(timeoutId);
     if (typingEl) typingEl.remove();
 
-    if (!res.ok) throw new Error('Connection error');
+    if (!res.ok) {
+      // Non-streaming fallback on HTTP error
+      throw new Error('HTTP ' + res.status);
+    }
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let fullReply = '';
     let bubble = null;
+    let streamTimedOut = false;
+
+    // Per-chunk timeout — if no data for 20s, abort
+    let chunkTimer;
+    function resetChunkTimer() {
+      clearTimeout(chunkTimer);
+      chunkTimer = setTimeout(function() { streamTimedOut = true; reader.cancel(); }, 20000);
+    }
+    resetChunkTimer();
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
+      resetChunkTimer();
+
       const chunk = decoder.decode(value);
       const lines = chunk.split('\n');
       for (const line of lines) {
@@ -7347,19 +7371,71 @@ async function fetchConsultResponse() {
             var msgs3 = document.getElementById('consult-messages');
             if (msgs3) msgs3.scrollTop = msgs3.scrollHeight;
           }
+          if (parsed.done) {
+            clearTimeout(chunkTimer);
+          }
         } catch(e) {}
       }
     }
 
-    if (bubble) bubble.innerHTML = formatMessage(fullReply);
-    consultationHistory.push({ role: 'assistant', content: fullReply });
+    clearTimeout(chunkTimer);
 
-    // Add read aloud button
-    if (bubble) addReadAloudButton(bubble, fullReply);
+    // If we got a partial response from stream timeout, keep what we have
+    if (fullReply && fullReply.length > 20) {
+      if (bubble) bubble.innerHTML = formatMessage(fullReply);
+      consultationHistory.push({ role: 'assistant', content: fullReply });
+      if (bubble) addReadAloudButton(bubble, fullReply);
+      if (streamTimedOut) {
+        appendConsultMessage('ai', '⚠️ The response was cut short due to connection speed. If you need more detail, please ask a follow-up question.');
+      }
+    } else if (retryCount < 1) {
+      // Retry once with non-streaming fallback
+      await fetchConsultFallback();
+    } else {
+      appendConsultMessage('ai', '⚠️ I could not complete my response. Please try sending your message again.');
+    }
 
   } catch(err) {
+    clearTimeout(timeoutId);
     if (typingEl) typingEl.remove();
-    appendConsultMessage('ai', '⚠️ Connection issue. Please check your internet and try again.');
+    console.log('Consult fetch error:', err.message);
+
+    if (retryCount < 1 && err.name !== 'AbortError') {
+      // Auto-retry once
+      appendConsultMessage('ai', '🔄 Reconnecting...');
+      setTimeout(function() {
+        var reconnectMsg = document.querySelector('#consult-messages .consult-msg:last-child');
+        if (reconnectMsg) reconnectMsg.remove();
+        fetchConsultResponse(1);
+      }, 1500);
+    } else {
+      appendConsultMessage('ai', '⚠️ Connection interrupted. Your conversation is saved — please type your last message again to continue.');
+    }
+  }
+}
+
+async function fetchConsultFallback() {
+  // Non-streaming fallback when stream fails
+  try {
+    const res = await fetch('https://api.tickit.com.ng/api/diagnose', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (localStorage.getItem('krixia_token') || '')
+      },
+      body: JSON.stringify({
+        messages: consultationHistory,
+        specialty: consultSpecialty,
+        stream: false
+      })
+    });
+    const data = await res.json();
+    if (data.reply) {
+      appendConsultMessage('ai', data.reply);
+      consultationHistory.push({ role: 'assistant', content: data.reply });
+    }
+  } catch(e) {
+    appendConsultMessage('ai', '⚠️ Unable to connect. Please check your internet connection and try again.');
   }
 }
 
