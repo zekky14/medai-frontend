@@ -1493,99 +1493,112 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <div style="width:100%;">
             <div class="welcome-hero">
               <!-- MEDICAL HERO SLIDER -->
-              <div id="krixia-hero-slider" style="width:100%;border-radius:18px;overflow:hidden;margin-bottom:1.25rem;position:relative;background:#030806;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+              <div id="krixia-hero-slider" style="width:100%;border-radius:18px;overflow:hidden;margin-bottom:0.5rem;position:relative;background:#030806;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
 
-                <!-- Slide Track - CSS transform handles all slides, no JS width calculations -->
-                <div id="hero-track" style="display:flex;transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;width:400%;">
+                <!-- Track: 5 slides (4 real + 1 clone of first for seamless loop) -->
+                <!-- Each slide is 100% of the container width via absolute positioning trick -->
+                <div id="hero-track" style="display:flex;width:500%;transition:transform 1.2s cubic-bezier(0.45,0,0.15,1);will-change:transform;">
 
-                  <!-- SLIDE 1 — Your headshot — face and eyes visible -->
-                  <div style="width:25%;flex-shrink:0;height:240px;position:relative;overflow:hidden;">
-                    <img src="/audio/elvis-doctor-headshot.jpg"
-                      alt="Krixia AI Medical Doctor"
-                      style="width:100%;height:100%;object-fit:cover;object-position:50% 8%;transform:scale(1.15);"
+                  <!-- SLIDE 1 — Your headshot -->
+                  <div style="width:20%;flex-shrink:0;height:240px;position:relative;overflow:hidden;">
+                    <img src="/audio/elvis-doctor-headshot.jpg" alt="Krixia AI Doctor"
+                      style="width:100%;height:100%;object-fit:cover;object-position:50% 12%;transform:scale(1.2);"
                       loading="eager">
-                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,6,0) 0%,rgba(3,8,6,0.15) 35%,rgba(3,8,6,0.75) 68%,rgba(3,8,6,0.97) 100%);"></div>
-                    <div style="position:absolute;top:12px;left:12px;background:rgba(3,8,6,0.55);border:1px solid rgba(201,168,76,0.4);border-radius:8px;padding:4px 10px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);">
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,6,0) 0%,rgba(3,8,6,0) 30%,rgba(3,8,6,0.7) 65%,rgba(3,8,6,0.97) 100%);"></div>
+                    <div style="position:absolute;top:12px;left:12px;background:rgba(3,8,6,0.6);border:1px solid rgba(201,168,76,0.5);border-radius:8px;padding:4px 10px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);">
                       <span style="font-size:11px;font-weight:900;letter-spacing:3px;color:#C9A84C;font-family:Inter,sans-serif;">KRIXIA</span>
                     </div>
-                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 16px;">
-                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,158,100,0.2);border:1px solid rgba(29,158,100,0.45);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
+                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 18px;">
+                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,158,100,0.18);border:1px solid rgba(29,158,100,0.5);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
                         <div style="width:5px;height:5px;border-radius:50%;background:#1D9E64;animation:livePulse 1.5s ease-in-out infinite;flex-shrink:0;"></div>
                         <span style="font-size:9px;font-weight:700;color:#1D9E64;letter-spacing:1.5px;font-family:Inter,sans-serif;">AI CONSULTATION</span>
                       </div>
-                      <div style="font-size:19px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 12px rgba(0,0,0,0.6);">Your Personal <span style="color:#C9A84C;">AI Doctor</span></div>
-                      <div style="font-size:11px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif;line-height:1.5;">20+ specialties &nbsp;·&nbsp; 24/7 &nbsp;·&nbsp; 5 languages</div>
+                      <div style="font-size:18px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.25;margin-bottom:4px;text-shadow:0 2px 16px rgba(0,0,0,0.8);">Your Personal <span style="color:#C9A84C;">AI Doctor</span></div>
+                      <div style="font-size:11px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.5;">20+ specialties &nbsp;&middot;&nbsp; 24/7 &nbsp;&middot;&nbsp; 5 Nigerian languages</div>
                     </div>
                   </div>
 
-                  <!-- SLIDE 2 — Stethoscope -->
-                  <div style="width:25%;flex-shrink:0;height:240px;position:relative;overflow:hidden;background:#030806;">
+                  <!-- SLIDE 2 — Stethoscope / Hospital -->
+                  <div style="width:20%;flex-shrink:0;height:240px;position:relative;overflow:hidden;background:#030806;">
                     <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80&fit=crop&crop=center"
-                      alt="Medical stethoscope"
-                      style="width:100%;height:100%;object-fit:cover;object-position:center center;"
-                      loading="lazy"
+                      alt="Medical stethoscope" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
                       onerror="this.style.display='none'">
-                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,8,18,0) 0%,rgba(6,8,18,0.2) 35%,rgba(6,8,18,0.8) 70%,rgba(6,8,18,0.98) 100%);"></div>
-                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 16px;">
-                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.45);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,8,18,0) 0%,rgba(6,8,18,0) 30%,rgba(6,8,18,0.75) 65%,rgba(6,8,18,0.98) 100%);"></div>
+                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 18px;">
+                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(99,102,241,0.18);border:1px solid rgba(99,102,241,0.5);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
                         <span style="font-size:9px;">🏥</span>
                         <span style="font-size:9px;font-weight:700;color:#818CF8;letter-spacing:1.5px;font-family:Inter,sans-serif;">HOSPITALS</span>
                       </div>
-                      <div style="font-size:19px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 12px rgba(0,0,0,0.6);">128+ Verified <span style="color:#818CF8;">Hospitals</span></div>
-                      <div style="display:flex;gap:14px;align-items:center;">
-                        <div><div style="font-size:15px;font-weight:900;color:#818CF8;font-family:Inter,sans-serif;line-height:1;">128+</div><div style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">Hospitals</div></div>
-                        <div style="width:1px;height:28px;background:rgba(255,255,255,0.1);"></div>
-                        <div><div style="font-size:15px;font-weight:900;color:#1D9E64;font-family:Inter,sans-serif;line-height:1;">36+</div><div style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">States</div></div>
-                        <div style="width:1px;height:28px;background:rgba(255,255,255,0.1);"></div>
-                        <div><div style="font-size:15px;font-weight:900;color:#C9A84C;font-family:Inter,sans-serif;line-height:1;">GPS</div><div style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">Powered</div></div>
+                      <div style="font-size:18px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.25;margin-bottom:4px;text-shadow:0 2px 16px rgba(0,0,0,0.8);">128+ Verified <span style="color:#818CF8;">Hospitals</span></div>
+                      <div style="display:flex;gap:14px;">
+                        <div><div style="font-size:14px;font-weight:900;color:#818CF8;font-family:Inter,sans-serif;">128+</div><div style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">Hospitals</div></div>
+                        <div style="width:1px;background:rgba(255,255,255,0.1);"></div>
+                        <div><div style="font-size:14px;font-weight:900;color:#1D9E64;font-family:Inter,sans-serif;">36+</div><div style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">States</div></div>
+                        <div style="width:1px;background:rgba(255,255,255,0.1);"></div>
+                        <div><div style="font-size:14px;font-weight:900;color:#C9A84C;font-family:Inter,sans-serif;">GPS</div><div style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">Powered</div></div>
                       </div>
                     </div>
                   </div>
 
                   <!-- SLIDE 3 — Pharmacy -->
-                  <div style="width:25%;flex-shrink:0;height:240px;position:relative;overflow:hidden;background:#030806;">
+                  <div style="width:20%;flex-shrink:0;height:240px;position:relative;overflow:hidden;background:#030806;">
                     <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=80&fit=crop&crop=center"
-                      alt="Pharmacy medication"
-                      style="width:100%;height:100%;object-fit:cover;object-position:center center;"
-                      loading="lazy"
+                      alt="Pharmacy" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
                       onerror="this.style.display='none'">
-                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,6,0) 0%,rgba(6,10,6,0.2) 35%,rgba(6,10,6,0.8) 70%,rgba(6,10,6,0.98) 100%);"></div>
-                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 16px;">
-                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.45);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,6,0) 0%,rgba(6,10,6,0) 30%,rgba(6,10,6,0.75) 65%,rgba(6,10,6,0.98) 100%);"></div>
+                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 18px;">
+                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,0.18);border:1px solid rgba(201,168,76,0.5);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
                         <span style="font-size:9px;">✅</span>
                         <span style="font-size:9px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;font-family:Inter,sans-serif;">PCN VERIFIED</span>
                       </div>
-                      <div style="font-size:19px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 12px rgba(0,0,0,0.6);">80+ Licensed <span style="color:#C9A84C;">Pharmacies</span></div>
-                      <div style="font-size:11px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif;line-height:1.5;">Verified against PCN register &nbsp;·&nbsp; All 36 states</div>
+                      <div style="font-size:18px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.25;margin-bottom:4px;text-shadow:0 2px 16px rgba(0,0,0,0.8);">80+ Licensed <span style="color:#C9A84C;">Pharmacies</span></div>
+                      <div style="font-size:11px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.5;">Verified against PCN register &nbsp;&middot;&nbsp; All 36 states</div>
                     </div>
                   </div>
 
                   <!-- SLIDE 4 — Security -->
-                  <div style="width:25%;flex-shrink:0;height:240px;position:relative;overflow:hidden;background:#030806;">
+                  <div style="width:20%;flex-shrink:0;height:240px;position:relative;overflow:hidden;background:#030806;">
                     <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&q=80&fit=crop&crop=center"
-                      alt="Data security"
-                      style="width:100%;height:100%;object-fit:cover;object-position:center center;"
-                      loading="lazy"
+                      alt="Data security" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
                       onerror="this.style.display='none'">
-                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,4,16,0) 0%,rgba(6,4,16,0.2) 35%,rgba(6,4,16,0.8) 70%,rgba(6,4,16,0.98) 100%);"></div>
-                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 16px;">
-                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.45);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,4,16,0) 0%,rgba(6,4,16,0) 30%,rgba(6,4,16,0.75) 65%,rgba(6,4,16,0.98) 100%);"></div>
+                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 18px;">
+                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(168,85,247,0.18);border:1px solid rgba(168,85,247,0.5);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
                         <span style="font-size:9px;">🔐</span>
                         <span style="font-size:9px;font-weight:700;color:#A855F7;letter-spacing:1.5px;font-family:Inter,sans-serif;">E2E ENCRYPTED</span>
                       </div>
-                      <div style="font-size:19px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 12px rgba(0,0,0,0.6);">Your Data <span style="color:#A855F7;">Is Sacred</span></div>
-                      <div style="font-size:11px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif;line-height:1.5;">AES-256-GCM &nbsp;·&nbsp; NDPR Compliant &nbsp;·&nbsp; Never sold</div>
+                      <div style="font-size:18px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.25;margin-bottom:4px;text-shadow:0 2px 16px rgba(0,0,0,0.8);">Your Data <span style="color:#A855F7;">Is Sacred</span></div>
+                      <div style="font-size:11px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.5;">AES-256-GCM &nbsp;&middot;&nbsp; NDPR Compliant &nbsp;&middot;&nbsp; Never sold</div>
+                    </div>
+                  </div>
+
+                  <!-- CLONE of SLIDE 1 — for seamless infinite loop -->
+                  <div style="width:20%;flex-shrink:0;height:240px;position:relative;overflow:hidden;">
+                    <img src="/audio/elvis-doctor-headshot.jpg" alt="Krixia AI Doctor"
+                      style="width:100%;height:100%;object-fit:cover;object-position:50% 12%;transform:scale(1.2);"
+                      loading="lazy">
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,6,0) 0%,rgba(3,8,6,0) 30%,rgba(3,8,6,0.7) 65%,rgba(3,8,6,0.97) 100%);"></div>
+                    <div style="position:absolute;top:12px;left:12px;background:rgba(3,8,6,0.6);border:1px solid rgba(201,168,76,0.5);border-radius:8px;padding:4px 10px;">
+                      <span style="font-size:11px;font-weight:900;letter-spacing:3px;color:#C9A84C;font-family:Inter,sans-serif;">KRIXIA</span>
+                    </div>
+                    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 16px 18px;">
+                      <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(29,158,100,0.18);border:1px solid rgba(29,158,100,0.5);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
+                        <div style="width:5px;height:5px;border-radius:50%;background:#1D9E64;animation:livePulse 1.5s ease-in-out infinite;flex-shrink:0;"></div>
+                        <span style="font-size:9px;font-weight:700;color:#1D9E64;letter-spacing:1.5px;font-family:Inter,sans-serif;">AI CONSULTATION</span>
+                      </div>
+                      <div style="font-size:18px;font-weight:900;color:#FFFFFF;font-family:Inter,sans-serif;line-height:1.25;margin-bottom:4px;text-shadow:0 2px 16px rgba(0,0,0,0.8);">Your Personal <span style="color:#C9A84C;">AI Doctor</span></div>
+                      <div style="font-size:11px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.5;">20+ specialties &nbsp;&middot;&nbsp; 24/7 &nbsp;&middot;&nbsp; 5 Nigerian languages</div>
                     </div>
                   </div>
 
                 </div><!-- end track -->
 
-                <!-- Dots — bottom right, minimal -->
-                <div style="position:absolute;bottom:12px;right:14px;display:flex;gap:5px;z-index:10;" id="hero-dots">
-                  <div class="hero-dot active" onclick="goToSlide(0);stopHeroAutoplay();setTimeout(startHeroAutoplay,6000);"></div>
-                  <div class="hero-dot" onclick="goToSlide(1);stopHeroAutoplay();setTimeout(startHeroAutoplay,6000);"></div>
-                  <div class="hero-dot" onclick="goToSlide(2);stopHeroAutoplay();setTimeout(startHeroAutoplay,6000);"></div>
-                  <div class="hero-dot" onclick="goToSlide(3);stopHeroAutoplay();setTimeout(startHeroAutoplay,6000);"></div>
+                <!-- Dots — centered, tiny -->
+                <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:10;" id="hero-dots">
+                  <div class="hero-dot active"></div>
+                  <div class="hero-dot"></div>
+                  <div class="hero-dot"></div>
+                  <div class="hero-dot"></div>
                 </div>
 
               </div><!-- end slider -->
@@ -6940,42 +6953,87 @@ window.addEventListener('resize', function() {
 
 
 
-// ── HERO SLIDER ───────────────────────────────────────────────
+// ── HERO SLIDER — Infinite Seamless Loop ──────────────────────
+// Architecture: 5 slides (4 real + 1 clone of slide 0 at position 4)
+// Track width = 500% (5 slides × 20% each)
+// When we land on position 4 (clone), we silently reset to position 0
 let heroCurrentSlide = 0;
-const heroTotalSlides = 4;
+const heroRealSlides = 4;
 let heroAutoplayInterval = null;
 let heroTouchStartX = 0;
+let heroIsTransitioning = false;
 
-function goToSlide(index) {
-  heroCurrentSlide = (index + heroTotalSlides) % heroTotalSlides;
+function heroTranslateTo(index, animate) {
   var track = document.getElementById('hero-track');
+  if (!track) return;
+  if (animate === false) {
+    track.style.transition = 'none';
+  } else {
+    track.style.transition = 'transform 1.2s cubic-bezier(0.45,0,0.15,1)';
+  }
+  // Track is 500% wide, each slide is 20%
+  // Slide N starts at N * 20% of track = N * (100/5)% = N * 20%
+  track.style.transform = 'translateX(-' + (index * 20) + '%)';
+}
+
+function updateDots(index) {
   var dots = document.querySelectorAll('.hero-dot');
-  // Each slide is 25% of the track width (track is 400% wide)
-  // So slide N starts at N*25% of track = N*100% of viewport
-  if (track) track.style.transform = 'translateX(-' + (heroCurrentSlide * 25) + '%)';
+  var realIndex = index % heroRealSlides;
   dots.forEach(function(d, i) {
-    d.classList.toggle('active', i === heroCurrentSlide);
+    d.classList.toggle('active', i === realIndex);
   });
 }
 
-function nextSlide() { goToSlide(heroCurrentSlide + 1); stopHeroAutoplay(); setTimeout(startHeroAutoplay, 5000); }
-function prevSlide() { goToSlide(heroCurrentSlide - 1); stopHeroAutoplay(); setTimeout(startHeroAutoplay, 5000); }
+function heroNext() {
+  if (heroIsTransitioning) return;
+  heroIsTransitioning = true;
+  heroCurrentSlide++;
+  heroTranslateTo(heroCurrentSlide, true);
+  updateDots(heroCurrentSlide);
+
+  // After transition ends, if on clone (index 4), silently jump to real slide 0
+  setTimeout(function() {
+    if (heroCurrentSlide >= heroRealSlides) {
+      heroCurrentSlide = 0;
+      heroTranslateTo(0, false);
+      // Re-enable transition after silent reset
+      setTimeout(function() {
+        var track = document.getElementById('hero-track');
+        if (track) track.style.transition = 'transform 1.2s cubic-bezier(0.45,0,0.15,1)';
+        heroIsTransitioning = false;
+      }, 50);
+    } else {
+      heroIsTransitioning = false;
+    }
+  }, 1250); // slightly longer than transition duration
+}
+
+function goToSlide(index) {
+  if (heroIsTransitioning) return;
+  heroCurrentSlide = index;
+  heroTranslateTo(heroCurrentSlide, true);
+  updateDots(heroCurrentSlide);
+  stopHeroAutoplay();
+  setTimeout(startHeroAutoplay, 7000);
+}
 
 function startHeroAutoplay() {
-  heroAutoplayInterval = setInterval(function() {
-    nextSlide();
-  }, 6000);
+  clearInterval(heroAutoplayInterval);
+  heroAutoplayInterval = setInterval(heroNext, 6500);
 }
 
 function stopHeroAutoplay() {
   clearInterval(heroAutoplayInterval);
 }
 
-// Touch/swipe support
 document.addEventListener('DOMContentLoaded', function() {
   var slider = document.getElementById('krixia-hero-slider');
-  if (!slider) return;
+  if (!slider) { return; }
 
+  // Initialize position
+  heroTranslateTo(0, false);
+
+  // Touch swipe
   slider.addEventListener('touchstart', function(e) {
     heroTouchStartX = e.touches[0].clientX;
     stopHeroAutoplay();
@@ -6984,12 +7042,11 @@ document.addEventListener('DOMContentLoaded', function() {
   slider.addEventListener('touchend', function(e) {
     var diff = heroTouchStartX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) {
-      if (diff > 0) nextSlide(); else prevSlide();
+      heroNext();
     }
-    startHeroAutoplay();
+    setTimeout(startHeroAutoplay, 7000);
   }, { passive: true });
 
-  // Pause on hover (desktop)
   slider.addEventListener('mouseenter', stopHeroAutoplay);
   slider.addEventListener('mouseleave', startHeroAutoplay);
 
