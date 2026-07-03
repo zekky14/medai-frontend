@@ -1234,26 +1234,22 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 
 
 <!-- WELCOME / ONBOARDING SCREEN -->
-<div id="welcome-screen" style="display:none;position:fixed;inset:0;z-index:9998;background:#030806;flex-direction:column;align-items:center;justify-content:space-between;padding:max(20px,env(safe-area-inset-top)) 1.5rem max(30px,env(safe-area-inset-bottom));overflow:hidden;">
+<div id="welcome-screen" style="display:none;position:fixed;inset:0;z-index:9998;background:#030806;flex-direction:column;align-items:center;justify-content:space-between;overflow:hidden;">
 
-  <!-- Faded medical background icons -->
+  <!-- Background — subtle faded headshot -->
   <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
-    <div style="position:absolute;font-size:80px;opacity:0.04;top:5%;left:-5%;">🩺</div>
-    <div style="position:absolute;font-size:60px;opacity:0.04;top:15%;right:5%;">💊</div>
-    <div style="position:absolute;font-size:70px;opacity:0.04;top:35%;left:5%;">🏥</div>
-    <div style="position:absolute;font-size:50px;opacity:0.04;top:50%;right:-2%;">❤️</div>
-    <div style="position:absolute;font-size:65px;opacity:0.04;bottom:25%;left:10%;">🧬</div>
-    <div style="position:absolute;font-size:55px;opacity:0.04;bottom:15%;right:8%;">🔬</div>
-    <div style="position:absolute;font-size:45px;opacity:0.03;top:70%;left:40%;">💉</div>
-    <div style="position:absolute;font-size:40px;opacity:0.03;top:8%;left:35%;">🩻</div>
+    <img src="/audio/elvis-doctor-headshot.jpg"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 15%;opacity:0.06;transform:scale(1.1);"
+      alt="">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,6,0.4) 0%,rgba(3,8,6,0.7) 50%,rgba(3,8,6,0.98) 80%);"></div>
   </div>
 
-  <!-- Top branding -->
-  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;z-index:1;">
+  <!-- Top — logo and branding -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;z-index:1;padding:0 2rem;padding-top:max(40px,env(safe-area-inset-top));">
 
-    <!-- Krixia SVG Logo -->
-    <div style="margin-bottom:20px;filter:drop-shadow(0 0 20px rgba(201,168,76,0.4));">
-      <svg viewBox="0 0 88 88" width="90" height="90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Logo mark -->
+    <div style="margin-bottom:18px;">
+      <svg viewBox="0 0 88 88" width="68" height="68" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="wsg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#F0D888"/>
@@ -1272,45 +1268,50 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       </svg>
     </div>
 
-    <!-- Krixia wordmark -->
-    <div style="font-family:Inter,sans-serif;font-size:34px;font-weight:900;letter-spacing:7px;background:linear-gradient(135deg,#F5E0A0,#C9A84C,#A8832A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;">KRIXIA</div>
-    <div style="font-family:Inter,sans-serif;font-size:11px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:28px;">Medical Intelligence</div>
+    <!-- Wordmark -->
+    <div style="font-family:Inter,sans-serif;font-size:30px;font-weight:900;letter-spacing:8px;background:linear-gradient(135deg,#F5E0A0,#C9A84C,#A8832A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;">KRIXIA</div>
+    <div style="font-family:Inter,sans-serif;font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:32px;">Medical Intelligence</div>
 
-    <!-- Tagline -->
-    <div style="font-family:Inter,sans-serif;font-size:19px;font-weight:700;color:#F2EFE8;line-height:1.4;margin-bottom:10px;max-width:280px;">Your AI Doctor,<br>Available 24/7</div>
-    <div style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,0.45);line-height:1.8;max-width:270px;">Describe symptoms, find hospitals,<br>track your health. Built for Nigeria.</div>
+    <!-- Single clean headline -->
+    <div style="font-family:Inter,sans-serif;font-size:22px;font-weight:800;color:#FAFAF7;line-height:1.3;margin-bottom:10px;max-width:260px;">Your AI Doctor,<br>Available 24/7</div>
+    <div style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;max-width:240px;">Built for Nigeria. 20+ specialties.<br>Free to start.</div>
 
-    <!-- Feature pills -->
-    <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:22px;max-width:320px;">
-      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 11px;font-size:11px;color:#C9A84C;font-family:Inter,sans-serif;white-space:nowrap;">🔐 E2E Encrypted</div>
-      <div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:20px;padding:5px 11px;font-size:11px;color:#4DC48A;font-family:Inter,sans-serif;white-space:nowrap;">🏥 128+ Hospitals</div>
-      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 11px;font-size:11px;color:#C9A84C;font-family:Inter,sans-serif;white-space:nowrap;">🧠 AI Powered</div>
-      <div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:20px;padding:5px 11px;font-size:11px;color:#4DC48A;font-family:Inter,sans-serif;white-space:nowrap;">🇳🇬 Built for Nigeria</div>
-    </div>
   </div>
 
-  <!-- Auth buttons -->
-  <div style="width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;">
+  <!-- Bottom — clean minimal auth buttons -->
+  <div style="width:100%;max-width:340px;padding:0 1.5rem max(32px,env(safe-area-inset-bottom));position:relative;z-index:1;">
+
+    <!-- Primary CTA -->
     <button onclick="dismissWelcome();setTimeout(function(){openPanel('signup-panel');},100);"
-      style="width:100%;padding:16px;background:linear-gradient(135deg,#A8832A,#E8C97A);color:#06100C;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.3px;box-shadow:0 4px 20px rgba(201,168,76,0.3);">
-      ✨ Create Free Account
+      style="width:100%;padding:15px;background:linear-gradient(135deg,#A8832A,#E8C97A,#C9A84C);color:#06100C;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.3px;margin-bottom:10px;box-shadow:0 4px 24px rgba(201,168,76,0.25);">
+      Get Started — It's Free
     </button>
+
+    <!-- Google -->
     <button onclick="dismissWelcome();signInWithGoogle();"
-      style="width:100%;padding:14px;background:white;border:1px solid rgba(255,255,255,0.2);border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:#3c4043;display:flex;align-items:center;justify-content:center;gap:10px;">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.01c-.72.48-1.63.77-2.7.77-2.08 0-3.84-1.4-4.47-3.29H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.51 10.53A4.8 4.8 0 0 1 4.26 9c0-.53.09-1.04.25-1.53V5.4H1.83A8 8 0 0 0 .98 9c0 1.29.31 2.51.85 3.6l2.68-2.07z"/><path fill="#EA4335" d="M8.98 3.58c1.18 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 8.98 1a8 8 0 0 0-7.15 4.4l2.68 2.07c.63-1.89 2.39-3.29 4.47-3.29z"/></svg>
+      style="width:100%;padding:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:10px;">
+      <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.01c-.72.48-1.63.77-2.7.77-2.08 0-3.84-1.4-4.47-3.29H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.51 10.53A4.8 4.8 0 0 1 4.26 9c0-.53.09-1.04.25-1.53V5.4H1.83A8 8 0 0 0 .98 9c0 1.29.31 2.51.85 3.6l2.68-2.07z"/><path fill="#EA4335" d="M8.98 3.58c1.18 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 8.98 1a8 8 0 0 0-7.15 4.4l2.68 2.07c.63-1.89 2.39-3.29 4.47-3.29z"/></svg>
       Continue with Google
     </button>
-    <button onclick="dismissWelcome();setTimeout(function(){openPanel('login-panel');},100);"
-      style="width:100%;padding:14px;background:rgba(255,255,255,0.05);color:#F2EFE8;border:1px solid rgba(255,255,255,0.15);border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">
-      Sign In with Email
-    </button>
-    <button onclick="exploreWithoutAccount();"
-      style="width:100%;padding:11px;background:none;color:rgba(255,255,255,0.3);border:none;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;">
-      Explore without account →
-    </button>
-    <div style="text-align:center;font-size:10px;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;">
-      🔒 Your health data is end-to-end encrypted
+
+    <!-- Sign in + explore in one line -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:16px;">
+      <button onclick="dismissWelcome();setTimeout(function(){openPanel('login-panel');},100);"
+        style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;padding:8px 12px;">
+        Sign In
+      </button>
+      <span style="color:rgba(255,255,255,0.15);font-size:12px;">·</span>
+      <button onclick="exploreWithoutAccount();"
+        style="background:none;border:none;color:rgba(255,255,255,0.3);font-size:13px;cursor:pointer;font-family:Inter,sans-serif;padding:8px 12px;">
+        Explore first
+      </button>
     </div>
+
+    <!-- Tiny trust line -->
+    <div style="text-align:center;font-size:10px;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;letter-spacing:0.5px;">
+      🔐 &nbsp; End-to-end encrypted &nbsp;·&nbsp; Never sold
+    </div>
+
   </div>
 
 </div>
