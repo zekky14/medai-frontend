@@ -172,13 +172,12 @@ html[data-theme="light"], html[data-theme="light"] body {
   align-items: center;
   justify-content: center;
   gap: 0;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 #krixia-splash.hide {
   opacity: 0;
-  transform: scale(1.03);
+  transform: scale(1.04);
   pointer-events: none;
-  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .splash-logo-wrap {
   position: relative;
@@ -1833,8 +1832,8 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='var(--border)'">
       </div>
       <div id="su-error" style="display:none;background:rgba(232,93,74,0.08);border:1px solid rgba(232,93,74,0.2);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--red-400);margin-bottom:14px;line-height:1.5;"></div>
-      <button onclick="krixiaSignup()"
-        style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold-600),var(--gold-400),var(--gold-300));color:var(--obsidian);border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.3px;">
+      <button onclick="krixiaSignup()" class="btn-primary"
+        style="width:100%;padding:14px;font-size:14px;font-weight:800;border-radius:12px;letter-spacing:0.3px;">
         Create Account
       </button>
       <p style="text-align:center;font-size:11px;color:var(--text-3);margin:12px 0 0;font-family:Inter,sans-serif;line-height:1.6;">
@@ -1888,8 +1887,8 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <button onclick="forgotPassword()" style="background:none;border:none;color:var(--text-3);font-size:12px;cursor:pointer;font-family:Inter,sans-serif;padding:0;">Forgot password?</button>
       </div>
       <div id="li-error" style="display:none;background:rgba(232,93,74,0.08);border:1px solid rgba(232,93,74,0.2);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--red-400);margin-bottom:14px;line-height:1.5;"></div>
-      <button onclick="krixiaLogin()"
-        style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold-600),var(--gold-400),var(--gold-300));color:var(--obsidian);border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.3px;">
+      <button onclick="krixiaLogin()" class="btn-primary"
+        style="width:100%;padding:14px;font-size:14px;font-weight:800;border-radius:12px;letter-spacing:0.3px;">
         Sign In
       </button>
     </div>
@@ -6353,8 +6352,7 @@ async function krixiaLogin() {
   }
 
   const btn = document.querySelector('#login-panel .btn-primary');
-  btn.textContent = 'Signing in...';
-  btn.disabled = true;
+  if (btn) { btn.textContent = 'Signing in...'; btn.disabled = true; }
 
   try {
     await doLogin(email, password);
@@ -6364,8 +6362,7 @@ async function krixiaLogin() {
     errEl.textContent = err.message;
     errEl.style.display = 'block';
   } finally {
-    btn.textContent = 'Sign In';
-    btn.disabled = false;
+    if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
   }
 }
 
