@@ -709,16 +709,73 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 @media (max-width: 768px) { .btn-primary, .btn-secondary { padding: 13px; font-size: 15px; } }
 
 /* Medical ID Card */
-.med-card { background: linear-gradient(135deg, #07150F 0%, #0A2A18 45%, #122018 100%); border: 1px solid rgba(201,168,76,0.3); border-radius: var(--r-lg); padding: 1.35rem; color: white; margin: 1rem 0; position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-.med-card::before { content: 'KRIXIA'; position: absolute; right: -20px; bottom: -25px; font-family: 'Inter', sans-serif; font-size: 70px; font-weight: 800; letter-spacing: 4px; opacity: 0.04; pointer-events: none; color: var(--gold-300); }
-.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-.card-logo { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 2px; background: linear-gradient(90deg, var(--gold-300), var(--gold-400)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.card-chip { width: 34px; height: 26px; background: linear-gradient(135deg, var(--gold-400), var(--gold-300)); border-radius: 5px; }
-.card-name { font-size: 20px; font-weight: 700; }
-.card-id { font-size: 10px; opacity: 0.45; margin-top: 3px; letter-spacing: 2px; font-family: 'JetBrains Mono', monospace; }
-.card-details { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(201,168,76,0.12); }
-.cd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.45; font-weight: 700; }
-.cd-val { font-size: 13px; font-weight: 700; margin-top: 3px; }
+/* ── PREMIUM HEALTH CARD ── */
+.med-card {
+  background: linear-gradient(135deg, #061210 0%, #0A2018 35%, #0E2A1A 65%, #071510 100%);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 16px;
+  padding: 0;
+  color: white;
+  margin: 1rem 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+  aspect-ratio: 1.586 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+/* Holographic shimmer overlay */
+.med-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, transparent 30%, rgba(201,168,76,0.04) 45%, rgba(29,158,100,0.03) 55%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+/* Security microprint watermark */
+.med-card::after {
+  content: 'KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · KRIXIA MEDICAL INTELLIGENCE';
+  position: absolute;
+  bottom: 38px;
+  left: 0;
+  right: 0;
+  font-size: 5px;
+  letter-spacing: 1px;
+  color: rgba(201,168,76,0.08);
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+}
+.card-inner { position: relative; z-index: 2; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; height: 100%; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.card-logo-area { display: flex; flex-direction: column; gap: 2px; }
+.card-logo { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 900; letter-spacing: 3px; background: linear-gradient(90deg, #F5E0A0, #C9A84C, #A8832A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.card-logo-sub { font-size: 7px; letter-spacing: 2px; color: rgba(255,255,255,0.25); font-family: 'Inter', sans-serif; text-transform: uppercase; }
+.card-chip-area { display: flex; align-items: center; gap: 8px; }
+.card-chip { width: 32px; height: 24px; background: linear-gradient(135deg, #D4AF37, #C9A84C, #B8943A); border-radius: 4px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+.card-chip::after { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,0.15); border-radius: 2px; }
+.card-verified { font-size: 7px; font-weight: 800; letter-spacing: 1px; color: #1D9E64; background: rgba(29,158,100,0.12); border: 1px solid rgba(29,158,100,0.3); border-radius: 4px; padding: 2px 5px; font-family: 'Inter', sans-serif; }
+.card-mid { display: flex; align-items: flex-end; gap: 12px; flex: 1; padding: 8px 0; }
+.card-photo { width: 52px; height: 52px; border-radius: 10px; border: 2px solid rgba(201,168,76,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.card-photo img { width: 100%; height: 100%; object-fit: cover; }
+.card-name-area { flex: 1; }
+.card-name { font-size: 18px; font-weight: 800; color: #FAFAF7; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; line-height: 1.1; margin-bottom: 4px; }
+.card-id { font-size: 9px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; font-family: 'JetBrains Mono', monospace; }
+.card-bottom { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 10px; border-top: 1px solid rgba(201,168,76,0.1); }
+.card-details { display: flex; gap: 14px; flex-wrap: wrap; }
+.card-details-right { text-align: right; }
+.cd-item { display: flex; flex-direction: column; gap: 1px; }
+.cd-label { font-size: 7px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700; font-family: 'Inter', sans-serif; }
+.cd-val { font-size: 12px; font-weight: 800; color: #FAFAF7; font-family: 'Inter', sans-serif; }
+.cd-val.blood { color: #E84A4A; }
+.cd-val.genotype { color: #C9A84C; }
+.card-flag { font-size: 8px; color: rgba(255,255,255,0.2); font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
+.card-flag span { color: var(--gold-300); }
 
 /* Paywall (in-chat) */
 .paywall-gate { background: var(--surface-2); border: 1px solid var(--border-2); border-radius: var(--r-lg); padding: 1.6rem; text-align: center; margin: 1rem 1.5rem; box-shadow: var(--card-shadow); animation: msgIn 0.3s ease; }
@@ -3056,19 +3113,61 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 
 <!-- HEALTH ID CARD PANEL -->
 <div class="panel-overlay" id="card-panel">
-  <div class="panel">
+  <div class="panel" style="max-width:480px;">
     <div class="panel-header">
       <button class="panel-close-mobile" onclick="closePanel('card-panel')">← Back</button>
-      <h2 class="panel-close-desktop">Your Krixia Health ID 🎉</h2>
+      <h2 class="panel-close-desktop">🪪 Krixia Health ID</h2>
       <button class="panel-close panel-close-desktop" onclick="closePanel('card-panel')">✕</button>
     </div>
-    <p class="panel-sub">Your digital health identity is active. Share with any doctor or clinic.</p>
-    <div class="panel-body">
+    <p class="panel-sub">Your secure digital health credential — accepted at all Krixia-partnered facilities.</p>
+    <div class="panel-body" style="padding:0 1.25rem;">
+
+      <!-- THE CARD -->
       <div class="med-card" id="generated-card"></div>
+
+      <!-- Photo upload option -->
+      <div style="display:flex;align-items:center;gap:10px;margin:-6px 0 14px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(201,168,76,0.08);border:1px dashed rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;cursor:pointer;" onclick="document.getElementById('card-photo-upload').click()">📷</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Add your photo to the card</div>
+          <div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Makes your credential more secure and identifiable</div>
+        </div>
+        <button onclick="document.getElementById('card-photo-upload').click()" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:var(--gold-300);cursor:pointer;font-family:Inter,sans-serif;">Upload</button>
+        <input type="file" id="card-photo-upload" accept="image/*" style="display:none;" onchange="handleCardPhotoUpload(event)">
+      </div>
+
+      <!-- Security badge row -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:6px;padding:4px 8px;"><span style="font-size:10px;">🔐</span><span style="font-size:9px;font-weight:700;color:#1D9E64;font-family:Inter,sans-serif;letter-spacing:0.5px;">E2E Encrypted</span></div>
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:4px 8px;"><span style="font-size:10px;">✓</span><span style="font-size:9px;font-weight:700;color:var(--gold-300);font-family:Inter,sans-serif;letter-spacing:0.5px;">Tamper-evident</span></div>
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:4px 8px;"><span style="font-size:10px;">🇳🇬</span><span style="font-size:9px;font-weight:700;color:var(--gold-300);font-family:Inter,sans-serif;letter-spacing:0.5px;">NDPR Compliant</span></div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;font-family:Inter,sans-serif;">Card Actions</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+        <button onclick="downloadHealthCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:18px;">📥</span>
+          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Download</div><div style="font-size:10px;color:var(--text-3);">Save as image</div></div>
+        </button>
+        <button onclick="printHealthCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:18px;">🖨️</span>
+          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Print</div><div style="font-size:10px;color:var(--text-3);">Physical copy</div></div>
+        </button>
+        <button onclick="emailHealthCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:18px;">📧</span>
+          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Email to me</div><div style="font-size:10px;color:var(--text-3);">Send to my email</div></div>
+        </button>
+        <button onclick="shareCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:18px;">📋</span>
+          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Copy ID</div><div style="font-size:10px;color:var(--text-3);">Share with doctor</div></div>
+        </button>
+      </div>
+
     </div>
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('card-panel')" style="flex:1;">Close</button>
-      <button class="btn-primary" onclick="shareCard()" style="flex:2;">📋 Copy Card ID</button>
+      <button class="btn-primary" onclick="openPanel('register-panel')" style="flex:2;">✏️ Edit Details</button>
     </div>
   </div>
 </div>
@@ -3739,23 +3838,45 @@ function generateMedCard() {
 
   userProfile = { name, initials, dob, sex, blood, phone, allergies, conditions, cardId };
 
-  document.getElementById('generated-card').innerHTML = `
-    <div class="card-header">
-      <div class="card-logo">⚕ Krixia Health Card</div>
-      <div class="card-chip"></div>
-    </div>
-    <div class="card-name">${name}</div>
-    <div class="card-id">${cardId}</div>
-    <div class="card-details">
-      <div><div class="cd-label">Blood</div><div class="cd-val">${blood}</div></div>
-      <div><div class="cd-label">Genotype</div><div class="cd-val">${document.getElementById('medid-genotype')?.value || '—'}</div></div>
-      <div><div class="cd-label">Age</div><div class="cd-val">${age} yrs</div></div>
-      <div><div class="cd-label">Sex</div><div class="cd-val">${sex}</div></div>
-      <div><div class="cd-label">Allergies</div><div class="cd-val" style="font-size:11px;">${allergies}</div></div>
-      <div><div class="cd-label">Conditions</div><div class="cd-val" style="font-size:11px;">${conditions}</div></div>
-      <div><div class="cd-label">Phone</div><div class="cd-val" style="font-size:11px;">${phone || 'N/A'}</div></div>
-    </div>
-  `;
+  var genotype = document.getElementById('medid-genotype') ? document.getElementById('medid-genotype').value || '—' : '—';
+  var cardPhotoSrc = window.cardPhotoDataURL || '';
+  var photoHTML = cardPhotoSrc
+    ? '<img src="' + cardPhotoSrc + '" style="width:100%;height:100%;object-fit:cover;">'
+    : '<span style="font-size:20px;color:rgba(255,255,255,0.2);">👤</span>';
+
+  var cardHTML = '<div class="card-inner">' +
+    '<div class="card-top">' +
+      '<div class="card-logo-area">' +
+        '<div class="card-logo">KRIXIA</div>' +
+        '<div class="card-logo-sub">Medical Intelligence</div>' +
+      '</div>' +
+      '<div class="card-chip-area">' +
+        '<div class="card-verified">✓ VERIFIED</div>' +
+        '<div class="card-chip"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="card-mid">' +
+      '<div class="card-photo">' + photoHTML + '</div>' +
+      '<div class="card-name-area">' +
+        '<div class="card-name">' + name + '</div>' +
+        '<div class="card-id">' + cardId + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="card-bottom">' +
+      '<div class="card-details">' +
+        '<div class="cd-item"><div class="cd-label">Blood Type</div><div class="cd-val blood">' + blood + '</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + genotype + '</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + age + ' yrs</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + sex + '</div></div>' +
+      '</div>' +
+      '<div class="card-details-right">' +
+        '<div class="card-flag">🇳🇬 <span>Nigeria</span></div>' +
+        '<div style="font-size:8px;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;margin-top:2px;">krixia.tickit.com.ng</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+
+  document.getElementById('generated-card').innerHTML = cardHTML;
 
   document.querySelector('.msg-avatar.user-av') && (document.querySelector('.msg-avatar.user-av').textContent = initials);
   closePanel('register-panel');
@@ -3766,10 +3887,269 @@ function generateMedCard() {
   btnR.onclick = () => openPanel('card-panel');
 }
 
+// ── HEALTH CARD — PHOTO, DOWNLOAD, PRINT, EMAIL ─────────────
+
+var cardPhotoDataURL = null;
+
+function handleCardPhotoUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    window.cardPhotoDataURL = e.target.result;
+    // Update photo in card immediately
+    var photo = document.querySelector('#generated-card .card-photo');
+    if (photo) photo.innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
+  };
+  reader.readAsDataURL(file);
+}
+
 function shareCard() {
-  if (userProfile?.cardId) {
-    navigator.clipboard.writeText(userProfile.cardId).then(() => alert('Card ID copied: ' + userProfile.cardId));
+  if (!userProfile || !userProfile.cardId) return;
+  if (navigator.share) {
+    navigator.share({
+      title: 'Krixia Health ID — ' + userProfile.name,
+      text: 'My Krixia Medical ID: ' + userProfile.cardId + ' | krixia.tickit.com.ng',
+    }).catch(function() {});
+  } else {
+    navigator.clipboard.writeText(userProfile.cardId).then(function() {
+      showToast('Card ID copied to clipboard');
+    });
   }
+}
+
+function downloadHealthCard() {
+  var card = document.getElementById('generated-card');
+  if (!card || !userProfile) { alert('Generate your Health ID first.'); return; }
+
+  // Use html2canvas if available, otherwise generate a styled image via canvas
+  if (typeof html2canvas !== 'undefined') {
+    html2canvas(card, { scale: 2, backgroundColor: null, useCORS: true }).then(function(canvas) {
+      var link = document.createElement('a');
+      link.download = 'Krixia-Health-ID-' + (userProfile.cardId || 'card') + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  } else {
+    // Fallback: generate canvas manually
+    var canvas = document.createElement('canvas');
+    var dpr = 2;
+    canvas.width = 540 * dpr;
+    canvas.height = 340 * dpr;
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    // Background gradient
+    var grad = ctx.createLinearGradient(0, 0, 540, 340);
+    grad.addColorStop(0, '#061210');
+    grad.addColorStop(0.35, '#0A2018');
+    grad.addColorStop(0.65, '#0E2A1A');
+    grad.addColorStop(1, '#071510');
+    ctx.fillStyle = grad;
+    ctx.roundRect(0, 0, 540, 340, 14);
+    ctx.fill();
+
+    // Gold border
+    ctx.strokeStyle = 'rgba(201,168,76,0.4)';
+    ctx.lineWidth = 1;
+    ctx.roundRect(0.5, 0.5, 539, 339, 14);
+    ctx.stroke();
+
+    // KRIXIA wordmark
+    ctx.font = '900 16px Inter, Arial';
+    ctx.fillStyle = '#C9A84C';
+    ctx.letterSpacing = '4px';
+    ctx.fillText('KRIXIA', 24, 44);
+
+    ctx.font = '500 9px Inter, Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.fillText('MEDICAL INTELLIGENCE', 24, 58);
+
+    // Verified badge
+    ctx.fillStyle = 'rgba(29,158,100,0.15)';
+    ctx.strokeStyle = 'rgba(29,158,100,0.4)';
+    ctx.lineWidth = 1;
+    ctx.roundRect(400, 28, 72, 18, 4);
+    ctx.fill(); ctx.stroke();
+    ctx.font = '700 8px Inter, Arial';
+    ctx.fillStyle = '#1D9E64';
+    ctx.fillText('✓ VERIFIED', 413, 41);
+
+    // Gold chip
+    var chipGrad = ctx.createLinearGradient(456, 28, 498, 52);
+    chipGrad.addColorStop(0, '#D4AF37');
+    chipGrad.addColorStop(1, '#A8832A');
+    ctx.fillStyle = chipGrad;
+    ctx.roundRect(490, 28, 32, 22, 4);
+    ctx.fill();
+
+    // Name
+    ctx.font = '800 22px Inter, Arial';
+    ctx.fillStyle = '#FAFAF7';
+    ctx.fillText(userProfile.name || '', 24, 165);
+
+    // Card ID
+    ctx.font = '400 10px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.letterSpacing = '1.5px';
+    ctx.fillText(userProfile.cardId || '', 24, 182);
+
+    // Divider
+    ctx.strokeStyle = 'rgba(201,168,76,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(24, 210);
+    ctx.lineTo(516, 210);
+    ctx.stroke();
+
+    // Blood, Genotype, Age, Sex
+    var fields = [
+      ['BLOOD TYPE', userProfile.blood || '—', '#E84A4A'],
+      ['GENOTYPE', userProfile.genotype || '—', '#C9A84C'],
+      ['AGE', (userProfile.age || '—') + ' yrs', '#FAFAF7'],
+      ['SEX', userProfile.sex || '—', '#FAFAF7']
+    ];
+    fields.forEach(function(f, i) {
+      var x = 24 + (i * 120);
+      ctx.font = '700 8px Inter, Arial';
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillText(f[0], x, 228);
+      ctx.font = '800 14px Inter, Arial';
+      ctx.fillStyle = f[2];
+      ctx.fillText(f[1], x, 248);
+    });
+
+    // Nigeria flag text
+    ctx.font = '500 9px Inter, Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillText('🇳🇬 Nigeria', 420, 310);
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.fillText('krixia.tickit.com.ng', 390, 324);
+
+    // Watermark microprint
+    ctx.font = '400 5px monospace';
+    ctx.fillStyle = 'rgba(201,168,76,0.06)';
+    ctx.fillText('KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA', 24, 298);
+
+    // Photo if available
+    function finishCanvas() {
+      var link = document.createElement('a');
+      link.download = 'Krixia-Health-ID-' + (userProfile.cardId || 'card') + '.png';
+      link.href = canvas.toDataURL('image/png', 1.0);
+      link.click();
+    }
+
+    if (window.cardPhotoDataURL) {
+      var img = new Image();
+      img.onload = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(24, 110, 52, 52, 8);
+        ctx.clip();
+        ctx.drawImage(img, 24, 110, 52, 52);
+        ctx.restore();
+        ctx.strokeStyle = 'rgba(201,168,76,0.4)';
+        ctx.lineWidth = 2;
+        ctx.roundRect(24, 110, 52, 52, 8);
+        ctx.stroke();
+        finishCanvas();
+      };
+      img.src = window.cardPhotoDataURL;
+    } else {
+      // Placeholder avatar
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.strokeStyle = 'rgba(201,168,76,0.3)';
+      ctx.lineWidth = 1.5;
+      ctx.roundRect(24, 110, 52, 52, 8);
+      ctx.fill(); ctx.stroke();
+      ctx.font = '28px serif';
+      ctx.fillText('👤', 30, 147);
+      finishCanvas();
+    }
+  }
+}
+
+function printHealthCard() {
+  var card = document.getElementById('generated-card');
+  if (!card || !userProfile) { alert('Generate your Health ID first.'); return; }
+  var win = window.open('', '_blank', 'width=600,height=450');
+  if (!win) return;
+  var cardHTML = card.outerHTML;
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Krixia Health ID</title><style>');
+  win.document.write('*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}');
+  win.document.write('body{background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,Arial,sans-serif;padding:20px;}');
+  win.document.write('.med-card{background:linear-gradient(135deg,#061210 0%,#0A2018 35%,#0E2A1A 65%,#071510 100%);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:0;color:white;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6);width:540px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;}');
+  win.document.write('.med-card::after{content:"KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · KRIXIA MEDICAL INTELLIGENCE";position:absolute;bottom:38px;left:0;right:0;font-size:5px;letter-spacing:1px;color:rgba(201,168,76,0.08);font-family:monospace;white-space:nowrap;pointer-events:none;z-index:1;text-align:center;}');
+  win.document.write('.card-inner{position:relative;z-index:2;padding:1.1rem 1.25rem;display:flex;flex-direction:column;height:100%;}');
+  win.document.write('.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}');
+  win.document.write('.card-logo{font-size:12px;font-weight:900;letter-spacing:3px;color:#C9A84C;}');
+  win.document.write('.card-logo-sub{font-size:7px;letter-spacing:2px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}');
+  win.document.write('.card-chip-area{display:flex;align-items:center;gap:8px;}');
+  win.document.write('.card-verified{font-size:7px;font-weight:800;letter-spacing:1px;color:#1D9E64;background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);border-radius:4px;padding:2px 5px;}');
+  win.document.write('.card-chip{width:32px;height:24px;background:linear-gradient(135deg,#D4AF37,#A8832A);border-radius:4px;}');
+  win.document.write('.card-mid{display:flex;align-items:flex-end;gap:12px;flex:1;padding:8px 0;}');
+  win.document.write('.card-photo{width:52px;height:52px;border-radius:10px;border:2px solid rgba(201,168,76,0.4);overflow:hidden;flex-shrink:0;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:22px;}');
+  win.document.write('.card-photo img{width:100%;height:100%;object-fit:cover;}');
+  win.document.write('.card-name{font-size:18px;font-weight:800;color:#FAFAF7;letter-spacing:-0.3px;line-height:1.1;margin-bottom:4px;}');
+  win.document.write('.card-id{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;font-family:monospace;}');
+  win.document.write('.card-bottom{display:flex;justify-content:space-between;align-items:flex-end;padding-top:10px;border-top:1px solid rgba(201,168,76,0.1);}');
+  win.document.write('.card-details{display:flex;gap:14px;flex-wrap:wrap;}');
+  win.document.write('.cd-item{display:flex;flex-direction:column;gap:1px;}');
+  win.document.write('.cd-label{font-size:7px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);font-weight:700;}');
+  win.document.write('.cd-val{font-size:12px;font-weight:800;color:#FAFAF7;}');
+  win.document.write('.cd-val.blood{color:#E84A4A;}.cd-val.genotype{color:#C9A84C;}');
+  win.document.write('.card-flag{font-size:8px;color:rgba(255,255,255,0.2);}');
+  win.document.write('.card-details-right{text-align:right;}');
+  win.document.write('p{color:rgba(255,255,255,0.3);font-size:11px;margin-top:16px;text-align:center;font-family:Arial,sans-serif;}');
+  win.document.write('@media print{body{background:#000;}@page{size:85.6mm 54mm;margin:0;}}');
+  win.document.write('</style></head><body>');
+  win.document.write(cardHTML);
+  win.document.write('<p>Krixia Medical Intelligence · krixia.tickit.com.ng · ©2026 Tickit NG</p>');
+  win.document.write('<p style="margin-top:6px;">This is an official Krixia digital health credential. Verify at krixia.tickit.com.ng</p>');
+  win.document.write('</body></html>');
+  win.document.close();
+  setTimeout(function() { win.print(); }, 600);
+}
+
+async function emailHealthCard() {
+  if (!userProfile || !userProfile.cardId) { alert('Generate your Health ID first.'); return; }
+  var email = krixiaUser ? krixiaUser.email : null;
+  if (!email) { alert('Please sign in to email your Health ID.'); return; }
+
+  var btn = event.target.closest('button');
+  var origHTML = btn ? btn.innerHTML : '';
+  if (btn) btn.innerHTML = '<span style="font-size:18px;">⏳</span><div><div style="font-size:12px;font-weight:700;color:var(--text);">Sending...</div></div>';
+
+  try {
+    var token = localStorage.getItem('krixia_token');
+    var res = await fetch('https://api.tickit.com.ng/api/kauth/email-card', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ cardId: userProfile.cardId, name: userProfile.name, email: email })
+    });
+    var data = await res.json();
+    if (data.success) {
+      showToast('Health ID sent to ' + email);
+    } else {
+      showToast('Email failed. Please try again.');
+    }
+  } catch(e) {
+    showToast('Could not send email. Check your connection.');
+  }
+  if (btn) btn.innerHTML = origHTML;
+}
+
+function showToast(msg) {
+  var toast = document.getElementById('krixia-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'krixia-toast';
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(29,158,100,0.95);color:white;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;z-index:99999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.4);transition:opacity 0.3s ease;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  setTimeout(function() { toast.style.opacity = '0'; }, 3000);
 }
 
 // ============================================================
