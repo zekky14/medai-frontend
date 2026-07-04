@@ -4071,16 +4071,6 @@ function updateStreamingMessage(bubbleEl, text) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-function formatMessage(text) {
-  return text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^#{1,3}\s+(.+)$/gm, '<h3>$1</h3>')
-    .replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(?!<[hlu])/gm, '')
-    || text;
-}
 
 let krixiaSessionToken = localStorage.getItem('krixia_session_token') || null;
 
@@ -8195,32 +8185,6 @@ async function loadStateList() {
   loadHospitalStateList();
 }
 
-async function browseHospitalsByState(state) {
-  hospitalPage = 0;
-  if (!state) {
-    detectLocation();
-    return;
-  }
-  const list = document.getElementById('hospital-list');
-  if (!list) return;
-  list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Loading hospitals in ' + state + '...</div>';
-  var locText = document.getElementById('loc-text');
-  if (locText) locText.textContent = 'Showing hospitals in ' + state + ' State';
-
-  try {
-    const res = await fetch('https://api.tickit.com.ng/api/hospitals/by-state?state=' + encodeURIComponent(state));
-    const data = await res.json();
-    currentHospitalResults = data.hospitals || [];
-
-    if (currentHospitalResults.length === 0) {
-      list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">No hospitals found for ' + state + ' yet. More coming soon.</div>';
-      return;
-    }
-    renderHospitalPage();
-  } catch(err) {
-    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Could not load hospitals. Please try again.</div>';
-  }
-}
 
 
 // ============================================================
