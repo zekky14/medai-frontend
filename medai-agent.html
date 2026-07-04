@@ -1824,7 +1824,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <button class="mob-nav-btn" onclick="mobileNav('hospitals',this)"><span class="mob-icon">🏥</span><span class="mob-label">Hospitals</span></button>
     <button class="mob-nav-btn" onclick="openHistoryPanel()"><span class="mob-icon">📋</span><span class="mob-label">History</span></button>
     <button class="mob-nav-btn" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="mob-icon">🪪</span><span class="mob-label">Health ID</span></button>
-    <button class="mob-nav-btn" id="more-btn" onclick="toggleMobileMore(this)"><span class="mob-icon">⋯</span><span class="mob-label">More</span></button>
+    <button class="mob-nav-btn" id="more-btn" onclick="toggleMobileMore(this)"><span class="mob-icon" style="font-size:24px;font-weight:900;letter-spacing:-1px;">•••</span><span class="mob-label">More</span></button>
   </nav>
 
 <!-- MEDICAL DISCLAIMER PANEL -->
@@ -2717,55 +2717,37 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <h2 class="panel-close-desktop">🏛️ NHIA Health Insurance</h2>
       <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
     </div>
-    <p class="panel-sub">Nigeria National Health Insurance Authority — what's covered, how to access it</p>
+    <p class="panel-sub">Nigeria National Health Insurance Authority — what's covered and how to access it</p>
     <div class="panel-body" style="padding:0 1.25rem 1rem;">
 
       <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
         <div style="font-size:12px;font-weight:700;color:var(--em-300);margin-bottom:6px;">What is NHIA?</div>
-        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">The National Health Insurance Authority (NHIA) was established under the NHIA Act 2022 to provide financial protection against the cost of healthcare for all Nigerians. It replaced the old NHIS and significantly expanded coverage.</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">The National Health Insurance Authority (NHIA) was established under the NHIA Act 2022 to provide financial protection against healthcare costs for all Nigerians. It replaced the old NHIS and significantly expanded coverage nationwide.</div>
       </div>
 
-      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;">What's Covered</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">What NHIA Covers</div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-        ${[
-          ['🏥','Outpatient consultations','GP visits, specialist referrals, follow-up care'],
-          ['💊','Essential medicines','All WHO essential medicines list drugs'],
-          ['🤰','Maternal care','Antenatal, delivery, postnatal for mother and newborn'],
-          ['👶','Child healthcare','Immunisation, growth monitoring, under-5 care'],
-          ['🔬','Diagnostics','Blood tests, X-rays, ultrasound, basic investigations'],
-          ['🏨','Inpatient care','Hospital admission, surgery (selected procedures)'],
-          ['🦷','Dental','Basic dental — extraction, filling, scaling'],
-          ['👁️','Optical','Eye examination and basic corrective lenses'],
-        ].map(([icon, title, desc]) =>
-          '<div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">' +
-          '<span style="font-size:18px;flex-shrink:0;">' + icon + '</span>' +
-          '<div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">' + title + '</div>' +
-          '<div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">' + desc + '</div></div></div>'
-        ).join('')}
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🏥</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Outpatient consultations</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">GP visits, specialist referrals, follow-up care</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">💊</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Essential medicines</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">All WHO essential medicines list drugs</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🤰</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Maternal care</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Antenatal, delivery, postnatal for mother and newborn</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">👶</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Child healthcare</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Immunisation, growth monitoring, under-5 care</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🔬</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Diagnostics</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Blood tests, X-rays, ultrasound, basic investigations</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🏨</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Inpatient care</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Hospital admission, surgery (selected procedures)</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🦷</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Dental</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Basic dental — extraction, filling, scaling</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">👁️</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Optical</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Eye examination and basic corrective lenses</div></div></div>
       </div>
 
-      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;">How to Enrol</div>
-      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
-        ${[
-          ['1','Visit any NHIA-accredited facility or their website (nhia.gov.ng)'],
-          ['2','Complete the enrolment form with your NIN (National Identification Number)'],
-          ['3','Choose a Primary Healthcare Provider (HCP) from the accredited list'],
-          ['4','Receive your NHIA card — use it at any accredited facility nationwide'],
-        ].map(([n, text]) =>
-          '<div style="display:flex;gap:10px;align-items:flex-start;">' +
-          '<div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">' + n + '</div>' +
-          '<div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">' + text + '</div></div>'
-        ).join('')}
-      </div>
-
-      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;">NHIA-Accredited Hospitals in Our Database</div>
-      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">Major NHIA-accredited hospitals are marked in Krixia's hospital finder. Look for the <strong style="color:var(--gold-300);">NHIA ✓</strong> badge when browsing hospitals. Federal teaching hospitals, federal medical centres, and state general hospitals across all 36 states typically accept NHIA.</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">How to Enrol</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">1</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Visit any NHIA-accredited facility or their website at nhia.gov.ng</div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">2</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Complete the enrolment form with your NIN (National Identification Number)</div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">3</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Choose a Primary Healthcare Provider from the NHIA-accredited list</div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">4</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Receive your NHIA card and use it at any accredited facility nationwide</div></div>
       </div>
 
       <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:4px;">📞 NHIA Contact</div>
-        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">Hotline: <strong>0800-NHIA-HELP (0800-6442-4357)</strong><br>Website: nhia.gov.ng &nbsp;|&nbsp; Email: info@nhia.gov.ng</div>
+        <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Contact</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.8;">Hotline: <strong>0800-6442-4357</strong><br>Website: nhia.gov.ng &nbsp;|&nbsp; Email: info@nhia.gov.ng</div>
       </div>
 
     </div>
@@ -2788,14 +2770,14 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <div style="font-size:12px;font-weight:700;color:#E84A4A;margin-bottom:10px;">🧬 Genotype Compatibility Checker</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
           <div>
-            <div style="font-size:10px;letter-spacing:1px;color:var(--text-3);margin-bottom:4px;font-family:Inter,sans-serif;">Your Genotype</div>
+            <div style="font-size:10px;letter-spacing:1px;color:var(--text-3);margin-bottom:4px;font-family:Inter,sans-serif;text-transform:uppercase;">Your Genotype</div>
             <select id="sc-gen1" style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);">
               <option value="">Select</option>
               <option>AA</option><option>AS</option><option>SS</option><option>AC</option><option>SC</option>
             </select>
           </div>
           <div>
-            <div style="font-size:10px;letter-spacing:1px;color:var(--text-3);margin-bottom:4px;font-family:Inter,sans-serif;">Partner Genotype</div>
+            <div style="font-size:10px;letter-spacing:1px;color:var(--text-3);margin-bottom:4px;font-family:Inter,sans-serif;text-transform:uppercase;">Partner Genotype</div>
             <select id="sc-gen2" style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);">
               <option value="">Select</option>
               <option>AA</option><option>AS</option><option>SS</option><option>AC</option><option>SC</option>
@@ -2811,44 +2793,30 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
         <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🚨 Vaso-occlusive crisis</strong> — Sudden severe pain in bones, joints, chest, or abdomen. Most common type. Seek hospital immediately.</div>
         <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🫁 Acute Chest Syndrome</strong> — Chest pain + fever + breathing difficulty. Life-threatening emergency. Call 112 now.</div>
-        <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🧠 Stroke signs</strong> — Face drooping, arm weakness, speech difficulty. Sickle cell patients are at 300× higher stroke risk. Call 112.</div>
+        <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🧠 Stroke signs</strong> — Face drooping, arm weakness, speech difficulty. Sickle cell patients are 300× more at risk. Call 112 immediately.</div>
         <div style="padding:10px 12px;background:rgba(232,102,30,0.05);border:1px solid rgba(232,102,30,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E8672A;">⚠️ Splenic sequestration</strong> — Sudden left-sided abdominal pain + pallor. Common in children. Urgent hospital needed.</div>
       </div>
 
       <!-- Trigger avoidance -->
       <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">Crisis Trigger Avoidance</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-        ${[
-          ['❄️','Extreme cold','Dress warmly, avoid cold water, use room temperature drinks'],
-          ['🏃','Overexertion','Rest frequently, avoid intense exercise without medical clearance'],
-          ['💧','Dehydration','Drink 3–4 litres of water daily — the most important prevention'],
-          ['🫁','Altitude/Low O₂','Avoid high altitude, unpressurised aircraft, deep water diving'],
-          ['😰','Infection','Treat infections early — even minor infections can trigger crisis'],
-          ['🌡️','Fever','Any temperature above 38°C needs medical attention immediately'],
-        ].map(([icon, title, tip]) =>
-          '<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;">' +
-          '<div style="font-size:16px;margin-bottom:4px;">' + icon + '</div>' +
-          '<div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">' + title + '</div>' +
-          '<div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">' + tip + '</div></div>'
-        ).join('')}
+        <div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;"><div style="font-size:16px;margin-bottom:4px;">❄️</div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">Extreme cold</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">Dress warmly, avoid cold water, use room temperature drinks</div></div>
+        <div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;"><div style="font-size:16px;margin-bottom:4px;">🏃</div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">Overexertion</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">Rest frequently, avoid intense exercise without medical clearance</div></div>
+        <div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;"><div style="font-size:16px;margin-bottom:4px;">💧</div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">Dehydration</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">Drink 3–4 litres of water daily — most critical prevention</div></div>
+        <div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;"><div style="font-size:16px;margin-bottom:4px;">🫁</div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">Low oxygen</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">Avoid high altitude, unpressurised aircraft, deep diving</div></div>
+        <div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;"><div style="font-size:16px;margin-bottom:4px;">😰</div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">Infection</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">Treat infections early — even minor ones can trigger crisis</div></div>
+        <div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;"><div style="font-size:16px;margin-bottom:4px;">🌡️</div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">Fever</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">Any temp above 38°C needs medical attention immediately</div></div>
       </div>
 
-      <!-- Sickle cell centres Nigeria -->
+      <!-- Sickle cell centres -->
       <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-size:11px;font-weight:700;color:var(--gold-300);margin-bottom:8px;">🏥 Major Sickle Cell Centres in Nigeria</div>
-        <div style="display:flex;flex-direction:column;gap:4px;">
-          ${[
-            ['Lagos','Sickle Cell Foundation Nigeria — Victoria Island','01-462-4291'],
-            ['Lagos','LUTH Haematology Dept — Idi-Araba','01-774-5491'],
-            ['Ibadan','UCH Haematology — Ibadan','02-241-1768'],
-            ['Abuja','NAUTH Sickle Cell Clinic — Nnewi','046-462-577'],
-            ['Enugu','UNTH Haematology — Enugu','042-253-425'],
-          ].map(([city, name, phone]) =>
-            '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">' +
-            '<div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">' + name + '</div>' +
-            '<div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">' + city + '</div></div>' +
-            '<a href="tel:' + phone + '" style="font-size:10px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">' + phone + '</a></div>'
-          ).join('')}
+        <div style="font-size:11px;font-weight:700;color:var(--gold-300);margin-bottom:10px;">🏥 Major Sickle Cell Centres in Nigeria</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Sickle Cell Foundation Nigeria</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Lagos · Victoria Island</div></div><a href="tel:014624291" style="font-size:11px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">01-462-4291</a></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">LUTH Haematology Dept</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Lagos · Idi-Araba</div></div><a href="tel:017745491" style="font-size:11px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">01-774-5491</a></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">UCH Haematology</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Ibadan · Oyo State</div></div><a href="tel:022411768" style="font-size:11px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">02-241-1768</a></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">UNTH Haematology</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Enugu · Enugu State</div></div><a href="tel:042253425" style="font-size:11px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">042-253-425</a></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;"><div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">ABUTH Haematology</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Kaduna · Northern Nigeria</div></div><a href="tel:062314411" style="font-size:11px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">062-314-411</a></div>
         </div>
       </div>
 
