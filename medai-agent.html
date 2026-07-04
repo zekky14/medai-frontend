@@ -2175,6 +2175,20 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         </div>
       </div>
       <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem;margin-bottom:1rem;">
+        <!-- Health ID in Profile -->
+        <div id="profile-health-id-section" style="margin-bottom:12px;padding:12px 14px;background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:10px;cursor:pointer;" onclick="openPanel('card-panel')">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:20px;">🪪</span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Krixia Health ID</div>
+                <div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;" id="profile-card-id">No ID generated yet</div>
+              </div>
+            </div>
+            <span style="font-size:14px;color:var(--text-3);">›</span>
+          </div>
+        </div>
+
         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-400);margin-bottom:12px;">Health Summary</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div style="text-align:center;">
@@ -3083,10 +3097,26 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   <div class="panel">
     <div class="panel-header">
       <button class="panel-close-mobile" onclick="closePanel('register-panel')">← Back</button>
-      <h2 class="panel-close-desktop">🏥 Krixia Health ID</h2>
+      <h2 class="panel-close-desktop" id="reg-panel-title">🏥 Krixia Health ID</h2>
       <button class="panel-close panel-close-desktop" onclick="closePanel('register-panel')">✕</button>
     </div>
-    <p class="panel-sub">Create your free digital health profile</p>
+    <p class="panel-sub" id="reg-panel-sub">Create your free digital health profile</p>
+
+    <!-- Existing ID banner — shown if card already generated -->
+    <div id="existing-id-banner" style="display:none;margin:0 1.25rem 12px;padding:12px 14px;background:rgba(29,158,100,0.07);border:1px solid rgba(29,158,100,0.2);border-radius:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">🪪</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--em-300);font-family:Inter,sans-serif;">You already have a Health ID</div>
+            <div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;" id="existing-id-number">—</div>
+          </div>
+        </div>
+        <button onclick="closePanel('register-panel');openPanel('card-panel')" style="background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:var(--em-300);cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">View ID →</button>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;">Your form is pre-filled. Update any fields and regenerate to update your card.</div>
+    </div>
+
     <div class="panel-body">
       <div class="form-row">
         <div class="form-group"><label>First Name</label><input type="text" id="reg-firstname" placeholder="Elvis"></div>
@@ -3806,6 +3836,41 @@ function openPanel(id) {
   document.querySelectorAll('.panel-overlay.active').forEach(p => { if (p.id !== id) p.classList.remove('active'); });
   const el = document.getElementById(id);
   if (el) el.classList.add('active');
+
+  // Show existing ID banner when register panel opens
+  if (id === 'register-panel') {
+    var saved = localStorage.getItem('krixia_health_id');
+    var banner = document.getElementById('existing-id-banner');
+    var idNum = document.getElementById('existing-id-number');
+    var title = document.getElementById('reg-panel-title');
+    var sub = document.getElementById('reg-panel-sub');
+    if (saved && banner) {
+      try {
+        var card = JSON.parse(saved);
+        banner.style.display = 'block';
+        if (idNum) idNum.textContent = card.cardId + ' · ' + card.name;
+        if (title) title.textContent = '✏️ Update Health ID';
+        if (sub) sub.textContent = 'Your existing Health ID will be updated when you regenerate.';
+        // Pre-fill the form with saved values
+        setTimeout(function() {
+          if (card.fn) { var f = document.getElementById('reg-firstname'); if(f) f.value = card.fn; }
+          if (card.ln) { var l = document.getElementById('reg-lastname'); if(l) l.value = card.ln; }
+          if (card.dob) { var d = document.getElementById('reg-dob'); if(d) d.value = card.dob; }
+          if (card.sex) { var s = document.getElementById('reg-sex'); if(s) s.value = card.sex; }
+          if (card.blood) { var b = document.getElementById('reg-blood'); if(b) b.value = card.blood; }
+          if (card.genotype) { var g = document.getElementById('medid-genotype'); if(g) g.value = card.genotype; }
+          if (card.phone) { var p = document.getElementById('reg-phone'); if(p) p.value = card.phone; }
+          if (card.allergies && card.allergies !== 'None') { var a = document.getElementById('reg-allergies'); if(a) a.value = card.allergies; }
+          if (card.conditions && card.conditions !== 'None') { var c = document.getElementById('reg-conditions'); if(c) c.value = card.conditions; }
+        }, 100);
+      } catch(e) {}
+    } else if (banner) {
+      banner.style.display = 'none';
+      if (title) title.textContent = '🏥 Krixia Health ID';
+      if (sub) sub.textContent = 'Fill in your health details to generate your secure digital Health ID.';
+    }
+  }
+
   // Render pricing plans fresh every time panel opens
   if (id === 'pricing-panel') {
     billingCycle = billingCycle || 'monthly';
@@ -3879,12 +3944,22 @@ function generateMedCard() {
   document.getElementById('generated-card').innerHTML = cardHTML;
 
   document.querySelector('.msg-avatar.user-av') && (document.querySelector('.msg-avatar.user-av').textContent = initials);
+
+  // Persist the Health ID to localStorage so it survives page refreshes
+  var savedCard = {
+    fn: fn, ln: ln, name: name, initials: initials,
+    dob: dob, age: age, sex: sex, blood: blood,
+    genotype: genotype, phone: phone, allergies: allergies,
+    conditions: conditions, cardId: cardId,
+    generatedAt: new Date().toISOString()
+  };
+  localStorage.setItem('krixia_health_id', JSON.stringify(savedCard));
+
   closePanel('register-panel');
   openPanel('card-panel');
 
   const btnR = document.querySelector('.btn-register');
-  btnR.textContent = `👤 ${fn}`;
-  btnR.onclick = () => openPanel('card-panel');
+  if (btnR) { btnR.textContent = '👤 ' + fn; btnR.onclick = function() { openPanel('card-panel'); }; }
 }
 
 // ── HEALTH CARD — PHOTO, DOWNLOAD, PRINT, EMAIL ─────────────
@@ -6946,6 +7021,41 @@ const KrixiaE2EE = {
 // ============================================================
 
 let krixiaUser = null; // Current logged-in user
+
+// Restore saved Health ID on load
+(function restoreHealthID() {
+  var saved = localStorage.getItem('krixia_health_id');
+  if (!saved) return;
+  try {
+    var card = JSON.parse(saved);
+    userProfile = {
+      name: card.name, initials: card.initials, dob: card.dob,
+      sex: card.sex, blood: card.blood, genotype: card.genotype,
+      phone: card.phone, allergies: card.allergies,
+      conditions: card.conditions, cardId: card.cardId, age: card.age
+    };
+    // Rebuild the card HTML
+    setTimeout(function() {
+      var cardEl = document.getElementById('generated-card');
+      if (!cardEl) return;
+      var photoHTML = window.cardPhotoDataURL
+        ? '<img src="' + window.cardPhotoDataURL + '" style="width:100%;height:100%;object-fit:cover;">'
+        : '<span style="font-size:20px;color:rgba(255,255,255,0.2);">👤</span>';
+      cardEl.innerHTML = '<div class="card-inner">' +
+        '<div class="card-top"><div class="card-logo-area"><div class="card-logo">KRIXIA</div><div class="card-logo-sub">Medical Intelligence</div></div>' +
+        '<div class="card-chip-area"><div class="card-verified">✓ VERIFIED</div><div class="card-chip"></div></div></div>' +
+        '<div class="card-mid"><div class="card-photo">' + photoHTML + '</div>' +
+        '<div class="card-name-area"><div class="card-name">' + card.name + '</div><div class="card-id">' + card.cardId + '</div></div></div>' +
+        '<div class="card-bottom"><div class="card-details">' +
+        '<div class="cd-item"><div class="cd-label">Blood Type</div><div class="cd-val blood">' + (card.blood || '—') + '</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + (card.genotype || '—') + '</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + (card.age || '—') + ' yrs</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + (card.sex || '—') + '</div></div>' +
+        '</div><div class="card-details-right"><div class="card-flag">🇳🇬 <span>Nigeria</span></div>' +
+        '<div style="font-size:8px;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;margin-top:2px;">krixia.tickit.com.ng</div></div></div></div>';
+    }, 500);
+  } catch(e) { localStorage.removeItem('krixia_health_id'); }
+})();
 const KAUTH_BASE = 'https://api.tickit.com.ng/api/kauth';
 
 // ── INITIALIZE AUTH ON LOAD ───────────────────────────────
@@ -7189,9 +7299,49 @@ function openUserProfile() {
 
   var sessionCount = parseInt(localStorage.getItem('krixia_session_count') || '0');
   document.getElementById('profile-sessions').textContent = sessionCount;
-  var createdAt = krixiaUser.createdAt || localStorage.getItem('krixia_created_at') || new Date().toISOString();
-  var days = Math.max(1, Math.ceil((new Date() - new Date(createdAt)) / 86400000));
-  document.getElementById('profile-days').textContent = days;
+
+  // Days active: cumulative from first ever login — never resets
+  // Priority: stored anchor date > user created_at > current (first time)
+  var storedAnchor = localStorage.getItem('krixia_member_since');
+  var serverDate = krixiaUser && (krixiaUser.createdAt || krixiaUser.created_at);
+  if (!storedAnchor && serverDate) {
+    // First time we have a server date — store it permanently
+    localStorage.setItem('krixia_member_since', serverDate);
+    storedAnchor = serverDate;
+  } else if (!storedAnchor) {
+    // No server date either — anchor to today as first use
+    var today = new Date().toISOString();
+    localStorage.setItem('krixia_member_since', today);
+    storedAnchor = today;
+  }
+  var memberSince = new Date(storedAnchor);
+  var totalDays = Math.max(1, Math.floor((new Date() - memberSince) / 86400000) + 1);
+  document.getElementById('profile-days').textContent = totalDays;
+
+  // Show member since date in profile if element exists
+  var sinceEl = document.getElementById('profile-member-since');
+  if (sinceEl) {
+    sinceEl.textContent = memberSince.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // Populate Health ID section in profile
+  var profileCardId = document.getElementById('profile-card-id');
+  if (profileCardId) {
+    var savedCard = localStorage.getItem('krixia_health_id');
+    if (savedCard) {
+      try {
+        var card = JSON.parse(savedCard);
+        profileCardId.textContent = card.cardId + ' · ' + card.name;
+        profileCardId.style.color = 'var(--gold-300)';
+      } catch(e) {}
+    } else if (userProfile && userProfile.cardId) {
+      profileCardId.textContent = userProfile.cardId + ' · ' + userProfile.name;
+      profileCardId.style.color = 'var(--gold-300)';
+    } else {
+      profileCardId.textContent = 'Tap to generate your Health ID';
+      document.getElementById('profile-health-id-section').onclick = function() { openPanel('register-panel'); };
+    }
+  }
 }
 
 function uploadProfilePhoto(input) {
