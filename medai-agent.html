@@ -59,7 +59,7 @@
   background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--r-sm); padding: 6px 10px;
   cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.7);
-  font-family: 'Inter', sans-serif; transition: all 0.2s;
+  font-family: 'DM Sans', 'Inter', sans-serif; transition: all 0.2s;
 }
 .lang-selector:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.35); }
 
@@ -319,7 +319,7 @@ html[data-theme="light"], html[data-theme="light"] body {
 
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 
@@ -709,73 +709,106 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 @media (max-width: 768px) { .btn-primary, .btn-secondary { padding: 13px; font-size: 15px; } }
 
 /* Medical ID Card */
-/* ── PREMIUM HEALTH CARD ── */
+/* ── PREMIUM HEALTH CARD — World-Class Credential ── */
 .med-card {
-  background: linear-gradient(135deg, #061210 0%, #0A2018 35%, #0E2A1A 65%, #071510 100%);
-  border: 1px solid rgba(201,168,76,0.35);
+  background: linear-gradient(135deg, #061210 0%, #091A12 30%, #0E2A1A 60%, #071510 100%);
+  border: 1px solid rgba(201,168,76,0.3);
   border-radius: 16px;
   padding: 0;
   color: white;
   margin: 1rem 0;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,168,76,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
   aspect-ratio: 1.586 / 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 200px;
+  min-height: 196px;
 }
-/* Holographic shimmer overlay */
+/* Holographic shimmer diagonal */
 .med-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(125deg, transparent 30%, rgba(201,168,76,0.04) 45%, rgba(29,158,100,0.03) 55%, transparent 70%);
+  background: linear-gradient(118deg, transparent 25%, rgba(201,168,76,0.035) 40%, rgba(29,158,100,0.025) 52%, transparent 68%);
   pointer-events: none;
   z-index: 1;
 }
-/* Security microprint watermark */
-.med-card::after {
-  content: 'KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · KRIXIA MEDICAL INTELLIGENCE';
+/* Bold faded KRIXIA watermark — large, behind content */
+.med-card-watermark {
   position: absolute;
-  bottom: 38px;
+  right: -8px;
+  bottom: -12px;
+  font-family: 'Sora', 'DM Sans', sans-serif;
+  font-size: 68px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: rgba(201,168,76,0.055);
+  pointer-events: none;
+  z-index: 1;
+  line-height: 1;
+  user-select: none;
+}
+/* Microprint security strip */
+.med-card-microprint {
+  position: absolute;
+  bottom: 26px;
   left: 0;
   right: 0;
-  font-size: 5px;
-  letter-spacing: 1px;
-  color: rgba(201,168,76,0.08);
+  font-size: 4.5px;
+  letter-spacing: 1.5px;
+  color: rgba(201,168,76,0.07);
   font-family: 'JetBrains Mono', monospace;
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
   text-align: center;
+  overflow: hidden;
 }
-.card-inner { position: relative; z-index: 2; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; height: 100%; }
-.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.card-logo-area { display: flex; flex-direction: column; gap: 2px; }
-.card-logo { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 900; letter-spacing: 3px; background: linear-gradient(90deg, #F5E0A0, #C9A84C, #A8832A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.card-logo-sub { font-size: 7px; letter-spacing: 2px; color: rgba(255,255,255,0.25); font-family: 'Inter', sans-serif; text-transform: uppercase; }
-.card-chip-area { display: flex; align-items: center; gap: 8px; }
-.card-chip { width: 32px; height: 24px; background: linear-gradient(135deg, #D4AF37, #C9A84C, #B8943A); border-radius: 4px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
-.card-chip::after { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,0.15); border-radius: 2px; }
-.card-verified { font-size: 7px; font-weight: 800; letter-spacing: 1px; color: #1D9E64; background: rgba(29,158,100,0.12); border: 1px solid rgba(29,158,100,0.3); border-radius: 4px; padding: 2px 5px; font-family: 'Inter', sans-serif; }
-.card-mid { display: flex; align-items: flex-end; gap: 12px; flex: 1; padding: 8px 0; }
-.card-photo { width: 52px; height: 52px; border-radius: 10px; border: 2px solid rgba(201,168,76,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.card-inner {
+  position: relative;
+  z-index: 2;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+/* TOP ROW */
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-logo-area { display: flex; flex-direction: column; gap: 1px; }
+.card-logo { font-family: 'Sora', 'DM Sans', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 3.5px; background: linear-gradient(90deg, #F5E0A0, #C9A84C, #A8832A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.card-logo-sub { font-size: 6.5px; letter-spacing: 2px; color: rgba(255,255,255,0.22); font-family: 'DM Sans', sans-serif; text-transform: uppercase; }
+.card-chip-area { display: flex; align-items: center; gap: 7px; }
+.card-chip { width: 30px; height: 22px; background: linear-gradient(135deg, #D4AF37, #C9A84C, #B8943A); border-radius: 4px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.4); flex-shrink: 0; }
+.card-chip::after { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,0.12); border-radius: 2px; }
+.card-verified { font-size: 6.5px; font-weight: 800; letter-spacing: 1px; color: #1D9E64; background: rgba(29,158,100,0.1); border: 1px solid rgba(29,158,100,0.28); border-radius: 4px; padding: 2px 5px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+/* MIDDLE ROW — photo + name + occupation */
+.card-mid { display: flex; align-items: center; gap: 12px; padding: 8px 0 6px; }
+.card-photo { width: 48px; height: 48px; border-radius: 9px; border: 1.5px solid rgba(201,168,76,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
 .card-photo img { width: 100%; height: 100%; object-fit: cover; }
-.card-name-area { flex: 1; }
-.card-name { font-size: 18px; font-weight: 800; color: #FAFAF7; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; line-height: 1.1; margin-bottom: 4px; }
-.card-id { font-size: 9px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; font-family: 'JetBrains Mono', monospace; }
-.card-bottom { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 10px; border-top: 1px solid rgba(201,168,76,0.1); }
-.card-details { display: flex; gap: 14px; flex-wrap: wrap; }
-.card-details-right { text-align: right; }
+.card-name-area { flex: 1; min-width: 0; }
+.card-name { font-size: 15px; font-weight: 700; color: #FAFAF7; font-family: 'Sora', 'DM Sans', sans-serif; letter-spacing: 0.1px; line-height: 1.2; margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-occupation { font-size: 8px; color: rgba(201,168,76,0.6); font-family: 'DM Sans', sans-serif; letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; font-weight: 600; }
+.card-id-bold {
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.65);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1.5px;
+  margin-top: 2px;
+}
+/* BOTTOM ROW — data fields */
+.card-bottom { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 8px; border-top: 1px solid rgba(201,168,76,0.1); }
+.card-details { display: flex; gap: 12px; }
+.card-details-right { text-align: right; flex-shrink: 0; }
 .cd-item { display: flex; flex-direction: column; gap: 1px; }
-.cd-label { font-size: 7px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); font-weight: 700; font-family: 'Inter', sans-serif; }
-.cd-val { font-size: 12px; font-weight: 800; color: #FAFAF7; font-family: 'Inter', sans-serif; }
+.cd-label { font-size: 6.5px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.28); font-weight: 700; font-family: 'DM Sans', sans-serif; }
+.cd-val { font-size: 11px; font-weight: 800; color: #FAFAF7; font-family: 'DM Sans', sans-serif; }
 .cd-val.blood { color: #E84A4A; }
 .cd-val.genotype { color: #C9A84C; }
-.card-flag { font-size: 8px; color: rgba(255,255,255,0.2); font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
-.card-flag span { color: var(--gold-300); }
+.card-flag { font-size: 7.5px; color: rgba(255,255,255,0.18); font-family: 'DM Sans', sans-serif; letter-spacing: 0.5px; }
+.card-flag span { color: rgba(201,168,76,0.5); }
 
 /* Paywall (in-chat) */
 .paywall-gate { background: var(--surface-2); border: 1px solid var(--border-2); border-radius: var(--r-lg); padding: 1.6rem; text-align: center; margin: 1rem 1.5rem; box-shadow: var(--card-shadow); animation: msgIn 0.3s ease; }
@@ -1410,7 +1443,13 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 
     <!-- Headline -->
     <div style="font-family:Inter,sans-serif;font-size:20px;font-weight:800;color:#FAFAF7;line-height:1.3;margin-bottom:6px;">Your AI Doctor,<br>Available 24/7</div>
-    <div style="font-family:Inter,sans-serif;font-size:12px;color:rgba(255,255,255,0.38);line-height:1.7;margin-bottom:20px;">Built for Nigeria &nbsp;·&nbsp; 20+ specialties &nbsp;·&nbsp; Free to start</div>
+    <div style="font-family:'DM Sans',Inter,sans-serif;font-size:11px;color:rgba(255,255,255,0.35);line-height:1.8;margin-bottom:20px;text-align:center;">
+      <span style="white-space:nowrap;">Built for Nigeria</span>
+      <span style="color:rgba(255,255,255,0.15);margin:0 5px;">·</span>
+      <span style="white-space:nowrap;">20+ specialties</span>
+      <span style="color:rgba(255,255,255,0.15);margin:0 5px;">·</span>
+      <span style="white-space:nowrap;">Free to start</span>
+    </div>
 
     <!-- Live stats counter -->
     <div id="ws-stats" style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:24px;background:rgba(29,158,100,0.07);border:1px solid rgba(29,158,100,0.18);border-radius:12px;padding:12px 16px;width:100%;">
@@ -2175,17 +2214,14 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         </div>
       </div>
       <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem;margin-bottom:1rem;">
-        <!-- Health ID in Profile -->
-        <div id="profile-health-id-section" style="margin-bottom:12px;padding:12px 14px;background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:10px;cursor:pointer;" onclick="openPanel('card-panel')">
-          <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:20px;">🪪</span>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Krixia Health ID</div>
-                <div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;" id="profile-card-id">No ID generated yet</div>
-              </div>
+        <!-- Health ID in Profile — display only, no navigation -->
+        <div id="profile-health-id-section" style="margin-bottom:12px;padding:10px 14px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:18px;flex-shrink:0;">🪪</span>
+            <div style="min-width:0;">
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(201,168,76,0.5);font-family:DM Sans,sans-serif;margin-bottom:2px;">Health ID</div>
+              <div style="font-size:13px;font-weight:800;color:var(--gold-300);font-family:JetBrains Mono,monospace;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="profile-card-id">—</div>
             </div>
-            <span style="font-size:14px;color:var(--text-3);">›</span>
           </div>
         </div>
 
@@ -3131,6 +3167,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <div class="form-group"><label>Genotype</label><select id="medid-genotype"><option value="">Select</option><option>AA</option><option>AS</option><option>SS</option><option>AC</option><option>SC</option><option>CC</option></select></div>
       </div>
       <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" placeholder="+234..."></div>
+      <div class="form-group"><label>Occupation <span style="color:var(--text-3);font-weight:400;font-size:11px;">(optional)</span></label><input type="text" id="reg-occupation" placeholder="e.g. Engineer, Teacher, Student"></div>
       <div class="form-group"><label>Known Allergies</label><input type="text" id="reg-allergies" placeholder="e.g. Penicillin (or None)"></div>
       <div class="form-group"><label>Existing Conditions</label><input type="text" id="reg-conditions" placeholder="e.g. Diabetes (or None)"></div>
     </div>
@@ -3173,24 +3210,19 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <div style="display:flex;align-items:center;gap:4px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:4px 8px;"><span style="font-size:10px;">🇳🇬</span><span style="font-size:9px;font-weight:700;color:var(--gold-300);font-family:Inter,sans-serif;letter-spacing:0.5px;">NDPR Compliant</span></div>
       </div>
 
-      <!-- Action buttons -->
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;font-family:Inter,sans-serif;">Card Actions</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
-        <button onclick="downloadHealthCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-          <span style="font-size:18px;">📥</span>
-          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Download</div><div style="font-size:10px;color:var(--text-3);">Save as image</div></div>
+      <!-- Card Actions — elegant pill toggles -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;">
+        <button onclick="downloadHealthCard()" style="display:flex;align-items:center;gap:6px;padding:9px 16px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:20px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.2s;color:var(--gold-300);" onmouseover="this.style.background='rgba(201,168,76,0.14)'" onmouseout="this.style.background='rgba(201,168,76,0.07)'">
+          <span style="font-size:14px;">📥</span><span style="font-size:12px;font-weight:700;">Download</span>
         </button>
-        <button onclick="printHealthCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-          <span style="font-size:18px;">🖨️</span>
-          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Print</div><div style="font-size:10px;color:var(--text-3);">Physical copy</div></div>
+        <button onclick="printHealthCard()" style="display:flex;align-items:center;gap:6px;padding:9px 16px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:20px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.2s;color:var(--gold-300);" onmouseover="this.style.background='rgba(201,168,76,0.14)'" onmouseout="this.style.background='rgba(201,168,76,0.07)'">
+          <span style="font-size:14px;">🖨️</span><span style="font-size:12px;font-weight:700;">Print</span>
         </button>
-        <button onclick="emailHealthCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-          <span style="font-size:18px;">📧</span>
-          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Email to me</div><div style="font-size:10px;color:var(--text-3);">Send to my email</div></div>
+        <button onclick="emailHealthCard()" style="display:flex;align-items:center;gap:6px;padding:9px 16px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:20px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.2s;color:var(--gold-300);" onmouseover="this.style.background='rgba(201,168,76,0.14)'" onmouseout="this.style.background='rgba(201,168,76,0.07)'">
+          <span style="font-size:14px;">📧</span><span style="font-size:12px;font-weight:700;">Email</span>
         </button>
-        <button onclick="shareCard()" style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Inter,sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
-          <span style="font-size:18px;">📋</span>
-          <div style="text-align:left;"><div style="font-size:12px;font-weight:700;color:var(--text);">Copy ID</div><div style="font-size:10px;color:var(--text-3);">Share with doctor</div></div>
+        <button onclick="shareCard()" style="display:flex;align-items:center;gap:6px;padding:9px 16px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:20px;cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.2s;color:var(--gold-300);" onmouseover="this.style.background='rgba(201,168,76,0.14)'" onmouseout="this.style.background='rgba(201,168,76,0.07)'">
+          <span style="font-size:14px;">📋</span><span style="font-size:12px;font-weight:700;">Copy ID</span>
         </button>
       </div>
 
@@ -3904,42 +3936,47 @@ function generateMedCard() {
   userProfile = { name, initials, dob, sex, blood, phone, allergies, conditions, cardId };
 
   var genotype = document.getElementById('medid-genotype') ? document.getElementById('medid-genotype').value || '—' : '—';
+  var occupation = document.getElementById('reg-occupation') ? document.getElementById('reg-occupation').value.trim() || '' : '';
   var cardPhotoSrc = window.cardPhotoDataURL || '';
   var photoHTML = cardPhotoSrc
     ? '<img src="' + cardPhotoSrc + '" style="width:100%;height:100%;object-fit:cover;">'
-    : '<span style="font-size:20px;color:rgba(255,255,255,0.2);">👤</span>';
+    : '<span style="font-size:20px;color:rgba(255,255,255,0.15);">👤</span>';
 
-  var cardHTML = '<div class="card-inner">' +
-    '<div class="card-top">' +
-      '<div class="card-logo-area">' +
-        '<div class="card-logo">KRIXIA</div>' +
-        '<div class="card-logo-sub">Medical Intelligence</div>' +
+  var cardHTML =
+    '<div class="med-card-watermark">KRIXIA</div>' +
+    '<div class="med-card-microprint">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE</div>' +
+    '<div class="card-inner">' +
+      '<div class="card-top">' +
+        '<div class="card-logo-area">' +
+          '<div class="card-logo">KRIXIA</div>' +
+          '<div class="card-logo-sub">Medical Intelligence</div>' +
+        '</div>' +
+        '<div class="card-chip-area">' +
+          '<div class="card-verified">✓ VERIFIED</div>' +
+          '<div class="card-chip"></div>' +
+        '</div>' +
       '</div>' +
-      '<div class="card-chip-area">' +
-        '<div class="card-verified">✓ VERIFIED</div>' +
-        '<div class="card-chip"></div>' +
+      '<div class="card-mid">' +
+        '<div class="card-photo">' + photoHTML + '</div>' +
+        '<div class="card-name-area">' +
+          '<div class="card-name">' + name + '</div>' +
+          (occupation ? '<div class="card-occupation">' + occupation + '</div>' : '') +
+          '<div class="card-id-bold">' + cardId + '</div>' +
+        '</div>' +
       '</div>' +
-    '</div>' +
-    '<div class="card-mid">' +
-      '<div class="card-photo">' + photoHTML + '</div>' +
-      '<div class="card-name-area">' +
-        '<div class="card-name">' + name + '</div>' +
-        '<div class="card-id">' + cardId + '</div>' +
+      '<div class="card-bottom">' +
+        '<div class="card-details">' +
+          '<div class="cd-item"><div class="cd-label">Blood</div><div class="cd-val blood">' + blood + '</div></div>' +
+          '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + genotype + '</div></div>' +
+          '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + age + 'y</div></div>' +
+          '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + sex + '</div></div>' +
+        '</div>' +
+        '<div class="card-details-right">' +
+          '<div class="card-flag">🇳🇬 <span>Nigeria</span></div>' +
+          '<div style="font-size:6.5px;color:rgba(255,255,255,0.12);font-family:DM Sans,sans-serif;margin-top:1px;">krixia.tickit.com.ng</div>' +
+        '</div>' +
       '</div>' +
-    '</div>' +
-    '<div class="card-bottom">' +
-      '<div class="card-details">' +
-        '<div class="cd-item"><div class="cd-label">Blood Type</div><div class="cd-val blood">' + blood + '</div></div>' +
-        '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + genotype + '</div></div>' +
-        '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + age + ' yrs</div></div>' +
-        '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + sex + '</div></div>' +
-      '</div>' +
-      '<div class="card-details-right">' +
-        '<div class="card-flag">🇳🇬 <span>Nigeria</span></div>' +
-        '<div style="font-size:8px;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;margin-top:2px;">krixia.tickit.com.ng</div>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+    '</div>';
 
   document.getElementById('generated-card').innerHTML = cardHTML;
 
@@ -3949,7 +3986,8 @@ function generateMedCard() {
   var savedCard = {
     fn: fn, ln: ln, name: name, initials: initials,
     dob: dob, age: age, sex: sex, blood: blood,
-    genotype: genotype, phone: phone, allergies: allergies,
+    genotype: genotype, occupation: occupation,
+    phone: phone, allergies: allergies,
     conditions: conditions, cardId: cardId,
     generatedAt: new Date().toISOString()
   };
