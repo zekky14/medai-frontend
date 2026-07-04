@@ -737,17 +737,18 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 /* Bold faded KRIXIA watermark — large, behind content */
 .med-card-watermark {
   position: absolute;
-  right: -8px;
-  bottom: -12px;
-  font-family: 'Sora', 'DM Sans', sans-serif;
-  font-size: 68px;
+  right: -6px;
+  bottom: -14px;
+  font-family: 'Sora', 'DM Sans', Arial, sans-serif;
+  font-size: 72px;
   font-weight: 900;
-  letter-spacing: 6px;
-  color: rgba(201,168,76,0.055);
+  letter-spacing: 8px;
+  color: rgba(201,168,76,0.09);
   pointer-events: none;
   z-index: 1;
   line-height: 1;
   user-select: none;
+  text-transform: uppercase;
 }
 /* Microprint security strip */
 .med-card-microprint {
@@ -798,7 +799,28 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   letter-spacing: 1.5px;
   margin-top: 2px;
 }
-/* BOTTOM ROW — data fields */
+/* DATA ROW — blood, genotype, age, sex */
+.card-data-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  padding: 6px 0 8px;
+  border-top: 1px solid rgba(201,168,76,0.08);
+}
+/* ID STRIP — full width bold card number at bottom */
+.card-id-strip {
+  border-top: 1px solid rgba(201,168,76,0.12);
+  padding-top: 7px;
+}
+.card-id-full {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 2px;
+  word-break: break-all;
+}
+/* Legacy bottom CSS kept for fallback */
 .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 8px; border-top: 1px solid rgba(201,168,76,0.1); }
 .card-details { display: flex; gap: 12px; }
 .card-details-right { text-align: right; flex-shrink: 0; }
@@ -1619,6 +1641,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
           <button class="qa-card" onclick="openNHIAPanel()"><span class="qa-icon">🏛️</span><div><div class="qa-text">NHIA Insurance</div><div class="qa-sub">Coverage & how to enrol</div></div></button>
           <button class="qa-card" onclick="openSickleCellPanel()"><span class="qa-icon">🩸</span><div><div class="qa-text">Sickle Cell</div><div class="qa-sub">Genotype, crisis & centres</div></div></button>
+          <button class="qa-card" onclick="openPanel('drug-panel')"><span class="qa-icon">💊</span><div><div class="qa-text">Drug Interactions</div><div class="qa-sub">Check medication safety</div></div></button>
         </div>
       </div>
 
@@ -1914,6 +1937,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <button onclick="openVitalsPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
         <span style="font-size:22px;">💓</span>
         <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Vitals Scan</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Camera pulse & SpO₂</div></div>
+      </button>
+      <button onclick="openPanel('drug-panel');closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">💊</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Drug Interactions</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Check medication safety</div></div>
       </button>
     </div>
   </div>
@@ -2823,6 +2850,94 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('history-panel')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="clearHistory()" style="flex:1;background:rgba(232,93,74,0.15);color:var(--red-400);border:1px solid rgba(232,93,74,0.3);">🗑 Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- DRUG INTERACTION CHECKER PANEL -->
+<div class="panel-overlay" id="drug-panel">
+  <div class="panel" style="max-width:520px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('drug-panel')">← Back</button>
+      <h2 class="panel-close-desktop">💊 Drug Interaction Checker</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('drug-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Enter any two or more medications to check for dangerous interactions</p>
+    <div class="panel-body" style="padding:0 1.25rem 1rem;">
+
+      <!-- Drug input area -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">Enter Medications</div>
+
+        <div id="drug-inputs" style="display:flex;flex-direction:column;gap:8px;">
+          <div class="drug-input-row" style="display:flex;gap:8px;align-items:center;">
+            <input type="text" placeholder="e.g. Metformin 500mg" class="drug-input-field"
+              style="flex:1;background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--text);font-family:DM Sans,sans-serif;outline:none;transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='rgba(201,168,76,0.5)'"
+              onblur="this.style.borderColor='var(--border)'"
+              onkeydown="if(event.key==='Enter')addDrugInputRow()">
+            <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-3);flex-shrink:0;">💊</div>
+          </div>
+          <div class="drug-input-row" style="display:flex;gap:8px;align-items:center;">
+            <input type="text" placeholder="e.g. Warfarin 5mg" class="drug-input-field"
+              style="flex:1;background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--text);font-family:DM Sans,sans-serif;outline:none;transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='rgba(201,168,76,0.5)'"
+              onblur="this.style.borderColor='var(--border)'"
+              onkeydown="if(event.key==='Enter')addDrugInputRow()">
+            <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-3);flex-shrink:0;">💊</div>
+          </div>
+        </div>
+
+        <!-- Add drug button -->
+        <button onclick="addDrugInputRow()" style="margin-top:8px;display:flex;align-items:center;gap:6px;background:none;border:1px dashed rgba(201,168,76,0.25);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;color:rgba(201,168,76,0.5);cursor:pointer;font-family:DM Sans,sans-serif;width:100%;justify-content:center;transition:all 0.2s;"
+          onmouseover="this.style.borderColor='rgba(201,168,76,0.5)';this.style.color='var(--gold-300)'"
+          onmouseout="this.style.borderColor='rgba(201,168,76,0.25)';this.style.color='rgba(201,168,76,0.5)'">
+          + Add another medication
+        </button>
+      </div>
+
+      <!-- Patient context toggle -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Include my health profile</div>
+          <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;margin-top:1px;">Uses your conditions, allergies and age for personalised analysis</div>
+        </div>
+        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
+          <input type="checkbox" id="drug-use-profile" checked style="opacity:0;width:0;height:0;">
+          <span onclick="this.previousElementSibling.checked=!this.previousElementSibling.checked" style="position:absolute;cursor:pointer;inset:0;background:rgba(29,158,100,0.3);border-radius:11px;transition:0.3s;" id="drug-profile-toggle"></span>
+          <span style="position:absolute;content:'';height:16px;width:16px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s;pointer-events:none;" id="drug-toggle-knob"></span>
+        </label>
+      </div>
+
+      <!-- Check button -->
+      <button id="drug-check-btn" onclick="checkDrugInteractions()"
+        style="width:100%;padding:14px;background:linear-gradient(135deg,#A8832A,#E8C97A,#C9A84C);color:#06100C;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;letter-spacing:0.3px;margin-bottom:16px;">
+        🔬 Analyse Interactions
+      </button>
+
+      <!-- Results area -->
+      <div id="drug-results" style="display:none;">
+        <div style="height:1px;background:var(--border);margin-bottom:16px;"></div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">Analysis Results</div>
+        <div id="drug-results-content" style="font-size:13px;color:var(--text-2);line-height:1.8;font-family:DM Sans,sans-serif;"></div>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(232,160,32,0.06);border:1px solid rgba(232,160,32,0.15);border-radius:8px;">
+          <div style="font-size:11px;color:rgba(232,160,32,0.7);font-family:DM Sans,sans-serif;line-height:1.6;">⚕️ This analysis is AI-generated guidance only. Always confirm drug interactions with a licensed pharmacist or physician before making any changes to your medication regimen.</div>
+        </div>
+      </div>
+
+      <!-- Common interaction examples -->
+      <div style="margin-top:16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:8px;">Common Checks</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <button onclick="fillDrugExample('Ibuprofen','Aspirin')" style="background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">Ibuprofen + Aspirin</button>
+          <button onclick="fillDrugExample('Warfarin','Paracetamol')" style="background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">Warfarin + Paracetamol</button>
+          <button onclick="fillDrugExample('Metformin','Alcohol')" style="background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">Metformin + Alcohol</button>
+          <button onclick="fillDrugExample('Ciprofloxacin','Antacid')" style="background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">Cipro + Antacid</button>
+          <button onclick="fillDrugExample('Amoxicillin','Oral Contraceptive')" style="background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">Amoxicillin + OCP</button>
+          <button onclick="fillDrugExample('Lisinopril','Potassium supplement')" style="background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">Lisinopril + Potassium</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -3942,10 +4057,33 @@ function generateMedCard() {
     ? '<img src="' + cardPhotoSrc + '" style="width:100%;height:100%;object-fit:cover;">'
     : '<span style="font-size:20px;color:rgba(255,255,255,0.15);">👤</span>';
 
+  // Build Krixia hexagon SVG for top right
+  var hexSVG = '<svg viewBox="0 0 88 88" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs>' +
+      '<linearGradient id="chg" x1="0%" y1="0%" x2="100%" y2="100%">' +
+        '<stop offset="0%" stop-color="#F0D888"/>' +
+        '<stop offset="45%" stop-color="#C9A84C"/>' +
+        '<stop offset="100%" stop-color="#A8832A"/>' +
+      '</linearGradient>' +
+      '<linearGradient id="cbg" x1="0%" y1="0%" x2="100%" y2="100%">' +
+        '<stop offset="0%" stop-color="#1A5C38"/>' +
+        '<stop offset="100%" stop-color="#030806"/>' +
+      '</linearGradient>' +
+    '</defs>' +
+    '<polygon points="44,4 80,23 80,65 44,84 8,65 8,23" fill="url(#cbg)" stroke="url(#chg)" stroke-width="2.5"/>' +
+    '<rect x="37" y="20" width="14" height="48" rx="5" fill="url(#chg)"/>' +
+    '<rect x="20" y="37" width="48" height="14" rx="5" fill="url(#chg)"/>' +
+    '<circle cx="44" cy="44" r="8" fill="#061812"/>' +
+    '</svg>';
+
   var cardHTML =
+    // Bold faded watermark behind all content
     '<div class="med-card-watermark">KRIXIA</div>' +
-    '<div class="med-card-microprint">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE</div>' +
+    // Microprint security strip
+    '<div class="med-card-microprint">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA</div>' +
     '<div class="card-inner">' +
+
+      // TOP ROW: KRIXIA text left + Logo SVG + VERIFIED right
       '<div class="card-top">' +
         '<div class="card-logo-area">' +
           '<div class="card-logo">KRIXIA</div>' +
@@ -3953,29 +4091,36 @@ function generateMedCard() {
         '</div>' +
         '<div class="card-chip-area">' +
           '<div class="card-verified">✓ VERIFIED</div>' +
-          '<div class="card-chip"></div>' +
+          hexSVG +
         '</div>' +
       '</div>' +
+
+      // MID ROW: Photo + Name + Occupation
       '<div class="card-mid">' +
         '<div class="card-photo">' + photoHTML + '</div>' +
         '<div class="card-name-area">' +
           '<div class="card-name">' + name + '</div>' +
-          (occupation ? '<div class="card-occupation">' + occupation + '</div>' : '') +
-          '<div class="card-id-bold">' + cardId + '</div>' +
+          (occupation ? '<div class="card-occupation">' + occupation.toUpperCase() + '</div>' : '') +
         '</div>' +
       '</div>' +
-      '<div class="card-bottom">' +
-        '<div class="card-details">' +
-          '<div class="cd-item"><div class="cd-label">Blood</div><div class="cd-val blood">' + blood + '</div></div>' +
-          '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + genotype + '</div></div>' +
-          '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + age + 'y</div></div>' +
-          '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + sex + '</div></div>' +
-        '</div>' +
-        '<div class="card-details-right">' +
+
+      // DATA ROW: Blood, Genotype, Age, Sex
+      '<div class="card-data-row">' +
+        '<div class="cd-item"><div class="cd-label">Blood</div><div class="cd-val blood">' + (blood || '—') + '</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + (genotype || '—') + '</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + (age || '—') + 'y</div></div>' +
+        '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + (sex || '—') + '</div></div>' +
+        '<div style="margin-left:auto;text-align:right;">' +
           '<div class="card-flag">🇳🇬 <span>Nigeria</span></div>' +
-          '<div style="font-size:6.5px;color:rgba(255,255,255,0.12);font-family:DM Sans,sans-serif;margin-top:1px;">krixia.tickit.com.ng</div>' +
         '</div>' +
       '</div>' +
+
+      // BOTTOM: Full-width bold card ID
+      '<div class="card-id-strip">' +
+        '<div class="cd-label" style="margin-bottom:3px;letter-spacing:2px;">KRIXIA HEALTH ID</div>' +
+        '<div class="card-id-full">' + cardId + '</div>' +
+      '</div>' +
+
     '</div>';
 
   document.getElementById('generated-card').innerHTML = cardHTML;
@@ -7079,18 +7224,26 @@ let krixiaUser = null; // Current logged-in user
       var photoHTML = window.cardPhotoDataURL
         ? '<img src="' + window.cardPhotoDataURL + '" style="width:100%;height:100%;object-fit:cover;">'
         : '<span style="font-size:20px;color:rgba(255,255,255,0.2);">👤</span>';
-      cardEl.innerHTML = '<div class="card-inner">' +
-        '<div class="card-top"><div class="card-logo-area"><div class="card-logo">KRIXIA</div><div class="card-logo-sub">Medical Intelligence</div></div>' +
-        '<div class="card-chip-area"><div class="card-verified">✓ VERIFIED</div><div class="card-chip"></div></div></div>' +
-        '<div class="card-mid"><div class="card-photo">' + photoHTML + '</div>' +
-        '<div class="card-name-area"><div class="card-name">' + card.name + '</div><div class="card-id">' + card.cardId + '</div></div></div>' +
-        '<div class="card-bottom"><div class="card-details">' +
-        '<div class="cd-item"><div class="cd-label">Blood Type</div><div class="cd-val blood">' + (card.blood || '—') + '</div></div>' +
-        '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + (card.genotype || '—') + '</div></div>' +
-        '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + (card.age || '—') + ' yrs</div></div>' +
-        '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + (card.sex || '—') + '</div></div>' +
-        '</div><div class="card-details-right"><div class="card-flag">🇳🇬 <span>Nigeria</span></div>' +
-        '<div style="font-size:8px;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;margin-top:2px;">krixia.tickit.com.ng</div></div></div></div>';
+      var hexSVGr = '<svg viewBox="0 0 88 88" width="32" height="32" fill="none"><defs><linearGradient id="chgr" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D888"/><stop offset="45%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#A8832A"/></linearGradient><linearGradient id="cbgr" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A5C38"/><stop offset="100%" stop-color="#030806"/></linearGradient></defs><polygon points="44,4 80,23 80,65 44,84 8,65 8,23" fill="url(#cbgr)" stroke="url(#chgr)" stroke-width="2.5"/><rect x="37" y="20" width="14" height="48" rx="5" fill="url(#chgr)"/><rect x="20" y="37" width="48" height="14" rx="5" fill="url(#chgr)"/><circle cx="44" cy="44" r="8" fill="#061812"/></svg>';
+      cardEl.innerHTML =
+        '<div class="med-card-watermark">KRIXIA</div>' +
+        '<div class="med-card-microprint">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE</div>' +
+        '<div class="card-inner">' +
+          '<div class="card-top"><div class="card-logo-area"><div class="card-logo">KRIXIA</div><div class="card-logo-sub">Medical Intelligence</div></div>' +
+          '<div class="card-chip-area"><div class="card-verified">✓ VERIFIED</div>' + hexSVGr + '</div></div>' +
+          '<div class="card-mid"><div class="card-photo">' + photoHTML + '</div>' +
+          '<div class="card-name-area"><div class="card-name">' + card.name + '</div>' +
+          (card.occupation ? '<div class="card-occupation">' + card.occupation.toUpperCase() + '</div>' : '') +
+          '</div></div>' +
+          '<div class="card-data-row">' +
+          '<div class="cd-item"><div class="cd-label">Blood</div><div class="cd-val blood">' + (card.blood || '—') + '</div></div>' +
+          '<div class="cd-item"><div class="cd-label">Genotype</div><div class="cd-val genotype">' + (card.genotype || '—') + '</div></div>' +
+          '<div class="cd-item"><div class="cd-label">Age</div><div class="cd-val">' + (card.age || '—') + 'y</div></div>' +
+          '<div class="cd-item"><div class="cd-label">Sex</div><div class="cd-val">' + (card.sex || '—') + '</div></div>' +
+          '<div style="margin-left:auto;text-align:right;"><div class="card-flag">🇳🇬 <span>Nigeria</span></div></div></div>' +
+          '<div class="card-id-strip"><div class="cd-label" style="margin-bottom:3px;letter-spacing:2px;">KRIXIA HEALTH ID</div>' +
+          '<div class="card-id-full">' + card.cardId + '</div></div>' +
+        '</div>';
     }, 500);
   } catch(e) { localStorage.removeItem('krixia_health_id'); }
 })();
@@ -7958,6 +8111,146 @@ window.addEventListener('resize', function() {
 
 
 
+
+
+// ══════════════════════════════════════════════════════════════
+// DRUG INTERACTION CHECKER
+// ══════════════════════════════════════════════════════════════
+
+function addDrugInputRow() {
+  var container = document.getElementById('drug-inputs');
+  if (!container) return;
+  var rows = container.querySelectorAll('.drug-input-row');
+  if (rows.length >= 6) { showToast('Maximum 6 medications'); return; }
+
+  var row = document.createElement('div');
+  row.className = 'drug-input-row';
+  row.style.cssText = 'display:flex;gap:8px;align-items:center;';
+
+  var inp = document.createElement('input');
+  inp.type = 'text';
+  inp.placeholder = 'e.g. Amlodipine 5mg';
+  inp.className = 'drug-input-field';
+  inp.style.cssText = 'flex:1;background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--text);font-family:DM Sans,sans-serif;outline:none;transition:border-color 0.2s;';
+  inp.addEventListener('focus', function() { this.style.borderColor = 'rgba(201,168,76,0.5)'; });
+  inp.addEventListener('blur', function() { this.style.borderColor = 'var(--border)'; });
+
+  var rmBtn = document.createElement('button');
+  rmBtn.textContent = '×';
+  rmBtn.style.cssText = 'width:32px;height:32px;background:rgba(232,93,74,0.08);border:1px solid rgba(232,93,74,0.2);border-radius:8px;color:var(--red-400);font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+  rmBtn.onclick = function() { row.remove(); };
+
+  row.appendChild(inp);
+  row.appendChild(rmBtn);
+  container.appendChild(row);
+  inp.focus();
+}
+
+function fillDrugExample(drug1, drug2) {
+  var inputs = document.querySelectorAll('.drug-input-field');
+  if (inputs[0]) inputs[0].value = drug1;
+  if (inputs[1]) inputs[1].value = drug2;
+  // Clear any extra rows
+  var rows = document.querySelectorAll('.drug-input-row');
+  for (var i = 2; i < rows.length; i++) rows[i].remove();
+}
+
+async function checkDrugInteractions() {
+  var inputs = document.querySelectorAll('.drug-input-field');
+  var drugs = [];
+  inputs.forEach(function(inp) {
+    var val = inp.value.trim();
+    if (val) drugs.push(val);
+  });
+
+  if (drugs.length < 2) {
+    showToast('Please enter at least 2 medications');
+    return;
+  }
+
+  var btn = document.getElementById('drug-check-btn');
+  var results = document.getElementById('drug-results');
+  var resultsContent = document.getElementById('drug-results-content');
+
+  btn.textContent = '⏳ Analysing...';
+  btn.disabled = true;
+  if (results) results.style.display = 'none';
+
+  // Build patient context
+  var patientContext = '';
+  var useProfile = document.getElementById('drug-use-profile');
+  if (useProfile && useProfile.checked && userProfile) {
+    patientContext = 'Patient profile: ';
+    if (userProfile.age) patientContext += 'Age ' + userProfile.age + ', ';
+    if (userProfile.sex) patientContext += userProfile.sex + ', ';
+    if (userProfile.blood) patientContext += 'Blood type ' + userProfile.blood + ', ';
+    if (userProfile.genotype) patientContext += 'Genotype ' + userProfile.genotype + ', ';
+    if (userProfile.conditions && userProfile.conditions !== 'None') patientContext += 'Conditions: ' + userProfile.conditions + ', ';
+    if (userProfile.allergies && userProfile.allergies !== 'None') patientContext += 'Allergies: ' + userProfile.allergies;
+  }
+
+  var drugList = drugs.map(function(d, i) { return (i+1) + '. ' + d; }).join('\n');
+  var prompt = 'You are a clinical pharmacologist. Analyse the interactions between these medications:\n' + drugList +
+    (patientContext ? '\n\nPatient context: ' + patientContext : '') +
+    '\n\nProvide a comprehensive drug interaction analysis in this exact structure:\n' +
+    '**Interaction Summary** — overall risk level (None/Mild/Moderate/Severe/Contraindicated) with one sentence explanation\n' +
+    '**Individual Interactions** — list each drug pair interaction found, mechanism of action, and clinical significance\n' +
+    '**Clinical Effects** — what the patient may experience from these interactions\n' +
+    '**Management Recommendations** — specific actionable steps (timing adjustments, monitoring, alternatives)\n' +
+    '**Monitoring Required** — any blood tests, vital signs, or symptoms to watch for\n' +
+    'Be clinically precise. Use generic drug names alongside brand names where relevant. Flag any life-threatening interactions immediately at the top.';
+
+  try {
+    var token = localStorage.getItem('krixia_token');
+    var res = await fetch('https://api.tickit.com.ng/api/diagnose', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (token || '')
+      },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: prompt }],
+        specialty: 'Pharmacology',
+        stream: false
+      })
+    });
+
+    var data = await res.json();
+    var reply = data.reply || 'Unable to analyse interactions. Please try again.';
+
+    // Render results with severity colour coding
+    var sevColor = '#1D9E64'; // default green
+    var upperReply = reply.toUpperCase();
+    if (upperReply.includes('CONTRAINDICATED') || upperReply.includes('LIFE-THREATENING') || upperReply.includes('SEVERE')) {
+      sevColor = '#E84A4A';
+    } else if (upperReply.includes('MODERATE')) {
+      sevColor = '#E8A020';
+    } else if (upperReply.includes('MILD')) {
+      sevColor = '#E8C040';
+    }
+
+    // Severity badge
+    var severityBadge = '';
+    if (upperReply.includes('CONTRAINDICATED')) severityBadge = '<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,74,74,0.1);border:1px solid rgba(232,74,74,0.3);border-radius:8px;padding:6px 12px;margin-bottom:12px;"><span style="font-size:14px;">🚨</span><span style="font-size:12px;font-weight:800;color:#E84A4A;font-family:DM Sans,sans-serif;">CONTRAINDICATED — Do not take together</span></div><br>';
+    else if (upperReply.includes('SEVERE') || upperReply.includes('LIFE-THREATENING')) severityBadge = '<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,74,74,0.1);border:1px solid rgba(232,74,74,0.3);border-radius:8px;padding:6px 12px;margin-bottom:12px;"><span style="font-size:14px;">⚠️</span><span style="font-size:12px;font-weight:800;color:#E84A4A;font-family:DM Sans,sans-serif;">SEVERE — Immediate medical attention required</span></div><br>';
+    else if (upperReply.includes('MODERATE')) severityBadge = '<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,160,32,0.1);border:1px solid rgba(232,160,32,0.3);border-radius:8px;padding:6px 12px;margin-bottom:12px;"><span style="font-size:14px;">⚠️</span><span style="font-size:12px;font-weight:800;color:#E8A020;font-family:DM Sans,sans-serif;">MODERATE — Consult pharmacist before combining</span></div><br>';
+    else if (upperReply.includes('MILD')) severityBadge = '<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,192,64,0.1);border:1px solid rgba(232,192,64,0.2);border-radius:8px;padding:6px 12px;margin-bottom:12px;"><span style="font-size:14px;">ℹ️</span><span style="font-size:12px;font-weight:800;color:#E8C040;font-family:DM Sans,sans-serif;">MILD — Monitor for side effects</span></div><br>';
+    else severityBadge = '<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.2);border-radius:8px;padding:6px 12px;margin-bottom:12px;"><span style="font-size:14px;">✅</span><span style="font-size:12px;font-weight:800;color:#1D9E64;font-family:DM Sans,sans-serif;">NO SIGNIFICANT INTERACTION — Generally safe to combine</span></div><br>';
+
+    resultsContent.innerHTML = severityBadge + formatMessage(reply);
+    results.style.display = 'block';
+
+    // Scroll to results
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch(err) {
+    resultsContent.innerHTML = '<div style="color:var(--red-400);font-size:13px;">Connection error. Please check your internet and try again.</div>';
+    results.style.display = 'block';
+  }
+
+  btn.textContent = '🔬 Analyse Interactions';
+  btn.disabled = false;
+}
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
 function openNHIAPanel() { openPanel('nhia-panel'); }
