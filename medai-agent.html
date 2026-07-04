@@ -7698,7 +7698,7 @@ async function krixiaSignup() {
     // Call login endpoint to get proper token
     const res2 = await fetch(KAUTH_BASE + '/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
       body: JSON.stringify({ email, password })
     });
@@ -7747,18 +7747,9 @@ async function krixiaLogin() {
     showAuthSuccessMessage('login', krixiaUser?.fullname || email);
   } catch(err) {
     var msg = err.message || 'Unknown error';
-    // Translate "Failed to fetch" into a precise diagnostic message
+    // Show the real error message directly
     if (msg === 'Failed to fetch' || msg.includes('NetworkError') || msg.includes('fetch')) {
-      // Test if it's SW blocking or server down
-      errEl.innerHTML = '⚠️ Connection error — the Krixia server could not be reached.<br><span style="font-size:11px;opacity:0.7;">Please check your internet connection and try again. If this persists, the server may be restarting.</span>';
-      // Fire a quick diagnostic ping
-      fetch('https://api.tickit.com.ng/api/diagnose/stats', { mode: 'no-cors' })
-        .then(function() {
-          errEl.innerHTML += '<br><span style="font-size:11px;color:#1D9E64;">✅ Server is reachable — try again in a moment</span>';
-        })
-        .catch(function() {
-          errEl.innerHTML += '<br><span style="font-size:11px;color:#E84A4A;">❌ Server unreachable — please report to support</span>';
-        });
+      errEl.innerHTML = '⚠️ Could not connect to Krixia server.<br><span style="font-size:11px;opacity:0.6;">Check your internet connection and try again. If this persists: wa.me/2347038609008</span>';
     } else {
       errEl.textContent = msg;
     }
@@ -7774,8 +7765,7 @@ async function doLogin(email, password) {
   const res = await fetch(KAUTH_BASE + '/login', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
+      'Content-Type': 'application/json'
     },
     cache: 'no-store',
     body: JSON.stringify({ email, password })
