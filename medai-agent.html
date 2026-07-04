@@ -1349,7 +1349,25 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 
     <!-- Headline -->
     <div style="font-family:Inter,sans-serif;font-size:20px;font-weight:800;color:#FAFAF7;line-height:1.3;margin-bottom:6px;">Your AI Doctor,<br>Available 24/7</div>
-    <div style="font-family:Inter,sans-serif;font-size:12px;color:rgba(255,255,255,0.38);line-height:1.7;margin-bottom:28px;">Built for Nigeria &nbsp;·&nbsp; 20+ specialties &nbsp;·&nbsp; Free to start</div>
+    <div style="font-family:Inter,sans-serif;font-size:12px;color:rgba(255,255,255,0.38);line-height:1.7;margin-bottom:20px;">Built for Nigeria &nbsp;·&nbsp; 20+ specialties &nbsp;·&nbsp; Free to start</div>
+
+    <!-- Live stats counter -->
+    <div id="ws-stats" style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:24px;background:rgba(29,158,100,0.07);border:1px solid rgba(29,158,100,0.18);border-radius:12px;padding:12px 16px;width:100%;">
+      <div style="flex:1;text-align:center;">
+        <div style="font-size:18px;font-weight:900;color:#C9A84C;font-family:Inter,sans-serif;line-height:1;" id="ws-count-consult">—</div>
+        <div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.3);font-family:Inter,sans-serif;margin-top:3px;">Consultations</div>
+      </div>
+      <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+      <div style="flex:1;text-align:center;">
+        <div style="font-size:18px;font-weight:900;color:#1D9E64;font-family:Inter,sans-serif;line-height:1;" id="ws-count-hospitals">128+</div>
+        <div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.3);font-family:Inter,sans-serif;margin-top:3px;">Hospitals</div>
+      </div>
+      <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+      <div style="flex:1;text-align:center;">
+        <div style="font-size:18px;font-weight:900;color:#C9A84C;font-family:Inter,sans-serif;line-height:1;" id="ws-count-states">37</div>
+        <div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.3);font-family:Inter,sans-serif;margin-top:3px;">States</div>
+      </div>
+    </div>
 
     <!-- Buttons — compact, proportional -->
     <button onclick="dismissWelcome();setTimeout(function(){openPanel('signup-panel');},100);"
@@ -1499,6 +1517,8 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <button class="qa-card" onclick="triggerImageUpload()"><span class="qa-icon">📷</span><div><div class="qa-text">Photo Scan</div><div class="qa-sub">Skin & injury analysis</div></div></button>
           <button class="qa-card" onclick="openScreeningPanel()"><span class="qa-icon">👁️</span><div><div class="qa-text">Eye & Nail Screen</div><div class="qa-sub">Jaundice & anemia signs</div></div></button>
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
+          <button class="qa-card" onclick="openNHIAPanel()"><span class="qa-icon">🏛️</span><div><div class="qa-text">NHIA Insurance</div><div class="qa-sub">Coverage & how to enrol</div></div></button>
+          <button class="qa-card" onclick="openSickleCellPanel()"><span class="qa-icon">🩸</span><div><div class="qa-text">Sickle Cell</div><div class="qa-sub">Genotype, crisis & centres</div></div></button>
         </div>
       </div>
 
@@ -1784,6 +1804,62 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <button class="mob-nav-btn" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="mob-icon">🪪</span><span class="mob-label">Health ID</span></button>
     <button class="mob-nav-btn" onclick="openPanel('telemedicine-panel')"><span class="mob-icon">👨‍⚕️</span><span class="mob-label">Doctors</span></button>
   </nav>
+
+<!-- MEDICAL DISCLAIMER PANEL -->
+<div class="panel-overlay" id="disclaimer-panel">
+  <div class="panel" style="max-width:480px;">
+    <div class="panel-header" style="padding:24px 28px 0;border-bottom:none;">
+      <div style="flex:1;">
+        <div style="font-size:10px;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;font-family:Inter,sans-serif;margin-bottom:4px;">Important Notice</div>
+        <h2 style="font-size:20px;font-weight:900;color:var(--text);font-family:Inter,sans-serif;">Medical Disclaimer</h2>
+      </div>
+      <button onclick="acceptDisclaimer()" style="background:none;border:none;color:var(--text-3);font-size:18px;cursor:pointer;padding:4px;">✕</button>
+    </div>
+    <div style="padding:20px 28px 28px;">
+
+      <!-- Warning icon row -->
+      <div style="background:rgba(232,165,30,0.08);border:1px solid rgba(232,165,30,0.2);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;">
+        <div style="font-size:20px;flex-shrink:0;margin-top:1px;">⚕️</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif;line-height:1.7;">
+          Krixia is an <strong style="color:var(--text);">AI-powered health intelligence platform</strong> — not a licensed medical provider. All information provided is for educational and guidance purposes only.
+        </div>
+      </div>
+
+      <!-- Structured clauses -->
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;">✓</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.7;"><strong style="color:var(--text);">Not a substitute for professional care.</strong> Krixia's AI assessments do not replace examination, diagnosis, or treatment by a licensed medical professional.</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;">✓</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.7;"><strong style="color:var(--text);">Emergency situations.</strong> If you are experiencing a medical emergency, call Nigeria Emergency Services <strong style="color:#E84A4A;">112</strong> or go to your nearest hospital immediately. Do not rely on this app.</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;">✓</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.7;"><strong style="color:var(--text);">Your data is protected.</strong> All health consultations are encrypted end-to-end using AES-256-GCM. We never sell, share, or monetize your personal health data.</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;">✓</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.7;"><strong style="color:var(--text);">Medication guidance.</strong> Any medication information provided is general guidance only. Always consult a licensed pharmacist or physician before taking any medication.</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(29,158,100,0.12);border:1px solid rgba(29,158,100,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;">✓</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.55);font-family:Inter,sans-serif;line-height:1.7;"><strong style="color:var(--text);">NDPR Compliance.</strong> Krixia operates in full compliance with the Nigeria Data Protection Regulation (NDPR) 2019 and the Nigeria Data Protection Act 2023.</div>
+        </div>
+      </div>
+
+      <!-- Accept button -->
+      <button onclick="acceptDisclaimer()" class="btn-primary"
+        style="width:100%;padding:14px;font-size:14px;font-weight:800;border-radius:12px;">
+        I Understand — Continue to Krixia
+      </button>
+      <p style="text-align:center;font-size:10px;color:var(--text-3);margin:10px 0 0;font-family:Inter,sans-serif;">
+        By continuing you agree to our <span style="color:var(--gold-300);cursor:pointer;">Terms of Service</span> and <span style="color:var(--gold-300);cursor:pointer;">Privacy Policy</span>
+      </p>
+    </div>
+  </div>
+</div>
 
 <!-- ADMIN DASHBOARD PANEL -->
 <div class="panel-overlay" id="admin-dashboard-panel">
@@ -2607,6 +2683,153 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('history-panel')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="clearHistory()" style="flex:1;background:rgba(232,93,74,0.15);color:var(--red-400);border:1px solid rgba(232,93,74,0.3);">🗑 Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- NHIA PANEL -->
+<div class="panel-overlay" id="nhia-panel">
+  <div class="panel" style="max-width:520px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('nhia-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🏛️ NHIA Health Insurance</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Nigeria National Health Insurance Authority — what's covered, how to access it</p>
+    <div class="panel-body" style="padding:0 1.25rem 1rem;">
+
+      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--em-300);margin-bottom:6px;">What is NHIA?</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">The National Health Insurance Authority (NHIA) was established under the NHIA Act 2022 to provide financial protection against the cost of healthcare for all Nigerians. It replaced the old NHIS and significantly expanded coverage.</div>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;">What's Covered</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        ${[
+          ['🏥','Outpatient consultations','GP visits, specialist referrals, follow-up care'],
+          ['💊','Essential medicines','All WHO essential medicines list drugs'],
+          ['🤰','Maternal care','Antenatal, delivery, postnatal for mother and newborn'],
+          ['👶','Child healthcare','Immunisation, growth monitoring, under-5 care'],
+          ['🔬','Diagnostics','Blood tests, X-rays, ultrasound, basic investigations'],
+          ['🏨','Inpatient care','Hospital admission, surgery (selected procedures)'],
+          ['🦷','Dental','Basic dental — extraction, filling, scaling'],
+          ['👁️','Optical','Eye examination and basic corrective lenses'],
+        ].map(([icon, title, desc]) =>
+          '<div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">' +
+          '<span style="font-size:18px;flex-shrink:0;">' + icon + '</span>' +
+          '<div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">' + title + '</div>' +
+          '<div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">' + desc + '</div></div></div>'
+        ).join('')}
+      </div>
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;">How to Enrol</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
+        ${[
+          ['1','Visit any NHIA-accredited facility or their website (nhia.gov.ng)'],
+          ['2','Complete the enrolment form with your NIN (National Identification Number)'],
+          ['3','Choose a Primary Healthcare Provider (HCP) from the accredited list'],
+          ['4','Receive your NHIA card — use it at any accredited facility nationwide'],
+        ].map(([n, text]) =>
+          '<div style="display:flex;gap:10px;align-items:flex-start;">' +
+          '<div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">' + n + '</div>' +
+          '<div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">' + text + '</div></div>'
+        ).join('')}
+      </div>
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;">NHIA-Accredited Hospitals in Our Database</div>
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">Major NHIA-accredited hospitals are marked in Krixia's hospital finder. Look for the <strong style="color:var(--gold-300);">NHIA ✓</strong> badge when browsing hospitals. Federal teaching hospitals, federal medical centres, and state general hospitals across all 36 states typically accept NHIA.</div>
+      </div>
+
+      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:4px;">📞 NHIA Contact</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">Hotline: <strong>0800-NHIA-HELP (0800-6442-4357)</strong><br>Website: nhia.gov.ng &nbsp;|&nbsp; Email: info@nhia.gov.ng</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SICKLE CELL MODULE PANEL -->
+<div class="panel-overlay" id="sickle-panel">
+  <div class="panel" style="max-width:520px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('sickle-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🩸 Sickle Cell Module</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('sickle-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Nigeria has the world's highest sickle cell burden — Krixia is built to help</p>
+    <div class="panel-body" style="padding:0 1.25rem 1rem;">
+
+      <!-- Genotype compatibility checker -->
+      <div style="background:rgba(232,74,74,0.06);border:1px solid rgba(232,74,74,0.15);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:#E84A4A;margin-bottom:10px;">🧬 Genotype Compatibility Checker</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div>
+            <div style="font-size:10px;letter-spacing:1px;color:var(--text-3);margin-bottom:4px;font-family:Inter,sans-serif;">Your Genotype</div>
+            <select id="sc-gen1" style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);">
+              <option value="">Select</option>
+              <option>AA</option><option>AS</option><option>SS</option><option>AC</option><option>SC</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-size:10px;letter-spacing:1px;color:var(--text-3);margin-bottom:4px;font-family:Inter,sans-serif;">Partner Genotype</div>
+            <select id="sc-gen2" style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);">
+              <option value="">Select</option>
+              <option>AA</option><option>AS</option><option>SS</option><option>AC</option><option>SC</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="checkGenotypeCompatibility()" class="btn-primary" style="width:100%;padding:10px;font-size:13px;border-radius:10px;">Check Compatibility</button>
+        <div id="sc-result" style="display:none;margin-top:12px;padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.7;"></div>
+      </div>
+
+      <!-- Crisis recognition -->
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">Recognising a Sickle Cell Crisis</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
+        <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🚨 Vaso-occlusive crisis</strong> — Sudden severe pain in bones, joints, chest, or abdomen. Most common type. Seek hospital immediately.</div>
+        <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🫁 Acute Chest Syndrome</strong> — Chest pain + fever + breathing difficulty. Life-threatening emergency. Call 112 now.</div>
+        <div style="padding:10px 12px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E84A4A;">🧠 Stroke signs</strong> — Face drooping, arm weakness, speech difficulty. Sickle cell patients are at 300× higher stroke risk. Call 112.</div>
+        <div style="padding:10px 12px;background:rgba(232,102,30,0.05);border:1px solid rgba(232,102,30,0.15);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.6;"><strong style="color:#E8672A;">⚠️ Splenic sequestration</strong> — Sudden left-sided abdominal pain + pallor. Common in children. Urgent hospital needed.</div>
+      </div>
+
+      <!-- Trigger avoidance -->
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">Crisis Trigger Avoidance</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        ${[
+          ['❄️','Extreme cold','Dress warmly, avoid cold water, use room temperature drinks'],
+          ['🏃','Overexertion','Rest frequently, avoid intense exercise without medical clearance'],
+          ['💧','Dehydration','Drink 3–4 litres of water daily — the most important prevention'],
+          ['🫁','Altitude/Low O₂','Avoid high altitude, unpressurised aircraft, deep water diving'],
+          ['😰','Infection','Treat infections early — even minor infections can trigger crisis'],
+          ['🌡️','Fever','Any temperature above 38°C needs medical attention immediately'],
+        ].map(([icon, title, tip]) =>
+          '<div style="padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;">' +
+          '<div style="font-size:16px;margin-bottom:4px;">' + icon + '</div>' +
+          '<div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;margin-bottom:3px;">' + title + '</div>' +
+          '<div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;line-height:1.5;">' + tip + '</div></div>'
+        ).join('')}
+      </div>
+
+      <!-- Sickle cell centres Nigeria -->
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-size:11px;font-weight:700;color:var(--gold-300);margin-bottom:8px;">🏥 Major Sickle Cell Centres in Nigeria</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          ${[
+            ['Lagos','Sickle Cell Foundation Nigeria — Victoria Island','01-462-4291'],
+            ['Lagos','LUTH Haematology Dept — Idi-Araba','01-774-5491'],
+            ['Ibadan','UCH Haematology — Ibadan','02-241-1768'],
+            ['Abuja','NAUTH Sickle Cell Clinic — Nnewi','046-462-577'],
+            ['Enugu','UNTH Haematology — Enugu','042-253-425'],
+          ].map(([city, name, phone]) =>
+            '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">' +
+            '<div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">' + name + '</div>' +
+            '<div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">' + city + '</div></div>' +
+            '<a href="tel:' + phone + '" style="font-size:10px;color:var(--gold-300);font-family:Inter,sans-serif;text-decoration:none;font-weight:700;">' + phone + '</a></div>'
+          ).join('')}
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -5656,31 +5879,83 @@ async function openHistoryPanel() {
       return;
     }
 
-    list.innerHTML = '';
+    // Group sessions by month for timeline
+    var grouped = {};
     data.sessions.forEach(function(session) {
-      var msgs = Array.isArray(session.messages) ? session.messages : [];
-      var userMsg = msgs.find(function(m) { return m.role === 'user'; });
-      var aiMsg = msgs.filter(function(m) { return m.role === 'assistant'; }).pop();
-      var preview = userMsg ? userMsg.content.slice(0, 100) + '...' : 'Consultation recorded';
-      var aiPreview = aiMsg ? aiMsg.content.replace(/[#*`]/g, '').slice(0, 80) + '...' : '';
-      var date = new Date(session.updated_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
-      var sev = session.severity || 'low';
-      var sevClass = 'sev-' + sev;
-      var sevLabel = sev.charAt(0).toUpperCase() + sev.slice(1);
-
-      var card = document.createElement('div');
-      card.className = 'history-card';
-      card.onclick = function() { loadHistorySession(session.session_token); };
-      card.innerHTML =
-        '<div class="history-card-top">' +
-          '<span class="history-specialty">' + (session.specialty || 'General Medicine') + '</span>' +
-          '<span class="history-date">' + date + '</span>' +
-        '</div>' +
-        '<div class="history-preview" style="color:var(--gold-300);font-size:12px;margin-bottom:4px;">You: ' + preview + '</div>' +
-        (aiPreview ? '<div class="history-preview">AI: ' + aiPreview + '</div>' : '') +
-        '<span class="history-severity ' + sevClass + '">' + sevLabel + '</span>';
-      list.appendChild(card);
+      var d = new Date(session.updated_at);
+      var key = d.toLocaleDateString('en-NG', { month: 'long', year: 'numeric' });
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(session);
     });
+
+    list.innerHTML = '';
+
+    // Build timeline
+    var timeline = document.createElement('div');
+    timeline.style.cssText = 'position:relative;padding:0 0 1rem;';
+
+    // Vertical timeline line
+    var line = document.createElement('div');
+    line.style.cssText = 'position:absolute;left:16px;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold-400),rgba(201,168,76,0.1));';
+    timeline.appendChild(line);
+
+    Object.keys(grouped).forEach(function(month) {
+      // Month label
+      var monthLabel = document.createElement('div');
+      monthLabel.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:Inter,sans-serif;padding:16px 0 8px 36px;';
+      monthLabel.textContent = month;
+      timeline.appendChild(monthLabel);
+
+      grouped[month].forEach(function(session) {
+        var msgs = Array.isArray(session.messages) ? session.messages : [];
+        var userMsg = msgs.find(function(m) { return m.role === 'user'; });
+        var aiMsg = msgs.filter(function(m) { return m.role === 'assistant'; }).pop();
+        var symptom = userMsg ? userMsg.content.slice(0, 80) : 'Consultation recorded';
+        var d = new Date(session.updated_at);
+        var dateStr = d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short' });
+        var timeStr = d.toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
+        var sev = session.severity || 'low';
+        var sevColors = { low: '#1D9E64', moderate: '#E8A020', high: '#E8672A', emergency: '#E84A4A' };
+        var sevColor = sevColors[sev] || '#1D9E64';
+        var specialty = session.specialty || 'General Medicine';
+
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;gap:0;align-items:flex-start;margin-bottom:10px;';
+
+        // Timeline dot
+        var dot = document.createElement('div');
+        dot.style.cssText = 'width:32px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:center;padding-top:10px;';
+        dot.innerHTML = '<div style="width:10px;height:10px;border-radius:50%;background:' + sevColor + ';border:2px solid var(--surface-1);box-shadow:0 0 0 2px ' + sevColor + '33;flex-shrink:0;"></div>';
+
+        // Card
+        var card = document.createElement('div');
+        card.style.cssText = 'flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s;margin-bottom:0;';
+        card.onmouseover = function() { this.style.borderColor = 'rgba(201,168,76,0.3)'; this.style.transform = 'translateX(2px)'; };
+        card.onmouseout = function() { this.style.borderColor = 'var(--border)'; this.style.transform = 'translateX(0)'; };
+
+        card.innerHTML =
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">' +
+            '<span style="font-size:11px;font-weight:700;color:' + sevColor + ';font-family:Inter,sans-serif;">' + specialty + '</span>' +
+            '<div style="display:flex;align-items:center;gap:8px;">' +
+              '<span style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">' + dateStr + ' ' + timeStr + '</span>' +
+              '<button data-tok="' + session.session_token + '" onclick="event.stopPropagation();exportSessionPDF(this.getAttribute(\'data-tok\'))" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:700;color:var(--gold-300);cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.5px;">PDF</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:var(--text);font-family:Inter,sans-serif;margin-bottom:4px;line-height:1.5;">' + symptom + '</div>' +
+          '<div style="display:inline-flex;align-items:center;gap:4px;background:' + sevColor + '18;border-radius:6px;padding:2px 8px;">' +
+            '<div style="width:5px;height:5px;border-radius:50%;background:' + sevColor + ';"></div>' +
+            '<span style="font-size:10px;font-weight:700;color:' + sevColor + ';font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:1px;">' + sev + '</span>' +
+          '</div>';
+
+        card.onclick = function() { loadHistorySession(session.session_token); };
+
+        row.appendChild(dot);
+        row.appendChild(card);
+        timeline.appendChild(row);
+      });
+    });
+
+    list.appendChild(timeline);
 
   } catch(err) {
     list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:14px;">Could not load history.<br><small style="color:var(--red-400);">' + err.message + '</small></div>';
@@ -7112,6 +7387,181 @@ window.addEventListener('resize', function() {
 
 
 
+
+
+
+// ── CONSULTATION PDF EXPORT ──────────────────────────────────
+async function exportSessionPDF(sessionToken) {
+  try {
+    // Fetch the session data
+    var token = localStorage.getItem('krixia_token');
+    var res = await fetch('https://api.tickit.com.ng/api/history?limit=50', {
+      headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+    });
+    var data = await res.json();
+    var session = (data.sessions || []).find(function(s) { return s.session_token === sessionToken; });
+    if (!session) { alert('Session not found'); return; }
+
+    var msgs = Array.isArray(session.messages) ? session.messages : [];
+    var date = new Date(session.updated_at).toLocaleDateString('en-NG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    var specialty = session.specialty || 'General Medicine';
+    var severity = session.severity || 'low';
+    var userName = krixiaUser ? krixiaUser.fullname || krixiaUser.email : 'Patient';
+
+    // Build HTML for PDF
+    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
+    html += '<style>';
+    html += 'body{font-family:Arial,sans-serif;color:#1a1a1a;margin:0;padding:0;background:#fff;}';
+    html += '.header{background:#030806;color:#C9A84C;padding:28px 40px;display:flex;align-items:center;justify-content:space-between;}';
+    html += '.logo{font-size:22px;font-weight:900;letter-spacing:6px;}';
+    html += '.header-sub{font-size:10px;letter-spacing:2px;opacity:0.6;margin-top:3px;}';
+    html += '.stamp{background:rgba(29,158,100,0.15);border:1px solid rgba(29,158,100,0.4);border-radius:6px;padding:4px 10px;font-size:10px;color:#1D9E64;letter-spacing:1px;}';
+    html += '.meta{background:#f8f9fa;padding:20px 40px;border-bottom:2px solid #C9A84C;}';
+    html += '.meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px;}';
+    html += '.meta-item label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#888;}';
+    html += '.meta-item span{font-size:13px;font-weight:700;color:#1a1a1a;display:block;margin-top:2px;}';
+    html += '.body{padding:28px 40px;}';
+    html += '.section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #eee;}';
+    html += '.msg{margin-bottom:14px;padding:12px 16px;border-radius:8px;}';
+    html += '.msg.user{background:#f0f4ff;border-left:3px solid #4A90D9;}';
+    html += '.msg.ai{background:#f0faf5;border-left:3px solid #1D9E64;}';
+    html += '.msg-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}';
+    html += '.msg.user .msg-label{color:#4A90D9;}';
+    html += '.msg.ai .msg-label{color:#1D9E64;}';
+    html += '.msg p{font-size:12px;line-height:1.7;margin:0;color:#333;}';
+    html += '.footer{background:#030806;color:rgba(255,255,255,0.4);padding:16px 40px;font-size:10px;line-height:1.7;margin-top:40px;}';
+    html += '.sev{display:inline-block;padding:4px 12px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}';
+    html += '.sev.low{background:#e6f7ee;color:#1D9E64;}';
+    html += '.sev.moderate{background:#fff8e6;color:#E8A020;}';
+    html += '.sev.high{background:#fff0e6;color:#E8672A;}';
+    html += '.sev.emergency{background:#ffe6e6;color:#E84A4A;}';
+    html += '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}';
+    html += '</style></head><body>';
+
+    html += '<div class="header"><div><div class="logo">KRIXIA</div><div class="header-sub">MEDICAL INTELLIGENCE PLATFORM</div></div>';
+    html += '<div class="stamp">AI CONSULTATION SUMMARY</div></div>';
+
+    html += '<div class="meta"><strong style="font-size:13px;color:#030806;">Consultation Report</strong>';
+    html += '<div class="meta-grid">';
+    html += '<div class="meta-item"><label>Patient</label><span>' + userName + '</span></div>';
+    html += '<div class="meta-item"><label>Date</label><span>' + date + '</span></div>';
+    html += '<div class="meta-item"><label>Specialty</label><span>' + specialty + '</span></div>';
+    html += '<div class="meta-item"><label>Severity</label><span><span class="sev ' + severity + '">' + severity.toUpperCase() + '</span></span></div>';
+    html += '<div class="meta-item"><label>Session ID</label><span style="font-size:10px;font-family:monospace;">' + sessionToken.slice(0, 20) + '...</span></div>';
+    html += '<div class="meta-item"><label>Generated</label><span>' + new Date().toLocaleDateString('en-NG') + '</span></div>';
+    html += '</div></div>';
+
+    html += '<div class="body"><div class="section-title">Consultation Transcript</div>';
+    msgs.forEach(function(msg) {
+      if (!msg.content || msg.content === '[Image attached]') return;
+      var clean = msg.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+      var label = msg.role === 'user' ? 'Patient' : 'Krixia AI Doctor';
+      html += '<div class="msg ' + msg.role + '"><div class="msg-label">' + label + '</div><p>' + clean + '</p></div>';
+    });
+
+    html += '</div>';
+    html += '<div class="footer">';
+    html += '⚕ MEDICAL DISCLAIMER: This AI consultation summary is generated by Krixia Medical Intelligence and is for informational purposes only. ';
+    html += 'It does not constitute medical advice, diagnosis, or treatment. Always consult a licensed medical professional. ';
+    html += 'Emergency: Call 112 immediately. &nbsp;|&nbsp; Krixia · krixia.tickit.com.ng · © 2026 Tickit NG';
+    html += '</div></body></html>';
+
+    // Open in new window for print/save as PDF
+    var win = window.open('', '_blank');
+    if (win) {
+      win.document.write(html);
+      win.document.close();
+      setTimeout(function() { win.print(); }, 500);
+    }
+  } catch(err) {
+    console.error('PDF export error:', err);
+    alert('Could not generate PDF. Please try again.');
+  }
+}
+
+// ── MEDICAL DISCLAIMER ───────────────────────────────────────
+function showDisclaimer() {
+  // Only show once per session
+  if (sessionStorage.getItem('krixia_disclaimer_accepted')) return;
+  openPanel('disclaimer-panel');
+}
+
+function acceptDisclaimer() {
+  sessionStorage.setItem('krixia_disclaimer_accepted', '1');
+  closePanel('disclaimer-panel');
+  // Launch pending consultation if any
+  var pending = sessionStorage.getItem('krixia_pending_symptom');
+  var pendingSpec = sessionStorage.getItem('krixia_pending_specialty');
+  if (pending) {
+    sessionStorage.removeItem('krixia_pending_symptom');
+    sessionStorage.removeItem('krixia_pending_specialty');
+    setTimeout(function() { launchConsultation(pending, pendingSpec); }, 400);
+  }
+}
+
+// Show disclaimer on first use of consultation
+function checkDisclaimerBeforeConsult() {
+  if (!sessionStorage.getItem('krixia_disclaimer_accepted')) {
+    showDisclaimer();
+    return false; // Block consultation until accepted
+  }
+  return true;
+}
+
+// ── LIVE STATS COUNTER — welcome screen ──────────────────────
+function animateCount(el, target, duration) {
+  if (!el) return;
+  var start = 0;
+  var step = target / (duration / 16);
+  var current = 0;
+  var timer = setInterval(function() {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current).toLocaleString() + '+';
+    if (current >= target) clearInterval(timer);
+  }, 16);
+}
+
+async function loadWelcomeStats() {
+  try {
+    var res = await fetch('https://api.tickit.com.ng/api/diagnose/stats');
+    var data = await res.json();
+    var consultEl = document.getElementById('ws-count-consult');
+    var hospEl = document.getElementById('ws-count-hospitals');
+    var statesEl = document.getElementById('ws-count-states');
+    if (consultEl && data.total_consultations !== undefined) {
+      animateCount(consultEl, data.total_consultations, 1200);
+    }
+    if (hospEl) animateCount(hospEl, data.hospitals || 128, 800);
+    if (statesEl && statesEl) {
+      statesEl.textContent = (data.states || 37) + '';
+    }
+  } catch(e) {
+    var el = document.getElementById('ws-count-consult');
+    if (el) el.textContent = '180+';
+  }
+}
+
+// Call when welcome screen becomes visible
+var _origDismissWelcome = typeof dismissWelcome === 'function' ? dismissWelcome : null;
+document.addEventListener('DOMContentLoaded', function() {
+  var ws = document.getElementById('welcome-screen');
+  if (ws && ws.style.display !== 'none') {
+    loadWelcomeStats();
+  }
+  // Also hook into welcome screen display
+  var origStyle = ws ? ws.style.display : '';
+  if (ws) {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.attributeName === 'style' && ws.style.display === 'flex') {
+          loadWelcomeStats();
+        }
+      });
+    });
+    observer.observe(ws, { attributes: true });
+  }
+});
+
 // ── HERO SLIDER — Infinite Seamless Loop ──────────────────────
 // Architecture: 5 slides (4 real + 1 clone of slide 0 at position 4)
 // Track width = 500% (5 slides × 20% each)
@@ -7558,6 +8008,13 @@ let consultSpecialty = 'General Medicine';
 
 function launchConsultation(initialMessage, specialty) {
   if (consultationActive) return;
+  if (!sessionStorage.getItem('krixia_disclaimer_accepted')) {
+    showDisclaimer();
+    // Store pending message to launch after acceptance
+    sessionStorage.setItem('krixia_pending_symptom', initialMessage || '');
+    sessionStorage.setItem('krixia_pending_specialty', specialty || '');
+    return;
+  }
   consultationActive = true;
   consultSpecialty = specialty || currentSpecialty || 'General Medicine';
   consultationHistory = [];
