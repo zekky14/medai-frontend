@@ -779,7 +779,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 /* TOP ROW */
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .card-logo-area { display: flex; flex-direction: column; gap: 1px; }
-.card-logo { font-family: 'Sora', 'DM Sans', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 3.5px; background: linear-gradient(90deg, #F5E0A0, #C9A84C, #A8832A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.card-logo { font-family: 'Sora', 'DM Sans', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 3.5px; color: #C9A84C; }
 .card-logo-sub { font-size: 6.5px; letter-spacing: 2px; color: rgba(255,255,255,0.22); font-family: 'DM Sans', sans-serif; text-transform: uppercase; }
 .card-chip-area { display: flex; align-items: center; gap: 7px; }
 .card-chip { width: 30px; height: 22px; background: linear-gradient(135deg, #D4AF37, #C9A84C, #B8943A); border-radius: 4px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.4); flex-shrink: 0; }
@@ -790,7 +790,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .card-photo { width: 48px; height: 48px; border-radius: 9px; border: 1.5px solid rgba(201,168,76,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
 .card-photo img { width: 100%; height: 100%; object-fit: cover; }
 .card-name-area { flex: 1; min-width: 0; }
-.card-name { font-size: 15px; font-weight: 700; color: #FAFAF7; font-family: 'Sora', 'DM Sans', sans-serif; letter-spacing: 0.1px; line-height: 1.2; margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-name { font-size: 15px; font-weight: 700; color: #FAFAF7; font-family: 'Sora', 'DM Sans', Arial, sans-serif; letter-spacing: 0.1px; line-height: 1.2; margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-occupation { font-size: 8px; color: rgba(201,168,76,0.6); font-family: 'DM Sans', sans-serif; letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; font-weight: 600; }
 .card-id-bold {
   font-size: 11px;
@@ -814,7 +814,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   padding-top: 5px;
 }
 .card-id-full {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 12px;
   font-weight: 800;
   color: rgba(255,255,255,0.75);
@@ -1950,6 +1950,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <button onclick="openPanel('drug-panel');closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
         <span style="font-size:22px;">💊</span>
         <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Drug Interactions</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Check medication safety</div></div>
+      </button>
+      <button onclick="openPanel('support-panel');closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">🛟</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Help & Support</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Contact us · FAQ · Tickets</div></div>
       </button>
     </div>
   </div>
@@ -4184,7 +4188,7 @@ function generateMedCard() {
       // TOP ROW: KRIXIA text left + Logo SVG + VERIFIED right
       '<div class="card-top">' +
         '<div class="card-logo-area">' +
-          '<div class="card-logo">KRIXIA</div>' +
+          '<div class="card-logo" style="color:#C9A84C;background:none;-webkit-text-fill-color:#C9A84C;">KRIXIA</div>' +
           '<div class="card-logo-sub">Medical Intelligence</div>' +
         '</div>' +
         '<div class="card-chip-area">' +
@@ -7381,7 +7385,7 @@ let krixiaUser = null; // Current logged-in user
         '<div class="med-card-watermark">KRIXIA</div>' +
         '<div class="med-card-microprint">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · KRIXIA MEDICAL INTELLIGENCE</div>' +
         '<div class="card-inner">' +
-          '<div class="card-top"><div class="card-logo-area"><div class="card-logo">KRIXIA</div><div class="card-logo-sub">Medical Intelligence</div></div>' +
+          '<div class="card-top"><div class="card-logo-area"><div class="card-logo" style="color:#C9A84C;background:none;-webkit-text-fill-color:#C9A84C;">KRIXIA</div><div class="card-logo-sub">Medical Intelligence</div></div>' +
           '<div class="card-chip-area"><div class="card-verified">✓ VERIFIED</div>' + hexSVGr + '</div></div>' +
           '<div class="card-mid"><div class="card-photo">' + photoHTML + '</div>' +
           '<div class="card-name-area"><div class="card-name">' + card.name + '</div>' +
