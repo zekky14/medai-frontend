@@ -218,6 +218,11 @@ html[data-theme="light"], html[data-theme="light"] body {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+@keyframes camScan {
+  0% { top: 15%; }
+  50% { top: 85%; }
+  100% { top: 15%; }
+}
 @keyframes moreGlow {
   0%, 100% { border-color: rgba(201,168,76,0.45); box-shadow: 0 0 0 0 rgba(201,168,76,0); }
   50% { border-color: rgba(201,168,76,0.8); box-shadow: 0 0 8px 2px rgba(201,168,76,0.15); }
@@ -1642,6 +1647,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
           <button class="qa-card" onclick="openNHIAPanel()"><span class="qa-icon">🏛️</span><div><div class="qa-text">NHIA Insurance</div><div class="qa-sub">Coverage & how to enrol</div></div></button>
           <button class="qa-card" onclick="openSickleCellPanel()"><span class="qa-icon">🩸</span><div><div class="qa-text">Sickle Cell</div><div class="qa-sub">Genotype, crisis & centres</div></div></button>
+          <button class="qa-card" onclick="openCameraPanel()"><span class="qa-icon">📷</span><div><div class="qa-text">Visual Diagnosis</div><div class="qa-sub">Camera AI analysis</div></div></button>
           <button class="qa-card" onclick="openPanel('drug-panel')"><span class="qa-icon">💊</span><div><div class="qa-text">Drug Interactions</div><div class="qa-sub">Check medication safety</div></div></button>
           <button class="qa-card" onclick="openPanel('support-panel')"><span class="qa-icon">🛟</span><div><div class="qa-text">Help & Support</div><div class="qa-sub">Contact us · FAQ · Ticket</div></div></button>
         </div>
@@ -1946,6 +1952,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <button onclick="openVitalsPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
         <span style="font-size:22px;">💓</span>
         <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Vitals Scan</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Camera pulse & SpO₂</div></div>
+      </button>
+      <button onclick="openCameraPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">📷</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Visual Diagnosis</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Camera AI analysis</div></div>
       </button>
       <button onclick="openPanel('drug-panel');closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
         <span style="font-size:22px;">💊</span>
@@ -2863,6 +2873,116 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('history-panel')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="clearHistory()" style="flex:1;background:rgba(232,93,74,0.15);color:var(--red-400);border:1px solid rgba(232,93,74,0.3);">🗑 Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI CAMERA SYMPTOM ANALYZER PANEL -->
+<div class="panel-overlay" id="camera-panel">
+  <div class="panel" style="max-width:520px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closeCameraPanel()">← Back</button>
+      <h2 class="panel-close-desktop">📷 AI Visual Diagnosis</h2>
+      <button class="panel-close panel-close-desktop" onclick="closeCameraPanel()">✕</button>
+    </div>
+    <p class="panel-sub">Point your camera at a wound, rash, or skin condition for instant AI analysis</p>
+    <div class="panel-body" style="padding:0 1.25rem 1rem;">
+
+      <!-- Mode toggle -->
+      <div style="display:flex;gap:0;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:14px;">
+        <button id="cam-mode-live" onclick="setCameraMode('live')"
+          style="flex:1;padding:9px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:DM Sans,sans-serif;background:linear-gradient(135deg,#A8832A,#C9A84C);color:#06100C;">
+          📷 Live Camera
+        </button>
+        <button id="cam-mode-upload" onclick="setCameraMode('upload')"
+          style="flex:1;padding:9px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:DM Sans,sans-serif;background:none;color:var(--text-3);">
+          🖼️ Upload Image
+        </button>
+      </div>
+
+      <!-- Live camera viewfinder -->
+      <div id="cam-live-section">
+        <div style="position:relative;background:#000;border-radius:14px;overflow:hidden;aspect-ratio:4/3;margin-bottom:12px;border:1px solid rgba(201,168,76,0.2);">
+          <video id="cam-video" autoplay playsinline muted
+            style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+          <canvas id="cam-capture-canvas" style="display:none;"></canvas>
+
+          <!-- Scanning overlay -->
+          <div id="cam-scan-overlay" style="position:absolute;inset:0;pointer-events:none;">
+            <!-- Corner brackets -->
+            <div style="position:absolute;top:16px;left:16px;width:32px;height:32px;border-top:2px solid #C9A84C;border-left:2px solid #C9A84C;border-radius:4px 0 0 0;"></div>
+            <div style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-top:2px solid #C9A84C;border-right:2px solid #C9A84C;border-radius:0 4px 0 0;"></div>
+            <div style="position:absolute;bottom:16px;left:16px;width:32px;height:32px;border-bottom:2px solid #C9A84C;border-left:2px solid #C9A84C;border-radius:0 0 0 4px;"></div>
+            <div style="position:absolute;bottom:16px;right:16px;width:32px;height:32px;border-bottom:2px solid #C9A84C;border-right:2px solid #C9A84C;border-radius:0 0 4px 0;"></div>
+            <!-- Scan line -->
+            <div id="cam-scan-line" style="position:absolute;left:16px;right:16px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.6),transparent);top:50%;animation:camScan 2s ease-in-out infinite;"></div>
+          </div>
+
+          <!-- No camera message -->
+          <div id="cam-no-device" style="display:none;position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:DM Sans,sans-serif;">
+            <div style="font-size:40px;margin-bottom:12px;">📷</div>
+            <div style="font-size:13px;font-weight:600;">Camera not available</div>
+            <div style="font-size:11px;margin-top:4px;">Use Upload Image instead</div>
+          </div>
+        </div>
+
+        <!-- Capture button -->
+        <button id="cam-capture-btn" onclick="captureAndAnalyze()"
+          style="width:100%;padding:14px;background:linear-gradient(135deg,#A8832A,#E8C97A,#C9A84C);color:#06100C;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;letter-spacing:0.3px;margin-bottom:10px;">
+          🔬 Capture & Analyse
+        </button>
+
+        <!-- Tips -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px;">
+          <div style="display:flex;align-items:center;gap:5px;background:var(--surface-2);border-radius:8px;padding:5px 10px;">
+            <span style="font-size:12px;">💡</span><span style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Good lighting</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;background:var(--surface-2);border-radius:8px;padding:5px 10px;">
+            <span style="font-size:12px;">🎯</span><span style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Keep steady</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;background:var(--surface-2);border-radius:8px;padding:5px 10px;">
+            <span style="font-size:12px;">📏</span><span style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">15–30cm away</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload image section -->
+      <div id="cam-upload-section" style="display:none;">
+        <div id="cam-upload-zone"
+          onclick="document.getElementById('cam-file-input').click()"
+          style="border:2px dashed rgba(201,168,76,0.25);border-radius:14px;padding:40px 20px;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:12px;"
+          onmouseover="this.style.borderColor='rgba(201,168,76,0.5)';this.style.background='rgba(201,168,76,0.04)'"
+          onmouseout="this.style.borderColor='rgba(201,168,76,0.25)';this.style.background='none'">
+          <div style="font-size:40px;margin-bottom:10px;">🖼️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;margin-bottom:4px;">Tap to select image</div>
+          <div style="font-size:11px;color:var(--text-3);font-family:DM Sans,sans-serif;">Wound · Rash · Skin condition · Pill · Lab result</div>
+          <input type="file" id="cam-file-input" accept="image/*" style="display:none;" onchange="handleCameraUpload(event)">
+        </div>
+        <div id="cam-preview-container" style="display:none;margin-bottom:12px;">
+          <div style="position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);">
+            <img id="cam-preview-img" style="width:100%;display:block;max-height:280px;object-fit:contain;background:#000;">
+          </div>
+          <button onclick="analyzeUploadedImage()"
+            style="width:100%;margin-top:10px;padding:14px;background:linear-gradient(135deg,#A8832A,#E8C97A,#C9A84C);color:#06100C;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;">
+            🔬 Analyse This Image
+          </button>
+        </div>
+      </div>
+
+      <!-- Analysis results -->
+      <div id="cam-results" style="display:none;margin-top:4px;">
+        <div style="height:1px;background:var(--border);margin-bottom:14px;"></div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">Visual Analysis Results</div>
+        <div id="cam-results-content"></div>
+        <button onclick="sendCameraResultToChat()" id="cam-to-chat-btn"
+          style="display:none;width:100%;margin-top:12px;padding:12px;background:rgba(29,158,100,0.1);border:1px solid rgba(29,158,100,0.25);border-radius:10px;font-size:13px;font-weight:700;color:var(--em-300);cursor:pointer;font-family:DM Sans,sans-serif;">
+          💬 Continue in AI Consultation
+        </button>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(232,160,32,0.06);border:1px solid rgba(232,160,32,0.12);border-radius:8px;">
+          <div style="font-size:10px;color:rgba(232,160,32,0.6);font-family:DM Sans,sans-serif;line-height:1.6;">⚕️ Visual AI analysis is a screening tool only — not a clinical diagnosis. Always consult a licensed physician for any medical concern.</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -8406,6 +8526,225 @@ async function checkDrugInteractions() {
 
   btn.textContent = '🔬 Analyse Interactions';
   btn.disabled = false;
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// AI CAMERA SYMPTOM ANALYZER — Complete Engine
+// ══════════════════════════════════════════════════════════════
+
+var cameraStream = null;
+var cameraAnalysisResult = '';
+var cameraUploadedBase64 = null;
+
+function openCameraPanel() {
+  openPanel('camera-panel');
+  setCameraMode('live');
+  startCamera();
+}
+
+function closeCameraPanel() {
+  stopCamera();
+  closePanel('camera-panel');
+}
+
+function setCameraMode(mode) {
+  var liveBtn = document.getElementById('cam-mode-live');
+  var uploadBtn = document.getElementById('cam-mode-upload');
+  var liveSection = document.getElementById('cam-live-section');
+  var uploadSection = document.getElementById('cam-upload-section');
+  var results = document.getElementById('cam-results');
+
+  if (results) results.style.display = 'none';
+
+  var activeStyle = 'background:linear-gradient(135deg,#A8832A,#C9A84C);color:#06100C;';
+  var inactiveStyle = 'background:none;color:var(--text-3);';
+
+  if (mode === 'live') {
+    if (liveBtn) liveBtn.style.cssText += activeStyle;
+    if (uploadBtn) uploadBtn.style.cssText += inactiveStyle;
+    if (liveSection) liveSection.style.display = 'block';
+    if (uploadSection) uploadSection.style.display = 'none';
+    startCamera();
+  } else {
+    if (liveBtn) liveBtn.style.cssText += inactiveStyle;
+    if (uploadBtn) uploadBtn.style.cssText += activeStyle;
+    if (liveSection) liveSection.style.display = 'none';
+    if (uploadSection) uploadSection.style.display = 'block';
+    stopCamera();
+  }
+}
+
+async function startCamera() {
+  var video = document.getElementById('cam-video');
+  var noDevice = document.getElementById('cam-no-device');
+  if (!video) return;
+
+  try {
+    var stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 960 } },
+      audio: false
+    });
+    cameraStream = stream;
+    video.srcObject = stream;
+    video.style.display = 'block';
+    if (noDevice) noDevice.style.display = 'none';
+  } catch(err) {
+    console.warn('Camera error:', err);
+    video.style.display = 'none';
+    if (noDevice) noDevice.style.display = 'flex';
+  }
+}
+
+function stopCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(function(t) { t.stop(); });
+    cameraStream = null;
+  }
+  var video = document.getElementById('cam-video');
+  if (video) video.srcObject = null;
+}
+
+function captureAndAnalyze() {
+  var video = document.getElementById('cam-video');
+  var canvas = document.getElementById('cam-capture-canvas');
+  if (!video || !video.videoWidth) {
+    showToast('Camera not ready — try Upload Image mode');
+    return;
+  }
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0);
+
+  var base64 = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+  analyzeImageBase64(base64, 'camera');
+}
+
+function handleCameraUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var dataURL = e.target.result;
+    cameraUploadedBase64 = dataURL.split(',')[1];
+
+    var preview = document.getElementById('cam-preview-img');
+    var previewContainer = document.getElementById('cam-preview-container');
+    var uploadZone = document.getElementById('cam-upload-zone');
+
+    if (preview) preview.src = dataURL;
+    if (previewContainer) previewContainer.style.display = 'block';
+    if (uploadZone) uploadZone.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function analyzeUploadedImage() {
+  if (!cameraUploadedBase64) { showToast('Please select an image first'); return; }
+  analyzeImageBase64(cameraUploadedBase64, 'upload');
+}
+
+async function analyzeImageBase64(base64, source) {
+  var btn = source === 'camera'
+    ? document.getElementById('cam-capture-btn')
+    : document.querySelector('#cam-preview-container button');
+  var results = document.getElementById('cam-results');
+  var resultsContent = document.getElementById('cam-results-content');
+  var toChatBtn = document.getElementById('cam-to-chat-btn');
+
+  if (btn) { btn.textContent = '⏳ Analysing...'; btn.disabled = true; }
+  if (results) results.style.display = 'none';
+
+  var patientCtx = '';
+  if (userProfile) {
+    var parts = [];
+    if (userProfile.age) parts.push('Age: ' + userProfile.age);
+    if (userProfile.sex) parts.push('Sex: ' + userProfile.sex);
+    if (userProfile.blood) parts.push('Blood type: ' + userProfile.blood);
+    if (userProfile.genotype) parts.push('Genotype: ' + userProfile.genotype);
+    if (userProfile.conditions && userProfile.conditions !== 'None') parts.push('Conditions: ' + userProfile.conditions);
+    if (userProfile.allergies && userProfile.allergies !== 'None') parts.push('Allergies: ' + userProfile.allergies);
+    if (parts.length) patientCtx = '\n\nPatient profile: ' + parts.join(', ');
+  }
+
+  var prompt = 'You are an experienced clinical physician conducting a visual medical assessment. Analyse this image carefully and provide a structured clinical assessment.' + patientCtx + '\n\nProvide your assessment in this exact format:\n**Visual Findings** — describe exactly what you observe in clinical terms\n**Most Likely Assessment** — your primary clinical impression with reasoning\n**Differential Diagnoses** — 2-3 alternative possibilities to consider\n**Severity** — None / Mild / Moderate / Severe / Emergency (with brief justification)\n**Immediate Actions** — specific steps the patient should take right now\n**When to See a Doctor** — clear guidance on urgency\n\nIf the image does not show a medical condition, state that clearly. Be precise, honest, and clinically responsible.';
+
+  try {
+    var token = localStorage.getItem('krixia_token');
+    var payload = {
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', data: base64, mediaType: 'image/jpeg' },
+          { type: 'text', text: prompt }
+        ]
+      }],
+      specialty: 'Visual Diagnosis',
+      vision: true,
+      stream: false
+    };
+
+    var res = await fetch('https://api.tickit.com.ng/api/diagnose', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (token || '')
+      },
+      body: JSON.stringify(payload)
+    });
+
+    var data = await res.json();
+    var reply = data.reply || 'Could not analyse the image. Please try again with better lighting.';
+    cameraAnalysisResult = reply;
+
+    // Determine severity color
+    var upper = reply.toUpperCase();
+    var sevColor = '#1D9E64';
+    var sevLabel = 'LOW';
+    if (upper.includes('EMERGENCY')) { sevColor = '#E84A4A'; sevLabel = 'EMERGENCY'; }
+    else if (upper.includes('SEVERE')) { sevColor = '#E84A4A'; sevLabel = 'SEVERE'; }
+    else if (upper.includes('MODERATE')) { sevColor = '#E8A020'; sevLabel = 'MODERATE'; }
+    else if (upper.includes('MILD')) { sevColor = '#E8C040'; sevLabel = 'MILD'; }
+
+    var badge = '<div style="display:inline-flex;align-items:center;gap:6px;background:' + sevColor + '12;border:1px solid ' + sevColor + '30;border-radius:8px;padding:5px 12px;margin-bottom:12px;">' +
+      '<div style="width:7px;height:7px;border-radius:50%;background:' + sevColor + ';"></div>' +
+      '<span style="font-size:11px;font-weight:800;color:' + sevColor + ';font-family:DM Sans,sans-serif;letter-spacing:1px;">' + sevLabel + ' SEVERITY</span>' +
+      '</div>';
+
+    if (resultsContent) resultsContent.innerHTML = badge + formatMessage(reply);
+    if (results) results.style.display = 'block';
+    if (toChatBtn) toChatBtn.style.display = 'block';
+
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch(err) {
+    if (resultsContent) resultsContent.innerHTML = '<div style="color:var(--red-400);font-size:13px;font-family:DM Sans,sans-serif;">Analysis failed. Please check your connection and try again.</div>';
+    if (results) results.style.display = 'block';
+  }
+
+  if (btn) {
+    btn.textContent = source === 'camera' ? '🔬 Capture & Analyse' : '🔬 Analyse This Image';
+    btn.disabled = false;
+  }
+}
+
+function sendCameraResultToChat() {
+  if (!cameraAnalysisResult) return;
+  stopCamera();
+  closePanel('camera-panel');
+
+  // Inject summary into chat as context
+  var summary = 'I have a visual finding that was assessed by AI camera analysis. Here is what was found:\n\n' + cameraAnalysisResult + '\n\nPlease help me understand next steps and whether I need to see a doctor.';
+  var input = document.getElementById('chat-input');
+  if (input) {
+    input.value = summary;
+    autoResize(input);
+    input.focus();
+  }
+  showToast('Analysis added to chat — send to continue with doctor');
 }
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
