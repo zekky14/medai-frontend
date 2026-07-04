@@ -821,7 +821,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 10px; }
 
 /* MOBILE BOTTOM NAV */
-.mobile-bottom-nav { display: none; position: relative; z-index: 150; background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); grid-template-columns: repeat(6,1fr); flex-shrink: 0; }
+.mobile-bottom-nav { display: none; position: relative; z-index: 150; background: var(--header-bg); border-top: 1px solid rgba(201,168,76,0.18); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); grid-template-columns: repeat(5,1fr); flex-shrink: 0; }
 .mob-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; padding: 4px; font-family: 'Inter', sans-serif; transition: all 0.15s; }
 .mob-nav-btn .mob-icon { font-size: 21px; line-height: 1; }
 .mob-nav-btn .mob-label { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.35); }
@@ -1796,13 +1796,35 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   </div>
 
   <!-- MOBILE BOTTOM NAV -->
-  <nav class="mobile-bottom-nav" style="grid-template-columns:repeat(6,1fr);">
+  <!-- MOBILE MORE MENU -->
+  <div id="mobile-more-menu" style="display:none;position:fixed;bottom:60px;left:0;right:0;z-index:500;background:var(--modal-bg);border-top:1px solid rgba(201,168,76,0.15);padding:12px 1rem;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);animation:panelIn 0.25s cubic-bezier(0.34,1.56,0.64,1);">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <button onclick="openNHIAPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">🏛️</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">NHIA Insurance</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Coverage & enrolment</div></div>
+      </button>
+      <button onclick="openSickleCellPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">🩸</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Sickle Cell</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Genotype & crisis guide</div></div>
+      </button>
+      <button onclick="openPanel('telemedicine-panel');closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">👨‍⚕️</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Book Doctor</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Telemedicine</div></div>
+      </button>
+      <button onclick="openVitalsPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+        <span style="font-size:22px;">💓</span>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Vitals Scan</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Camera pulse & SpO₂</div></div>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-more-overlay" onclick="closeMobileMore()" style="display:none;position:fixed;inset:0;z-index:499;"></div>
+
+  <nav class="mobile-bottom-nav" style="grid-template-columns:repeat(5,1fr);">
     <button class="mob-nav-btn active" onclick="mobileNav('chat',this)"><span class="mob-icon">💬</span><span class="mob-label">Diagnose</span></button>
-    <button class="mob-nav-btn" onclick="mobileNav('specialty',this)"><span class="mob-icon">🩺</span><span class="mob-label">Specialty</span></button>
     <button class="mob-nav-btn" onclick="mobileNav('hospitals',this)"><span class="mob-icon">🏥</span><span class="mob-label">Hospitals</span></button>
     <button class="mob-nav-btn" onclick="openHistoryPanel()"><span class="mob-icon">📋</span><span class="mob-label">History</span></button>
     <button class="mob-nav-btn" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="mob-icon">🪪</span><span class="mob-label">Health ID</span></button>
-    <button class="mob-nav-btn" onclick="openPanel('telemedicine-panel')"><span class="mob-icon">👨‍⚕️</span><span class="mob-label">Doctors</span></button>
+    <button class="mob-nav-btn" id="more-btn" onclick="toggleMobileMore(this)"><span class="mob-icon">⋯</span><span class="mob-label">More</span></button>
   </nav>
 
 <!-- MEDICAL DISCLAIMER PANEL -->
@@ -7389,6 +7411,66 @@ window.addEventListener('resize', function() {
 
 
 
+
+// ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
+function openNHIAPanel() { openPanel('nhia-panel'); }
+function openSickleCellPanel() { openPanel('sickle-panel'); }
+
+function toggleMobileMore(btn) {
+  var menu = document.getElementById('mobile-more-menu');
+  var overlay = document.getElementById('mobile-more-overlay');
+  var isOpen = menu && menu.style.display !== 'none';
+  if (isOpen) {
+    closeMobileMore();
+  } else {
+    if (menu) menu.style.display = 'block';
+    if (overlay) overlay.style.display = 'block';
+    if (btn) btn.classList.add('active');
+  }
+}
+
+function closeMobileMore() {
+  var menu = document.getElementById('mobile-more-menu');
+  var overlay = document.getElementById('mobile-more-overlay');
+  var btn = document.getElementById('more-btn');
+  if (menu) menu.style.display = 'none';
+  if (overlay) overlay.style.display = 'none';
+  if (btn) btn.classList.remove('active');
+}
+
+function checkGenotypeCompatibility() {
+  var g1 = document.getElementById('sc-gen1').value;
+  var g2 = document.getElementById('sc-gen2').value;
+  var result = document.getElementById('sc-result');
+  if (!g1 || !g2) {
+    result.style.display = 'block';
+    result.style.background = 'rgba(232,160,32,0.1)';
+    result.style.border = '1px solid rgba(232,160,32,0.2)';
+    result.style.color = 'var(--amber-400)';
+    result.textContent = 'Please select both genotypes to check compatibility.';
+    return;
+  }
+  var combos = {
+    'AA+AA': { label: 'All Clear', color: '#1D9E64', msg: 'All children will be AA. Zero sickle cell risk. Fully compatible.' },
+    'AA+AS': { label: 'Safe', color: '#1D9E64', msg: 'Children: 50% AA, 50% AS. No child will have sickle cell disease — carriers only.' },
+    'AA+SS': { label: 'Caution', color: '#E8A020', msg: 'All children will be AS carriers. No SS disease, but counselling recommended.' },
+    'AA+AC': { label: 'Safe', color: '#1D9E64', msg: 'Children: 50% AA, 50% AC. No sickle cell disease risk.' },
+    'AS+AS': { label: 'High Risk ⚠️', color: '#E84A4A', msg: '25% chance of SS disease in each child. 1 in 4 children may have sickle cell disease. Genetic counselling strongly advised before conception.' },
+    'AS+SS': { label: 'Very High Risk ⚠️', color: '#E84A4A', msg: '50% of children will have SS disease. Specialist genetic and reproductive counselling is essential.' },
+    'AS+AC': { label: 'Moderate Risk', color: '#E8672A', msg: '25% chance of SC disease per child. Counselling recommended.' },
+    'SS+SS': { label: 'All Affected ⚠️', color: '#E84A4A', msg: 'All children will have SS sickle cell disease. Requires specialist genetic and reproductive counselling urgently.' },
+    'AC+AC': { label: 'Moderate Risk', color: '#E8672A', msg: '25% chance of CC disorder per child. Counselling recommended.' },
+    'SC+SC': { label: 'High Risk ⚠️', color: '#E84A4A', msg: 'High probability of serious haemoglobin disorders in children. Specialist counselling required.' },
+  };
+  var sorted = [g1, g2].sort();
+  var key = sorted[0] + '+' + sorted[1];
+  var match = combos[key] || { label: 'See Specialist', color: '#E8A020', msg: 'This combination requires specialist haematology or genetic counselling. Please consult a certified specialist.' };
+  result.style.display = 'block';
+  result.style.background = match.color + '14';
+  result.style.border = '1px solid ' + match.color + '35';
+  result.style.color = 'var(--text-2)';
+  result.innerHTML = '<strong style="color:' + match.color + ';font-family:Inter,sans-serif;">' + match.label + '</strong><br><span style="font-size:12px;line-height:1.7;">' + match.msg + '</span><br><br><span style="font-size:10px;color:var(--text-3);">⚕️ Educational guidance only. Consult a certified genetic counsellor or haematologist for personal medical advice.</span>';
+}
 
 // ── CONSULTATION PDF EXPORT ──────────────────────────────────
 async function exportSessionPDF(sessionToken) {
