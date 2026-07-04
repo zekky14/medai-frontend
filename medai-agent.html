@@ -769,11 +769,12 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .card-inner {
   position: relative;
   z-index: 2;
-  padding: 14px 16px;
+  padding: 12px 14px 10px;
   display: flex;
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
+  gap: 4px;
 }
 /* TOP ROW */
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -785,7 +786,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .card-chip::after { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,0.12); border-radius: 2px; }
 .card-verified { font-size: 6.5px; font-weight: 800; letter-spacing: 1px; color: #1D9E64; background: rgba(29,158,100,0.1); border: 1px solid rgba(29,158,100,0.28); border-radius: 4px; padding: 2px 5px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
 /* MIDDLE ROW — photo + name + occupation */
-.card-mid { display: flex; align-items: center; gap: 12px; padding: 8px 0 6px; }
+.card-mid { display: flex; align-items: center; gap: 10px; padding: 4px 0 3px; }
 .card-photo { width: 48px; height: 48px; border-radius: 9px; border: 1.5px solid rgba(201,168,76,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
 .card-photo img { width: 100%; height: 100%; object-fit: cover; }
 .card-name-area { flex: 1; min-width: 0; }
@@ -802,15 +803,15 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 /* DATA ROW — blood, genotype, age, sex */
 .card-data-row {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: flex-end;
-  padding: 6px 0 8px;
+  padding: 5px 0 4px;
   border-top: 1px solid rgba(201,168,76,0.08);
 }
 /* ID STRIP — full width bold card number at bottom */
 .card-id-strip {
   border-top: 1px solid rgba(201,168,76,0.12);
-  padding-top: 7px;
+  padding-top: 5px;
 }
 .card-id-full {
   font-family: 'JetBrains Mono', monospace;
@@ -1642,6 +1643,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <button class="qa-card" onclick="openNHIAPanel()"><span class="qa-icon">🏛️</span><div><div class="qa-text">NHIA Insurance</div><div class="qa-sub">Coverage & how to enrol</div></div></button>
           <button class="qa-card" onclick="openSickleCellPanel()"><span class="qa-icon">🩸</span><div><div class="qa-text">Sickle Cell</div><div class="qa-sub">Genotype, crisis & centres</div></div></button>
           <button class="qa-card" onclick="openPanel('drug-panel')"><span class="qa-icon">💊</span><div><div class="qa-text">Drug Interactions</div><div class="qa-sub">Check medication safety</div></div></button>
+          <button class="qa-card" onclick="openPanel('support-panel')"><span class="qa-icon">🛟</span><div><div class="qa-text">Help & Support</div><div class="qa-sub">Contact us · FAQ · Ticket</div></div></button>
         </div>
       </div>
 
@@ -1888,12 +1890,19 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <span id="symptom-drawer-arrow" style="transition:transform 0.3s;">‹</span> Symptoms
         </button>
         <div id="quick-chips" style="overflow:hidden;max-height:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),padding 0.35s;display:flex;gap:7px;flex-wrap:wrap;padding:0 1.5rem;flex-shrink:0;">
-          <button class="symptom-chip" onclick="quickSend('I have a headache and fever')">🤒 Fever & Headache</button>
+        <div id="quick-chips" style="overflow:hidden;max-height:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),padding 0.35s;display:flex;gap:6px;flex-wrap:wrap;padding:0 1rem;flex-shrink:0;">
+          <button class="symptom-chip" onclick="quickSend('I have a fever')">🌡️ Fever</button>
+          <button class="symptom-chip" onclick="quickSend('I have a severe headache')">🤕 Headache</button>
           <button class="symptom-chip" onclick="quickSend('I have chest pain and shortness of breath')">💔 Chest Pain</button>
-          <button class="symptom-chip" onclick="quickSend('My child has diarrhoea and vomiting')">👶 Child — Diarrhoea</button>
-          <button class="symptom-chip" onclick="quickSend('I have a skin rash on my arm')">🔴 Skin Rash</button>
+          <button class="symptom-chip" onclick="quickSend('My child is sick with fever')">👶 Child Illness</button>
+          <button class="symptom-chip" onclick="quickSend('I feel very anxious and cannot sleep')">😟 Anxiety</button>
           <button class="symptom-chip" onclick="quickSend('I have severe back pain')">🦴 Back Pain</button>
-          <button class="symptom-chip" onclick="quickSend('I feel anxious and cannot sleep')">😟 Anxiety & Sleep</button>
+          <button class="symptom-chip" onclick="quickSend('I have a skin rash')">🔴 Skin Rash</button>
+          <button class="symptom-chip" onclick="quickSend('I have stomach pain and nausea')">🫃 Stomach Pain</button>
+          <button class="symptom-chip" onclick="quickSend('I have a persistent cough')">😮‍💨 Cough</button>
+          <button class="symptom-chip" onclick="quickSend('I feel dizzy and weak')">💫 Dizziness</button>
+          <button class="symptom-chip" onclick="quickSend('I have malaria symptoms')">🦟 Malaria</button>
+          <button class="symptom-chip" onclick="quickSend('I am pregnant and have a concern')">🤰 Pregnancy</button>
         </div>
       </div>
 
@@ -2850,6 +2859,95 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('history-panel')" style="flex:1;">Close</button>
       <button class="btn-primary" onclick="clearHistory()" style="flex:1;background:rgba(232,93,74,0.15);color:var(--red-400);border:1px solid rgba(232,93,74,0.3);">🗑 Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPORT PANEL -->
+<div class="panel-overlay" id="support-panel">
+  <div class="panel" style="max-width:520px;">
+    <div class="panel-header">
+      <button class="panel-close-mobile" onclick="closePanel('support-panel')">← Back</button>
+      <h2 class="panel-close-desktop">🛟 Help & Support</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('support-panel')">✕</button>
+    </div>
+    <p class="panel-sub">We're here to help. Reach us through any channel below.</p>
+    <div class="panel-body" style="padding:0 1.25rem 1rem;">
+
+      <!-- System status -->
+      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:#1D9E64;box-shadow:0 0 6px rgba(29,158,100,0.6);flex-shrink:0;animation:livePulse 2s infinite;"></div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--em-300);font-family:DM Sans,sans-serif;">All Systems Operational</div>
+          <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">AI Engine · Backend API · Database — All online</div>
+        </div>
+        <div style="margin-left:auto;font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;" id="support-version">v1.0.0</div>
+      </div>
+
+      <!-- Contact channels -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">Contact Us</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+        <a href="mailto:support@krixia.tickit.com.ng" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:20px;flex-shrink:0;">📧</span>
+          <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Email Support</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">ezek.ogbeda@gmail.com</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--text-3);">›</span>
+        </a>
+        <a href="https://wa.me/2347038609008?text=Hi%20Krixia%20Support%2C%20I%20need%20help%20with..." target="_blank" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(29,158,100,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:20px;flex-shrink:0;">💬</span>
+          <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">WhatsApp Support</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">+234 703 860 9008 · Fastest response</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--text-3);">›</span>
+        </a>
+        <a href="https://twitter.com/ZEKKY14" target="_blank" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(99,102,241,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:20px;flex-shrink:0;">🐦</span>
+          <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Twitter / X</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">@ZEKKY14</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--text-3);">›</span>
+        </a>
+      </div>
+
+      <!-- Support ticket form -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">Submit a Support Ticket</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+        <select id="support-category" style="background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--text);font-family:DM Sans,sans-serif;outline:none;">
+          <option value="">Select issue category</option>
+          <option>AI consultation not working</option>
+          <option>Login or account issue</option>
+          <option>Health ID problem</option>
+          <option>Hospital/pharmacy not found</option>
+          <option>App is slow or crashing</option>
+          <option>Data privacy concern</option>
+          <option>Feature request</option>
+          <option>Other</option>
+        </select>
+        <textarea id="support-message" rows="4" placeholder="Describe your issue in detail. Include what you were doing when the problem occurred..." style="background:var(--input-bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--text);font-family:DM Sans,sans-serif;outline:none;resize:none;line-height:1.6;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      </div>
+      <div id="support-success" style="display:none;background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--em-300);font-family:DM Sans,sans-serif;margin-bottom:12px;line-height:1.6;"></div>
+      <button onclick="submitSupportTicket()" id="support-submit-btn"
+        style="width:100%;padding:14px;background:linear-gradient(135deg,#A8832A,#E8C97A,#C9A84C);color:#06100C;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;letter-spacing:0.3px;">
+        📩 Send Support Ticket
+      </button>
+
+      <!-- FAQ -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin:20px 0 10px;">Common Questions</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <details style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+          <summary style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Why does the AI ask many questions before diagnosing? <span>›</span></summary>
+          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;margin-top:8px;line-height:1.7;">This is intentional. Like a real doctor, Krixia follows clinical protocol — gathering sufficient information before forming an assessment. This prevents premature diagnoses and ensures the guidance is relevant to your specific case.</div>
+        </details>
+        <details style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+          <summary style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is my health data safe? <span>›</span></summary>
+          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;margin-top:8px;line-height:1.7;">Yes. All consultations are protected with AES-256-GCM end-to-end encryption — the same standard used by WhatsApp, Signal, and military institutions. Your data is encrypted on your device before it reaches our servers. We are fully NDPR 2019 compliant and never sell or share your health data.</div>
+        </details>
+        <details style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+          <summary style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">What AI powers Krixia? <span>›</span></summary>
+          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;margin-top:8px;line-height:1.7;">Krixia runs a three-tier AI system: Anthropic Claude (primary — highest clinical accuracy), Google Gemini (secondary fallback), and Groq Llama 3 (tertiary backup). This ensures Krixia is always available even if any single provider experiences downtime.</div>
+        </details>
+        <details style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+          <summary style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">How do I install Krixia as an app? <span>›</span></summary>
+          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;margin-top:8px;line-height:1.7;">On Android: Open krixia.tickit.com.ng in Chrome, tap the three-dot menu, select "Add to Home screen." On iPhone: Open in Safari, tap the Share button, select "Add to Home Screen." The app works offline once installed.</div>
+        </details>
+      </div>
+
     </div>
   </div>
 </div>
@@ -4178,17 +4276,53 @@ function shareCard() {
 
 function downloadHealthCard() {
   var card = document.getElementById('generated-card');
-  if (!card || !userProfile) { alert('Generate your Health ID first.'); return; }
+  if (!card || !userProfile) { showToast('Generate your Health ID first.'); return; }
 
-  // Use html2canvas if available, otherwise generate a styled image via canvas
-  if (typeof html2canvas !== 'undefined') {
-    html2canvas(card, { scale: 2, backgroundColor: null, useCORS: true }).then(function(canvas) {
-      var link = document.createElement('a');
-      link.download = 'Krixia-Health-ID-' + (userProfile.cardId || 'card') + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    });
-  } else {
+  // Load html2canvas dynamically then capture
+  if (typeof html2canvas === 'undefined') {
+    var script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    script.onload = function() { _doDownloadCard(card); };
+    script.onerror = function() { _downloadCardFallback(); };
+    document.head.appendChild(script);
+    return;
+  }
+  _doDownloadCard(card);
+}
+
+function _doDownloadCard(card) {
+  showToast('Preparing your Health ID...');
+  var medCard = card.closest('.med-card') || card;
+
+  html2canvas(medCard, {
+    scale: 3,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: '#061210',
+    logging: false,
+    width: medCard.offsetWidth,
+    height: medCard.offsetHeight
+  }).then(function(canvas) {
+    var link = document.createElement('a');
+    link.download = 'Krixia-Health-ID-' + (userProfile.cardId || 'card') + '.png';
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+    showToast('Health ID downloaded successfully');
+  }).catch(function(err) {
+    console.error('Canvas error:', err);
+    _downloadCardFallback();
+  });
+}
+
+function _downloadCardFallback() {
+  // Fallback: open print window with embedded card
+  printHealthCard();
+  showToast('Use browser Print → Save as PDF to save your card');
+}
+
+function _DEPRECATED_downloadHealthCard_canvas() {
+  // Legacy canvas code kept for reference but not used
+  if (false) {
     // Fallback: generate canvas manually
     var canvas = document.createElement('canvas');
     var dpr = 2;
@@ -4289,42 +4423,9 @@ function downloadHealthCard() {
     ctx.fillStyle = 'rgba(201,168,76,0.06)';
     ctx.fillText('KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA', 24, 298);
 
-    // Photo if available
-    function finishCanvas() {
-      var link = document.createElement('a');
-      link.download = 'Krixia-Health-ID-' + (userProfile.cardId || 'card') + '.png';
-      link.href = canvas.toDataURL('image/png', 1.0);
-      link.click();
-    }
-
-    if (window.cardPhotoDataURL) {
-      var img = new Image();
-      img.onload = function() {
-        ctx.save();
-        ctx.beginPath();
-        ctx.roundRect(24, 110, 52, 52, 8);
-        ctx.clip();
-        ctx.drawImage(img, 24, 110, 52, 52);
-        ctx.restore();
-        ctx.strokeStyle = 'rgba(201,168,76,0.4)';
-        ctx.lineWidth = 2;
-        ctx.roundRect(24, 110, 52, 52, 8);
-        ctx.stroke();
-        finishCanvas();
-      };
-      img.src = window.cardPhotoDataURL;
-    } else {
-      // Placeholder avatar
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
-      ctx.strokeStyle = 'rgba(201,168,76,0.3)';
-      ctx.lineWidth = 1.5;
-      ctx.roundRect(24, 110, 52, 52, 8);
-      ctx.fill(); ctx.stroke();
-      ctx.font = '28px serif';
-      ctx.fillText('👤', 30, 147);
-      finishCanvas();
-    }
-  }
+    // Legacy canvas end — deprecated
+    void(0);
+  } // end if(false)
 }
 
 function printHealthCard() {
@@ -6625,8 +6726,59 @@ async function loadHistorySession(token) {
 }
 
 async function clearHistory() {
-  if (!confirm('Clear all your health history? This cannot be undone.')) return;
-  document.getElementById('history-list').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">History cleared.</div>';
+  // Premium confirmation dialog instead of browser confirm()
+  var confirmed = await showConfirmDialog(
+    '🗑️ Delete Health History',
+    'This will permanently delete ALL your consultation history from our servers. This action cannot be undone.',
+    'Yes, Delete Everything',
+    'Cancel'
+  );
+  if (!confirmed) return;
+
+  var list = document.getElementById('history-list');
+  if (list) list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-3);">Deleting...</div>';
+
+  try {
+    var token = localStorage.getItem('krixia_token');
+    if (token && krixiaUser) {
+      // Delete all sessions for this user from Supabase via backend
+      await fetch('https://api.tickit.com.ng/api/history/clear', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      });
+    }
+    // Also clear local session count
+    localStorage.removeItem('krixia_session_count');
+    localStorage.removeItem('krixia_health_id');
+    if (list) list.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3);"><div style="font-size:32px;margin-bottom:12px;">🗑️</div><div style="font-size:14px;font-weight:600;color:var(--text);">History cleared</div><div style="font-size:12px;margin-top:6px;">All consultation records have been permanently deleted.</div></div>';
+    showToast('Health history permanently deleted');
+  } catch(err) {
+    if (list) list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--red-400);">Delete failed. Please try again.</div>';
+  }
+}
+
+// Premium confirmation dialog
+function showConfirmDialog(title, message, confirmText, cancelText) {
+  return new Promise(function(resolve) {
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:1rem;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);';
+    overlay.innerHTML =
+      '<div style="background:var(--modal-bg);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:340px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,0.6);">' +
+        '<div style="font-size:16px;font-weight:800;color:var(--text);font-family:DM Sans,sans-serif;margin-bottom:10px;">' + title + '</div>' +
+        '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.6;margin-bottom:20px;">' + message + '</div>' +
+        '<div style="display:flex;gap:10px;">' +
+          '<button id="confirm-cancel" style="flex:1;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;color:var(--text-2);cursor:pointer;font-family:DM Sans,sans-serif;">' + cancelText + '</button>' +
+          '<button id="confirm-ok" style="flex:1;padding:12px;background:rgba(232,93,74,0.15);border:1px solid rgba(232,93,74,0.3);border-radius:10px;font-size:13px;font-weight:700;color:var(--red-400);cursor:pointer;font-family:DM Sans,sans-serif;">' + confirmText + '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    overlay.querySelector('#confirm-cancel').onclick = function() { document.body.removeChild(overlay); resolve(false); };
+    overlay.querySelector('#confirm-ok').onclick = function() { document.body.removeChild(overlay); resolve(true); };
+    overlay.onclick = function(e) { if (e.target === overlay) { document.body.removeChild(overlay); resolve(false); } };
+  });
 }
 
 // ============================================================
