@@ -218,6 +218,10 @@ html[data-theme="light"], html[data-theme="light"] body {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+@keyframes sosPulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
 @keyframes camScan {
   0% { top: 15%; }
   50% { top: 85%; }
@@ -1645,6 +1649,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <button class="qa-card" onclick="triggerImageUpload()"><span class="qa-icon">📷</span><div><div class="qa-text">Photo Scan</div><div class="qa-sub">Skin & injury analysis</div></div></button>
           <button class="qa-card" onclick="openScreeningPanel()"><span class="qa-icon">👁️</span><div><div class="qa-text">Eye & Nail Screen</div><div class="qa-sub">Jaundice & anemia signs</div></div></button>
           <button class="qa-card" onclick="userProfile ? openPanel('card-panel') : openPanel('register-panel')"><span class="qa-icon">🪪</span><div><div class="qa-text">Health ID</div><div class="qa-sub">Your digital profile</div></div></button>
+          <button class="qa-card" onclick="openSOSPanel()" style="border-color:rgba(232,74,74,0.2);"><span class="qa-icon">🚨</span><div><div class="qa-text" style="color:#E84A4A;">Emergency SOS</div><div class="qa-sub">Broadcast location + ID</div></div></button>
           <button class="qa-card" onclick="openNHIAPanel()"><span class="qa-icon">🏛️</span><div><div class="qa-text">NHIA Insurance</div><div class="qa-sub">Coverage & how to enrol</div></div></button>
           <button class="qa-card" onclick="openSickleCellPanel()"><span class="qa-icon">🩸</span><div><div class="qa-text">Sickle Cell</div><div class="qa-sub">Genotype, crisis & centres</div></div></button>
           <button class="qa-card" onclick="openCameraPanel()"><span class="qa-icon">📷</span><div><div class="qa-text">Visual Diagnosis</div><div class="qa-sub">Camera AI analysis</div></div></button>
@@ -1937,6 +1942,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   <!-- MOBILE MORE MENU -->
   <div id="mobile-more-menu" style="display:none;position:fixed;bottom:60px;left:0;right:0;z-index:500;background:var(--modal-bg);border-top:1px solid rgba(201,168,76,0.15);padding:12px 1rem;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);animation:panelIn 0.25s cubic-bezier(0.34,1.56,0.64,1);">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <button onclick="openSOSPanel();closeMobileMore()" style="background:rgba(232,74,74,0.08);border:1.5px solid rgba(232,74,74,0.25);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;grid-column:span 2;">
+        <span style="font-size:22px;">🚨</span>
+        <div><div style="font-size:12px;font-weight:800;color:#E84A4A;font-family:Inter,sans-serif;">Emergency SOS</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Hold to broadcast location + medical profile to contacts · Call 112</div></div>
+      </button>
       <button onclick="openNHIAPanel();closeMobileMore()" style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
         <span style="font-size:22px;">🏛️</span>
         <div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">NHIA Insurance</div><div style="font-size:10px;color:var(--text-3);font-family:Inter,sans-serif;">Coverage & enrolment</div></div>
@@ -2275,6 +2284,8 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           </div>
         </div>
 
+        <!-- Wellness Score Widget -->
+        <div id="profile-wellness-widget"></div>
         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-400);margin-bottom:12px;">Health Summary</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div style="text-align:center;">
@@ -2877,6 +2888,81 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   </div>
 </div>
 
+<!-- EMERGENCY SOS PANEL -->
+<div class="panel-overlay" id="sos-panel">
+  <div class="panel" style="max-width:480px;">
+    <div class="panel-header" style="border-bottom:1px solid rgba(232,74,74,0.2);">
+      <button class="panel-close-mobile" onclick="closePanel('sos-panel')">← Back</button>
+      <h2 class="panel-close-desktop" style="color:#E84A4A;">🚨 Emergency SOS</h2>
+      <button class="panel-close panel-close-desktop" onclick="closePanel('sos-panel')">✕</button>
+    </div>
+    <p class="panel-sub">Hold the SOS button for 3 seconds to broadcast your location and medical profile</p>
+    <div class="panel-body" style="padding:0 1.25rem 1rem;">
+
+      <!-- Big SOS button -->
+      <div style="display:flex;flex-direction:column;align-items:center;padding:24px 0 20px;">
+        <div style="position:relative;margin-bottom:16px;">
+          <!-- Pulse rings -->
+          <div style="position:absolute;inset:-16px;border-radius:50%;border:2px solid rgba(232,74,74,0.15);animation:sosPulse 1.5s ease-out infinite;"></div>
+          <div style="position:absolute;inset:-28px;border-radius:50%;border:1px solid rgba(232,74,74,0.08);animation:sosPulse 1.5s ease-out 0.5s infinite;"></div>
+          <!-- SOS button -->
+          <button id="sos-btn"
+            onmousedown="startSOS()" onmouseup="cancelSOS()" onmouseleave="cancelSOS()"
+            ontouchstart="startSOS(event)" ontouchend="cancelSOS()" ontouchcancel="cancelSOS()"
+            style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#C0392B,#E84A4A,#C0392B);border:4px solid rgba(232,74,74,0.4);color:white;font-size:24px;font-weight:900;letter-spacing:2px;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 8px 32px rgba(232,74,74,0.4),inset 0 2px 0 rgba(255,255,255,0.1);position:relative;z-index:2;transition:transform 0.1s,box-shadow 0.1s;-webkit-tap-highlight-color:transparent;user-select:none;">
+            SOS
+          </button>
+        </div>
+        <!-- Progress ring -->
+        <svg id="sos-progress-ring" width="140" height="140" style="position:absolute;top:calc(50% - 180px);left:calc(50% - 70px);display:none;pointer-events:none;">
+          <circle cx="70" cy="70" r="62" fill="none" stroke="rgba(232,74,74,0.15)" stroke-width="4"/>
+          <circle id="sos-ring-fill" cx="70" cy="70" r="62" fill="none" stroke="#E84A4A" stroke-width="4"
+            stroke-dasharray="389.6" stroke-dashoffset="389.6" stroke-linecap="round"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.1s linear;"/>
+        </svg>
+        <div id="sos-hold-label" style="font-size:12px;color:rgba(255,255,255,0.4);font-family:DM Sans,sans-serif;margin-top:8px;letter-spacing:1px;">Hold 3 seconds to activate</div>
+        <div id="sos-status" style="display:none;font-size:13px;font-weight:700;color:#E84A4A;font-family:DM Sans,sans-serif;margin-top:8px;"></div>
+      </div>
+
+      <!-- Quick action buttons -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <a href="tel:112" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(232,74,74,0.08);border:1.5px solid rgba(232,74,74,0.25);border-radius:12px;text-decoration:none;cursor:pointer;">
+          <span style="font-size:20px;flex-shrink:0;">📞</span>
+          <div><div style="font-size:12px;font-weight:800;color:#E84A4A;font-family:DM Sans,sans-serif;">Call 112</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Nigeria Emergency</div></div>
+        </a>
+        <button onclick="broadcastSOS()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(37,211,102,0.08);border:1.5px solid rgba(37,211,102,0.25);border-radius:12px;cursor:pointer;text-align:left;">
+          <span style="font-size:20px;flex-shrink:0;">💬</span>
+          <div><div style="font-size:12px;font-weight:800;color:#25D366;font-family:DM Sans,sans-serif;">WhatsApp SOS</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Send to contacts</div></div>
+        </button>
+        <button onclick="shareSOSLocation()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(29,158,100,0.08);border:1.5px solid rgba(29,158,100,0.2);border-radius:12px;cursor:pointer;text-align:left;">
+          <span style="font-size:20px;flex-shrink:0;">📍</span>
+          <div><div style="font-size:12px;font-weight:800;color:var(--em-300);font-family:DM Sans,sans-serif;">Share Location</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Copy coordinates</div></div>
+        </button>
+        <button onclick="openPanel('hospital-panel')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(201,168,76,0.08);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;cursor:pointer;text-align:left;">
+          <span style="font-size:20px;flex-shrink:0;">🏥</span>
+          <div><div style="font-size:12px;font-weight:800;color:var(--gold-300);font-family:DM Sans,sans-serif;">Find Hospital</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Nearest facility</div></div>
+        </button>
+      </div>
+
+      <!-- Emergency contacts setup -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">Emergency Contacts</div>
+      <div id="sos-contacts-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
+      <button onclick="addSOSContact()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:none;border:1px dashed rgba(201,168,76,0.25);border-radius:10px;font-size:12px;font-weight:600;color:rgba(201,168,76,0.5);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.2s;"
+        onmouseover="this.style.borderColor='rgba(201,168,76,0.5)';this.style.color='var(--gold-300)'"
+        onmouseout="this.style.borderColor='rgba(201,168,76,0.25)';this.style.color='rgba(201,168,76,0.5)'">
+        + Add emergency contact
+      </button>
+
+      <!-- My medical alert summary -->
+      <div style="margin-top:14px;background:rgba(232,74,74,0.05);border:1px solid rgba(232,74,74,0.15);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E84A4A;font-family:DM Sans,sans-serif;margin-bottom:8px;">Your Medical Alert</div>
+        <div id="sos-medical-summary" style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- AI CAMERA SYMPTOM ANALYZER PANEL -->
 <div class="panel-overlay" id="camera-panel">
   <div class="panel" style="max-width:520px;">
@@ -3200,9 +3286,32 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">4</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Receive your NHIA card and use it at any accredited facility nationwide</div></div>
       </div>
 
-      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;">
+      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Contact</div>
         <div style="font-size:12px;color:var(--text-2);line-height:1.8;">Hotline: <strong>0800-6442-4357</strong><br>Website: nhia.gov.ng &nbsp;|&nbsp; Email: info@nhia.gov.ng</div>
+      </div>
+
+      <!-- Africa Phase 4 Expansion Preview -->
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.12);border-radius:10px;padding:14px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-300);font-family:DM Sans,sans-serif;margin-bottom:10px;">🌍 Phase 4 — Africa Expansion</div>
+        <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;margin-bottom:10px;">Krixia is expanding across West and East Africa. Insurance and hospital coverage coming for:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
+            <span style="font-size:16px;">🇬🇭</span>
+            <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Ghana — NHIS</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Health Insurance Scheme · Coming Q4 2026</div></div>
+            <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;">SOON</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
+            <span style="font-size:16px;">🇰🇪</span>
+            <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Kenya — NHIF</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Hospital Insurance Fund · Coming 2027</div></div>
+            <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;">SOON</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
+            <span style="font-size:16px;">🇷🇼</span>
+            <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Rwanda — RSSB</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Rwanda Social Security Board · Coming 2027</div></div>
+            <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;">SOON</div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -7670,6 +7779,9 @@ async function doLogin(email, password) {
 
   // Initialize E2EE key from password (stays in memory only, never stored)
   await KrixiaE2EE.initKey(password, email);
+
+  // Security: send login notification email (fire and forget — never blocks login)
+  sendLoginNotification(email, data.token).catch(function() {});
 }
 
 // ── LOGOUT ────────────────────────────────────────────────
@@ -7790,6 +7902,9 @@ function openUserProfile() {
   if (sinceEl) {
     sinceEl.textContent = memberSince.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
   }
+
+  // Render wellness score
+  renderWellnessWidget('profile-wellness-widget');
 
   // Populate Health ID section in profile
   var profileCardId = document.getElementById('profile-card-id');
@@ -8745,6 +8860,330 @@ function sendCameraResultToChat() {
     input.focus();
   }
   showToast('Analysis added to chat — send to continue with doctor');
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// EMERGENCY SOS SYSTEM
+// ══════════════════════════════════════════════════════════════
+
+var sosTimer = null;
+var sosInterval = null;
+var sosProgress = 0;
+var sosLocation = null;
+var sosContacts = JSON.parse(localStorage.getItem('krixia_sos_contacts') || '[]');
+
+function openSOSPanel() {
+  openPanel('sos-panel');
+  renderSOSContacts();
+  renderSOSMedicalSummary();
+  getSOSLocation(); // pre-fetch location
+}
+
+function getSOSLocation() {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      sosLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: Math.round(pos.coords.accuracy) };
+    },
+    function() { sosLocation = null; },
+    { timeout: 8000, enableHighAccuracy: true }
+  );
+}
+
+function renderSOSMedicalSummary() {
+  var el = document.getElementById('sos-medical-summary');
+  if (!el) return;
+  if (!userProfile) {
+    el.textContent = 'No Health ID generated yet. Go to Health ID to set up your medical profile for SOS alerts.';
+    return;
+  }
+  var name = userProfile.name || 'Unknown';
+  var lines = [
+    '<strong style="color:var(--text);">' + name + '</strong>',
+    userProfile.blood ? '🩸 Blood type: <strong>' + userProfile.blood + '</strong>' : '',
+    userProfile.genotype ? '🧬 Genotype: <strong>' + userProfile.genotype + '</strong>' : '',
+    userProfile.allergies && userProfile.allergies !== 'None' ? '⚠️ Allergies: <strong>' + userProfile.allergies + '</strong>' : '',
+    userProfile.conditions && userProfile.conditions !== 'None' ? '🏥 Conditions: <strong>' + userProfile.conditions + '</strong>' : '',
+    userProfile.phone ? '📞 Phone: <strong>' + userProfile.phone + '</strong>' : '',
+  ].filter(Boolean);
+  el.innerHTML = lines.join('<br>');
+}
+
+function renderSOSContacts() {
+  var list = document.getElementById('sos-contacts-list');
+  if (!list) return;
+  if (sosContacts.length === 0) {
+    list.innerHTML = '<div style="font-size:12px;color:var(--text-3);font-family:DM Sans,sans-serif;padding:8px 0;">No emergency contacts added yet. Add contacts who will receive your SOS alert.</div>';
+    return;
+  }
+  list.innerHTML = sosContacts.map(function(c, i) {
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">' +
+      '<span style="font-size:18px;">👤</span>' +
+      '<div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">' + c.name + '</div>' +
+      '<div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">' + c.phone + '</div></div>' +
+      '<button onclick="removeSOSContact(' + i + ')" style="background:rgba(232,74,74,0.08);border:1px solid rgba(232,74,74,0.2);border-radius:6px;padding:4px 8px;font-size:11px;color:var(--red-400);cursor:pointer;">Remove</button>' +
+      '</div>';
+  }).join('');
+}
+
+function addSOSContact() {
+  var name = prompt('Contact name (e.g. Mum, Brother John):');
+  if (!name || !name.trim()) return;
+  var phone = prompt('WhatsApp number (e.g. +2348012345678):');
+  if (!phone || !phone.trim()) return;
+  sosContacts.push({ name: name.trim(), phone: phone.trim() });
+  localStorage.setItem('krixia_sos_contacts', JSON.stringify(sosContacts));
+  renderSOSContacts();
+  showToast('Emergency contact added: ' + name.trim());
+}
+
+function removeSOSContact(idx) {
+  sosContacts.splice(idx, 1);
+  localStorage.setItem('krixia_sos_contacts', JSON.stringify(sosContacts));
+  renderSOSContacts();
+}
+
+function startSOS(e) {
+  if (e) e.preventDefault();
+  sosProgress = 0;
+  var btn = document.getElementById('sos-btn');
+  var ring = document.getElementById('sos-progress-ring');
+  var ringFill = document.getElementById('sos-ring-fill');
+  var label = document.getElementById('sos-hold-label');
+  var status = document.getElementById('sos-status');
+
+  if (btn) { btn.style.transform = 'scale(0.95)'; btn.style.boxShadow = '0 4px 16px rgba(232,74,74,0.6),inset 0 2px 0 rgba(255,255,255,0.1)'; }
+  if (ring) ring.style.display = 'block';
+  if (label) label.textContent = 'Keep holding...';
+
+  var totalMs = 3000;
+  var circumference = 389.6;
+  var startTime = Date.now();
+
+  sosInterval = setInterval(function() {
+    var elapsed = Date.now() - startTime;
+    var fraction = Math.min(elapsed / totalMs, 1);
+    if (ringFill) ringFill.style.strokeDashoffset = circumference * (1 - fraction);
+    if (fraction >= 1) {
+      clearInterval(sosInterval);
+      activateSOS();
+    }
+  }, 30);
+}
+
+function cancelSOS() {
+  clearInterval(sosInterval);
+  clearTimeout(sosTimer);
+  var btn = document.getElementById('sos-btn');
+  var ring = document.getElementById('sos-progress-ring');
+  var ringFill = document.getElementById('sos-ring-fill');
+  var label = document.getElementById('sos-hold-label');
+  if (btn) { btn.style.transform = 'scale(1)'; btn.style.boxShadow = '0 8px 32px rgba(232,74,74,0.4),inset 0 2px 0 rgba(255,255,255,0.1)'; }
+  if (ring) ring.style.display = 'none';
+  if (ringFill) ringFill.style.strokeDashoffset = '389.6';
+  if (label) label.textContent = 'Hold 3 seconds to activate';
+}
+
+function activateSOS() {
+  var status = document.getElementById('sos-status');
+  var label = document.getElementById('sos-hold-label');
+  var btn = document.getElementById('sos-btn');
+
+  if (btn) btn.style.background = 'linear-gradient(135deg,#8B0000,#C0392B,#8B0000)';
+  if (label) label.style.display = 'none';
+  if (status) { status.style.display = 'block'; status.textContent = '🚨 SOS ACTIVATED — Broadcasting...'; }
+
+  broadcastSOS();
+  showToast('🚨 Emergency SOS sent to all contacts');
+
+  // Auto-reset after 5 seconds
+  setTimeout(function() {
+    cancelSOS();
+    if (btn) btn.style.background = 'linear-gradient(135deg,#C0392B,#E84A4A,#C0392B)';
+    if (status) { status.textContent = '✅ SOS sent — Help is on the way'; }
+    if (label) { label.style.display = 'block'; label.textContent = 'Hold 3 seconds to activate'; }
+  }, 5000);
+}
+
+async function broadcastSOS() {
+  // Get fresh location if not already fetched
+  if (!sosLocation) {
+    try {
+      var pos = await new Promise(function(res, rej) {
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000, enableHighAccuracy: true });
+      });
+      sosLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: Math.round(pos.coords.accuracy) };
+    } catch(e) { sosLocation = null; }
+  }
+
+  var name = (userProfile && userProfile.name) ? userProfile.name : (krixiaUser ? krixiaUser.fullname || krixiaUser.email : 'Krixia User');
+  var blood = userProfile && userProfile.blood ? 'Blood: ' + userProfile.blood : '';
+  var genotype = userProfile && userProfile.genotype ? 'Genotype: ' + userProfile.genotype : '';
+  var allergies = userProfile && userProfile.allergies && userProfile.allergies !== 'None' ? 'Allergies: ' + userProfile.allergies : '';
+  var conditions = userProfile && userProfile.conditions && userProfile.conditions !== 'None' ? 'Conditions: ' + userProfile.conditions : '';
+  var phone = userProfile && userProfile.phone ? 'Phone: ' + userProfile.phone : '';
+
+  var medicalInfo = [blood, genotype, allergies, conditions, phone].filter(Boolean).join(' | ');
+
+  var locationText = sosLocation
+    ? 'Location: https://maps.google.com/?q=' + sosLocation.lat + ',' + sosLocation.lng + ' (±' + sosLocation.acc + 'm accuracy)'
+    : 'Location: Could not be determined — please call immediately';
+
+  var message = 'EMERGENCY SOS FROM KRIXIA MEDICAL\n\nPatient: ' + name + '\n' + (medicalInfo ? 'Medical Profile: ' + medicalInfo + '\n' : '') + locationText + '\n\nThis person needs immediate medical assistance.\nSent via Krixia Medical AI - krixia.tickit.com.ng';
+
+  // Send to all emergency contacts via WhatsApp
+  sosContacts.forEach(function(contact) {
+    var phone = contact.phone.replace(/[^0-9]/g, '');
+    var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+    window.open(waUrl, '_blank');
+  });
+
+  // If no contacts, open share or copy
+  if (sosContacts.length === 0) {
+    if (navigator.share) {
+      navigator.share({ title: '🚨 Medical Emergency SOS', text: message }).catch(function() {});
+    } else {
+      navigator.clipboard.writeText(message).catch(function() {});
+      showToast('SOS message copied — paste to WhatsApp or SMS');
+    }
+  }
+}
+
+async function shareSOSLocation() {
+  getSOSLocation();
+  setTimeout(function() {
+    if (!sosLocation) {
+      showToast('Getting location... try again in a moment');
+      return;
+    }
+    var text = 'My location: https://maps.google.com/?q=' + sosLocation.lat + ',' + sosLocation.lng;
+    if (navigator.share) {
+      navigator.share({ title: 'My Location', text: text }).catch(function() {});
+    } else {
+      navigator.clipboard.writeText(text).then(function() { showToast('Location copied to clipboard'); });
+    }
+  }, 1500);
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// WELLNESS SCORE — Gamified Health Engagement System
+// ══════════════════════════════════════════════════════════════
+
+function calculateWellnessScore() {
+  var score = 0;
+  var breakdown = [];
+
+  // 1. Profile completeness (max 25 pts)
+  var profileScore = 0;
+  if (userProfile) {
+    if (userProfile.name) profileScore += 5;
+    if (userProfile.blood) profileScore += 5;
+    if (userProfile.genotype) profileScore += 5;
+    if (userProfile.dob) profileScore += 4;
+    if (userProfile.phone) profileScore += 3;
+    if (userProfile.allergies && userProfile.allergies !== 'None') profileScore += 2;
+    if (userProfile.conditions) profileScore += 1;
+  }
+  if (krixiaUser && krixiaUser.email) profileScore = Math.min(profileScore + 5, 25);
+  score += profileScore;
+  breakdown.push({ label: 'Health Profile', pts: profileScore, max: 25, icon: '👤' });
+
+  // 2. Consultation frequency (max 35 pts)
+  var sessions = parseInt(localStorage.getItem('krixia_session_count') || '0');
+  var consultScore = Math.min(sessions * 5, 35);
+  score += consultScore;
+  breakdown.push({ label: 'Consultations', pts: consultScore, max: 35, icon: '💬' });
+
+  // 3. Days active (max 25 pts)
+  var anchor = localStorage.getItem('krixia_member_since');
+  var days = anchor ? Math.floor((new Date() - new Date(anchor)) / 86400000) + 1 : 1;
+  var daysScore = Math.min(Math.floor(days / 2), 25);
+  score += daysScore;
+  breakdown.push({ label: 'Days Active', pts: daysScore, max: 25, icon: '📅' });
+
+  // 4. Emergency readiness (max 15 pts)
+  var sosScore = 0;
+  var contacts = JSON.parse(localStorage.getItem('krixia_sos_contacts') || '[]');
+  if (contacts.length > 0) sosScore += 8;
+  if (contacts.length >= 2) sosScore += 7;
+  score += sosScore;
+  breakdown.push({ label: 'Emergency Ready', pts: sosScore, max: 15, icon: '🚨' });
+
+  score = Math.min(score, 100);
+
+  var tier = 'Beginner';
+  var tierColor = '#888';
+  if (score >= 80) { tier = 'Elite'; tierColor = '#C9A84C'; }
+  else if (score >= 60) { tier = 'Advanced'; tierColor = '#1D9E64'; }
+  else if (score >= 40) { tier = 'Intermediate'; tierColor = '#4A90D9'; }
+  else if (score >= 20) { tier = 'Active'; tierColor = '#9B59B6'; }
+
+  return { score: score, tier: tier, tierColor: tierColor, breakdown: breakdown };
+}
+
+function renderWellnessWidget(containerId) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var ws = calculateWellnessScore();
+  var r = 38;
+  var circ = 2 * Math.PI * r;
+  var offset = circ * (1 - ws.score / 100);
+
+  el.innerHTML =
+    '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;">' +
+      '<div style="display:flex;align-items:center;gap:16px;">' +
+        // Score ring
+        '<div style="position:relative;flex-shrink:0;">' +
+          '<svg width="90" height="90" viewBox="0 0 90 90">' +
+            '<circle cx="45" cy="45" r="' + r + '" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="6"/>' +
+            '<circle cx="45" cy="45" r="' + r + '" fill="none" stroke="' + ws.tierColor + '" stroke-width="6"' +
+              ' stroke-dasharray="' + circ.toFixed(1) + '" stroke-dashoffset="' + offset.toFixed(1) + '"' +
+              ' stroke-linecap="round" transform="rotate(-90 45 45)"/>' +
+          '</svg>' +
+          '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">' +
+            '<div style="font-size:22px;font-weight:900;color:var(--text);font-family:DM Sans,sans-serif;line-height:1;">' + ws.score + '</div>' +
+            '<div style="font-size:8px;font-weight:700;color:' + ws.tierColor + ';letter-spacing:1px;font-family:DM Sans,sans-serif;text-transform:uppercase;">' + ws.tier + '</div>' +
+          '</div>' +
+        '</div>' +
+        // Breakdown
+        '<div style="flex:1;">' +
+          '<div style="font-size:14px;font-weight:800;color:var(--text);font-family:DM Sans,sans-serif;margin-bottom:2px;">Wellness Score</div>' +
+          '<div style="font-size:11px;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:8px;">Your health engagement index</div>' +
+          ws.breakdown.map(function(b) {
+            return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">' +
+              '<span style="font-size:11px;">' + b.icon + '</span>' +
+              '<div style="flex:1;background:rgba(255,255,255,0.05);border-radius:4px;height:4px;overflow:hidden;">' +
+                '<div style="height:100%;width:' + Math.round(b.pts/b.max*100) + '%;background:' + ws.tierColor + ';border-radius:4px;"></div>' +
+              '</div>' +
+              '<span style="font-size:9px;color:var(--text-3);font-family:DM Sans,sans-serif;width:40px;text-align:right;">' + b.pts + '/' + b.max + '</span>' +
+            '</div>';
+          }).join('') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+
+// ── LOGIN SECURITY NOTIFICATION ──────────────────────────────
+async function sendLoginNotification(email, token) {
+  var now = new Date();
+  var timeStr = now.toLocaleString('en-NG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  var device = navigator.userAgent.includes('Mobile') ? 'Mobile device' : 'Desktop browser';
+  var browser = 'Unknown';
+  if (navigator.userAgent.includes('Chrome')) browser = 'Chrome';
+  else if (navigator.userAgent.includes('Firefox')) browser = 'Firefox';
+  else if (navigator.userAgent.includes('Safari')) browser = 'Safari';
+  else if (navigator.userAgent.includes('Edge')) browser = 'Edge';
+
+  try {
+    await fetch('https://api.tickit.com.ng/api/kauth/login-notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ email: email, time: timeStr, device: device, browser: browser })
+    });
+  } catch(e) { /* silent fail — never block login for this */ }
 }
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
