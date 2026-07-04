@@ -1900,7 +1900,6 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <button id="symptom-drawer-tab" onclick="toggleSymptomDrawer()" style="position:absolute;right:0;top:-34px;z-index:5;background:linear-gradient(135deg,var(--gold-500),var(--gold-300));color:var(--obsidian);border:none;border-radius:10px 0 0 10px;padding:7px 10px 7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px;box-shadow:-2px 2px 8px rgba(0,0,0,0.2);">
           <span id="symptom-drawer-arrow" style="transition:transform 0.3s;">‹</span> Symptoms
         </button>
-        <div id="quick-chips" style="overflow:hidden;max-height:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),padding 0.35s;display:flex;gap:7px;flex-wrap:wrap;padding:0 1.5rem;flex-shrink:0;">
         <div id="quick-chips" style="overflow:hidden;max-height:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),padding 0.35s;display:flex;gap:6px;flex-wrap:wrap;padding:0 1rem;flex-shrink:0;">
           <button class="symptom-chip" onclick="quickSend('I have a fever')">🌡️ Fever</button>
           <button class="symptom-chip" onclick="quickSend('I have a severe headache')">🤕 Headache</button>
@@ -1914,7 +1913,6 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
           <button class="symptom-chip" onclick="quickSend('I feel dizzy and weak')">💫 Dizziness</button>
           <button class="symptom-chip" onclick="quickSend('I have malaria symptoms')">🦟 Malaria</button>
           <button class="symptom-chip" onclick="quickSend('I am pregnant and have a concern')">🤰 Pregnancy</button>
-        </div>
       </div>
 
       <div class="image-preview" id="image-preview"></div>
@@ -10440,29 +10438,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ── PWA SERVICE WORKER + UPDATE NOTIFICATION ──────────────
+// Version stamp — increment this to force SW cache bust
+var KRIXIA_APP_VERSION = '2.1.0';
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').then(function(reg) {
-      console.log('SW registered:', reg.scope);
 
-      // Check for updates every 60 seconds
-      setInterval(function() { reg.update(); }, 60000);
-
-      // When a new service worker is waiting, show update banner
-      reg.addEventListener('updatefound', function() {
-        var newWorker = reg.installing;
-        newWorker.addEventListener('statechange', function() {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            showUpdateBanner(newWorker);
-          }
+    // STEP 1: Check if stored version matches. If not, clear all caches and unregister
+    var storedVersion = localStorage.getItem('krixia_app_version');
+    if (storedVersion !== KRIXIA_APP_VERSION) {
+      // New version detected — clear all SW caches to prevent stale API blocks
+      if (window.caches) {
+        caches.keys().then(function(cacheNames) {
+          return Promise.all(cacheNames.map(function(name) {
+            console.log('Krixia: clearing cache', name);
+            return caches.delete(name);
+          }));
+        }).then(function() {
+          // Unregister all existing service workers
+          return navigator.serviceWorker.getRegistrations();
+        }).then(function(registrations) {
+          return Promise.all(registrations.map(function(reg) {
+            console.log('Krixia: unregistering SW', reg.scope);
+            return reg.unregister();
+          }));
+        }).then(function() {
+          localStorage.setItem('krixia_app_version', KRIXIA_APP_VERSION);
+          console.log('Krixia: SW and caches cleared for v' + KRIXIA_APP_VERSION);
+          // Register fresh SW
+          registerKrixiaSW();
         });
-      });
-    }).catch(function(err) { console.log('SW registration failed:', err); });
+      } else {
+        localStorage.setItem('krixia_app_version', KRIXIA_APP_VERSION);
+        registerKrixiaSW();
+      }
+    } else {
+      registerKrixiaSW();
+    }
 
     // Handle controller change (after update applied)
     navigator.serviceWorker.addEventListener('controllerchange', function() {
       window.location.reload();
     });
+  });
+}
+
+function registerKrixiaSW() {
+  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+    console.log('Krixia SW registered:', reg.scope);
+
+    // Check for updates every 60 seconds
+    setInterval(function() { reg.update(); }, 60000);
+
+    reg.addEventListener('updatefound', function() {
+      var newWorker = reg.installing;
+      newWorker.addEventListener('statechange', function() {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          showUpdateBanner(newWorker);
+        }
+      });
+    });
+  }).catch(function(err) {
+    console.log('Krixia SW registration failed:', err);
   });
 }
 
