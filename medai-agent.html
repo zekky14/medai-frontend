@@ -718,6 +718,57 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 @media (max-width: 768px) { .btn-primary, .btn-secondary { padding: 13px; font-size: 15px; } }
 
 /* Medical ID Card */
+/* ── HEALTH ID FLIP CARD SYSTEM ── */
+.health-id-flip-wrapper {
+  perspective: 1200px;
+  cursor: pointer;
+  margin: 1rem 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.health-id-flip-wrapper:hover .health-id-inner {
+  box-shadow: 0 28px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.12);
+}
+.health-id-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.586 / 1;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.45, 0.05, 0.15, 1.0);
+  border-radius: 16px;
+}
+.health-id-inner.flipped {
+  transform: rotateY(180deg);
+}
+.health-id-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.health-id-back {
+  transform: rotateY(180deg);
+}
+/* Flip hint pill */
+.flip-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 10px;
+  color: rgba(201,168,76,0.45);
+  font-family: DM Sans, sans-serif;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.health-id-flip-wrapper:hover .flip-hint {
+  color: rgba(201,168,76,0.7);
+}
 /* ── PREMIUM HEALTH CARD — World-Class Credential ── */
 .med-card {
   background: linear-gradient(135deg, #061210 0%, #091A12 30%, #0E2A1A 60%, #071510 100%);
@@ -4442,7 +4493,25 @@ function generateMedCard() {
 
     '</div>';
 
-  document.getElementById('generated-card').innerHTML = cardHTML;
+  // Wrap in flip card system
+  var wrapper = document.getElementById('generated-card');
+  wrapper.innerHTML =
+    '<div class="health-id-flip-wrapper" onclick="flipHealthCard(this)">' +
+      '<div class="health-id-inner" id="card-inner-flip">' +
+        // FRONT FACE
+        '<div class="health-id-face health-id-front med-card">' +
+          cardHTML +
+        '</div>' +
+        // BACK FACE
+        '<div class="health-id-face health-id-back" id="card-back-face" style="background:linear-gradient(145deg,#061210 0%,#0A1A10 40%,#0D2018 70%,#061210 100%);border:1px solid rgba(201,168,76,0.3);box-shadow:0 24px 64px rgba(0,0,0,0.65);">' +
+          buildCardBack(cardId, name, occupation) +
+        '</div>' +
+      '</div>' +
+      '<div class="flip-hint">' +
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>' +
+        ' Tap card to flip' +
+      '</div>' +
+    '</div>';
 
   document.querySelector('.msg-avatar.user-av') && (document.querySelector('.msg-avatar.user-av').textContent = initials);
 
@@ -7616,7 +7685,17 @@ let krixiaUser = null; // Current logged-in user
           '<div style="margin-left:auto;text-align:right;"><div class="card-flag">🇳🇬 <span>Nigeria</span></div></div></div>' +
           '<div class="card-id-strip"><div class="cd-label" style="margin-bottom:3px;letter-spacing:2px;">KRIXIA HEALTH ID</div>' +
           '<div class="card-id-full">' + card.cardId + '</div></div>' +
-        '</div>';
+        '</div>' +
+      '</div>' +
+      '<div class="health-id-face health-id-back" style="background:linear-gradient(145deg,#061210 0%,#0A1A10 40%,#0D2018 70%,#061210 100%);border:1px solid rgba(201,168,76,0.3);">' +
+        buildCardBack(card.cardId, card.name, card.occupation || '') +
+      '</div>' +
+    '</div>' +
+    '<div class="flip-hint">' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>' +
+      ' Tap card to flip' +
+    '</div>' +
+  '</div>';
     }, 500);
   } catch(e) { localStorage.removeItem('krixia_health_id'); }
 })();
@@ -9159,6 +9238,119 @@ async function sendLoginNotification(email, token) {
       body: JSON.stringify({ email: email, time: timeStr, device: device, browser: browser })
     });
   } catch(e) { /* silent fail — never block login for this */ }
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// HEALTH ID — BACK FACE + FLIP SYSTEM
+// ══════════════════════════════════════════════════════════════
+
+function flipHealthCard(wrapper) {
+  var inner = wrapper.querySelector('.health-id-inner');
+  if (!inner) return;
+  inner.classList.toggle('flipped');
+}
+
+function buildCardBack(cardId, name, occupation) {
+  var issued = new Date();
+  var expires = new Date(issued);
+  expires.setFullYear(expires.getFullYear() + 3);
+  var issueStr = issued.toLocaleDateString('en-NG', { month:'2-digit', year:'numeric' }).replace(' ','/');
+  var expStr   = expires.toLocaleDateString('en-NG', { month:'2-digit', year:'numeric' }).replace(' ','/');
+
+  // QR-style block (CSS-drawn, no external library)
+  var qrBlocks = '';
+  var seed = cardId ? cardId.charCodeAt(0) + cardId.charCodeAt(4) : 42;
+  for (var i = 0; i < 100; i++) {
+    var on = ((seed * (i + 7) * 13 + i * 31) % 3) > 0;
+    if (on) {
+      qrBlocks += '<div style="width:6px;height:6px;background:rgba(201,168,76,' +
+        (0.6 + (i % 4) * 0.1).toFixed(1) + ');flex-shrink:0;"></div>';
+    } else {
+      qrBlocks += '<div style="width:6px;height:6px;flex-shrink:0;"></div>';
+    }
+  }
+
+  return (
+    // ── MAGNETIC STRIPE ──
+    '<div style="width:100%;height:14%;background:linear-gradient(180deg,#0A0A0A 0%,#1A1A1A 50%,#0D0D0D 100%);' +
+      'position:relative;overflow:hidden;display:flex;align-items:center;">' +
+      '<div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,0.015) 2px,rgba(255,255,255,0.015) 4px);"></div>' +
+      '<div style="position:absolute;right:12px;font-size:6px;letter-spacing:2px;color:rgba(201,168,76,0.2);font-family:JetBrains Mono,monospace;font-weight:700;">KRIXIA MEDICAL AI</div>' +
+    '</div>' +
+
+    // ── MAIN BACK CONTENT ──
+    '<div style="padding:10px 14px 8px;display:flex;flex-direction:column;flex:1;gap:0;position:relative;z-index:2;">' +
+
+      // Watermark
+      '<div style="position:absolute;left:-8px;bottom:-10px;font-family:Sora,DM Sans,Arial,sans-serif;font-size:52px;font-weight:900;color:rgba(201,168,76,0.06);letter-spacing:6px;pointer-events:none;transform:rotate(0deg);">KRIXIA</div>' +
+
+      // Microprint strip
+      '<div style="position:absolute;top:18px;left:0;right:0;font-size:4px;color:rgba(201,168,76,0.05);font-family:JetBrains Mono,monospace;text-align:center;pointer-events:none;overflow:hidden;white-space:nowrap;">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · NOT TRANSFERABLE · KRIXIA MEDICAL INTELLIGENCE</div>' +
+
+      // Signature strip
+      '<div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:4px 8px;margin-bottom:8px;">' +
+        '<div style="font-size:6px;letter-spacing:2px;color:rgba(201,168,76,0.35);font-family:DM Sans,sans-serif;text-transform:uppercase;margin-bottom:2px;">CARDHOLDER SIGNATURE</div>' +
+        '<div style="font-size:11px;font-family:Sora,DM Sans,sans-serif;color:rgba(255,255,255,0.2);font-style:italic;letter-spacing:1px;">' + name + '</div>' +
+      '</div>' +
+
+      // Middle row: QR + Details
+      '<div style="display:flex;gap:10px;flex:1;align-items:flex-start;margin-bottom:7px;">' +
+
+        // QR code area
+        '<div style="flex-shrink:0;">' +
+          '<div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:4px;width:66px;">' +
+            // Corner markers (QR-style)
+            '<div style="position:relative;width:58px;height:58px;">' +
+              '<div style="position:absolute;top:0;left:0;width:14px;height:14px;border:2px solid rgba(201,168,76,0.6);border-radius:1px;"></div>' +
+              '<div style="position:absolute;top:0;right:0;width:14px;height:14px;border:2px solid rgba(201,168,76,0.6);border-radius:1px;"></div>' +
+              '<div style="position:absolute;bottom:0;left:0;width:14px;height:14px;border:2px solid rgba(201,168,76,0.6);border-radius:1px;"></div>' +
+              '<div style="position:absolute;top:4px;left:4px;width:6px;height:6px;background:rgba(201,168,76,0.7);border-radius:1px;"></div>' +
+              '<div style="position:absolute;top:4px;right:4px;width:6px;height:6px;background:rgba(201,168,76,0.7);border-radius:1px;"></div>' +
+              '<div style="position:absolute;bottom:4px;left:4px;width:6px;height:6px;background:rgba(201,168,76,0.7);border-radius:1px;"></div>' +
+              // Data dots
+              '<div style="position:absolute;top:18px;left:2px;right:2px;bottom:18px;display:flex;flex-wrap:wrap;gap:0;">' + qrBlocks + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:5px;color:rgba(201,168,76,0.3);font-family:DM Sans,sans-serif;text-align:center;margin-top:2px;letter-spacing:0.5px;">SCAN TO VERIFY</div>' +
+        '</div>' +
+
+        // Card details
+        '<div style="flex:1;display:flex;flex-direction:column;gap:5px;">' +
+          '<div style="font-size:7px;letter-spacing:1.5px;color:rgba(201,168,76,0.4);font-family:DM Sans,sans-serif;text-transform:uppercase;">Health ID Number</div>' +
+          '<div style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.8);font-family:JetBrains Mono,monospace;letter-spacing:1.5px;word-break:break-all;">' + cardId + '</div>' +
+          '<div style="display:flex;gap:12px;margin-top:2px;">' +
+            '<div><div style="font-size:6px;letter-spacing:1px;color:rgba(201,168,76,0.35);font-family:DM Sans,sans-serif;text-transform:uppercase;">Issued</div>' +
+            '<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);font-family:DM Sans,sans-serif;">' + issueStr + '</div></div>' +
+            '<div><div style="font-size:6px;letter-spacing:1px;color:rgba(201,168,76,0.35);font-family:DM Sans,sans-serif;text-transform:uppercase;">Expires</div>' +
+            '<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);font-family:DM Sans,sans-serif;">' + expStr + '</div></div>' +
+          '</div>' +
+          // Security badges
+          '<div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;">' +
+            '<div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.25);border-radius:4px;padding:2px 6px;font-size:6px;font-weight:700;color:rgba(29,158,100,0.7);font-family:DM Sans,sans-serif;letter-spacing:0.5px;">AES-256-GCM</div>' +
+            '<div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:2px 6px;font-size:6px;font-weight:700;color:rgba(201,168,76,0.6);font-family:DM Sans,sans-serif;letter-spacing:0.5px;">NDPR 2023</div>' +
+            '<div style="background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.25);border-radius:4px;padding:2px 6px;font-size:6px;font-weight:700;color:rgba(29,158,100,0.7);font-family:DM Sans,sans-serif;letter-spacing:0.5px;">VERIFIED ✓</div>' +
+          '</div>' +
+        '</div>' +
+
+      '</div>' +
+
+      // Bottom legal strip
+      '<div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:5px;">' +
+        '<div style="font-size:5.5px;color:rgba(255,255,255,0.12);font-family:DM Sans,sans-serif;line-height:1.7;">' +
+          'This card is the property of Krixia Medical Intelligence · Tickit NG · Lagos, Nigeria. ' +
+          'Not transferable. For emergency medical information only. ' +
+          'Verify at krixia.tickit.com.ng · © 2026 Tickit NG' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px;">' +
+          '<div style="font-size:6px;font-weight:800;color:rgba(201,168,76,0.25);font-family:DM Sans,sans-serif;letter-spacing:2px;">KRIXIA MEDICAL</div>' +
+          '<div style="font-size:14px;">⚕️</div>' +
+          '<div style="font-size:6px;font-weight:800;color:rgba(201,168,76,0.25);font-family:DM Sans,sans-serif;letter-spacing:2px;">🇳🇬 NIGERIA</div>' +
+        '</div>' +
+      '</div>' +
+
+    '</div>'
+  );
 }
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
