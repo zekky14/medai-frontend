@@ -718,6 +718,21 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 @media (max-width: 768px) { .btn-primary, .btn-secondary { padding: 13px; font-size: 15px; } }
 
 /* Medical ID Card */
+.nhia-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.nhia-nav-btn:hover { border-color: rgba(201,168,76,0.3); }
+
 /* ── HEALTH ID FLIP CARD SYSTEM ── */
 .health-id-flip-wrapper {
   perspective: 1200px;
@@ -3305,130 +3320,162 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 <div class="panel-overlay" id="nhia-panel">
   <div class="panel" style="max-width:520px;">
 
-    <!-- Main NHIA view -->
-    <div id="nhia-main-view" style="display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+    <!-- ── MAIN VIEW ───────────────────────────────────── -->
+    <div id="nhia-main-view" style="display:contents;">
+
       <div class="panel-header">
         <button class="panel-close-mobile" onclick="closePanel('nhia-panel')">← Back</button>
         <h2 class="panel-close-desktop">🏛️ NHIA Health Insurance</h2>
         <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
       </div>
       <p class="panel-sub">Nigeria National Health Insurance Authority — your complete coverage guide</p>
-      <div class="panel-body" style="padding:0 1.25rem 2rem;overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch;">
 
-        <!-- Hero intro -->
+      <div class="panel-body" id="nhia-main-body" style="padding:0 1.25rem 1.5rem;overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch;position:relative;">
+
+        <!-- Scroll arrows — right-aligned, inside scrollable body -->
+        <div style="position:sticky;top:0;right:0;z-index:10;display:flex;justify-content:flex-end;gap:6px;padding:4px 0 8px;pointer-events:none;">
+          <button onclick="nhiaScrollTop()" title="Scroll to top"
+            style="pointer-events:all;width:30px;height:30px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);flex-shrink:0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+          </button>
+          <button onclick="nhiaScrollBottom()" title="Scroll to bottom"
+            style="pointer-events:all;width:30px;height:30px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);flex-shrink:0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+
+        <!-- What is NHIA -->
         <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
           <div style="font-size:12px;font-weight:700;color:var(--em-300);margin-bottom:5px;">What is NHIA?</div>
           <div style="font-size:12px;color:var(--text-2);line-height:1.7;">Established under the NHIA Act 2022, NHIA provides financial protection against healthcare costs for all Nigerians. It replaced the old NHIS and dramatically expanded coverage and enforcement.</div>
         </div>
 
-        <!-- Register CTA — prominent -->
-        <a href="https://nhia.gov.ng" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.06));border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;text-decoration:none;margin-bottom:14px;cursor:pointer;">
+        <!-- Register CTA -->
+        <a href="https://nhia.gov.ng" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.06));border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;text-decoration:none;margin-bottom:14px;">
           <div style="width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏛️</div>
-          <div style="flex:1;">
+          <div style="flex:1;min-width:0;">
             <div style="font-size:13px;font-weight:800;color:var(--gold-300);font-family:DM Sans,sans-serif;">Register for NHIA Coverage</div>
             <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;margin-top:2px;">Visit nhia.gov.ng · Free for all Nigerians · Tap to open</div>
           </div>
-          <span style="color:var(--gold-300);font-size:16px;">›</span>
+          <span style="color:var(--gold-300);font-size:18px;flex-shrink:0;">›</span>
         </a>
 
-        <!-- Coverage categories — each tappable -->
+        <!-- Section label -->
         <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">What NHIA Covers — Tap to Learn More</div>
+
+        <!-- Coverage buttons -->
         <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
-          <button onclick="openNHIADetail('outpatient')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <button onclick="openNHIADetail('outpatient')" class="nhia-nav-btn">
             <span style="font-size:18px;flex-shrink:0;">🏥</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Outpatient Consultations</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">GP visits, specialist referrals, follow-up care</div></div>
-            <span style="color:var(--text-3);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Outpatient Consultations</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">GP visits, specialist referrals, follow-up care</div>
+            </div>
+            <span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>
           </button>
-          <button onclick="openNHIADetail('medicines')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <button onclick="openNHIADetail('medicines')" class="nhia-nav-btn">
             <span style="font-size:18px;flex-shrink:0;">💊</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Essential Medicines</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">All WHO essential medicines list drugs covered</div></div>
-            <span style="color:var(--text-3);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Essential Medicines</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">All WHO essential medicines list drugs covered</div>
+            </div>
+            <span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>
           </button>
-          <button onclick="openNHIADetail('maternal')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <button onclick="openNHIADetail('maternal')" class="nhia-nav-btn">
             <span style="font-size:18px;flex-shrink:0;">🤰</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Maternal & Newborn Care</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Antenatal, delivery, postnatal for mother and baby</div></div>
-            <span style="color:var(--text-3);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Maternal & Newborn Care</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Antenatal, delivery, postnatal for mother and baby</div>
+            </div>
+            <span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>
           </button>
-          <button onclick="openNHIADetail('child')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <button onclick="openNHIADetail('child')" class="nhia-nav-btn">
             <span style="font-size:18px;flex-shrink:0;">👶</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Child Healthcare</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Immunisation, growth monitoring, under-5 care</div></div>
-            <span style="color:var(--text-3);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Child Healthcare</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Immunisation, growth monitoring, under-5 care</div>
+            </div>
+            <span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>
           </button>
-          <button onclick="openNHIADetail('diagnostics')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <button onclick="openNHIADetail('diagnostics')" class="nhia-nav-btn">
             <span style="font-size:18px;flex-shrink:0;">🔬</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Diagnostics & Laboratory</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Blood tests, X-rays, ultrasound, investigations</div></div>
-            <span style="color:var(--text-3);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Diagnostics & Laboratory</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Blood tests, X-rays, ultrasound, investigations</div>
+            </div>
+            <span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>
           </button>
-          <button onclick="openNHIADetail('inpatient')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <button onclick="openNHIADetail('inpatient')" class="nhia-nav-btn">
             <span style="font-size:18px;flex-shrink:0;">🏨</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Inpatient & Surgery</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Hospital admission, selected surgical procedures</div></div>
-            <span style="color:var(--text-3);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Inpatient Care & Surgery</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Hospital admission, selected surgical procedures</div>
+            </div>
+            <span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>
           </button>
-          <button onclick="openNHIADetail('enrolment')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(29,158,100,0.05);border:1px solid rgba(29,158,100,0.2);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(29,158,100,0.4)'" onmouseout="this.style.borderColor='rgba(29,158,100,0.2)'">
+          <button onclick="openNHIADetail('enrolment')" class="nhia-nav-btn" style="border-color:rgba(29,158,100,0.2);background:rgba(29,158,100,0.04);">
             <span style="font-size:18px;flex-shrink:0;">📋</span>
-            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--em-300);font-family:DM Sans,sans-serif;">How to Enrol — Step by Step</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Complete enrolment guide for all Nigerians</div></div>
-            <span style="color:var(--em-300);font-size:14px;">›</span>
+            <div style="flex:1;min-width:0;text-align:left;">
+              <div style="font-size:12px;font-weight:700;color:var(--em-300);font-family:DM Sans,sans-serif;">How to Enrol — Step by Step</div>
+              <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Complete enrolment guide for all Nigerians</div>
+            </div>
+            <span style="color:var(--em-300);font-size:16px;flex-shrink:0;">›</span>
           </button>
         </div>
 
-        <!-- Contact -->
+        <!-- NHIA Contact -->
         <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
           <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Direct Contact</div>
           <div style="font-size:12px;color:var(--text-2);line-height:1.8;font-family:DM Sans,sans-serif;">Hotline: <strong>0800-6442-4357</strong><br>nhia.gov.ng &nbsp;·&nbsp; info@nhia.gov.ng</div>
         </div>
 
-        <!-- Africa Phase 4 Expansion -->
+        <!-- Africa Phase 4 -->
         <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.12);border-radius:10px;padding:14px;">
           <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-300);font-family:DM Sans,sans-serif;margin-bottom:10px;">🌍 Phase 4 — Africa Expansion</div>
-          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;margin-bottom:10px;">Krixia is expanding across West and East Africa. Insurance and hospital coverage coming soon for:</div>
+          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;margin-bottom:10px;">Krixia is expanding across West and East Africa. Coverage coming soon for:</div>
           <div style="display:flex;flex-direction:column;gap:6px;">
             <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
-              <span style="font-size:16px;">🇬🇭</span>
-              <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Ghana — NHIS</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Health Insurance Scheme · Coming Q4 2026</div></div>
-              <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
+              <span style="font-size:16px;flex-shrink:0;">🇬🇭</span>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Ghana — NHIS</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Q4 2026</div></div>
+              <div style="font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
-              <span style="font-size:16px;">🇰🇪</span>
-              <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Kenya — NHIF</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Hospital Insurance Fund · Coming 2027</div></div>
-              <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
+              <span style="font-size:16px;flex-shrink:0;">🇰🇪</span>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Kenya — NHIF</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">2027</div></div>
+              <div style="font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
-              <span style="font-size:16px;">🇷🇼</span>
-              <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Rwanda — RSSB</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Rwanda Social Security Board · Coming 2027</div></div>
-              <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
+              <span style="font-size:16px;flex-shrink:0;">🇷🇼</span>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Rwanda — RSSB</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">2027</div></div>
+              <div style="font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
             </div>
           </div>
         </div>
 
-      </div>
+      </div><!-- /nhia-main-body -->
+    </div><!-- /nhia-main-view -->
 
-      </div><!-- end panel-body -->
+    <!-- ── DETAIL SUB-VIEW ─────────────────────────────── -->
+    <div id="nhia-detail-view" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
 
-      <!-- Scroll navigation pill — NHIA main view -->
-      <div id="nhia-scroll-nav" style="position:sticky;bottom:0;left:0;right:0;padding:10px 1.25rem;background:linear-gradient(to top,var(--modal-bg) 60%,transparent);display:flex;justify-content:center;gap:10px;pointer-events:none;z-index:10;">
-        <button onclick="nhiaScrollTop()" style="pointer-events:all;display:flex;align-items:center;gap:5px;padding:7px 14px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:20px;font-size:11px;font-weight:700;color:rgba(201,168,76,0.7);cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(8px);">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> Top
-        </button>
-        <button onclick="nhiaScrollBottom()" style="pointer-events:all;display:flex;align-items:center;gap:5px;padding:7px 14px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:20px;font-size:11px;font-weight:700;color:rgba(201,168,76,0.7);cursor:pointer;font-family:DM Sans,sans-serif;backdrop-filter:blur(8px);">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg> Bottom
-        </button>
-      </div>
-
-    </div>
-
-    <!-- NHIA Detail sub-view -->
-    <div id="nhia-detail-view" style="display:none;flex-direction:column;height:100%;overflow:hidden;">
       <div class="panel-header">
-        <button onclick="closeNHIADetail()" style="background:none;border:none;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;padding:4px 8px;font-family:DM Sans,sans-serif;">← Back</button>
-        <h2 id="nhia-detail-title" class="panel-close-desktop" style="font-size:15px;"></h2>
-        <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
+        <button onclick="closeNHIADetail()" style="background:none;border:none;color:var(--text-2);font-size:13px;font-weight:700;cursor:pointer;padding:4px 8px;font-family:DM Sans,sans-serif;display:flex;align-items:center;gap:4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back
+        </button>
+        <h2 id="nhia-detail-title" style="font-size:14px;font-weight:800;color:var(--text);font-family:DM Sans,sans-serif;flex:1;text-align:center;"></h2>
+        <button class="panel-close" onclick="closePanel('nhia-panel')">✕</button>
       </div>
-      <div class="panel-body" id="nhia-detail-body" style="padding:1rem 1.25rem 5rem;overflow-y:auto;flex:1;"></div>
+
+      <div id="nhia-detail-body" class="panel-body"
+        style="padding:1rem 1.25rem 5rem;overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch;box-sizing:border-box;width:100%;">
+      </div>
+
       <div class="panel-footer">
-        <button onclick="closeNHIADetail()" class="btn-secondary" style="flex:1;">← Back to NHIA</button>
-        <a href="https://nhia.gov.ng" target="_blank" class="btn-primary" style="flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">Register Now 🏛️</a>
+        <button onclick="closeNHIADetail()" class="btn-secondary" style="flex:1;">← Back</button>
+        <a href="https://nhia.gov.ng" target="_blank" class="btn-primary" style="flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">Register 🏛️</a>
       </div>
-    </div>
+
+    </div><!-- /nhia-detail-view -->
 
   </div>
 </div>
@@ -4420,7 +4467,7 @@ function openPanel(id) {
   // Show existing ID banner when register panel opens
   if (id === 'register-panel') {
     // Render existing Health ID card on-demand (persistence fix)
-    setTimeout(renderRestoredHealthCard, 120);
+    setTimeout(renderRestoredHealthCard, 300);
     var saved = localStorage.getItem('krixia_health_id');
     var banner = document.getElementById('existing-id-banner');
     var idNum = document.getElementById('existing-id-number');
@@ -9518,24 +9565,6 @@ function buildCardBack(cardId, name, occupation) {
 
 
 
-// ── NHIA SCROLL NAVIGATION ────────────────────────────────────
-function nhiaScrollTop() {
-  var body = document.querySelector('#nhia-main-view .panel-body');
-  if (!body) {
-    // Fallback: find first scrollable child of nhia-panel
-    var panel = document.getElementById('nhia-panel');
-    body = panel ? panel.querySelector('.panel-body') : null;
-  }
-  if (body) body.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function nhiaScrollBottom() {
-  var body = document.querySelector('#nhia-main-view .panel-body');
-  if (!body) {
-    var panel = document.getElementById('nhia-panel');
-    body = panel ? panel.querySelector('.panel-body') : null;
-  }
-  if (body) body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
-}
 
 // ── NHIA PANEL NAVIGATION ─────────────────────────────────────
 var nhiaDetails = {
@@ -9637,22 +9666,40 @@ var nhiaDetails = {
 function openNHIADetail(key) {
   var detail = nhiaDetails[key];
   if (!detail) return;
-  var mainView = document.getElementById('nhia-main-view');
+  var mainView   = document.getElementById('nhia-main-view');
   var detailView = document.getElementById('nhia-detail-view');
-  var titleEl = document.getElementById('nhia-detail-title');
-  var bodyEl = document.getElementById('nhia-detail-body');
+  var titleEl    = document.getElementById('nhia-detail-title');
+  var bodyEl     = document.getElementById('nhia-detail-body');
   if (titleEl) titleEl.textContent = detail.title;
-  if (bodyEl) bodyEl.innerHTML = detail.content;
-  if (mainView) mainView.style.display = 'none';
-  if (detailView) { detailView.style.display = 'flex'; detailView.style.flexDirection = 'column'; }
+  if (bodyEl)  { bodyEl.innerHTML = detail.content; bodyEl.scrollTop = 0; }
+  if (mainView)   mainView.style.display   = 'none';
+  if (detailView) {
+    detailView.style.display        = 'flex';
+    detailView.style.flexDirection  = 'column';
+    detailView.style.flex           = '1';
+    detailView.style.minHeight      = '0';
+  }
 }
 
 function closeNHIADetail() {
-  var mainView = document.getElementById('nhia-main-view');
+  var mainView   = document.getElementById('nhia-main-view');
   var detailView = document.getElementById('nhia-detail-view');
-  if (mainView) mainView.style.display = 'block';
+  var mainBody   = document.getElementById('nhia-main-body');
   if (detailView) detailView.style.display = 'none';
+  if (mainView)   mainView.style.display   = 'contents';
+  if (mainBody)   mainBody.scrollTop       = 0;
 }
+
+function nhiaScrollTop() {
+  var body = document.getElementById('nhia-main-body');
+  if (body) body.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nhiaScrollBottom() {
+  var body = document.getElementById('nhia-main-body');
+  if (body) body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
+}
+
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
 function openNHIAPanel() { openPanel('nhia-panel'); }
