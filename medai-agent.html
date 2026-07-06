@@ -846,12 +846,12 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .card-inner {
   position: relative;
   z-index: 2;
-  padding: 12px 14px 10px;
+  padding: 8px 12px 6px;
   display: flex;
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  gap: 4px;
+  gap: 2px;
 }
 /* TOP ROW */
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -863,7 +863,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .card-chip::after { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(255,255,255,0.12); border-radius: 2px; }
 .card-verified { font-size: 6.5px; font-weight: 800; letter-spacing: 1px; color: #1D9E64; background: rgba(29,158,100,0.1); border: 1px solid rgba(29,158,100,0.28); border-radius: 4px; padding: 2px 5px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
 /* MIDDLE ROW — photo + name + occupation */
-.card-mid { display: flex; align-items: center; gap: 10px; padding: 4px 0 3px; }
+.card-mid { display: flex; align-items: center; gap: 8px; padding: 2px 0 2px; }
 .card-photo { width: 48px; height: 48px; border-radius: 9px; border: 1.5px solid rgba(201,168,76,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
 .card-photo img { width: 100%; height: 100%; object-fit: cover; }
 .card-name-area { flex: 1; min-width: 0; }
@@ -880,15 +880,15 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 /* DATA ROW — blood, genotype, age, sex */
 .card-data-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-end;
-  padding: 5px 0 4px;
+  padding: 3px 0 2px;
   border-top: 1px solid rgba(201,168,76,0.08);
 }
 /* ID STRIP — full width bold card number at bottom */
 .card-id-strip {
   border-top: 1px solid rgba(201,168,76,0.12);
-  padding-top: 5px;
+  padding-top: 3px;
 }
 .card-id-full {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
@@ -1986,9 +1986,9 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
       <div class="image-preview" id="image-preview"></div>
 
       <!-- Medical Disclaimer - now sits right above input bar -->
-      <div style="margin:0.5rem 1rem 0;background:rgba(212,135,58,0.08);border:1px solid rgba(212,135,58,0.2);border-radius:10px;padding:7px 11px;display:flex;align-items:flex-start;gap:7px;flex-shrink:0;">
-        <span style="font-size:12px;flex-shrink:0;">⚕️</span>
-        <div style="font-size:10px;color:var(--text-3);line-height:1.5;"><strong style="color:var(--amber-400);">Disclaimer:</strong> AI guidance only — not a substitute for professional medical advice.</div>
+      <div      <div style="margin:2px 1rem 0;background:rgba(212,135,58,0.05);border:1px solid rgba(212,135,58,0.12);border-radius:6px;padding:4px 10px;display:flex;align-items:center;gap:5px;flex-shrink:0;">
+        <span style="font-size:10px;flex-shrink:0;">⚕️</span>
+        <div style="font-size:9px;color:var(--text-3);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><strong style="color:var(--amber-400);">Disclaimer:</strong> AI guidance only — not a substitute for professional medical advice. In emergencies call 112.</div>
       </div>
 
       <div class="input-area">
@@ -9483,14 +9483,14 @@ function buildCardBack(cardId, name, occupation) {
 
   return (
     // ── MAGNETIC STRIPE ──
-    '<div style="width:100%;height:14%;background:linear-gradient(180deg,#0A0A0A 0%,#1A1A1A 50%,#0D0D0D 100%);' +
+    '<div style="width:100%;height:11%;background:linear-gradient(180deg,#0A0A0A 0%,#1A1A1A 50%,#0D0D0D 100%);' +
       'position:relative;overflow:hidden;display:flex;align-items:center;">' +
       '<div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,0.015) 2px,rgba(255,255,255,0.015) 4px);"></div>' +
       '<div style="position:absolute;right:12px;font-size:6px;letter-spacing:2px;color:rgba(201,168,76,0.2);font-family:JetBrains Mono,monospace;font-weight:700;">KRIXIA MEDICAL AI</div>' +
     '</div>' +
 
     // ── MAIN BACK CONTENT ──
-    '<div style="padding:10px 14px 8px;display:flex;flex-direction:column;flex:1;gap:0;position:relative;z-index:2;">' +
+    '<div style="padding:6px 12px 5px;display:flex;flex-direction:column;flex:1;gap:0;position:relative;z-index:2;overflow:hidden;">' +
 
       // Watermark
       '<div style="position:absolute;left:-8px;bottom:-10px;font-family:Sora,DM Sans,Arial,sans-serif;font-size:52px;font-weight:900;color:rgba(201,168,76,0.06);letter-spacing:6px;pointer-events:none;transform:rotate(0deg);">KRIXIA</div>' +
@@ -9499,19 +9499,19 @@ function buildCardBack(cardId, name, occupation) {
       '<div style="position:absolute;top:18px;left:0;right:0;font-size:4px;color:rgba(201,168,76,0.05);font-family:JetBrains Mono,monospace;text-align:center;pointer-events:none;overflow:hidden;white-space:nowrap;">KRIXIA MEDICAL INTELLIGENCE · SECURE HEALTH CREDENTIAL · NIGERIA · NOT TRANSFERABLE · KRIXIA MEDICAL INTELLIGENCE</div>' +
 
       // Signature strip
-      '<div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:4px 8px;margin-bottom:8px;">' +
+      '<div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:3px 8px;margin-bottom:5px;">' +
         '<div style="font-size:6px;letter-spacing:2px;color:rgba(201,168,76,0.35);font-family:DM Sans,sans-serif;text-transform:uppercase;margin-bottom:2px;">CARDHOLDER SIGNATURE</div>' +
         '<div style="font-size:11px;font-family:Sora,DM Sans,sans-serif;color:rgba(255,255,255,0.2);font-style:italic;letter-spacing:1px;">' + name + '</div>' +
       '</div>' +
 
       // Middle row: QR + Details
-      '<div style="display:flex;gap:10px;flex:1;align-items:flex-start;margin-bottom:7px;">' +
+      '<div style="display:flex;gap:8px;flex:1;align-items:flex-start;margin-bottom:3px;">' +
 
         // QR code area
         '<div style="flex-shrink:0;">' +
-          '<div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:4px;width:66px;">' +
+          '<div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:6px;padding:3px;width:58px;">' +
             // Corner markers (QR-style)
-            '<div style="position:relative;width:58px;height:58px;">' +
+            '<div style="position:relative;width:50px;height:50px;">' +
               '<div style="position:absolute;top:0;left:0;width:14px;height:14px;border:2px solid rgba(201,168,76,0.6);border-radius:1px;"></div>' +
               '<div style="position:absolute;top:0;right:0;width:14px;height:14px;border:2px solid rgba(201,168,76,0.6);border-radius:1px;"></div>' +
               '<div style="position:absolute;bottom:0;left:0;width:14px;height:14px;border:2px solid rgba(201,168,76,0.6);border-radius:1px;"></div>' +
@@ -9519,7 +9519,7 @@ function buildCardBack(cardId, name, occupation) {
               '<div style="position:absolute;top:4px;right:4px;width:6px;height:6px;background:rgba(201,168,76,0.7);border-radius:1px;"></div>' +
               '<div style="position:absolute;bottom:4px;left:4px;width:6px;height:6px;background:rgba(201,168,76,0.7);border-radius:1px;"></div>' +
               // Data dots
-              '<div style="position:absolute;top:18px;left:2px;right:2px;bottom:18px;display:flex;flex-wrap:wrap;gap:0;">' + qrBlocks + '</div>' +
+              '<div style="position:absolute;top:14px;left:2px;right:2px;bottom:14px;display:flex;flex-wrap:wrap;gap:0;">' + qrBlocks + '</div>' +
             '</div>' +
           '</div>' +
           '<div style="font-size:5px;color:rgba(201,168,76,0.3);font-family:DM Sans,sans-serif;text-align:center;margin-top:2px;letter-spacing:0.5px;">SCAN TO VERIFY</div>' +
@@ -9546,15 +9546,15 @@ function buildCardBack(cardId, name, occupation) {
       '</div>' +
 
       // Bottom legal strip
-      '<div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:5px;">' +
-        '<div style="font-size:5.5px;color:rgba(255,255,255,0.12);font-family:DM Sans,sans-serif;line-height:1.7;">' +
+      '<div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:3px;">' +
+        '<div style="font-size:5px;color:rgba(255,255,255,0.12);font-family:DM Sans,sans-serif;line-height:1.5;">' +
           'This card is the property of Krixia Medical Intelligence · Tickit NG · Lagos, Nigeria. ' +
           'Not transferable. For emergency medical information only. ' +
           'Verify at krixia.tickit.com.ng · © 2026 Tickit NG' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:1px;">' +
           '<div style="font-size:6px;font-weight:800;color:rgba(201,168,76,0.25);font-family:DM Sans,sans-serif;letter-spacing:2px;">KRIXIA MEDICAL</div>' +
-          '<div style="font-size:14px;">⚕️</div>' +
+          '<div style="font-size:10px;">⚕️</div>' +
           '<div style="font-size:6px;font-weight:800;color:rgba(201,168,76,0.25);font-family:DM Sans,sans-serif;letter-spacing:2px;">🇳🇬 NIGERIA</div>' +
         '</div>' +
       '</div>' +
