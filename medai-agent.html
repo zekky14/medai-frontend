@@ -736,6 +736,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   transform-style: preserve-3d;
   transition: transform 0.65s cubic-bezier(0.45, 0.05, 0.15, 1.0);
   border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.65);
 }
 .health-id-inner.flipped {
   transform: rotateY(180deg);
@@ -776,14 +777,15 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
   border-radius: 16px;
   padding: 0;
   color: white;
-  margin: 1rem 0;
+  margin: 0;
   position: relative;
   overflow: hidden;
   box-shadow: 0 24px 64px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,168,76,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
   aspect-ratio: 1.586 / 1;
   display: flex;
   flex-direction: column;
-  min-height: 196px;
+  width: 100%;
+  height: 100%;
 }
 /* Holographic shimmer diagonal */
 .med-card::before {
@@ -3311,7 +3313,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
       </div>
       <p class="panel-sub">Nigeria National Health Insurance Authority — your complete coverage guide</p>
-      <div class="panel-body" style="padding:0 1.25rem 1rem;">
+      <div class="panel-body" style="padding:0 1.25rem 1.5rem;overflow-y:auto;flex:1;">
 
         <!-- Hero intro -->
         <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
@@ -3370,22 +3372,45 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         </div>
 
         <!-- Contact -->
-        <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;">
+        <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
           <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Direct Contact</div>
           <div style="font-size:12px;color:var(--text-2);line-height:1.8;font-family:DM Sans,sans-serif;">Hotline: <strong>0800-6442-4357</strong><br>nhia.gov.ng &nbsp;·&nbsp; info@nhia.gov.ng</div>
+        </div>
+
+        <!-- Africa Phase 4 Expansion -->
+        <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.12);border-radius:10px;padding:14px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-300);font-family:DM Sans,sans-serif;margin-bottom:10px;">🌍 Phase 4 — Africa Expansion</div>
+          <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;margin-bottom:10px;">Krixia is expanding across West and East Africa. Insurance and hospital coverage coming soon for:</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
+              <span style="font-size:16px;">🇬🇭</span>
+              <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Ghana — NHIS</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Health Insurance Scheme · Coming Q4 2026</div></div>
+              <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
+              <span style="font-size:16px;">🇰🇪</span>
+              <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Kenya — NHIF</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Hospital Insurance Fund · Coming 2027</div></div>
+              <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
+              <span style="font-size:16px;">🇷🇼</span>
+              <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Rwanda — RSSB</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Rwanda Social Security Board · Coming 2027</div></div>
+              <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;flex-shrink:0;">SOON</div>
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
 
     <!-- NHIA Detail sub-view -->
-    <div id="nhia-detail-view" style="display:none;height:100%;display:none;flex-direction:column;">
+    <div id="nhia-detail-view" style="display:none;flex-direction:column;height:100%;overflow:hidden;">
       <div class="panel-header">
         <button onclick="closeNHIADetail()" style="background:none;border:none;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;padding:4px 8px;font-family:DM Sans,sans-serif;">← Back</button>
         <h2 id="nhia-detail-title" class="panel-close-desktop" style="font-size:15px;"></h2>
         <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
       </div>
-      <div class="panel-body" id="nhia-detail-body" style="padding:1rem 1.25rem;"></div>
+      <div class="panel-body" id="nhia-detail-body" style="padding:1rem 1.25rem 5rem;overflow-y:auto;flex:1;"></div>
       <div class="panel-footer">
         <button onclick="closeNHIADetail()" class="btn-secondary" style="flex:1;">← Back to NHIA</button>
         <a href="https://nhia.gov.ng" target="_blank" class="btn-primary" style="flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">Register Now 🏛️</a>
@@ -3713,7 +3738,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     <div class="panel-body" style="padding:0 1.25rem;">
 
       <!-- THE CARD -->
-      <div class="med-card" id="generated-card"></div>
+      <div id="generated-card" style="margin:0.75rem 0;"></div>
 
       <!-- Photo upload option -->
       <div style="display:flex;align-items:center;gap:10px;margin:-6px 0 14px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">
