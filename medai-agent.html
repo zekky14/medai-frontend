@@ -444,7 +444,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .admin-badge { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
 
 /* MAIN LAYOUT */
-.main { display: grid; grid-template-columns: 280px 1fr; flex: 1; min-height: 0; overflow: hidden; position: relative; z-index: 1; }
+.main { display: grid; grid-template-columns: 260px 1fr; flex: 1; min-height: 0; overflow: hidden; position: relative; z-index: 1; }
 
 
 /* SIDEBAR (desktop only) */
@@ -485,7 +485,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 .disclaimer-box { background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent); border: 1px solid rgba(201,168,76,0.18); border-left: 3px solid var(--gold-400); border-radius: var(--r-sm); padding: 11px 13px; font-size: 12px; color: var(--text-3); line-height: 1.6; }
 
 /* CHAT AREA */
-.chat-area { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; width: 100%; max-width: 100%; box-sizing: border-box; }
+.chat-area { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; width: 100%; max-width: 100%; box-sizing: border-box; position: relative; }
 .chat-topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 8px; }
 .doc-wrap { flex-shrink: 0; display: flex; align-items: center; gap: 10px; }
 .mode-tabs-wrap { flex: 1; display: flex; justify-content: center; }
@@ -644,6 +644,112 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
    Mobile: genuine full-screen page slide-in.
    Same internal structure everywhere: header / scroll-body / footer
 ============================================================ */
+
+/* ══════════════════════════════════════════════════════════════
+   TABLET / DESKTOP RESPONSIVE SYSTEM — iPad-first design
+   Breakpoints: 768px (tablet), 1024px (desktop), 1280px (wide)
+══════════════════════════════════════════════════════════════ */
+
+/* ── TABLET: 768px+ — iPad portrait and landscape ── */
+@media (min-width: 768px) {
+  /* App shell — wider, breathing room */
+  html, body { font-size: 15px; }
+
+  /* Sidebar — slightly wider on tablet */
+  .main { grid-template-columns: 280px 1fr; }
+  .sidebar { padding: 1.5rem 1.25rem; gap: 1.5rem; }
+
+  /* Chat area — centred column, max readable width */
+  .chat-area { max-width: 100%; }
+
+  /* Messages — constrained for readability */
+  #messages {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+  }
+
+  /* Input bar — full width but content centred */
+  .input-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Panels — wider on tablet, feel less cramped */
+  .panel { max-width: 580px; max-height: 88vh; max-height: 88dvh; }
+
+  /* Welcome screen — iPad-optimised grid */
+  .welcome-stats-grid { grid-template-columns: repeat(4, 1fr); }
+
+  /* Chat topbar — more padding */
+  .chat-topbar { padding: 12px 2rem; }
+
+  /* Symptom chips — allow more per row */
+  #quick-chips { padding: 0 1.5rem; gap: 8px; }
+}
+
+/* ── DESKTOP: 1024px+ — laptop and desktop ── */
+@media (min-width: 1024px) {
+  html, body { font-size: 15px; }
+
+  /* Wider sidebar with more content */
+  .main { grid-template-columns: 300px 1fr; }
+  .sidebar { padding: 1.75rem 1.5rem; gap: 1.5rem; width: 300px; }
+
+  /* Message column — iPad-scale centred column */
+  #messages {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+  }
+
+  .input-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Panels — comfortable modal size */
+  .panel { max-width: 620px; max-height: 90vh; max-height: 90dvh; }
+
+  /* Header — more breathing room */
+  header { padding: 0 2rem; height: 66px; }
+
+  /* Quick action grid — 2 columns */
+  .quick-action-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── WIDE DESKTOP: 1280px+ ── */
+@media (min-width: 1280px) {
+  .main { grid-template-columns: 320px 1fr; }
+  .sidebar { width: 320px; padding: 2rem 1.5rem; }
+
+  #messages {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 1.5rem 2.5rem;
+  }
+
+  .input-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .panel { max-width: 680px; }
+}
+
+/* ── Mobile sidebar hide (already exists but reinforce) ── */
+@media (max-width: 767px) {
+  .main { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  #messages { padding: 0.75rem 1rem; }
+}
+
+
 .panel-overlay { display: none; position: fixed; inset: 0; background: var(--overlay); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); z-index: 300; align-items: center; justify-content: center; padding: 1rem; }
 .panel-overlay.active { display: flex; }
 .panel {
@@ -1717,8 +1823,39 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         <span id="usage-label">5 left today</span>
       </div>
       <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
-      <button class="btn-premium" id="upgrade-btn" onclick="openPanel('pricing-panel')"><span class="pb-icon">👑</span><span class="pb-text">Premium</span></button>
-      <button class="btn-medid" id="btn-register" onclick="krixiaUser ? openUserProfile() : openPanel('login-panel')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="m21 2-9.6 9.6"></path><circle cx="7.5" cy="15.5" r="5.5"></circle></svg><span class="bm-text">Sign In</span></button>
+
+      <!-- Auth CTA — context-aware: Sign In + Sign Up when logged out, avatar when logged in -->
+      <div id="header-auth-area" style="display:flex;align-items:center;gap:8px;">
+
+        <!-- Logged OUT -->
+        <div id="header-auth-loggedout" style="display:flex;align-items:center;gap:6px;">
+          <button onclick="openPanel('login-panel')"
+            style="padding:7px 14px;background:transparent;border:1px solid rgba(201,168,76,0.3);border-radius:8px;font-size:12px;font-weight:700;color:rgba(201,168,76,0.8);cursor:pointer;font-family:DM Sans,sans-serif;transition:all 0.2s;letter-spacing:0.3px;white-space:nowrap;"
+            onmouseover="this.style.borderColor='rgba(201,168,76,0.6)';this.style.color='#C9A84C'"
+            onmouseout="this.style.borderColor='rgba(201,168,76,0.3)';this.style.color='rgba(201,168,76,0.8)'">
+            Sign In
+          </button>
+          <button onclick="openPanel('signup-panel')"
+            style="padding:7px 14px;background:linear-gradient(135deg,#A8832A,#C9A84C);border:none;border-radius:8px;font-size:12px;font-weight:800;color:#030806;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 2px 8px rgba(201,168,76,0.2);letter-spacing:0.3px;white-space:nowrap;">
+            Sign Up Free
+          </button>
+        </div>
+
+        <!-- Logged IN — avatar pill -->
+        <div id="header-auth-loggedin" style="display:none;">
+          <button onclick="openUserProfile()"
+            style="display:flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:24px;cursor:pointer;transition:background 0.2s;"
+            onmouseover="this.style.background='rgba(201,168,76,0.1)'"
+            onmouseout="this.style.background='rgba(201,168,76,0.06)'">
+            <div id="header-avatar" style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0A2A1C,#1D9E64);border:1.5px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#C9A84C;font-family:DM Sans,sans-serif;overflow:hidden;flex-shrink:0;">
+              <span id="header-avatar-initials">?</span>
+              <img id="header-avatar-img" style="display:none;width:100%;height:100%;object-fit:cover;" src="" alt="">
+            </div>
+            <span id="header-user-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+          </button>
+        </div>
+
+      </div>
     </div>
   </header>
 
@@ -8213,8 +8350,7 @@ async function krixiaSignup() {
     }
     closePanel('signup-panel');
     showAuthSuccessMessage('signup', name);
-    // Launch cinematic onboarding for new users
-    setTimeout(launchKrixiaCinema, 800);
+    setTimeout(startOnboardingTour, 1200);
 
   } catch(err) {
     errEl.textContent = err.message;
@@ -8335,32 +8471,71 @@ async function forgotPassword() {
 
 // ── UI UPDATES ────────────────────────────────────────────
 function updateAuthUI(user) {
-  const medidBtn = document.getElementById('btn-register');
-  const upgradeBtn = document.getElementById('upgrade-btn');
+  var loggedOut = document.getElementById('header-auth-loggedout');
+  var loggedIn  = document.getElementById('header-auth-loggedin');
+  var headerName = document.getElementById('header-user-name');
+  var headerInitials = document.getElementById('header-avatar-initials');
+  var headerAvatarImg = document.getElementById('header-avatar-img');
 
-  const userIconSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
-  const keyIconSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="m21 2-9.6 9.6"></path><circle cx="7.5" cy="15.5" r="5.5"></circle></svg>';
+  // Legacy elements (kept for compatibility)
+  var medidBtn   = document.getElementById('btn-register');
+  var upgradeBtn = document.getElementById('upgrade-btn');
 
   if (user) {
+    // Logged IN state
+    if (loggedOut) loggedOut.style.display = 'none';
+    if (loggedIn)  loggedIn.style.display  = 'block';
+
+    var name = user.fullname || user.email || 'You';
+    var initials = name.split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase() || '??';
+
+    if (headerName) headerName.textContent = name.split(' ')[0]; // First name only
+    if (headerInitials) headerInitials.textContent = initials;
+
+    // Show avatar image if available
+    var avatarUrl = user.avatarUrl || (krixiaUser && krixiaUser.avatarUrl) || '';
+    if (headerAvatarImg && avatarUrl) {
+      headerAvatarImg.src = avatarUrl;
+      headerAvatarImg.style.display = 'block';
+      if (headerInitials) headerInitials.style.display = 'none';
+    } else if (headerAvatarImg) {
+      headerAvatarImg.style.display = 'none';
+      if (headerInitials) headerInitials.style.display = 'block';
+    }
+
+    // Legacy
     if (medidBtn) {
-      const firstName = user.fullname ? user.fullname.split(' ')[0] : 'Profile';
-      medidBtn.innerHTML = userIconSvg + '<span class="bm-text">' + firstName + '</span>';
+      medidBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="bm-text">' + name.split(' ')[0] + '</span>';
       medidBtn.onclick = function() { openUserProfile(); };
     }
-    const mst = document.getElementById('mobile-signin-tab');
-    if (mst) {
-      const firstName2 = user.fullname ? user.fullname.split(' ')[0] : 'Profile';
-      document.getElementById('mst-icon').outerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="mst-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
-      document.getElementById('mst-label').textContent = firstName2;
-      mst.onclick = function() { openUserProfile(); };
-    }
+    if (upgradeBtn) upgradeBtn.style.display = 'none';
+
+    // Show premium popup when usage exhausted (not in header)
+    checkAndShowPremiumPrompt();
+
   } else {
+    // Logged OUT state
+    if (loggedOut) loggedOut.style.display = 'flex';
+    if (loggedIn)  loggedIn.style.display  = 'none';
+
     if (medidBtn) {
-      medidBtn.innerHTML = keyIconSvg + '<span class="bm-text">Sign In</span>';
+      medidBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 2-9.6 9.6"></path><circle cx="7.5" cy="15.5" r="5.5"></circle></svg><span class="bm-text">Sign In</span>';
       medidBtn.onclick = function() { openPanel('login-panel'); };
     }
+    if (upgradeBtn) upgradeBtn.style.display = 'none';
   }
 }
+
+// Premium prompt — shows in profile area when usage exceeded, not in header
+function checkAndShowPremiumPrompt() {
+  var used = parseInt(localStorage.getItem('krixia_daily_consultations') || '0', 10);
+  var limit = 5;
+  if (used >= limit) {
+    // Premium upgrade prompt appears in the chat area, not the header
+    showToast('You have reached your daily consultation limit. Upgrade to Premium for unlimited access.');
+  }
+}
+
 
 function openUserProfile() {
   if (!krixiaUser) { openPanel('login-panel'); return; }
@@ -10093,6 +10268,39 @@ function completeKrixiaCinema() {
 function skipKrixiaCinema() {
   completeKrixiaCinema();
 }
+
+
+// ══════════════════════════════════════════════════════════════
+// KRIXIA IDLE PROMO SYSTEM
+// Auto-launches the cinematic experience after 90s of inactivity
+// Dismissed by user — never re-shows until next idle timeout
+// ══════════════════════════════════════════════════════════════
+var idleTimer = null;
+var IDLE_TIMEOUT_MS = 90 * 1000; // 90 seconds
+var cinemaShownThisSession = false;
+
+function resetIdleTimer() {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(function() {
+    if (!cinemaShownThisSession) {
+      cinemaShownThisSession = true;
+      launchKrixiaCinema();
+    }
+  }, IDLE_TIMEOUT_MS);
+}
+
+function initIdleDetection() {
+  var events = ['mousemove', 'keydown', 'click', 'touchstart', 'scroll'];
+  events.forEach(function(evt) {
+    document.addEventListener(evt, resetIdleTimer, { passive: true });
+  });
+  resetIdleTimer(); // Start the timer immediately
+}
+
+// Start idle detection after page is fully loaded
+window.addEventListener('load', function() {
+  setTimeout(initIdleDetection, 3000); // 3s delay after load before idle tracking starts
+});
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
 function openNHIAPanel() { openPanel('nhia-panel'); }
