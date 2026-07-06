@@ -3302,68 +3302,96 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 <!-- NHIA PANEL -->
 <div class="panel-overlay" id="nhia-panel">
   <div class="panel" style="max-width:520px;">
-    <div class="panel-header">
-      <button class="panel-close-mobile" onclick="closePanel('nhia-panel')">← Back</button>
-      <h2 class="panel-close-desktop">🏛️ NHIA Health Insurance</h2>
-      <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
-    </div>
-    <p class="panel-sub">Nigeria National Health Insurance Authority — what's covered and how to access it</p>
-    <div class="panel-body" style="padding:0 1.25rem 1rem;">
 
-      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
-        <div style="font-size:12px;font-weight:700;color:var(--em-300);margin-bottom:6px;">What is NHIA?</div>
-        <div style="font-size:12px;color:var(--text-2);line-height:1.7;">The National Health Insurance Authority (NHIA) was established under the NHIA Act 2022 to provide financial protection against healthcare costs for all Nigerians. It replaced the old NHIS and significantly expanded coverage nationwide.</div>
+    <!-- Main NHIA view -->
+    <div id="nhia-main-view">
+      <div class="panel-header">
+        <button class="panel-close-mobile" onclick="closePanel('nhia-panel')">← Back</button>
+        <h2 class="panel-close-desktop">🏛️ NHIA Health Insurance</h2>
+        <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
       </div>
+      <p class="panel-sub">Nigeria National Health Insurance Authority — your complete coverage guide</p>
+      <div class="panel-body" style="padding:0 1.25rem 1rem;">
 
-      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">What NHIA Covers</div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🏥</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Outpatient consultations</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">GP visits, specialist referrals, follow-up care</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">💊</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Essential medicines</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">All WHO essential medicines list drugs</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🤰</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Maternal care</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Antenatal, delivery, postnatal for mother and newborn</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">👶</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Child healthcare</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Immunisation, growth monitoring, under-5 care</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🔬</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Diagnostics</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Blood tests, X-rays, ultrasound, basic investigations</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🏨</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Inpatient care</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Hospital admission, surgery (selected procedures)</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">🦷</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Dental</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Basic dental — extraction, filling, scaling</div></div></div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;"><span style="font-size:18px;flex-shrink:0;">👁️</span><div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:Inter,sans-serif;">Optical</div><div style="font-size:11px;color:var(--text-3);font-family:Inter,sans-serif;margin-top:2px;">Eye examination and basic corrective lenses</div></div></div>
-      </div>
-
-      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:0 0 10px;">How to Enrol</div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">1</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Visit any NHIA-accredited facility or their website at nhia.gov.ng</div></div>
-        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">2</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Complete the enrolment form with your NIN (National Identification Number)</div></div>
-        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">3</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Choose a Primary Healthcare Provider from the NHIA-accredited list</div></div>
-        <div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--gold-300);">4</div><div style="font-size:12px;color:var(--text-2);font-family:Inter,sans-serif;line-height:1.6;padding-top:2px;">Receive your NHIA card and use it at any accredited facility nationwide</div></div>
-      </div>
-
-      <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
-        <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Contact</div>
-        <div style="font-size:12px;color:var(--text-2);line-height:1.8;">Hotline: <strong>0800-6442-4357</strong><br>Website: nhia.gov.ng &nbsp;|&nbsp; Email: info@nhia.gov.ng</div>
-      </div>
-
-      <!-- Africa Phase 4 Expansion Preview -->
-      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.12);border-radius:10px;padding:14px;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-300);font-family:DM Sans,sans-serif;margin-bottom:10px;">🌍 Phase 4 — Africa Expansion</div>
-        <div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;margin-bottom:10px;">Krixia is expanding across West and East Africa. Insurance and hospital coverage coming for:</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
-            <span style="font-size:16px;">🇬🇭</span>
-            <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Ghana — NHIS</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Health Insurance Scheme · Coming Q4 2026</div></div>
-            <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;">SOON</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
-            <span style="font-size:16px;">🇰🇪</span>
-            <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Kenya — NHIF</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">National Hospital Insurance Fund · Coming 2027</div></div>
-            <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;">SOON</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface-2);border-radius:8px;">
-            <span style="font-size:16px;">🇷🇼</span>
-            <div><div style="font-size:11px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Rwanda — RSSB</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Rwanda Social Security Board · Coming 2027</div></div>
-            <div style="margin-left:auto;font-size:10px;color:var(--gold-300);font-family:DM Sans,sans-serif;font-weight:700;">SOON</div>
-          </div>
+        <!-- Hero intro -->
+        <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+          <div style="font-size:12px;font-weight:700;color:var(--em-300);margin-bottom:5px;">What is NHIA?</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.7;">Established under the NHIA Act 2022, NHIA provides financial protection against healthcare costs for all Nigerians. It replaced the old NHIS and dramatically expanded coverage and enforcement.</div>
         </div>
-      </div>
 
+        <!-- Register CTA — prominent -->
+        <a href="https://nhia.gov.ng" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.06));border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;text-decoration:none;margin-bottom:14px;cursor:pointer;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏛️</div>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:800;color:var(--gold-300);font-family:DM Sans,sans-serif;">Register for NHIA Coverage</div>
+            <div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;margin-top:2px;">Visit nhia.gov.ng · Free for all Nigerians · Tap to open</div>
+          </div>
+          <span style="color:var(--gold-300);font-size:16px;">›</span>
+        </a>
+
+        <!-- Coverage categories — each tappable -->
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);font-family:DM Sans,sans-serif;margin-bottom:10px;">What NHIA Covers — Tap to Learn More</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
+          <button onclick="openNHIADetail('outpatient')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:18px;flex-shrink:0;">🏥</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Outpatient Consultations</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">GP visits, specialist referrals, follow-up care</div></div>
+            <span style="color:var(--text-3);font-size:14px;">›</span>
+          </button>
+          <button onclick="openNHIADetail('medicines')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:18px;flex-shrink:0;">💊</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Essential Medicines</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">All WHO essential medicines list drugs covered</div></div>
+            <span style="color:var(--text-3);font-size:14px;">›</span>
+          </button>
+          <button onclick="openNHIADetail('maternal')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:18px;flex-shrink:0;">🤰</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Maternal & Newborn Care</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Antenatal, delivery, postnatal for mother and baby</div></div>
+            <span style="color:var(--text-3);font-size:14px;">›</span>
+          </button>
+          <button onclick="openNHIADetail('child')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:18px;flex-shrink:0;">👶</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Child Healthcare</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Immunisation, growth monitoring, under-5 care</div></div>
+            <span style="color:var(--text-3);font-size:14px;">›</span>
+          </button>
+          <button onclick="openNHIADetail('diagnostics')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:18px;flex-shrink:0;">🔬</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Diagnostics & Laboratory</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Blood tests, X-rays, ultrasound, investigations</div></div>
+            <span style="color:var(--text-3);font-size:14px;">›</span>
+          </button>
+          <button onclick="openNHIADetail('inpatient')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:18px;flex-shrink:0;">🏨</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;">Inpatient & Surgery</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Hospital admission, selected surgical procedures</div></div>
+            <span style="color:var(--text-3);font-size:14px;">›</span>
+          </button>
+          <button onclick="openNHIADetail('enrolment')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(29,158,100,0.05);border:1px solid rgba(29,158,100,0.2);border-radius:10px;cursor:pointer;text-align:left;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(29,158,100,0.4)'" onmouseout="this.style.borderColor='rgba(29,158,100,0.2)'">
+            <span style="font-size:18px;flex-shrink:0;">📋</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--em-300);font-family:DM Sans,sans-serif;">How to Enrol — Step by Step</div><div style="font-size:10px;color:var(--text-3);font-family:DM Sans,sans-serif;">Complete enrolment guide for all Nigerians</div></div>
+            <span style="color:var(--em-300);font-size:14px;">›</span>
+          </button>
+        </div>
+
+        <!-- Contact -->
+        <div style="background:rgba(29,158,100,0.06);border:1px solid rgba(29,158,100,0.15);border-radius:10px;padding:12px 14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Direct Contact</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.8;font-family:DM Sans,sans-serif;">Hotline: <strong>0800-6442-4357</strong><br>nhia.gov.ng &nbsp;·&nbsp; info@nhia.gov.ng</div>
+        </div>
+
+      </div>
     </div>
+
+    <!-- NHIA Detail sub-view -->
+    <div id="nhia-detail-view" style="display:none;height:100%;display:none;flex-direction:column;">
+      <div class="panel-header">
+        <button onclick="closeNHIADetail()" style="background:none;border:none;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;padding:4px 8px;font-family:DM Sans,sans-serif;">← Back</button>
+        <h2 id="nhia-detail-title" class="panel-close-desktop" style="font-size:15px;"></h2>
+        <button class="panel-close panel-close-desktop" onclick="closePanel('nhia-panel')">✕</button>
+      </div>
+      <div class="panel-body" id="nhia-detail-body" style="padding:1rem 1.25rem;"></div>
+      <div class="panel-footer">
+        <button onclick="closeNHIADetail()" class="btn-secondary" style="flex:1;">← Back to NHIA</button>
+        <a href="https://nhia.gov.ng" target="_blank" class="btn-primary" style="flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">Register Now 🏛️</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -3668,7 +3696,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     </div>
     <div class="panel-footer">
       <button class="btn-secondary" onclick="closePanel('register-panel')" style="flex:1;">Cancel</button>
-      <button class="btn-primary" onclick="generateMedCard()" style="flex:2;">Generate My Health ID →</button>
+      <button class="btn-primary" onclick="generateMedCard()" style="flex:2;">💾 Save & Generate ID →</button>
     </div>
   </div>
 </div>
@@ -3973,16 +4001,13 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text && pendingImages.length === 0) return;
 
-  // Launch consultation modal for symptom-related first messages
-  if (text && !consultationActive && conversationHistory.length === 0 && pendingImages.length === 0) {
-    const symptomTriggers = ['i have','i feel','my ','pain','ache','headache','fever','sick','hurt','bleed','vomit','cough','breath','chest','stomach','throat','dizzy','tired','rash','swollen','nausea','diarrhea','weak','itching','burning','discharge','pregnant','period','infection','symptom','doctor','ill','unwell'];
-    const lowerText = text.toLowerCase();
-    const isSymptom = symptomTriggers.some(function(t) { return lowerText.includes(t); });
-    if (isSymptom) {
-      input.value = '';
-      launchConsultation(text, currentSpecialty);
-      return;
-    }
+  // Check disclaimer first — then proceed with inline chat (no forced modal redirect)
+  if (text && conversationHistory.length === 0 && !sessionStorage.getItem('krixia_disclaimer_accepted')) {
+    // Store pending message and show disclaimer
+    sessionStorage.setItem('krixia_pending_symptom', text);
+    sessionStorage.setItem('krixia_pending_specialty', currentSpecialty || '');
+    showDisclaimer();
+    return;
   }
 
   const sendBtn = document.getElementById('send-btn');
@@ -4540,15 +4565,37 @@ var cardPhotoDataURL = null;
 function handleCardPhotoUpload(event) {
   var file = event.target.files[0];
   if (!file) return;
+
+  // Validate size — keep under 400KB for localStorage
+  if (file.size > 500000) {
+    showToast('Photo too large — please use an image under 500KB');
+    return;
+  }
+
   var reader = new FileReader();
   reader.onload = function(e) {
-    window.cardPhotoDataURL = e.target.result;
-    // Update photo in card immediately
-    var photo = document.querySelector('#generated-card .card-photo');
-    if (photo) photo.innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
+    var dataURL = e.target.result;
+    window.cardPhotoDataURL = dataURL;
+
+    // Persist to localStorage — survives page refresh
+    try {
+      localStorage.setItem('krixia_card_photo', dataURL);
+    } catch(storageErr) {
+      // Storage quota exceeded — use memory only
+      console.warn('Photo storage quota exceeded — using session memory only');
+    }
+
+    // Update photo in all card faces immediately
+    var photos = document.querySelectorAll('#generated-card .card-photo, .health-id-front .card-photo');
+    photos.forEach(function(photo) {
+      photo.innerHTML = '<img src="' + dataURL + '" style="width:100%;height:100%;object-fit:cover;">';
+    });
+
+    showToast('✅ Photo added to your Health ID');
   };
   reader.readAsDataURL(file);
 }
+
 
 function shareCard() {
   if (!userProfile || !userProfile.cardId) return;
@@ -7649,6 +7696,12 @@ let krixiaUser = null; // Current logged-in user
 
 // Restore saved Health ID on load
 (function restoreHealthID() {
+  // Restore card photo first
+  var savedPhoto = localStorage.getItem('krixia_card_photo');
+  if (savedPhoto) {
+    window.cardPhotoDataURL = savedPhoto;
+  }
+
   var saved = localStorage.getItem('krixia_health_id');
   if (!saved) return;
   try {
@@ -8211,8 +8264,11 @@ async function saveProfile() {
 
 // ── GOOGLE SIGN IN ────────────────────────────────────────
 async function signInWithGoogle() {
+  // Show clear guidance — Google OAuth requires Supabase dashboard configuration
+  // The user must add https://krixia.tickit.com.ng to Supabase Auth > URL Configuration > Redirect URLs
+  // AND enable Google provider in Supabase Auth > Providers
+  showToast('Setting up Google Sign-In...');
   try {
-    // Use Supabase OAuth with Google
     const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/+esm');
     const client = createClient(
       'https://azsdgfmptidykgkjxfnw.supabase.co',
@@ -8221,17 +8277,46 @@ async function signInWithGoogle() {
     const { data, error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'https://krixia.tickit.com.ng'
+        redirectTo: 'https://krixia.tickit.com.ng',
+        queryParams: { access_type: 'offline', prompt: 'consent' }
       }
     });
     if (error) throw error;
-    // OAuth redirect happens automatically
+    // OAuth will redirect the browser — no further action needed
   } catch(err) {
-    // Fallback message if Google OAuth not configured yet
-    alert('Google Sign-In requires configuration in Supabase Dashboard. Please use email/password for now.');
-    openPanel('login-panel');
+    console.error('Google auth error:', err);
+    // Show helpful error with fallback
+    var errMsg = err.message || 'Google sign-in failed';
+    if (errMsg.includes('provider') || errMsg.includes('OAuth') || errMsg.includes('400')) {
+      showGoogleAuthSetupModal();
+    } else {
+      showToast('Google sign-in error: ' + errMsg);
+    }
   }
 }
+
+function showGoogleAuthSetupModal() {
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(8px);';
+  overlay.innerHTML =
+    '<div style="background:var(--modal-bg);border:1px solid rgba(201,168,76,0.2);border-radius:16px;padding:28px;max-width:360px;width:100%;">' +
+      '<div style="font-size:20px;margin-bottom:12px;">⚙️</div>' +
+      '<div style="font-size:16px;font-weight:800;color:var(--text);font-family:DM Sans,sans-serif;margin-bottom:8px;">Google Sign-In Setup Required</div>' +
+      '<div style="font-size:12px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.7;margin-bottom:16px;">Google sign-in requires one-time configuration in your Supabase dashboard. Use email signup for now.</div>' +
+      '<button id="gmSignup" style="width:100%;padding:12px;background:linear-gradient(135deg,#A8832A,#C9A84C);color:#06100C;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;">Create Account with Email →</button>' +
+        'style="width:100%;padding:12px;background:linear-gradient(135deg,#A8832A,#C9A84C);color:#06100C;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;">Create Account with Email →</button>' +
+      '<button id="gmCancel" style="width:100%;padding:10px;background:none;border:none;color:var(--text-3);font-size:12px;cursor:pointer;margin-top:8px;font-family:DM Sans,sans-serif;">Cancel</button>' +
+        'style="width:100%;padding:10px;background:none;border:none;color:var(--text-3);font-size:12px;cursor:pointer;margin-top:8px;font-family:DM Sans,sans-serif;">Cancel</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  var signupBtn = overlay.querySelector('#gmSignup');
+  var cancelBtn = overlay.querySelector('#gmCancel');
+  if (signupBtn) signupBtn.onclick = function() { overlay.remove(); openPanel('signup-panel'); };
+  if (cancelBtn) cancelBtn.onclick = function() { overlay.remove(); };
+}
+
+
 
 // ── WELCOME SCREEN ────────────────────────────────────────
 function dismissWelcome() {
@@ -9351,6 +9436,124 @@ function buildCardBack(cardId, name, occupation) {
 
     '</div>'
   );
+}
+
+
+// ── NHIA PANEL NAVIGATION ─────────────────────────────────────
+var nhiaDetails = {
+  outpatient: {
+    title: '🏥 Outpatient Consultations',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 12px;">NHIA covers <strong style="color:var(--text);">outpatient consultations</strong> at any accredited primary, secondary, or tertiary healthcare facility nationwide.</p>' +
+      '<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin:16px 0 8px;">What is covered</div>' +
+      '<div style="display:flex;flex-direction:column;gap:8px;">' +
+      '<div style="padding:10px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ First visit to a General Practitioner (GP) at any NHIA-accredited facility</div>' +
+      '<div style="padding:10px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ Specialist referrals — when your GP refers you to a specialist, NHIA covers that consultation</div>' +
+      '<div style="padding:10px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ Follow-up appointments for the same condition within 90 days</div>' +
+      '<div style="padding:10px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ Preventive health check-ups — annual health screening included</div>' +
+      '</div>' +
+      '<div style="margin-top:16px;padding:12px;background:rgba(232,160,32,0.08);border:1px solid rgba(232,160,32,0.2);border-radius:8px;font-size:12px;color:var(--text-2);">⚠️ <strong>Important:</strong> You must visit your designated Primary Healthcare Provider (HCP) first — you cannot self-refer to a specialist.</div>' +
+      '</div>'
+  },
+  medicines: {
+    title: '💊 Essential Medicines Coverage',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 12px;">NHIA covers all medicines on the <strong style="color:var(--text);">WHO Essential Medicines List</strong> — over 400 drugs covering virtually every common condition.</p>' +
+      '<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin:16px 0 8px;">Commonly covered medications</div>' +
+      '<div style="display:flex;flex-direction:column;gap:6px;">' +
+      ['Antibiotics (Amoxicillin, Ciprofloxacin, Metronidazole)','Antimalarials (Artemether-Lumefantrine, Chloroquine)','Paracetamol, Ibuprofen, Aspirin','Antihypertensives (Amlodipine, Lisinopril, Atenolol)','Antidiabetics (Metformin, Glibenclamide, Insulin)','Antiretrovirals (for HIV patients)','Vitamins and iron supplements (especially in pregnancy)'].map(function(m) {
+        return '<div style="padding:8px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ ' + m + '</div>';
+      }).join('') +
+      '</div>' +
+      '<div style="margin-top:14px;padding:12px;background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:8px;font-size:12px;color:var(--text-2);">💡 Medicines must be prescribed by an NHIA-accredited physician and dispensed at an NHIA-approved pharmacy.</div>' +
+      '</div>'
+  },
+  maternal: {
+    title: '🤰 Maternal & Newborn Care',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 12px;">NHIA provides <strong style="color:var(--text);">comprehensive maternal care coverage</strong> — one of the most important benefits for Nigerian women.</p>' +
+      '<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin:16px 0 8px;">Coverage includes</div>' +
+      '<div style="display:flex;flex-direction:column;gap:7px;">' +
+      ['Antenatal care — all visits throughout pregnancy','Delivery — normal vaginal delivery at any accredited facility','Caesarean section when medically indicated','Postnatal care for mother — up to 6 weeks post-delivery','Newborn care — first 28 days of life including vaccinations','Emergency obstetric care — including complications','Family planning counselling and approved contraceptives'].map(function(m) {
+        return '<div style="padding:9px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ ' + m + '</div>';
+      }).join('') +
+      '</div>' +
+      '<div style="margin-top:14px;padding:12px;background:rgba(232,74,74,0.08);border:1px solid rgba(232,74,74,0.2);border-radius:8px;font-size:12px;color:var(--text-2);">🚨 If you are pregnant and experiencing an emergency, go to the nearest NHIA-accredited facility immediately — coverage applies even without prior registration in emergencies.</div>' +
+      '</div>'
+  },
+  child: {
+    title: '👶 Child Healthcare',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 12px;">Children under 18 in NHIA-enrolled households receive <strong style="color:var(--text);">comprehensive healthcare coverage</strong>.</p>' +
+      '<div style="display:flex;flex-direction:column;gap:7px;">' +
+      ['All routine immunisations (BCG, OPV, Hepatitis B, Measles, Yellow Fever, etc.)','Growth monitoring visits — tracking height and weight development','Nutritional assessments and therapeutic feeding referrals','Treatment of childhood illnesses (malaria, pneumonia, diarrhoea)','Deworming (twice yearly)','Vitamin A supplementation','School health screening','Mental health and developmental assessments'].map(function(m) {
+        return '<div style="padding:9px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ ' + m + '</div>';
+      }).join('') +
+      '</div></div>'
+  },
+  diagnostics: {
+    title: '🔬 Diagnostics & Laboratory',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 12px;">NHIA covers a comprehensive range of <strong style="color:var(--text);">diagnostic investigations</strong> when ordered by an accredited physician.</p>' +
+      '<div style="display:flex;flex-direction:column;gap:7px;">' +
+      ['Full Blood Count (FBC) and differentials','Malaria Rapid Diagnostic Test (RDT) and microscopy','Genotype testing (HbA, HbS, HbC)','Blood glucose (fasting and random)','HIV screening and CD4 count','Pregnancy tests (urine and serum)','Urinalysis and urine culture','Chest X-ray','Abdominal ultrasound','Echocardiogram (when referred to cardiologist)','Basic kidney and liver function tests'].map(function(m) {
+        return '<div style="padding:8px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ ' + m + '</div>';
+      }).join('') +
+      '</div>' +
+      '<div style="margin-top:14px;padding:12px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;font-size:12px;color:var(--text-2);">💡 Advanced imaging (CT scan, MRI) requires specialist referral and NHIA pre-authorization for coverage.</div>' +
+      '</div>'
+  },
+  inpatient: {
+    title: '🏨 Inpatient Care & Surgery',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 12px;">NHIA covers <strong style="color:var(--text);">inpatient hospital admission</strong> and a range of surgical procedures at accredited facilities.</p>' +
+      '<div style="display:flex;flex-direction:column;gap:7px;">' +
+      ['General ward admission — bed, nursing care, meals included','Emergency admission — no prior authorization required','Appendectomy (appendix removal)','Hernia repair (inguinal and umbilical)','Caesarean section and other obstetric surgeries','Fracture management and casting','Blood transfusion (including for sickle cell crisis)','Intensive Care Unit (ICU) — up to 5 days per episode','Physiotherapy following surgery or injury'].map(function(m) {
+        return '<div style="padding:9px 12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);">✅ ' + m + '</div>';
+      }).join('') +
+      '</div></div>'
+  },
+  enrolment: {
+    title: '📋 How to Enrol in NHIA',
+    content: '<div style="font-size:13px;color:var(--text-2);font-family:DM Sans,sans-serif;line-height:1.8;">' +
+      '<p style="margin:0 0 16px;">Enrolment is <strong style="color:var(--em-300);">free for all Nigerians</strong>. Follow these four steps:</p>' +
+      '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">' +
+      [['1','Visit NHIA or your employer','Go to the nearest NHIA office, an accredited facility, or visit nhia.gov.ng online. If your employer is registered, HR can enrol you directly.'],
+       ['2','Provide your NIN','Your National Identification Number (NIN) is required. Get yours at any NIMC office if you do not have one.'],
+       ['3','Choose your Primary HCP','Select your Primary Healthcare Provider — the facility you will visit first for any health concern. This can be any NHIA-accredited clinic or hospital near you.'],
+       ['4','Receive your NHIA card','Your NHIA identification card is issued immediately or mailed within 2 weeks. Present it at any accredited facility for covered services.']
+      ].map(function(step) {
+        return '<div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--surface-2);border-radius:10px;">' +
+          '<div style="width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:800;color:var(--gold-300);">' + step[0] + '</div>' +
+          '<div><div style="font-size:12px;font-weight:700;color:var(--text);font-family:DM Sans,sans-serif;margin-bottom:4px;">' + step[1] + '</div>' +
+          '<div style="font-size:11px;color:var(--text-3);font-family:DM Sans,sans-serif;line-height:1.6;">' + step[2] + '</div></div></div>';
+      }).join('') +
+      '</div>' +
+      '<div style="padding:12px 14px;background:rgba(29,158,100,0.08);border:1px solid rgba(29,158,100,0.2);border-radius:10px;">' +
+        '<div style="font-size:11px;font-weight:700;color:var(--em-300);margin-bottom:6px;">📞 NHIA Helpline</div>' +
+        '<div style="font-size:12px;color:var(--text-2);">0800-6442-4357 · nhia.gov.ng · info@nhia.gov.ng</div>' +
+      '</div></div>'
+  }
+};
+
+function openNHIADetail(key) {
+  var detail = nhiaDetails[key];
+  if (!detail) return;
+  var mainView = document.getElementById('nhia-main-view');
+  var detailView = document.getElementById('nhia-detail-view');
+  var titleEl = document.getElementById('nhia-detail-title');
+  var bodyEl = document.getElementById('nhia-detail-body');
+  if (titleEl) titleEl.textContent = detail.title;
+  if (bodyEl) bodyEl.innerHTML = detail.content;
+  if (mainView) mainView.style.display = 'none';
+  if (detailView) { detailView.style.display = 'flex'; detailView.style.flexDirection = 'column'; }
+}
+
+function closeNHIADetail() {
+  var mainView = document.getElementById('nhia-main-view');
+  var detailView = document.getElementById('nhia-detail-view');
+  if (mainView) mainView.style.display = 'block';
+  if (detailView) detailView.style.display = 'none';
 }
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
