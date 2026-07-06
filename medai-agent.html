@@ -9432,6 +9432,25 @@ function renderWellnessWidget(containerId) {
 
 // ── LOGIN SECURITY NOTIFICATION ──────────────────────────────
 async function sendLoginNotification(email, token) {
+  // ── SPAM PREVENTION: Rate limit to once every 4 hours per user ──────
+  // Prevents spam flags during development and protects production reputation
+  var COOLDOWN_HOURS = 4;
+  var cooldownKey = 'krixia_login_notify_' + (email || 'user');
+  var lastSent = localStorage.getItem(cooldownKey);
+  if (lastSent) {
+    var elapsed = Date.now() - parseInt(lastSent, 10);
+    var cooldownMs = COOLDOWN_HOURS * 60 * 60 * 1000;
+    if (elapsed < cooldownMs) {
+      var remainingMins = Math.ceil((cooldownMs - elapsed) / 60000);
+      console.log('[Login notify] Cooldown active — next alert in ' + remainingMins + ' min');
+      return; // Silent skip — do not send email
+    }
+  }
+
+  // Record this send timestamp BEFORE the network call
+  // (prevents duplicate sends if user logs in rapidly)
+  localStorage.setItem(cooldownKey, String(Date.now()));
+
   var now = new Date();
   var timeStr = now.toLocaleString('en-NG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   var device = navigator.userAgent.includes('Mobile') ? 'Mobile device' : 'Desktop browser';
@@ -9445,10 +9464,12 @@ async function sendLoginNotification(email, token) {
     await fetch('https://api.tickit.com.ng/api/kauth/login-notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      cache: 'no-store',
       body: JSON.stringify({ email: email, time: timeStr, device: device, browser: browser })
     });
   } catch(e) { /* silent fail — never block login for this */ }
 }
+
 
 
 // ══════════════════════════════════════════════════════════════
