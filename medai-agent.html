@@ -733,6 +733,25 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
 }
 .nhia-nav-btn:hover { border-color: rgba(201,168,76,0.3); }
 
+
+/* ── KRIXIA CINEMATIC ONBOARDING ── */
+.cinema-slide { width: 100%; }
+.cinema-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); transition: all 0.3s;
+}
+.active-dot {
+  width: 20px; border-radius: 3px;
+  background: rgba(201,168,76,0.6);
+}
+.cinema-feat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px 12px;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
 /* ── HEALTH ID FLIP CARD SYSTEM ── */
 .health-id-flip-wrapper {
   perspective: 1200px;
@@ -2953,6 +2972,220 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
     </div>
   </div>
 </div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     KRIXIA CINEMATIC ONBOARDING — Post-signup premiere experience
+     Fires once per new account. Stored in localStorage.
+     Video slot: replace #krixia-promo-video src when footage ready.
+═══════════════════════════════════════════════════════════════ -->
+<div id="krixia-onboarding-cinema" style="display:none;position:fixed;inset:0;z-index:99998;background:#030806;flex-direction:column;overflow:hidden;">
+
+  <!-- Subtle radial glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 100%,rgba(29,158,100,0.05) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <!-- Skip button -->
+  <button onclick="skipKrixiaCinema()" id="cinema-skip-btn"
+    style="position:absolute;top:20px;right:20px;z-index:10;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:7px 16px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);cursor:pointer;font-family:DM Sans,sans-serif;letter-spacing:0.5px;transition:all 0.2s;opacity:0;"
+    onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.2)'"
+    onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.1)'">
+    Skip ✕
+  </button>
+
+  <!-- ── SLIDE CONTAINER ── -->
+  <div id="cinema-slides" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;max-width:680px;margin:0 auto;width:100%;position:relative;">
+
+    <!-- ── SLIDE 0: Brand Premiere ── -->
+    <div class="cinema-slide" id="cinema-slide-0" style="display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1);">
+      <div style="width:80px;height:80px;border-radius:20px;background:rgba(201,168,76,0.08);border:1.5px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 0 60px rgba(201,168,76,0.08);">
+        <svg viewBox="0 0 88 88" width="48" height="48" fill="none">
+          <defs><linearGradient id="og1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D888"/><stop offset="45%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#A8832A"/></linearGradient></defs>
+          <polygon points="44,4 80,24 80,64 44,84 8,64 8,24" fill="url(#og1)" opacity="0.12"/>
+          <polygon points="44,10 76,27 76,61 44,78 12,61 12,27" fill="none" stroke="url(#og1)" stroke-width="1.5"/>
+          <text x="44" y="53" text-anchor="middle" fill="url(#og1)" font-size="26" font-weight="900" font-family="Arial">K</text>
+        </svg>
+      </div>
+      <div style="font-size:11px;letter-spacing:6px;color:rgba(201,168,76,0.4);font-family:DM Sans,sans-serif;text-transform:uppercase;margin-bottom:10px;">Welcome to</div>
+      <div style="font-size:52px;font-weight:900;color:#C9A84C;font-family:Sora,DM Sans,sans-serif;letter-spacing:6px;line-height:1;margin-bottom:8px;">KRIXIA</div>
+      <div style="font-size:13px;letter-spacing:3px;color:rgba(255,255,255,0.2);font-family:DM Sans,sans-serif;text-transform:uppercase;margin-bottom:28px;">Medical Intelligence</div>
+      <div style="font-size:18px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;line-height:1.5;max-width:400px;">
+        Nigeria's first hyper-intelligent<br>AI medical platform is now yours.
+      </div>
+      <div style="margin-top:16px;font-size:13px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;">Your AI doctor. Available 24/7. Free.</div>
+    </div>
+
+    <!-- ── SLIDE 1: The Platform — Device Mockups ── -->
+    <div class="cinema-slide" id="cinema-slide-1" style="display:none;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1);width:100%;">
+      <div style="font-size:11px;letter-spacing:4px;color:rgba(29,158,100,0.6);font-family:DM Sans,sans-serif;text-transform:uppercase;margin-bottom:12px;">Available Everywhere</div>
+      <div style="font-size:26px;font-weight:800;color:#FAFAF7;font-family:Sora,DM Sans,sans-serif;margin-bottom:6px;">Mobile. Desktop. Offline.</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.35);font-family:DM Sans,sans-serif;margin-bottom:28px;">Install as an app. Works without internet once installed.</div>
+
+      <!-- Device mockup pair -->
+      <div style="display:flex;align-items:flex-end;justify-content:center;gap:20px;margin-bottom:20px;">
+
+        <!-- Mobile mockup -->
+        <div style="flex-shrink:0;transform:translateX(30px) rotate(-3deg);" id="cinema-mobile-mock">
+          <div style="width:120px;background:#0A1A0F;border-radius:20px;border:2px solid rgba(201,168,76,0.25);padding:10px 8px;box-shadow:0 24px 60px rgba(0,0,0,0.7),0 0 0 1px rgba(201,168,76,0.08);">
+            <div style="width:30px;height:4px;border-radius:2px;background:rgba(201,168,76,0.2);margin:0 auto 8px;"></div>
+            <!-- Screen content -->
+            <div style="background:#030806;border-radius:12px;padding:8px 6px;">
+              <div style="font-size:6px;font-weight:800;color:#C9A84C;font-family:Arial;letter-spacing:2px;margin-bottom:4px;">KRIXIA</div>
+              <div style="background:rgba(201,168,76,0.06);border-radius:4px;padding:4px;margin-bottom:4px;">
+                <div style="font-size:5px;color:rgba(255,255,255,0.4);font-family:Arial;">AI Consultation</div>
+                <div style="font-size:5px;color:rgba(255,255,255,0.7);font-family:Arial;margin-top:2px;">What are your symptoms?</div>
+                <div style="width:70%;height:2px;background:rgba(201,168,76,0.3);border-radius:1px;margin-top:3px;"></div>
+              </div>
+              <div style="display:flex;gap:2px;flex-wrap:wrap;">
+                <div style="background:rgba(201,168,76,0.1);border-radius:3px;padding:2px 4px;font-size:4px;color:rgba(255,255,255,0.5);font-family:Arial;">🌡 Fever</div>
+                <div style="background:rgba(201,168,76,0.1);border-radius:3px;padding:2px 4px;font-size:4px;color:rgba(255,255,255,0.5);font-family:Arial;">🤕 Pain</div>
+                <div style="background:rgba(201,168,76,0.1);border-radius:3px;padding:2px 4px;font-size:4px;color:rgba(255,255,255,0.5);font-family:Arial;">❤️ Heart</div>
+              </div>
+              <div style="margin-top:5px;display:flex;justify-content:space-around;">
+                <div style="text-align:center;"><div style="font-size:7px;">🏥</div><div style="font-size:4px;color:rgba(255,255,255,0.3);font-family:Arial;">Hospitals</div></div>
+                <div style="text-align:center;"><div style="font-size:7px;">🪪</div><div style="font-size:4px;color:rgba(255,255,255,0.3);font-family:Arial;">Health ID</div></div>
+                <div style="text-align:center;"><div style="font-size:7px;">🚨</div><div style="font-size:4px;color:rgba(255,255,255,0.3);font-family:Arial;">SOS</div></div>
+              </div>
+            </div>
+            <div style="width:20px;height:2px;border-radius:1px;background:rgba(255,255,255,0.1);margin:6px auto 0;"></div>
+          </div>
+        </div>
+
+        <!-- Desktop mockup -->
+        <div style="flex-shrink:0;transform:translateX(-10px);" id="cinema-desktop-mock">
+          <div style="width:200px;background:#0A1A0F;border-radius:10px 10px 0 0;border:2px solid rgba(201,168,76,0.2);padding:6px;box-shadow:0 24px 60px rgba(0,0,0,0.7);">
+            <!-- Browser bar -->
+            <div style="display:flex;gap:4px;align-items:center;margin-bottom:6px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:rgba(232,74,74,0.4);"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:rgba(232,160,32,0.4);"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:rgba(29,158,100,0.4);"></div>
+              <div style="flex:1;height:8px;background:rgba(255,255,255,0.04);border-radius:3px;margin-left:4px;display:flex;align-items:center;padding:0 4px;">
+                <div style="font-size:4px;color:rgba(255,255,255,0.25);font-family:Arial;">krixia.tickit.com.ng</div>
+              </div>
+            </div>
+            <!-- Screen content -->
+            <div style="background:#030806;border-radius:6px;padding:6px;display:flex;gap:5px;">
+              <!-- Sidebar -->
+              <div style="width:40px;flex-shrink:0;">
+                <div style="font-size:5px;font-weight:800;color:#C9A84C;font-family:Arial;letter-spacing:1px;margin-bottom:5px;">KRIXIA</div>
+                <div style="display:flex;flex-direction:column;gap:2px;">
+                  <div style="background:rgba(201,168,76,0.1);border-radius:2px;padding:2px 3px;font-size:4px;color:rgba(255,255,255,0.5);font-family:Arial;">🧠 AI</div>
+                  <div style="border-radius:2px;padding:2px 3px;font-size:4px;color:rgba(255,255,255,0.3);font-family:Arial;">🏥 Map</div>
+                  <div style="border-radius:2px;padding:2px 3px;font-size:4px;color:rgba(255,255,255,0.3);font-family:Arial;">🪪 ID</div>
+                  <div style="border-radius:2px;padding:2px 3px;font-size:4px;color:rgba(255,255,255,0.3);font-family:Arial;">📊 Stats</div>
+                </div>
+              </div>
+              <!-- Main content -->
+              <div style="flex:1;">
+                <div style="background:rgba(201,168,76,0.05);border-radius:3px;padding:3px;margin-bottom:3px;">
+                  <div style="font-size:4px;color:rgba(255,255,255,0.5);font-family:Arial;margin-bottom:2px;">AI Medical Consultation</div>
+                  <div style="height:3px;background:rgba(201,168,76,0.15);border-radius:1px;"></div>
+                  <div style="height:2px;background:rgba(29,158,100,0.3);border-radius:1px;margin-top:1px;width:60%;"></div>
+                  <div style="height:2px;background:rgba(29,158,100,0.2);border-radius:1px;margin-top:1px;width:80%;"></div>
+                </div>
+                <div style="display:flex;gap:2px;">
+                  <div style="flex:1;background:rgba(255,255,255,0.03);border-radius:2px;padding:2px;text-align:center;font-size:4px;color:rgba(201,168,76,0.6);font-family:Arial;">200+ AI</div>
+                  <div style="flex:1;background:rgba(255,255,255,0.03);border-radius:2px;padding:2px;text-align:center;font-size:4px;color:rgba(29,158,100,0.6);font-family:Arial;">128 🏥</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="height:8px;background:#0A1A0F;border-left:2px solid rgba(201,168,76,0.2);border-right:2px solid rgba(201,168,76,0.2);"></div>
+          <div style="height:4px;background:#0A1A0F;border:2px solid rgba(201,168,76,0.2);border-top:none;border-radius:0 0 4px 4px;"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── SLIDE 2: Feature Highlights ── -->
+    <div class="cinema-slide" id="cinema-slide-2" style="display:none;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1);width:100%;">
+      <div style="font-size:11px;letter-spacing:4px;color:rgba(201,168,76,0.5);font-family:DM Sans,sans-serif;text-transform:uppercase;margin-bottom:12px;">Everything You Need</div>
+      <div style="font-size:26px;font-weight:800;color:#FAFAF7;font-family:Sora,DM Sans,sans-serif;margin-bottom:24px;">52 Features. One Platform.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:500px;">
+        <div class="cinema-feat-card" style="opacity:0;transform:translateY(20px);">
+          <span style="font-size:24px;display:block;margin-bottom:6px;">🧠</span>
+          <div style="font-size:12px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;margin-bottom:3px;">AI Consultation</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;line-height:1.5;">3-model AI: Claude + Gemini + Groq. Clinical-grade responses.</div>
+        </div>
+        <div class="cinema-feat-card" style="opacity:0;transform:translateY(20px);">
+          <span style="font-size:24px;display:block;margin-bottom:6px;">📷</span>
+          <div style="font-size:12px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;margin-bottom:3px;">Visual Diagnosis</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;line-height:1.5;">Point camera at symptoms. AI analyses wounds, rashes, skin.</div>
+        </div>
+        <div class="cinema-feat-card" style="opacity:0;transform:translateY(20px);">
+          <span style="font-size:24px;display:block;margin-bottom:6px;">🪪</span>
+          <div style="font-size:12px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;margin-bottom:3px;">Digital Health ID</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;line-height:1.5;">Your permanent medical credential. Download, print, share.</div>
+        </div>
+        <div class="cinema-feat-card" style="opacity:0;transform:translateY(20px);">
+          <span style="font-size:24px;display:block;margin-bottom:6px;">🚨</span>
+          <div style="font-size:12px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;margin-bottom:3px;">Emergency SOS</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;line-height:1.5;">GPS + medical profile broadcast to contacts. One hold.</div>
+        </div>
+        <div class="cinema-feat-card" style="opacity:0;transform:translateY(20px);">
+          <span style="font-size:24px;display:block;margin-bottom:6px;">🇳🇬</span>
+          <div style="font-size:12px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;margin-bottom:3px;">Built for Nigeria</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;line-height:1.5;">5 languages. NHIA guidance. Sickle cell module. 128 hospitals.</div>
+        </div>
+        <div class="cinema-feat-card" style="opacity:0;transform:translateY(20px);">
+          <span style="font-size:24px;display:block;margin-bottom:6px;">🔐</span>
+          <div style="font-size:12px;font-weight:700;color:#FAFAF7;font-family:DM Sans,sans-serif;margin-bottom:3px;">Military Encryption</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:DM Sans,sans-serif;line-height:1.5;">AES-256-GCM. Even Krixia cannot read your health data.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SLIDE 3: Video Slot + CTA ── -->
+    <div class="cinema-slide" id="cinema-slide-3" style="display:none;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1);width:100%;">
+
+      <!-- Video placeholder — replace src with real video when ready -->
+      <div id="cinema-video-frame" style="width:100%;max-width:420px;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);background:#000;margin-bottom:20px;position:relative;aspect-ratio:16/9;box-shadow:0 24px 60px rgba(0,0,0,0.7);">
+        <!-- VIDEO SLOT: When Elvis films his intro, add:
+             <video id="krixia-promo-video" autoplay muted playsinline
+               src="[VIDEO_URL_HERE]" style="width:100%;height:100%;object-fit:cover;">
+             </video>
+             Until then: -->
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#030806,#061210);">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(201,168,76,0.1);border:2px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(201,168,76,0.8)"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);font-family:DM Sans,sans-serif;">Founder's Message</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.2);font-family:DM Sans,sans-serif;margin-top:4px;">Elvis Ezekiel Ogbeda · Coming Soon</div>
+        </div>
+        <!-- Animated gold corner accents -->
+        <div style="position:absolute;top:10px;left:10px;width:20px;height:20px;border-top:2px solid rgba(201,168,76,0.4);border-left:2px solid rgba(201,168,76,0.4);border-radius:2px 0 0 0;"></div>
+        <div style="position:absolute;top:10px;right:10px;width:20px;height:20px;border-top:2px solid rgba(201,168,76,0.4);border-right:2px solid rgba(201,168,76,0.4);border-radius:0 2px 0 0;"></div>
+        <div style="position:absolute;bottom:10px;left:10px;width:20px;height:20px;border-bottom:2px solid rgba(201,168,76,0.4);border-left:2px solid rgba(201,168,76,0.4);border-radius:0 0 0 2px;"></div>
+        <div style="position:absolute;bottom:10px;right:10px;width:20px;height:20px;border-bottom:2px solid rgba(201,168,76,0.4);border-right:2px solid rgba(201,168,76,0.4);border-radius:0 0 2px 0;"></div>
+      </div>
+
+      <div style="font-size:22px;font-weight:800;color:#FAFAF7;font-family:Sora,DM Sans,sans-serif;margin-bottom:8px;">You are now part of<br>something historic.</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.35);font-family:DM Sans,sans-serif;margin-bottom:28px;line-height:1.7;">200+ Nigerians have already consulted with Krixia AI.<br>128 hospitals. 37 states. 5 languages. Zero cost.</div>
+
+      <button onclick="completeKrixiaCinema()"
+        style="padding:16px 40px;background:linear-gradient(135deg,#A8832A,#E8C97A,#C9A84C);color:#030806;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:DM Sans,sans-serif;letter-spacing:0.3px;box-shadow:0 8px 32px rgba(201,168,76,0.3);transition:transform 0.15s,box-shadow 0.15s;"
+        onmouseover="this.style.transform='scale(1.03)';this.style.boxShadow='0 12px 40px rgba(201,168,76,0.4)'"
+        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(201,168,76,0.3)'">
+        Enter Krixia →
+      </button>
+    </div>
+
+  </div><!-- /cinema-slides -->
+
+  <!-- Progress dots -->
+  <div id="cinema-progress" style="display:flex;gap:8px;justify-content:center;padding:0 0 32px;align-items:center;">
+    <div class="cinema-dot active-dot" id="cdot-0"></div>
+    <div class="cinema-dot" id="cdot-1"></div>
+    <div class="cinema-dot" id="cdot-2"></div>
+    <div class="cinema-dot" id="cdot-3"></div>
+    <!-- Next arrow -->
+    <button id="cinema-next-btn" onclick="advanceCinemaSlide()"
+      style="margin-left:12px;width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+</div><!-- /krixia-onboarding-cinema -->
 
 <!-- EMERGENCY SOS PANEL -->
 <div class="panel-overlay" id="sos-panel">
@@ -7980,7 +8213,8 @@ async function krixiaSignup() {
     }
     closePanel('signup-panel');
     showAuthSuccessMessage('signup', name);
-    setTimeout(startOnboardingTour, 1200);
+    // Launch cinematic onboarding for new users
+    setTimeout(launchKrixiaCinema, 800);
 
   } catch(err) {
     errEl.textContent = err.message;
@@ -9721,6 +9955,144 @@ function nhiaScrollBottom() {
   if (body) body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
 }
 
+
+
+// ══════════════════════════════════════════════════════════════
+// KRIXIA CINEMATIC ONBOARDING ENGINE
+// Fires once per new account. Never repeats.
+// ══════════════════════════════════════════════════════════════
+
+var cinemaCurrent = 0;
+var cinemaTotal = 4;
+var cinemaTimer = null;
+var cinemaAutoplay = true;
+var CINEMA_SLIDE_DURATION = 4500; // ms per slide in autoplay
+
+function launchKrixiaCinema() {
+  // Only show to new users — never show twice
+  if (localStorage.getItem('krixia_cinema_seen')) return;
+
+  var el = document.getElementById('krixia-onboarding-cinema');
+  if (!el) return;
+
+  cinemaCurrent = 0;
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+
+  // Fade in
+  el.style.opacity = '0';
+  setTimeout(function() { el.style.transition = 'opacity 0.6s ease'; el.style.opacity = '1'; }, 50);
+
+  // Show skip button after 1.5s
+  setTimeout(function() {
+    var skip = document.getElementById('cinema-skip-btn');
+    if (skip) { skip.style.transition = 'opacity 0.5s'; skip.style.opacity = '1'; }
+  }, 1500);
+
+  // Show first slide
+  setTimeout(function() {
+    showCinemaSlide(0);
+    if (cinemaAutoplay) scheduleCinemaAdvance();
+  }, 400);
+}
+
+function showCinemaSlide(index) {
+  // Hide all slides
+  for (var i = 0; i < cinemaTotal; i++) {
+    var slide = document.getElementById('cinema-slide-' + i);
+    if (slide) {
+      slide.style.display = 'none';
+      slide.style.opacity = '0';
+      slide.style.transform = 'translateY(30px)';
+    }
+  }
+
+  // Update progress dots
+  for (var j = 0; j < cinemaTotal; j++) {
+    var dot = document.getElementById('cdot-' + j);
+    if (dot) {
+      dot.style.width = j === index ? '20px' : '6px';
+      dot.style.background = j === index ? 'rgba(201,168,76,0.6)' : 'rgba(255,255,255,0.15)';
+      dot.style.borderRadius = j === index ? '3px' : '50%';
+    }
+  }
+
+  // Show target slide
+  var target = document.getElementById('cinema-slide-' + index);
+  if (!target) return;
+
+  target.style.display = 'flex';
+  target.style.flexDirection = 'column';
+  target.style.alignItems = 'center';
+
+  setTimeout(function() {
+    target.style.opacity = '1';
+    target.style.transform = 'translateY(0)';
+
+    // Stagger feature cards on slide 2
+    if (index === 2) {
+      var cards = target.querySelectorAll('.cinema-feat-card');
+      cards.forEach(function(card, ci) {
+        setTimeout(function() {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+          card.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+        }, ci * 120);
+      });
+    }
+
+    // Animate device mockups on slide 1
+    if (index === 1) {
+      var mob = document.getElementById('cinema-mobile-mock');
+      var desk = document.getElementById('cinema-desktop-mock');
+      if (mob) { mob.style.transition = 'transform 0.8s cubic-bezier(0.34,1.56,0.64,1)'; mob.style.transform = 'translateX(0) rotate(-3deg)'; }
+      if (desk) { desk.style.transition = 'transform 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.15s'; desk.style.transform = 'translateX(0)'; }
+    }
+
+    // Last slide — hide next button
+    var nextBtn = document.getElementById('cinema-next-btn');
+    if (nextBtn) nextBtn.style.opacity = index === cinemaTotal - 1 ? '0' : '1';
+
+  }, 80);
+}
+
+function scheduleCinemaAdvance() {
+  clearTimeout(cinemaTimer);
+  cinemaTimer = setTimeout(function() {
+    if (cinemaCurrent < cinemaTotal - 1) {
+      cinemaCurrent++;
+      showCinemaSlide(cinemaCurrent);
+      scheduleCinemaAdvance();
+    }
+  }, CINEMA_SLIDE_DURATION);
+}
+
+function advanceCinemaSlide() {
+  clearTimeout(cinemaTimer);
+  if (cinemaCurrent < cinemaTotal - 1) {
+    cinemaCurrent++;
+    showCinemaSlide(cinemaCurrent);
+    if (cinemaAutoplay) scheduleCinemaAdvance();
+  }
+}
+
+function completeKrixiaCinema() {
+  clearTimeout(cinemaTimer);
+  localStorage.setItem('krixia_cinema_seen', '1');
+  var el = document.getElementById('krixia-onboarding-cinema');
+  if (!el) return;
+  el.style.transition = 'opacity 0.5s ease';
+  el.style.opacity = '0';
+  setTimeout(function() {
+    el.style.display = 'none';
+    // Launch onboarding tour after cinema completes
+    startOnboardingTour();
+  }, 500);
+}
+
+function skipKrixiaCinema() {
+  completeKrixiaCinema();
+}
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
 function openNHIAPanel() { openPanel('nhia-panel'); }
