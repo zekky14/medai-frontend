@@ -4835,7 +4835,7 @@ function openPanel(id) {
   if (el) el.classList.add('active');
 
   // Show existing ID banner when register panel opens
-  if (id === 'register-panel') {
+  if (id === 'register-panel' || id === 'card-panel') {
     // Render existing Health ID card on-demand (persistence fix)
     setTimeout(renderRestoredHealthCard, 300);
     var saved = localStorage.getItem('krixia_health_id');
@@ -9509,8 +9509,18 @@ async function analyzeImageBase64(base64, source) {
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch(err) {
-    if (resultsContent) resultsContent.innerHTML = '<div style="color:var(--red-400);font-size:13px;font-family:DM Sans,sans-serif;">Analysis failed. Please check your connection and try again.</div>';
+    var errMsg = err.message || 'Unknown error';
+    var friendly = 'Analysis failed. ';
+    if (errMsg.includes('fetch') || errMsg.includes('network') || errMsg.includes('Failed')) {
+      friendly += 'Check your internet connection and try again.';
+    } else if (errMsg.includes('413') || errMsg.includes('payload')) {
+      friendly += 'Image is too large — try a smaller or lower-resolution photo.';
+    } else {
+      friendly += 'Please try again in a moment. (' + errMsg + ')';
+    }
+    if (resultsContent) resultsContent.innerHTML = '<div style="color:var(--red-400);font-size:13px;font-family:DM Sans,sans-serif;line-height:1.6;">' + friendly + '</div>';
     if (results) results.style.display = 'block';
+    console.error('Camera analysis error:', err);
   }
 
   if (btn) {
@@ -10471,13 +10481,19 @@ function showDisclaimer() {
 function acceptDisclaimer() {
   sessionStorage.setItem('krixia_disclaimer_accepted', '1');
   closePanel('disclaimer-panel');
-  // Launch pending consultation if any
+  // Resume pending message directly in chat — no modal redirect
   var pending = sessionStorage.getItem('krixia_pending_symptom');
-  var pendingSpec = sessionStorage.getItem('krixia_pending_specialty');
   if (pending) {
     sessionStorage.removeItem('krixia_pending_symptom');
     sessionStorage.removeItem('krixia_pending_specialty');
-    setTimeout(function() { launchConsultation(pending, pendingSpec); }, 400);
+    setTimeout(function() {
+      var input = document.getElementById('chat-input');
+      if (input) {
+        input.value = pending;
+        if (typeof autoResize === 'function') autoResize(input);
+      }
+      sendMessage(); // Send directly to AI inline
+    }, 400);
   }
 }
 
