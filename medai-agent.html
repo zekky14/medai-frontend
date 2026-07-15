@@ -2308,6 +2308,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px
         style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-3);font-weight:500;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">
         📋 Sessions
       </button>
+      <button onclick="adminTab('metrics')" id="atab-metrics"
+        style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-3);font-weight:500;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">
+        📊 Metrics
+      </button>
     </div>
 
     <div class="panel-body" id="admin-content" style="padding:1rem;overflow-y:auto;max-height:50vh;">
@@ -4552,6 +4556,11 @@ async function sendMessage() {
       // Track session count per user
       var sc = parseInt(localStorage.getItem('krixia_session_count') || '0') + 1;
       localStorage.setItem('krixia_session_count', sc);
+      // Track consultation metrics
+      trackConsultation({
+        messageCount: conversationHistory.length,
+        aiModel: 'claude'
+      });
 
     } else {
       // NON-STREAMING FALLBACK — original behavior
@@ -4564,6 +4573,7 @@ async function sendMessage() {
       updateUsageFromBackend(data.usage);
       checkForReferralTrigger(reply);
       if (newMsgEl) addMedicationReminderButton(newMsgEl, reply);
+      trackConsultation({ messageCount: conversationHistory.length, aiModel: data.model || 'claude' });
     }
 
   } catch (err) {
@@ -7879,6 +7889,7 @@ function adminTab(tab) {
     btn.style.fontWeight = tab === t ? '700' : '500';
   });
   loadAdminData();
+  if (tab === 'metrics') renderAdminMetrics();
 }
 
 async function loadAdminData() {
@@ -9282,6 +9293,7 @@ async function checkDrugInteractions() {
 
     var data = await res.json();
     var reply = data.reply || 'Unable to analyse interactions. Please try again.';
+    trackConsultation({ feature: 'drug-checker', messageCount: 1, aiModel: 'claude' });
 
     // Render results with severity colour coding
     var sevColor = '#1D9E64'; // default green
@@ -9488,6 +9500,7 @@ async function analyzeImageBase64(base64, source) {
     var data = await res.json();
     var reply = data.reply || 'Could not analyse the image. Please try again with better lighting.';
     cameraAnalysisResult = reply;
+      trackConsultation({ feature: 'camera', messageCount: 1, aiModel: 'claude' });
 
     // Determine severity color
     var upper = reply.toUpperCase();
@@ -10312,6 +10325,343 @@ function initIdleDetection() {
 window.addEventListener('load', function() {
   setTimeout(initIdleDetection, 3000); // 3s delay after load before idle tracking starts
 });
+
+
+// ══════════════════════════════════════════════════════════════
+// KRIXIA CONSULTATION METRICS ENGINE
+// Tracks: specialty, severity, message count, model, duration,
+//         symptoms, feature usage, geographic data
+// Stored in localStorage — synced to admin dashboard on open
+// ══════════════════════════════════════════════════════════════
+
+function getMetricsStore() {
+  try {
+    return JSON.parse(localStorage.getItem('krixia_metrics') || '{"consultations":[],"features":{},"daily":{}}');
+  } catch(e) { return { consultations: [], features: {}, daily: {} }; }
+}
+
+function saveMetricsStore(store) {
+  try {
+    // Keep only last 500 consultations to avoid storage overflow
+    if (store.consultations.length > 500) {
+      store.consultations = store.consultations.slice(-500);
+    }
+    localStorage.setItem('krixia_metrics', JSON.stringify(store));
+  } catch(e) {}
+}
+
+// Called when an AI consultation completes
+function trackConsultation(opts) {
+  // opts: { specialty, messageCount, severity, aiModel, durationMs, symptoms, feature }
+  var store = getMetricsStore();
+  var now = new Date();
+  var dateKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+
+  var record = {
+    ts:        now.getTime(),
+    date:      dateKey,
+    hour:      now.getHours(),
+    specialty: opts.specialty  || currentSpecialty || 'General',
+    msgs:      opts.messageCount || conversationHistory.length,
+    severity:  opts.severity   || detectSeverityFromHistory(),
+    model:     opts.aiModel    || 'claude',
+    ms:        opts.durationMs || 0,
+    feature:   opts.feature    || 'chat', // chat | camera | drug | vitals
+    user:      krixiaUser ? krixiaUser.id || 'anon' : 'anon',
+    symptoms:  opts.symptoms   || extractSymptomsFromHistory(),
+  };
+
+  store.consultations.push(record);
+
+  // Daily counter
+  if (!store.daily[dateKey]) store.daily[dateKey] = 0;
+  store.daily[dateKey]++;
+
+  // Feature counter
+  store.features[record.feature] = (store.features[record.feature] || 0) + 1;
+
+  saveMetricsStore(store);
+}
+
+// Track non-consultation feature uses
+function trackFeatureUse(feature) {
+  var store = getMetricsStore();
+  store.features[feature] = (store.features[feature] || 0) + 1;
+  saveMetricsStore(store);
+}
+
+function detectSeverityFromHistory() {
+  var text = conversationHistory.map(function(m) { return m.content || ''; }).join(' ').toUpperCase();
+  if (text.includes('EMERGENCY') || text.includes('SEVERE')) return 'severe';
+  if (text.includes('MODERATE')) return 'moderate';
+  if (text.includes('MILD')) return 'mild';
+  return 'low';
+}
+
+function extractSymptomsFromHistory() {
+  var symptoms = [];
+  var symptomKeywords = ['fever','headache','pain','cough','fatigue','nausea','vomiting',
+    'diarrhea','chest pain','shortness of breath','rash','swelling','dizziness',
+    'malaria','typhoid','ulcer','hypertension','diabetes'];
+  var text = conversationHistory.slice(0, 3).map(function(m) { return (m.content||'').toLowerCase(); }).join(' ');
+  symptomKeywords.forEach(function(kw) { if (text.includes(kw)) symptoms.push(kw); });
+  return symptoms.slice(0, 5);
+}
+
+// ── Compute aggregated metrics from store ──────────────────────
+function computeMetrics() {
+  var store = getMetricsStore();
+  var cons = store.consultations;
+  if (!cons.length) return null;
+
+  var now = Date.now();
+  var day   = 86400000;
+  var week  = 7 * day;
+  var month = 30 * day;
+
+  // Time slices
+  var today  = cons.filter(function(c) { return now - c.ts < day; });
+  var weekly = cons.filter(function(c) { return now - c.ts < week; });
+  var monthly= cons.filter(function(c) { return now - c.ts < month; });
+
+  // Specialty breakdown
+  var specs = {};
+  cons.forEach(function(c) { specs[c.specialty] = (specs[c.specialty]||0)+1; });
+  var topSpecs = Object.entries(specs).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+
+  // Severity breakdown
+  var sevs = { severe:0, moderate:0, mild:0, low:0 };
+  cons.forEach(function(c) { if(sevs[c.severity]!==undefined) sevs[c.severity]++; });
+
+  // AI model usage
+  var models = {};
+  cons.forEach(function(c) { models[c.model] = (models[c.model]||0)+1; });
+
+  // Peak hours
+  var hours = new Array(24).fill(0);
+  cons.forEach(function(c) { hours[c.hour]++; });
+  var peakHour = hours.indexOf(Math.max.apply(null, hours));
+
+  // Avg message count
+  var avgMsgs = cons.reduce(function(s,c){return s+c.msgs;},0) / cons.length;
+
+  // Daily trend (last 7 days)
+  var dailyTrend = [];
+  for (var i = 6; i >= 0; i--) {
+    var d = new Date(now - i * day);
+    var dk = d.toISOString().slice(0,10);
+    dailyTrend.push({ date: dk, label: d.toLocaleDateString('en-NG',{weekday:'short'}), count: store.daily[dk]||0 });
+  }
+
+  // Symptom frequency
+  var symptomCount = {};
+  cons.forEach(function(c) {
+    (c.symptoms||[]).forEach(function(s) { symptomCount[s]=(symptomCount[s]||0)+1; });
+  });
+  var topSymptoms = Object.entries(symptomCount).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+
+  // Completion: consultations with >3 messages
+  var completionRate = Math.round(cons.filter(function(c){return c.msgs>=4;}).length / cons.length * 100);
+
+  return {
+    total:          cons.length,
+    today:          today.length,
+    weekly:         weekly.length,
+    monthly:        monthly.length,
+    topSpecs:       topSpecs,
+    sevs:           sevs,
+    models:         models,
+    peakHour:       peakHour,
+    avgMsgs:        Math.round(avgMsgs * 10) / 10,
+    dailyTrend:     dailyTrend,
+    topSymptoms:    topSymptoms,
+    completionRate: completionRate,
+    features:       store.features || {},
+  };
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// ADMIN METRICS DASHBOARD RENDERER
+// ══════════════════════════════════════════════════════════════
+
+function renderAdminMetrics() {
+  var container = document.getElementById('admin-content');
+  if (!container) return;
+
+  var m = computeMetrics();
+
+  if (!m) {
+    container.innerHTML =
+      '<div style="text-align:center;padding:40px 20px;">' +
+      '<div style="font-size:32px;margin-bottom:12px;">📊</div>' +
+      '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;">No Consultation Data Yet</div>' +
+      '<div style="font-size:12px;color:var(--text-3);">Start consultations and data will appear here automatically.</div>' +
+      '</div>';
+    return;
+  }
+
+  var GOLD = '#C9A84C'; var GREEN = '#1D9E64'; var RED = '#E84A4A'; var BLUE = '#4A90D9';
+
+  // ── Helper: stat card ──
+  function statCard(value, label, color, sub) {
+    return '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">' +
+      '<div style="font-size:26px;font-weight:900;color:' + color + ';font-family:DM Sans,sans-serif;line-height:1;">' + value + '</div>' +
+      '<div style="font-size:10px;color:var(--text-3);margin-top:4px;font-family:DM Sans,sans-serif;">' + label + '</div>' +
+      (sub ? '<div style="font-size:9px;color:' + color + ';opacity:0.6;margin-top:2px;">' + sub + '</div>' : '') +
+      '</div>';
+  }
+
+  // ── Helper: bar chart row ──
+  function barRow(label, count, total, color) {
+    var pct = total > 0 ? Math.round(count / total * 100) : 0;
+    return '<div style="margin-bottom:8px;">' +
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px;">' +
+      '<span style="font-size:11px;color:var(--text-2);font-family:DM Sans,sans-serif;text-transform:capitalize;">' + label + '</span>' +
+      '<span style="font-size:11px;font-weight:700;color:' + color + ';font-family:DM Sans,sans-serif;">' + count + ' <span style="opacity:0.5;font-weight:400;">(' + pct + '%)</span></span>' +
+      '</div>' +
+      '<div style="height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;">' +
+      '<div style="height:100%;width:' + pct + '%;background:' + color + ';border-radius:3px;transition:width 0.6s ease;"></div>' +
+      '</div></div>';
+  }
+
+  // ── Helper: mini bar chart (daily trend) ──
+  function miniBarChart(data) {
+    var maxVal = Math.max.apply(null, data.map(function(d){return d.count;})) || 1;
+    var bars = data.map(function(d) {
+      var h = Math.max(4, Math.round(d.count / maxVal * 48));
+      return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">' +
+        '<span style="font-size:9px;color:var(--text-3);">' + (d.count||'') + '</span>' +
+        '<div style="width:100%;height:' + h + 'px;background:rgba(201,168,76,0.3);border-radius:3px 3px 0 0;min-height:4px;"></div>' +
+        '<span style="font-size:9px;color:var(--text-3);">' + d.label + '</span>' +
+        '</div>';
+    }).join('');
+    return '<div style="display:flex;gap:4px;align-items:flex-end;height:72px;padding-top:16px;">' + bars + '</div>';
+  }
+
+  // ── BUILD HTML ──────────────────────────────────────────────
+  var html = '';
+
+  // Row 1: Key stats
+  html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">';
+  html += statCard(m.total, 'Total Consultations', GOLD);
+  html += statCard(m.today, 'Today', GREEN, 'last 24 hours');
+  html += statCard(m.weekly, 'This Week', BLUE, 'last 7 days');
+  html += statCard(m.completionRate + '%', 'Completion Rate', GOLD, '≥4 messages');
+  html += '</div>';
+
+  // Row 2: Quick stats
+  html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;">';
+  html += statCard(m.avgMsgs, 'Avg Messages', BLUE, 'per session');
+  html += statCard(m.peakHour + ':00', 'Peak Hour', GREEN, 'most active');
+  html += statCard(m.monthly, 'This Month', GOLD, 'last 30 days');
+  html += '</div>';
+
+  // Daily trend
+  html += '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;">';
+  html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;">7-Day Consultation Trend</div>';
+  html += miniBarChart(m.dailyTrend);
+  html += '</div>';
+
+  // Bottom grid: specialty + severity + models + symptoms
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">';
+
+  // Specialty breakdown
+  html += '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+  html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Top Specialties</div>';
+  if (m.topSpecs.length) {
+    m.topSpecs.forEach(function(sp) { html += barRow(sp[0], sp[1], m.total, GOLD); });
+  } else { html += '<div style="font-size:11px;color:var(--text-3);">No data yet</div>'; }
+  html += '</div>';
+
+  // Severity distribution
+  html += '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+  html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Severity Distribution</div>';
+  var sevColors = { severe: RED, moderate: '#E8A020', mild: '#E8C040', low: GREEN };
+  Object.keys(m.sevs).forEach(function(sev) {
+    if (m.sevs[sev] > 0) html += barRow(sev, m.sevs[sev], m.total, sevColors[sev] || GOLD);
+  });
+  html += '</div>';
+
+  html += '</div>';
+
+  // AI model usage + feature usage
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">';
+
+  // AI models
+  html += '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+  html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">AI Model Usage</div>';
+  var modelColors = { claude: GOLD, gemini: GREEN, groq: BLUE };
+  Object.keys(m.models).forEach(function(mod) {
+    html += barRow(mod, m.models[mod], m.total, modelColors[mod] || GOLD);
+  });
+  if (!Object.keys(m.models).length) html += '<div style="font-size:11px;color:var(--text-3);">No data yet</div>';
+  html += '</div>';
+
+  // Feature usage
+  html += '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+  html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Feature Usage</div>';
+  var featureIcons = { chat:'💬', camera:'📷', 'drug-checker':'💊', vitals:'❤️', 'drug':'💊' };
+  var totalFeatures = Object.values(m.features).reduce(function(a,b){return a+b;},0) || 1;
+  Object.keys(m.features).forEach(function(feat) {
+    var icon = featureIcons[feat] || '🔧';
+    html += barRow(icon + ' ' + feat, m.features[feat], totalFeatures, BLUE);
+  });
+  if (!Object.keys(m.features).length) html += '<div style="font-size:11px;color:var(--text-3);">No data yet</div>';
+  html += '</div>';
+
+  html += '</div>';
+
+  // Top symptoms
+  if (m.topSymptoms.length) {
+    html += '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;">';
+    html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Most Presented Symptoms</div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:6px;">';
+    m.topSymptoms.forEach(function(sym) {
+      html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--gold-300);font-family:DM Sans,sans-serif;">' +
+        sym[0] + ' <span style="opacity:0.5;">×' + sym[1] + '</span></div>';
+    });
+    html += '</div></div>';
+  }
+
+  // Export button
+  html += '<button onclick="exportMetricsCSV()" style="width:100%;padding:11px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;font-size:12px;font-weight:700;color:var(--gold-300);cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:8px;">⬇️ Export Metrics as CSV</button>';
+  html += '<button onclick="clearMetricsData()" style="width:100%;padding:9px;background:none;border:1px solid rgba(232,74,74,0.2);border-radius:10px;font-size:11px;font-weight:600;color:rgba(232,74,74,0.5);cursor:pointer;font-family:DM Sans,sans-serif;">🗑 Clear Metrics Data</button>';
+
+  container.innerHTML = html;
+}
+
+function exportMetricsCSV() {
+  var store = getMetricsStore();
+  var rows = [['Date','Time','Specialty','Severity','Messages','AI Model','Feature','Symptoms']];
+  store.consultations.forEach(function(c) {
+    var d = new Date(c.ts);
+    rows.push([
+      c.date,
+      d.toTimeString().slice(0,5),
+      c.specialty,
+      c.severity,
+      c.msgs,
+      c.model,
+      c.feature,
+      (c.symptoms||[]).join(';')
+    ]);
+  });
+  var csv = rows.map(function(r){return r.join(',');}).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'krixia_metrics_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  showToast('Metrics exported as CSV');
+}
+
+function clearMetricsData() {
+  if (!confirm('Clear all local metrics data? This cannot be undone.')) return;
+  localStorage.removeItem('krixia_metrics');
+  renderAdminMetrics();
+  showToast('Metrics data cleared');
+}
 
 // ── NHIA & SICKLE CELL MODULE ─────────────────────────────────
 function openNHIAPanel() { openPanel('nhia-panel'); }
